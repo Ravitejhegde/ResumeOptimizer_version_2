@@ -1,0 +1,30 @@
+.chip{
+    display:inline-flex;
+    align-items:center;
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin:6px;
+}
+
+.matched{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+}
+
+.missing{
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+
+}

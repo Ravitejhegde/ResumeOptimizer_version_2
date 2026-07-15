@@ -1,0 +1,19 @@
+.analysis{
+
+    padding:40px;
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    background:white;
+
+}
+
+.analysis ul{
+
+    margin-top:24px;
+
+    line-height:2;
+
+}

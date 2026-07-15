@@ -1,0 +1,25 @@
+.textarea{
+    width:100%;
+
+    min-height:180px;
+
+    resize:vertical;
+
+    border:1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:20px;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+.textarea:focus{
+
+    border-color:var(--primary);
+
+}

@@ -1,0 +1,87 @@
+.page{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    padding:40px;
+
+    background:#f8fafc;
+
+}
+
+.card{
+
+    width:100%;
+
+    max-width:900px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:40px;
+
+}
+
+.score{
+
+    font-size:72px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+}
+
+.progress{
+
+    height:12px;
+
+    background:#e5e7eb;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    margin:24px 0;
+
+}
+
+.fill{
+
+    width:87%;
+
+    height:100%;
+
+    background:#22c55e;
+
+}
+
+.status{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+    color:#16a34a;
+
+    font-weight:600;
+
+}
+
+.skills{
+
+    margin:16px 0 32px;
+
+}
+
+.list{
+
+    margin:16px 0 32px 20px;
+
+    line-height:2;
+
+}
