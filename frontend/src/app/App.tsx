@@ -1,19 +1,16 @@
-import { useState } from "react";
-
-import type { AppState } from "../types/app";
+import { AppProvider } from "../context/AppContext";
 
 import AppStateRenderer from "./AppStateRenderer";
 
 function App() {
 
-    const [state] =
-        useState<AppState>("EMPTY");
-
     return (
 
-        <AppStateRenderer
-            state={state}
-        />
+        <AppProvider>
+
+            <AppStateRenderer />
+
+        </AppProvider>
 
     );
 

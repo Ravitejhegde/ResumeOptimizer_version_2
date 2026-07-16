@@ -1,0 +1,75 @@
+.jd-container {
+
+    max-width: 900px;
+
+    margin: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+.jd-textarea {
+
+    width: 100%;
+
+    min-height: 300px;
+
+    resize: vertical;
+
+    padding: 16px;
+
+    font-size: 16px;
+
+    border-radius: 10px;
+
+    border: 1px solid #d6d6d6;
+
+    outline: none;
+
+}
+
+.jd-textarea:focus {
+
+    border-color: #2563eb;
+
+}
+
+.jd-button {
+
+    width: fit-content;
+
+    padding: 12px 22px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+.jd-button:disabled {
+
+    cursor: not-allowed;
+
+    opacity: .6;
+
+}
+
+.jd-success {
+
+    color: green;
+
+}
+
+.jd-error {
+
+    color: red;
+
+}

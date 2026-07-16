@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { analyzeJobDescription } from "../../services/analysisService";
 
-import type { JobAnalysis } from "../../types/jobDescription";
-
-import { analyzeJobDescription } from "../../services/jobDescriptionApi";
+import { useApp } from "../../context/AppContext";
 
 import TextArea from "../../shared/ui/TextArea/TextArea";
 import Button from "../../shared/ui/Button/Button";
@@ -11,55 +9,69 @@ import styles from "./JobDescriptionAnalyzer.module.css";
 
 export default function JobDescriptionAnalyzer() {
 
-    const [text, setText] = useState("");
+    const {
 
-    const [loading, setLoading] = useState(false);
+        jobDescription,
+        setJobDescription,
 
-    const [analysis, setAnalysis] =
-        useState<JobAnalysis | null>(null);
+        jdAnalysis,
+        setJdAnalysis,
+
+        loading,
+        setLoading,
+
+        setError,
+
+        setState,
+
+    } = useApp();
 
     async function analyze() {
 
-    if (!text.trim()) return;
+        if (!jobDescription.trim()) {
 
-    try {
+            alert("Please paste a Job Description.");
 
-        setLoading(true);
+            return;
 
-        const result =
-            await analyzeJobDescription(text);
+        }
 
-        console.log("API Response:", result);
+        try {
 
-        setAnalysis(result);
+            setLoading(true);
+
+            setError("");
+
+            const result =
+                await analyzeJobDescription(
+                    jobDescription
+                );
+
+            setJdAnalysis(result);
+
+            setState("JD_READY");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            setError(
+                "Failed to analyze Job Description."
+            );
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+        }
 
     }
 
-    catch (error: any) {
-
-    console.error(error);
-
-    if (error.response) {
-
-        console.log("Status:", error.response.status);
-
-        console.log("Data:", error.response.data);
-
-    }
-
-    alert("Failed to analyze Job Description.");
-
-}
-
-    finally {
-
-        setLoading(false);
-
-    }
-
-}
-
-    if (analysis) {
+    if (jdAnalysis) {
 
         return (
 
@@ -67,15 +79,23 @@ export default function JobDescriptionAnalyzer() {
 
                 <h2>
 
-                    {analysis.title}
+                    Job Description Analysis
 
                 </h2>
 
                 <p>
 
-                    Experience :
-                    {" "}
-                    {analysis.experience}
+                    <strong>Job Title:</strong>{" "}
+
+                    {jdAnalysis.title}
+
+                </p>
+
+                <p>
+
+                    <strong>Experience:</strong>{" "}
+
+                    {jdAnalysis.experience}
 
                 </p>
 
@@ -89,18 +109,25 @@ export default function JobDescriptionAnalyzer() {
 
                     {
 
-                        analysis.skills.map(skill => (
+                        jdAnalysis.skills.map(
 
-                            <span
-                                key={skill}
-                                className={styles.skill}
-                            >
+                            (skill) => (
 
-                                {skill}
+                                <span
 
-                            </span>
+                                    key={skill}
 
-                        ))
+                                    className={styles.skill}
+
+                                >
+
+                                    {skill}
+
+                                </span>
+
+                            )
+
+                        )
 
                     }
 
@@ -108,7 +135,13 @@ export default function JobDescriptionAnalyzer() {
 
                 <Button
 
-                    onClick={() => setAnalysis(null)}
+                    onClick={() => {
+
+                        setJdAnalysis(null);
+
+                        setState("RESUME_UPLOADED");
+
+                    }}
 
                 >
 
@@ -128,10 +161,16 @@ export default function JobDescriptionAnalyzer() {
 
             <TextArea
 
-                value={text}
+                value={jobDescription}
 
                 onChange={(e) =>
-                    setText(e.target.value)
+
+                    setJobDescription(
+
+                        e.target.value
+
+                    )
+
                 }
 
                 placeholder="Paste Job Description..."
