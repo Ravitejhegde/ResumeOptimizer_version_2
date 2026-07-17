@@ -3,15 +3,9 @@ import { useApp } from "../context/AppContext";
 import EmptyScreen from "../screens/Empty/EmptyScreen";
 import MatchCenterScreen from "../screens/MatchCenter/MatchCenterScreen";
 
-
-
 export default function AppStateRenderer() {
 
-    const {
-
-        state,
-
-    } = useApp();
+    const { state } = useApp();
 
     switch (state) {
 

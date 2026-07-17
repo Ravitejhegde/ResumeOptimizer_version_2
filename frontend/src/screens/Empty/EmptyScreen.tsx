@@ -1,193 +1,91 @@
-import styles from "../../app/App.module.css";
+import { useState } from "react";
 
-import Container from "../../shared/ui/Container/Container";
-import Card from "../../shared/ui/Card/Card";
-import UploadArea from "../../shared/ui/UploadArea/UploadArea";
-import Button from "../../shared/ui/Button/Button";
-import JobDescriptionAnalyzer from "../../features/job-description/JobDescriptionAnalyzer";
+import UploadCard from "../../features/upload/UploadCard";
+import JobDescriptionCard from "../../features/job-description/JobDescriptionCard";
 
-import { useApp } from "../../context/AppContext";
-import { matchResume } from "../../services/analysisService";
+import PrimaryButton from "../../shared/ui/Button/PrimaryButton";
+
+import styles from "./EmptyScreen.module.css";
 
 export default function EmptyScreen() {
 
-    const {
+    const [file, setFile] =
+        useState<File | null>(null);
 
-        resume,
-
+    const [
         jobDescription,
+        setJobDescription,
+    ] = useState("");
 
-        setMatchResult,
+    const canContinue =
+        file &&
+        jobDescription.trim().length > 20;
 
-        setLoading,
+    function handleContinue() {
 
-        setError,
+        console.log(file);
 
-        loading,
-
-        setState,
-
-    } = useApp();
-
-    async function handleAnalyze() {
-
-        if (!resume) {
-
-            alert("Please upload a resume.");
-
-            return;
-
-        }
-
-        if (!jobDescription.trim()) {
-
-            alert("Please paste a Job Description.");
-
-            return;
-
-        }
-
-        try {
-
-            setLoading(true);
-
-            setError("");
-
-            const result = await matchResume(
-
-                resume.resume_id,
-
-                jobDescription
-
-            );
-
-            setMatchResult(result);
-
-            setState("MATCH");
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-            alert("Unable to analyze resume.");
-
-        }
-
-        finally {
-
-            setLoading(false);
-
-        }
+        console.log(jobDescription);
 
     }
 
     return (
 
-        <main className={styles.page}>
+        <div className={styles.page}>
 
-            <Container>
+            <div className={styles.container}>
 
-                <Card>
+                <div className={styles.header}>
 
-                    <div className={styles.hero}>
+                    <h1 className={styles.title}>
 
-                        <h1 className={styles.title}>
+                        ResumeOptimizer
 
-                            ResumeOptimizer
+                    </h1>
 
-                        </h1>
+                    <p className={styles.subtitle}>
 
-                        <p className={styles.subtitle}>
+                        Upload your resume and paste the job description.
 
-                            Optimize your resume for ATS and AI-powered hiring systems.
+                    </p>
 
-                        </p>
+                </div>
 
-                    </div>
+                <UploadCard
 
-                    <section className={styles.section}>
+                    file={file}
 
-                        <label className={styles.label}>
+                    onFileSelect={setFile}
 
-                            📄 Step 1 · Upload Resume
+                />
 
-                        </label>
+                <JobDescriptionCard
 
-                        <UploadArea />
+                    value={jobDescription}
 
-                    </section>
+                    onChange={setJobDescription}
 
-                    <section className={styles.section}>
+                />
 
-                        <label className={styles.label}>
+                <div
+                    className={styles.buttonContainer}
+                >
 
-                            📝 Step 2 · Job Description
+                    <PrimaryButton
 
-                        </label>
+                        title="Continue"
 
-                        <JobDescriptionAnalyzer />
+                        disabled={!canContinue}
 
-                    </section>
+                        onClick={handleContinue}
 
-                    <section className={styles.section}>
+                    />
 
-                        <Button
-                            onClick={handleAnalyze}
-                        >
+                </div>
 
-                            {
+            </div>
 
-                                loading
-
-                                    ? "Analyzing..."
-
-                                    : "Analyze Resume"
-
-                            }
-
-                        </Button>
-
-                    </section>
-
-                    <div className={styles.footer}>
-
-                        <span>
-
-                            {
-
-                                resume
-
-                                    ? `✅ ${resume.original_filename}`
-
-                                    : "📄 Resume Not Uploaded"
-
-                            }
-
-                        </span>
-
-                        <span>
-
-                            {
-
-                                jobDescription.trim()
-
-                                    ? "✅ Job Description Ready"
-
-                                    : "📝 Waiting for Job Description"
-
-                            }
-
-                        </span>
-
-                    </div>
-
-                </Card>
-
-            </Container>
-
-        </main>
+        </div>
 
     );
 
