@@ -2,86 +2,66 @@
 
     min-height:100vh;
 
-    display:flex;
-
-    justify-content:center;
-
-    padding:40px;
-
-    background:#f8fafc;
-
-}
-
-.card{
-
-    width:100%;
-
-    max-width:900px;
-
-    background:white;
-
-    border-radius:20px;
+    background:var(--background);
 
     padding:40px;
 
 }
 
-.score{
+.container{
 
-    font-size:72px;
+    max-width:1400px;
 
-    font-weight:bold;
+    margin:auto;
 
-    text-align:center;
+    display:grid;
 
-}
+    grid-template-columns:380px 1fr;
 
-.progress{
+    gap:32px;
 
-    height:12px;
-
-    background:#e5e7eb;
-
-    border-radius:999px;
-
-    overflow:hidden;
-
-    margin:24px 0;
+    align-items:start;
 
 }
 
-.fill{
+.left{
 
-    width:87%;
+    position:sticky;
 
-    height:100%;
-
-    background:#22c55e;
+    top:40px;
 
 }
 
-.status{
+.right{
 
-    text-align:center;
-
-    margin-bottom:40px;
-
-    color:#16a34a;
-
-    font-weight:600;
+    min-height:700px;
 
 }
 
-.skills{
+.space{
 
-    margin:16px 0 32px;
+    height:24px;
 
 }
 
-.list{
+.smallSpace{
 
-    margin:16px 0 32px 20px;
+    height:14px;
 
-    line-height:2;
+}
+
+@media(max-width:1000px){
+
+.container{
+
+grid-template-columns:1fr;
+
+}
+
+.left{
+
+position:static;
+
+}
 
 }

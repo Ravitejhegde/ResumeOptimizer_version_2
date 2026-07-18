@@ -1,14 +1,14 @@
 import api from "./api";
 
-export async function downloadResume(
-    filename: string
+export function downloadResume(
+    filename: string,
 ) {
-    const response = await api.get(
+
+    return api.get(
         `/resume/download/${filename}`,
         {
             responseType: "blob",
-        }
+        },
     );
 
-    return response.data;
 }

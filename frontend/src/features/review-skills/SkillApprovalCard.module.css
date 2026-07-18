@@ -1,0 +1,55 @@
+.container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.subtitle {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.item:hover {
+    background: #F8FAFC;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.skill {
+    font-size: 16px;
+    color: var(--text);
+}

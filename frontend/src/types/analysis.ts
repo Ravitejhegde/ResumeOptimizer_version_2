@@ -20,12 +20,6 @@ export interface UploadResponse {
 
 }
 
-export interface JobDescriptionRequest {
-
-    job_description: string;
-
-}
-
 export interface JobDescriptionAnalysis {
 
     title: string;
@@ -38,7 +32,7 @@ export interface JobDescriptionAnalysis {
 
 export interface MatchRequest {
 
-    resume_filename: string;
+    resume_id: string;
 
     job_description: string;
 

@@ -1,8 +1,9 @@
 import { useState } from "react";
 
+import { uploadResume } from "../../services/resumeApi";
+
 import UploadCard from "../../features/upload/UploadCard";
 import JobDescriptionCard from "../../features/job-description/JobDescriptionCard";
-
 import PrimaryButton from "../../shared/ui/Button/PrimaryButton";
 
 import styles from "./EmptyScreen.module.css";
@@ -12,20 +13,67 @@ export default function EmptyScreen() {
     const [file, setFile] =
         useState<File | null>(null);
 
-    const [
-        jobDescription,
-        setJobDescription,
-    ] = useState("");
+    const [jobDescription, setJobDescription] =
+        useState("");
+
+    const [uploading, setUploading] =
+        useState(false);
+
+    const [resumeFilename, setResumeFilename] =
+        useState("");
+
+    async function handleFileSelected(
+        selected: File,
+    ) {
+
+        setFile(selected);
+
+        setUploading(true);
+
+        try {
+
+            const response =
+                await uploadResume(selected);
+
+            setResumeFilename(
+                response.data.stored_filename
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            alert("Upload failed.");
+
+        }
+
+        finally {
+
+            setUploading(false);
+
+        }
+
+    }
 
     const canContinue =
-        file &&
+
+        resumeFilename.length > 0 &&
+
         jobDescription.trim().length > 20;
 
     function handleContinue() {
 
-        console.log(file);
+        console.log({
 
-        console.log(jobDescription);
+            stored_filename:
+                resumeFilename,
+
+            job_description:
+                jobDescription,
+
+        });
 
     }
 
@@ -39,13 +87,13 @@ export default function EmptyScreen() {
 
                     <h1 className={styles.title}>
 
-                        ResumeOptimizer
+                        Resume Optimizer
 
                     </h1>
 
                     <p className={styles.subtitle}>
 
-                        Upload your resume and paste the job description.
+                        Optimize your resume for any job description while preserving formatting.
 
                     </p>
 
@@ -55,7 +103,9 @@ export default function EmptyScreen() {
 
                     file={file}
 
-                    onFileSelect={setFile}
+                    onFileSelect={
+                        handleFileSelected
+                    }
 
                 />
 
@@ -63,21 +113,34 @@ export default function EmptyScreen() {
 
                     value={jobDescription}
 
-                    onChange={setJobDescription}
+                    onChange={
+                        setJobDescription
+                    }
 
                 />
 
                 <div
-                    className={styles.buttonContainer}
+                    className={
+                        styles.buttonContainer
+                    }
                 >
 
                     <PrimaryButton
 
-                        title="Continue"
+                        title={
+                            uploading
+                                ? "Uploading..."
+                                : "Continue →"
+                        }
 
-                        disabled={!canContinue}
+                        disabled={
+                            uploading ||
+                            !canContinue
+                        }
 
-                        onClick={handleContinue}
+                        onClick={
+                            handleContinue
+                        }
 
                     />
 
