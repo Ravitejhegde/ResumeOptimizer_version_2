@@ -1,0 +1,85 @@
+{
+  "frontend": [
+    "Angular",
+    "React",
+    "Vue",
+    "Next.js",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "TypeScript",
+    "Bootstrap",
+    "Tailwind CSS"
+  ],
+
+  "backend": [
+  "Spring Boot",
+  "Node.js",
+  "Express",
+  "FastAPI",
+  "Django",
+  "Flask",
+  "ASP.NET",
+  ".NET",
+  "Laravel",
+  "REST API",
+  "REST APIs",
+  "Microservices",
+  "Hibernate",
+  "JPA",
+  "Maven",
+  "Gradle"
+],
+
+  "database": [
+    "MySQL",
+    "PostgreSQL",
+    "MongoDB",
+    "SQLite",
+    "Firebase",
+    "Oracle"
+  ],
+
+  "programming_languages": [
+    "Java",
+    "Python",
+    "C",
+    "C++",
+    "C#",
+    "JavaScript",
+    "TypeScript",
+    "Kotlin",
+    "Dart",
+    "PHP"
+  ],
+
+  "cloud": [
+    "AWS",
+"AWS EC2",
+"AWS S3",
+"AWS Lambda",
+"AWS RDS"
+  ],
+
+  "devops": [
+  "Docker",
+  "Docker Compose",
+  "Kubernetes",
+  "CI/CD",
+  "Jenkins",
+  "GitHub Actions",
+  "GitLab CI",
+  "Azure DevOps",
+  "Linux",
+  "Nginx"
+],
+
+  "tools": [
+    "Git",
+    "GitHub",
+    "Postman",
+    "Swagger",
+    "VS Code",
+    "Android Studio"
+  ]
+}

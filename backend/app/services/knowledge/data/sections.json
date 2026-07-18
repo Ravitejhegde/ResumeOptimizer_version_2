@@ -1,0 +1,40 @@
+{
+  "summary": [
+    "Professional Summary",
+    "Summary",
+    "Profile",
+    "Career Objective",
+    "Objective"
+  ],
+
+  "experience": [
+    "Experience",
+    "Work Experience",
+    "Professional Experience",
+    "Employment History",
+    "Internship",
+    "Internship Experience"
+  ],
+
+  "projects": [
+    "Projects",
+    "Academic Projects",
+    "Personal Projects"
+  ],
+
+  "skills": [
+    "Skills",
+    "Technical Skills",
+    "Core Skills"
+  ],
+
+  "education": [
+    "Education",
+    "Academic Background"
+  ],
+
+  "certifications": [
+    "Certifications",
+    "Certificates"
+  ]
+}
