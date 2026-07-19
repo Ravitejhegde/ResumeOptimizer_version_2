@@ -34,7 +34,7 @@ export default function ResumeEditor({
 
     useEffect(() => {
 
-        setEditorBlocks(blocks);
+        setEditorBlocks(blocks ?? []);
 
     }, [blocks]);
 
@@ -46,25 +46,25 @@ export default function ResumeEditor({
 
     ) {
 
-        const updated =
+        const updated = (editorBlocks ?? []).map(
 
-            editorBlocks.map(
+            block =>
 
-                block =>
+                block.id === id
 
-                    block.id === id
+                    ? {
 
-                        ? {
+                          ...block,
 
-                              ...block,
+                          text,
 
-                              text,
+                          modified: true,
 
-                          }
+                      }
 
-                        : block
+                    : block
 
-            );
+        );
 
         setEditorBlocks(updated);
 
@@ -78,13 +78,13 @@ export default function ResumeEditor({
 
             <div className={styles.heading}>
 
-                Resume Editor
+                Resume Preview
 
             </div>
 
-            {
+            <div className={styles.paper}>
 
-                editorBlocks.map(
+                {(editorBlocks ?? []).map(
 
                     block => (
 
@@ -100,9 +100,9 @@ export default function ResumeEditor({
 
                     )
 
-                )
+                )}
 
-            }
+            </div>
 
         </div>
 

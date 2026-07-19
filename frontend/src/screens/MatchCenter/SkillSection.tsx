@@ -2,7 +2,9 @@ import SkillApprovalCard from "../../features/review-skills/SkillApprovalCard";
 
 import PrimaryButton from "../../shared/ui/Button/PrimaryButton";
 
-import { optimizeResume as optimizeResumeApi } from "../../services/optimizationApi";
+import {
+    optimizeResume as optimizeResumeApi,
+} from "../../services/optimizationApi";
 
 import type { ResumeBlock } from "../../features/resume-editor/types";
 
@@ -78,17 +80,17 @@ export default function SkillSection({
 
                 ? previous.filter(
 
-                    item => item !== skill
+                      item => item !== skill
 
-                )
+                  )
 
                 : [
 
-                    ...previous,
+                      ...previous,
 
-                    skill,
+                      skill,
 
-                ]
+                  ]
 
         );
 
@@ -125,18 +127,26 @@ export default function SkillSection({
 
                     jobDescription,
 
+                    selectedSkills,
+
                 );
 
-            console.log(response);
+            console.log("API Response:", response);
 
             if (response.success) {
 
+                const result = response.data;
+
+                console.log("Optimization Result:", result);
+
                 setOptimizedFilename(
-                    response.data.optimized_filename
+                    result.optimized_filename
                 );
 
                 setPreviewBlocks(
-                    response.data.blocks
+                    result.blocks ?? 
+                    result.preview_blocks ?? 
+                    []
                 );
 
                 alert(

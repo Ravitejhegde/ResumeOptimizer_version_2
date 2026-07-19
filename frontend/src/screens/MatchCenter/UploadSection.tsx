@@ -32,33 +32,56 @@ export default function UploadSection({
 
 }: Props) {
 
-    async function handleFileSelect(
-        file: File,
-    ) {
+    async function handleFileSelect(file: File) {
 
         setResumeFile(file);
 
         try {
 
-            const response =
-                await uploadResume(file);
+            const response = await uploadResume(file);
+
+            console.log("Upload Response:", response);
+
+            if (!response.success) {
+
+                throw new Error("Upload failed.");
+
+            }
 
             setResumeId(
-                response.data.resume_id,
+                response.data.resume_id
             );
 
             setStoredFilename(
-                response.data.stored_filename,
+                response.data.stored_filename
             );
+
+            console.log(
+                "Resume ID:",
+                response.data.resume_id
+            );
+
+            console.log(
+                "Stored Filename:",
+                response.data.stored_filename
+            );
+
+            alert("Resume uploaded successfully.");
 
         }
 
-        catch (error) {
+        catch (error: any) {
 
             console.error(error);
 
             alert(
-                "Resume upload failed.",
+
+                error.response?.data?.detail ??
+
+                error.message ??
+
+                "Resume upload failed."
+
             );
 
         }
