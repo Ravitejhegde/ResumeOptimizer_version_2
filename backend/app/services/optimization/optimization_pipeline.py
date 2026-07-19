@@ -1,33 +1,16 @@
 from pathlib import Path
 
 from docx import Document
-from app.services.layout_validation.layout_validator import LayoutValidator
 
 from app.document.parser.snapshot_builder import SnapshotBuilder
 from app.document.parser.block_builder import BlockBuilder
 
-from app.services.knowledge.knowledge_builder import (
-    KnowledgeBuilder,
-)
+from app.services.batch.batch_optimizer import BatchOptimizer
 
-from app.services.jd.jd_parser import (
-    JDParser,
-)
+from app.services.docx.writer import DocxWriter
 
-from app.services.jd.skill_comparator import (
-    SkillComparator,
-)
-
-from app.services.jd.technology_promoter import (
-    TechnologyPromoter,
-)
-
-from app.services.batch.batch_optimizer import (
-    BatchOptimizer,
-)
-
-from app.services.docx.writer import (
-    DocxWriter,
+from app.services.layout_validation.layout_validator import (
+    LayoutValidator,
 )
 
 
@@ -35,13 +18,13 @@ class OptimizationPipeline:
 
     def optimize(
         self,
-        resume_path,
-        job_description,
-        selected_skills,
-    ): 
+        resume_path: str,
+        job_description: str,
+        selected_skills: list[str],
+    ):
 
         # -----------------------------------------
-        # Build snapshot
+        # Build Snapshot
         # -----------------------------------------
 
         snapshot = SnapshotBuilder.build(
@@ -49,45 +32,12 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Convert snapshot -> DocumentBlock
+        # Snapshot -> Blocks
         # -----------------------------------------
 
         blocks = BlockBuilder.build(
             snapshot
         )
-
-        # -----------------------------------------
-        # Extract resume knowledge
-        # -----------------------------------------
-
-        resume_knowledge = KnowledgeBuilder.build(
-            blocks
-        )
-
-        # -----------------------------------------
-        # Parse Job Description
-        # -----------------------------------------
-
-        jd_knowledge = JDParser.parse(
-            job_description
-        )
-
-        # -----------------------------------------
-        # Compare Skills
-        # -----------------------------------------
-
-        comparison = SkillComparator.compare(
-            resume_knowledge,
-            jd_knowledge,
-        )
-
-        TechnologyPromoter.build(
-            comparison
-        )
-
-        print("Matched :", comparison.matched)
-        print("Missing :", comparison.missing)
-        print("Extra   :", comparison.extra)
 
         # -----------------------------------------
         # AI Optimization
@@ -96,17 +46,23 @@ class OptimizationPipeline:
         optimizer = BatchOptimizer()
 
         optimized_blocks = optimizer.optimize(
-    blocks=blocks,
-    job_description=job_description,
-    selected_skills=selected_skills,
-)
-        validation = LayoutValidator.validate(
-    original_blocks=blocks,
-    optimized_blocks=optimized_blocks,
-)
+            blocks=blocks,
+            job_description=job_description,
+        )
 
         # -----------------------------------------
-        # Load original document
+        # Validate Layout
+        # -----------------------------------------
+
+        validation = LayoutValidator.validate(
+            original_blocks=blocks,
+            optimized_blocks=optimized_blocks,
+        )
+
+        print(validation)
+
+        # -----------------------------------------
+        # Load Original DOCX
         # -----------------------------------------
 
         document = Document(
@@ -114,7 +70,7 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Replace paragraphs
+        # Replace Optimized Paragraphs
         # -----------------------------------------
 
         DocxWriter.replace_blocks(
@@ -123,7 +79,7 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Save optimized document
+        # Save Optimized DOCX
         # -----------------------------------------
 
         output_path = (
@@ -140,47 +96,45 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Build Preview Blocks
+        # Build Preview Model
         # -----------------------------------------
 
         preview_blocks = []
 
         for block in optimized_blocks:
 
-            preview_blocks.append({
-
-                "id": block.id,
-
-                "block_type": block.block_type,
-
-                "text": block.text,
-
-                "style": block.style,
-
-                "can_optimize": block.can_optimize,
-
-        })
+            preview_blocks.append(
+                {
+                    "id": block.id,
+                    "paragraphIndex": block.paragraph_index,
+                    "text": block.text,
+                    "style": block.style,
+                    "block_type": block.block_type,
+                    "blockType": block.block_type,
+                    "can_optimize": block.can_optimize,
+                    "editable": block.can_optimize,
+                    "section": "",
+                    "modified": False,
+                    "runs": [
+                        {
+                            "text": run.text,
+                            "bold": run.bold,
+                            "italic": run.italic,
+                            "underline": run.underline,
+                            "fontName": run.font_name,
+                            "fontSize": run.font_size,
+                            "color": run.color,
+                        }
+                        for run in block.runs
+                    ],
+                }
+            )
 
         # -----------------------------------------
         # Response
         # -----------------------------------------
 
         return {
-
             "optimized_filename": output_path.name,
-
-            "matched": sorted(
-                comparison.matched
-            ),
-
-            "missing": sorted(
-                comparison.missing
-            ),
-
-            "extra": sorted(
-                comparison.extra
-            ),
-
             "blocks": preview_blocks,
-
         }

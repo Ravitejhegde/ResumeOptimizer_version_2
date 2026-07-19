@@ -1,23 +1,52 @@
 class BlockMerger:
+    """
+    Safely merges AI updates into the
+    original document blocks.
+    """
 
-    @staticmethod
+    @classmethod
     def merge(
+
+        cls,
+
         original_blocks,
-        ai_response,
+
+        updated_blocks,
+
     ):
 
-        updates = {}
+        # -----------------------------
+        # Index original blocks
+        # -----------------------------
 
-        for block in ai_response["blocks"]:
+        original = {
 
-            if block["status"] == "updated":
+            block.id: block
 
-                updates[block["id"]] = block["text"]
+            for block in original_blocks
 
-        for block in original_blocks:
+        }
 
-            if block.id in updates:
+        # -----------------------------
+        # Apply Updates
+        # -----------------------------
 
-                block.text = updates[block.id]
+        for update in updated_blocks:
+
+            block_id = update["id"]
+
+            # Unknown block
+            if block_id not in original:
+
+                continue
+
+            block = original[block_id]
+
+            # Replace text only
+            block.text = update["text"]
+
+        # -----------------------------
+        # Preserve Original Order
+        # -----------------------------
 
         return original_blocks

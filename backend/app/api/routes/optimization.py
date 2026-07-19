@@ -30,9 +30,10 @@ def optimize_resume(request: OptimizeRequest):
         pipeline = OptimizationPipeline()
 
         result = pipeline.optimize(
-            resume_path=resume_path,
-            job_description=request.job_description,
-        )
+    resume_path=resume_path,
+    job_description=request.job_description,
+    selected_skills=request.selected_skills,
+)
 
         return {
             "success": True,

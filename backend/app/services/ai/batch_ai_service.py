@@ -32,4 +32,10 @@ class BatchAIService:
 
         response = self.provider.generate(prompt)
 
-        return BatchResponseParser.parse(response)
+        return BatchResponseParser.parse(
+
+    response,
+
+    original_blocks,
+
+)

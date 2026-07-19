@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-
+from .skill_occurrence import SkillOccurrence
 
 @dataclass
 class ResumeKnowledge:
@@ -25,3 +25,7 @@ class ResumeKnowledge:
     mobile: set[str] = field(default_factory=set)
 
     other: set[str] = field(default_factory=set)
+
+    skills: list["SkillOccurrence"] = field(
+    default_factory=list
+)

@@ -14,6 +14,10 @@ from app.services.knowledge.section_detector import (
     SectionDetector,
 )
 
+from app.services.knowledge.skill_occurrence import (
+    SkillOccurrence,
+)
+
 
 class KnowledgeBuilder:
 
@@ -46,7 +50,24 @@ class KnowledgeBuilder:
                 category = TechnologyClassifier.classify(word)
 
                 if category == "frontend":
+
                     knowledge.frontend.add(word)
+
+                    knowledge.skills.append(
+
+                        SkillOccurrence(
+
+                            name=word,
+
+                            category=category,
+
+                            section=current_section,
+
+                            paragraph_id=block.paragraph_index,
+
+                        )
+
+                )
 
                 elif category == "backend":
                     knowledge.backend.add(word)

@@ -2,10 +2,6 @@ from app.services.ai.openrouter_provider import (
     OpenRouterProvider,
 )
 
-from app.services.batch.batch_prompt_builder import (
-    BatchPromptBuilder,
-)
-
 from app.services.batch.batch_response_parser import (
     BatchResponseParser,
 )
@@ -14,20 +10,16 @@ from app.services.docx.document_block import (
     DocumentBlock,
 )
 
-from app.services.jd.jd_parser import (
-    JDParser,
+from app.services.intelligence.engine import (
+    IntelligenceEngine,
 )
 
-from app.services.jd.skill_comparator import (
-    SkillComparator,
+from app.services.intelligence.prompt.prompt_builder import (
+    PromptBuilder,
 )
 
-from app.services.jd.technology_promoter import (
-    TechnologyPromoter,
-)
-
-from app.services.knowledge.knowledge_builder import (
-    KnowledgeBuilder,
+from app.services.intelligence.prompt.prompt_context import (
+    PromptContext,
 )
 
 from app.services.writer.block_merger import (
@@ -36,60 +28,175 @@ from app.services.writer.block_merger import (
 
 
 class BatchOptimizer:
+    """
+    Coordinates the AI optimization workflow.
+
+    Blocks
+        ↓
+    Intelligence
+        ↓
+    Prompt
+        ↓
+    AI
+        ↓
+    JSON Validation
+        ↓
+    Block Merge
+    """
 
     def __init__(self):
 
         self.ai = OpenRouterProvider()
 
     def optimize(
-    self,
-    blocks,
-    job_description,
-    selected_skills: list[str],
-):
 
-        # Build resume knowledge
-        resume_knowledge = KnowledgeBuilder.build(
-            blocks
-        )
+        self,
 
-        # Parse job description
-        jd_knowledge = JDParser.parse(
-            job_description
-        )
+        blocks: list[DocumentBlock],
 
-        # Compare resume vs JD
-        comparison = SkillComparator.compare(
-            resume_knowledge,
-            jd_knowledge,
-        )
+        job_description: str,
 
-        # Decide what AI should prioritize
-        promotion = TechnologyPromoter.build(
-    comparison=comparison,
-    selected_skills=selected_skills,
-)
+    ) -> list[DocumentBlock]:
 
-        # Build AI prompt
-        prompt = BatchPromptBuilder.build(
+        # -----------------------------------------
+        # Intelligence
+        # -----------------------------------------
+
+        plan = IntelligenceEngine.analyze(
+
             blocks=blocks,
-            knowledge=resume_knowledge,
-            promotion=promotion,
+
             job_description=job_description,
+
         )
 
-        # Generate AI response
+        # -----------------------------------------
+        # Editable Blocks
+        # -----------------------------------------
+
+        editable_blocks = [
+
+            {
+
+                "id": block.id,
+
+                "type": block.block_type,
+
+                "text": block.text,
+
+            }
+
+            for block in blocks
+
+            if block.can_optimize
+
+        ]
+
+        # -----------------------------------------
+        # Prompt Context
+        # -----------------------------------------
+
+        context = PromptContext(
+
+            plan=plan,
+
+            blocks=editable_blocks,
+
+            keep=[
+
+                item.skill.name
+
+                for item in plan.keep
+
+            ],
+
+            remove=[
+
+                item.skill.name
+
+                for item in plan.remove
+
+            ],
+
+            add=[
+
+                item.skill.name
+
+                for item in plan.add
+
+            ],
+
+            warnings=plan.warnings,
+
+            formatting_rules="""
+Keep paragraph length similar.
+Do not add new paragraphs.
+Do not remove paragraphs.
+Preserve formatting.
+""",
+
+            job_description=job_description,
+
+            system_rules="",
+
+        )
+
+        # -----------------------------------------
+        # Prompt
+        # -----------------------------------------
+
+        prompt = PromptBuilder.build(
+            context
+        )
+
+        # -----------------------------------------
+        # AI
+        # -----------------------------------------
+
         response = self.ai.generate(
             prompt
         )
 
-        # Parse JSON
+        print("\n========== AI RAW RESPONSE ==========\n")
+        print(response)
+        print("\n====================================\n")
+
+        if response is None:
+
+            raise ValueError(
+                "AI returned None."
+            )
+
+        if not isinstance(response, str):
+
+            response = str(response)
+
+        response = response.strip()
+
+        if response == "":
+
+            raise ValueError(
+                "AI returned an empty response."
+            )
+
+        # -----------------------------------------
+        # Parse
+        # -----------------------------------------
+
         parsed = BatchResponseParser.parse(
             response
         )
 
-        # Merge updated blocks
-        return BlockMerger.merge(
-            blocks,
-            parsed,
+        # -----------------------------------------
+        # Merge
+        # -----------------------------------------
+
+        optimized_blocks = BlockMerger.merge(
+
+            original_blocks=blocks,
+
+            updated_blocks=parsed,
+
         )
+
+        return optimized_blocks
