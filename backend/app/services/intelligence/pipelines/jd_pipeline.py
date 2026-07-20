@@ -10,8 +10,8 @@ from app.services.intelligence.detectors.skill_classifier import (
     SkillClassifier,
 )
 
-from app.services.intelligence.detectors.role_detector import (
-    RoleDetector,
+from app.services.intelligence.detectors.jd_role_detector import (
+    JDRoleDetector,
 )
 
 from app.services.intelligence.detectors.duplicate_detector import (
@@ -68,8 +68,8 @@ class JDPipeline:
         # Detect Target Role
         # -------------------------------------
 
-        target_role = RoleDetector.detect(
-            skills
+        target_role = JDRoleDetector.detect(
+        skills
         )
 
         # -------------------------------------

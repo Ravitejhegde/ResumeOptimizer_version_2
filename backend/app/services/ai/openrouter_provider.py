@@ -4,22 +4,27 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from .ai_provider import AIProvider
-from .prompt_builder import PromptBuilder
 
 load_dotenv()
 
 
 class OpenRouterProvider(AIProvider):
+    """
+    OpenRouter AI provider.
+
+    Responsible only for sending prompts
+    to OpenRouter and returning the raw response.
+    """
 
     def __init__(self):
 
-        api_key = os.getenv("OPENROUTER_API_KEY")
-
-        print("OPENROUTER_API_KEY =", api_key)
+        api_key = os.getenv(
+            "OPENROUTER_API_KEY"
+        )
 
         if not api_key:
             raise ValueError(
-                "OPENROUTER_API_KEY not found in .env"
+                "OPENROUTER_API_KEY not found."
             )
 
         self.client = OpenAI(
@@ -47,17 +52,11 @@ class OpenRouterProvider(AIProvider):
             ],
         )
 
-        return response.choices[0].message.content.strip()
+        content = response.choices[0].message.content
 
-    def optimize_paragraph(
-        self,
-        paragraph: str,
-        job_description: str,
-    ) -> str:
+        if not content:
+            raise RuntimeError(
+                "OpenRouter returned an empty response."
+            )
 
-        prompt = PromptBuilder.build(
-            paragraph,
-            job_description,
-        )
-
-        return  self.generate(prompt)
+        return content.strip()

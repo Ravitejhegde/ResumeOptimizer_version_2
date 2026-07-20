@@ -15,7 +15,7 @@ from app.services.intelligence.prompt.optimization_rules import (
 
 class PromptBuilder:
     """
-    Builds the final LLM prompt from PromptContext.
+    Builds the Brain v3 prompt.
     """
 
     @classmethod
@@ -24,24 +24,52 @@ class PromptBuilder:
         context: PromptContext,
     ) -> str:
 
-        # ------------------------------------------
-        # System Prompt
-        # ------------------------------------------
-
         system_prompt = SystemPrompt.build()
-
-        # ------------------------------------------
-        # Role-specific Optimization Rules
-        # ------------------------------------------
 
         optimization_rules = OptimizationRules.build(
             context.plan.source_role,
             context.plan.target_role,
         )
 
-        # ------------------------------------------
-        # Final Prompt
-        # ------------------------------------------
+        reasoning = getattr(
+            context,
+            "reasoning",
+            None,
+        )
+
+        matched = []
+        missing = []
+        recommendations = []
+        risks = []
+
+        if reasoning:
+
+            matched = reasoning.matched
+
+            missing = [
+                gap.name
+                for gap in reasoning.missing
+            ]
+
+            recommendations = [
+
+                recommendation.description
+
+                for recommendation
+
+                in reasoning.recommendations
+
+            ]
+
+            risks = [
+
+                risk.description
+
+                for risk
+
+                in reasoning.risks
+
+            ]
 
         return f"""
 ==============================
@@ -57,7 +85,7 @@ OPTIMIZATION RULES
 {optimization_rules}
 
 ==============================
-RESUME FACTS
+ROLE TRANSITION
 ==============================
 
 Source Role:
@@ -67,28 +95,28 @@ Target Role:
 {context.plan.target_role}
 
 ==============================
-KEEP TECHNOLOGIES
+MATCHED SKILLS
 ==============================
 
-{json.dumps(context.keep, indent=2)}
+{json.dumps(matched, indent=2)}
 
 ==============================
-REMOVE TECHNOLOGIES
+MISSING SKILLS
 ==============================
 
-{json.dumps(context.remove, indent=2)}
+{json.dumps(missing, indent=2)}
 
 ==============================
-ADD TECHNOLOGIES
+RECOMMENDATIONS
 ==============================
 
-{json.dumps(context.add, indent=2)}
+{json.dumps(recommendations, indent=2)}
 
 ==============================
-WARNINGS
+RISKS
 ==============================
 
-{json.dumps(context.warnings, indent=2)}
+{json.dumps(risks, indent=2)}
 
 ==============================
 FORMATTING RULES
@@ -109,10 +137,22 @@ EDITABLE BLOCKS
 {json.dumps(context.blocks, indent=2)}
 
 ==============================
-OUTPUT FORMAT
+STRICT INSTRUCTIONS
 ==============================
 
-Return ONLY valid JSON.
+- Never invent work experience.
+- Never invent companies.
+- Never change education.
+- Never modify dates.
+- Never create fake technologies.
+- Rewrite only editable blocks.
+- Preserve paragraph count.
+- Preserve formatting.
+- Return ONLY valid JSON.
+
+==============================
+OUTPUT FORMAT
+==============================
 
 {{
     "version": 3,

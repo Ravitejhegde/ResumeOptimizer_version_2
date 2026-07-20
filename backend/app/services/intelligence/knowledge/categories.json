@@ -1,0 +1,39 @@
+{
+    "Frontend": [
+        "React",
+        "Angular",
+        "Vue.js",
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "TypeScript"
+    ],
+
+    "Backend": [
+        "Node.js",
+        "Express.js",
+        "FastAPI",
+        "Spring Boot",
+        ".NET"
+    ],
+
+    "Database": [
+        "MySQL",
+        "PostgreSQL",
+        "MongoDB",
+        "SQL Server"
+    ],
+
+    "DevOps": [
+        "Docker",
+        "Kubernetes",
+        "Jenkins",
+        "GitHub Actions"
+    ],
+
+    "Cloud": [
+        "AWS",
+        "Azure",
+        "Google Cloud"
+    ]
+}

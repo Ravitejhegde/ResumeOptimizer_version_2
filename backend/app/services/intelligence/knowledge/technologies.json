@@ -1,0 +1,22 @@
+[
+    {
+        "name": "React",
+        "category": "Frontend"
+    },
+    {
+        "name": "Angular",
+        "category": "Frontend"
+    },
+    {
+        "name": "Node.js",
+        "category": "Backend"
+    },
+    {
+        "name": "Docker",
+        "category": "DevOps"
+    },
+    {
+        "name": "AWS",
+        "category": "Cloud"
+    }
+]

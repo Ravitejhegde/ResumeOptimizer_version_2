@@ -9,6 +9,13 @@ from app.services.intelligence.models import (
     SkillAction,
 )
 
+from app.services.intelligence.technology.matcher import (
+    TechnologyMatcher,
+)
+
+from app.services.intelligence.technology.canonicalizer import (
+    TechnologyCanonicalizer,
+)
 
 class SkillMatcher:
 
@@ -31,16 +38,12 @@ class SkillMatcher:
         # ---------------------------------------
 
         resume_map = {
-            skill.name.lower(): skill
+            TechnologyCanonicalizer.normalize(skill.name).lower(): skill
             for skill in resume.skills
         }
 
-        # ---------------------------------------
-        # JD Skills
-        # ---------------------------------------
-
         jd_map = {
-            skill.name.lower(): skill
+            TechnologyCanonicalizer.normalize(skill.name).lower(): skill
             for skill in jd.skills
         }
 

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # AI
     # ------------------------------------------------------------------
     OPENROUTER_API_KEY: str = ""
-    OPENROUTER_MODEL: str = "deepseek/deepseek-chat-v3-0324"
+    OPENROUTER_MODEL: str = "deepseek/deepseek-chat-v3-0324:free"
     AI_PROVIDER: str = "openrouter"
 
     # ------------------------------------------------------------------

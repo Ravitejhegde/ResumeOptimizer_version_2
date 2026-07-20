@@ -1,4 +1,4 @@
-from app.services.validator.validation_engine import (
+from backend.app.services.validator.quality_gate import (
     ValidationEngine,
 )
 

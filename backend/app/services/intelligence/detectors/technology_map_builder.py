@@ -2,21 +2,27 @@ from app.services.intelligence.detectors.technology_detector import (
     TechnologyDetector,
 )
 
+from app.services.intelligence.technology.parser import (
+    TechnologyParser,
+)
+
+from app.services.intelligence.technology.canonicalizer import (
+    TechnologyCanonicalizer,
+)
+
 
 class TechnologyMapBuilder:
     """
-    Detect technologies once for every block.
+    Detects, parses and normalizes technologies
+    from every document block.
 
-    Returns
+    Returns:
 
     {
         block_id: [
-            "react",
-            "typescript"
-        ],
-
-        block_id: [
-            "git"
+            "React",
+            "TypeScript",
+            "Node.js"
         ]
     }
     """
@@ -31,10 +37,36 @@ class TechnologyMapBuilder:
 
         for block in blocks:
 
-            technology_map[
-                block.id
-            ] = TechnologyDetector.detect(
+            detected = TechnologyDetector.detect(
                 block.text
             )
+
+            technologies = []
+
+            for item in detected:
+
+                parsed = TechnologyParser.tokenize(
+                    item
+                )
+
+                for technology in parsed:
+
+                    technology = (
+                        TechnologyCanonicalizer.normalize(
+                            technology
+                        )
+                    )
+
+                    if (
+                        technology
+                        and technology not in technologies
+                    ):
+                        technologies.append(
+                            technology
+                        )
+
+            technology_map[
+                block.id
+            ] = technologies
 
         return technology_map

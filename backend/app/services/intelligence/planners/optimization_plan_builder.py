@@ -1,9 +1,9 @@
 from app.services.intelligence.models import (
     OptimizationPlan,
-)
-
-from app.services.intelligence.planners.skill_matcher import (
-    SkillMatcher,
+    Skill,
+    SkillAction,
+    SkillCategory,
+    SkillDecision,
 )
 
 from app.services.intelligence.planners.replacement_engine import (
@@ -18,22 +18,89 @@ from app.services.intelligence.planners.role_transition_engine import (
     RoleTransitionEngine,
 )
 
+from app.services.intelligence.reasoning.reasoning_engine import (
+    ReasoningEngine,
+)
+
 
 class OptimizationPlanBuilder:
     """
     Builds the complete optimization plan
-    using all planner components.
+    using the Brain v3 Reasoning Engine.
     """
+
+    @staticmethod
+    def _build_skill_lists(
+        reasoning,
+        resume,
+    ):
+        keep = []
+        remove = []
+        add = []
+
+        # -------------------------
+        # KEEP / REMOVE
+        # -------------------------
+
+        matched = {
+            skill.lower()
+            for skill in reasoning.matched
+        }
+
+        for skill in resume.skills:
+
+            if skill.name.lower() in matched:
+
+                keep.append(
+                    SkillDecision(
+                        skill=skill,
+                        action=SkillAction.KEEP,
+                        priority=100,
+                        reason="Matched with Job Description",
+                    )
+                )
+
+            else:
+
+                remove.append(
+                    SkillDecision(
+                        skill=skill,
+                        action=SkillAction.REMOVE,
+                        priority=10,
+                        reason="Not required",
+                    )
+                )
+
+        # -------------------------
+        # ADD
+        # -------------------------
+
+        for gap in reasoning.missing:
+
+            new_skill = Skill(
+                name=gap.name,
+                category=SkillCategory.OTHER,
+                section="Skills",
+                source="job_description",
+                confidence=1.0,
+            )
+
+            add.append(
+                SkillDecision(
+                    skill=new_skill,
+                    action=SkillAction.ADD,
+                    priority=gap.priority,
+                    reason=gap.reason,
+                )
+            )
+
+        return keep, remove, add
 
     @classmethod
     def build(
-
         cls,
-
         resume,
-
         jd,
-
     ) -> OptimizationPlan:
 
         # ------------------------------------
@@ -41,23 +108,22 @@ class OptimizationPlanBuilder:
         # ------------------------------------
 
         transition = RoleTransitionEngine.find(
-
             resume.detected_role,
-
             jd.target_role,
-
         )
 
         # ------------------------------------
-        # Skill Matching
+        # Brain v3 Reasoning
         # ------------------------------------
 
-        keep, remove, add = SkillMatcher.match(
-
+        reasoning = ReasoningEngine.analyze(
             resume,
-
             jd,
+        )
 
+        keep, remove, add = cls._build_skill_lists(
+            reasoning,
+            resume,
         )
 
         # ------------------------------------
@@ -65,15 +131,10 @@ class OptimizationPlanBuilder:
         # ------------------------------------
 
         capacity = CapacityManager.calculate(
-
             resume,
-
             keep,
-
             remove,
-
             add,
-
         )
 
         # ------------------------------------
@@ -81,53 +142,40 @@ class OptimizationPlanBuilder:
         # ------------------------------------
 
         replacement = ReplacementEngine.build(
-
             keep=capacity["keep"],
-
             remove=remove,
-
             add=capacity["add"],
-
             capacity=capacity["capacity"],
-
         )
 
         # ------------------------------------
-        # Merge Transition Rules
+        # Role Promotion
         # ------------------------------------
 
         if transition:
 
             promoted = {
-
                 skill.lower()
-
                 for skill in transition.promote
-
             }
 
             for item in replacement["add"]:
 
                 if item.skill.name.lower() in promoted:
-
                     item.priority += 20
 
         # ------------------------------------
-        # Build Final Plan
+        # Final Plan
         # ------------------------------------
 
         return OptimizationPlan(
-
             source_role=resume.detected_role,
-
             target_role=jd.target_role,
-
             keep=replacement["keep"],
-
-            remove=[],
-
+            remove=remove,
             add=replacement["add"],
-
-            warnings=[],
-
+            warnings=[
+                risk.description
+                for risk in reasoning.risks
+            ],
         )

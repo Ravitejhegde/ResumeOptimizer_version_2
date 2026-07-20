@@ -75,7 +75,7 @@ class ResumePipeline:
         )
 
         # -------------------------------------
-        # Detect Technologies (Once)
+        # Detect Technologies
         # -------------------------------------
 
         technology_map = TechnologyMapBuilder.build(
@@ -119,7 +119,7 @@ class ResumePipeline:
         )
 
         # -------------------------------------
-        # Skills
+        # Build Skills
         # -------------------------------------
 
         skills = []
@@ -157,20 +157,12 @@ class ResumePipeline:
         )
 
         # -------------------------------------
-        # Detect Resume Role
+        # Build Resume
         # -------------------------------------
 
-        detected_role = RoleDetector.detect(
-            skills
-        )
+        resume = ResumeAnalysis(
 
-        # -------------------------------------
-        # Build Resume Knowledge
-        # -------------------------------------
-
-        return ResumeAnalysis(
-
-            detected_role=detected_role,
+            detected_role="Unknown",
 
             skills=skills,
 
@@ -193,3 +185,13 @@ class ResumePipeline:
             ),
 
         )
+
+        # -------------------------------------
+        # Detect Role using Evidence Engine
+        # -------------------------------------
+
+        resume.detected_role = RoleDetector.detect(
+            resume
+        )
+
+        return resume

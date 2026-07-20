@@ -9,6 +9,7 @@ from app.services.analysis.analysis_service import (
 
 router = APIRouter(
     prefix="/analysis",
+    
     tags=["Analysis"],
 )
 

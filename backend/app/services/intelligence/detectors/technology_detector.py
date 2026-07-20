@@ -1,7 +1,15 @@
 import re
 
-from app.services.intelligence.constants import (
-    TECHNOLOGY_CATEGORY,
+from app.services.intelligence.knowledge.engine import (
+    KnowledgeEngine,
+)
+
+from app.services.intelligence.technology.canonicalizer import (
+    TechnologyCanonicalizer,
+)
+
+from app.services.intelligence.technology.matcher import (
+    TechnologyMatcher,
 )
 
 from app.services.intelligence.detectors.technology_normalizer import (
@@ -9,31 +17,44 @@ from app.services.intelligence.detectors.technology_normalizer import (
 )
 
 
-
 class TechnologyDetector:
+    """
+    Detects known technologies from free text.
 
-    @staticmethod
+    Detection Pipeline
+
+        Raw Text
+            ↓
+        Normalize
+            ↓
+        Match Known Technologies
+            ↓
+        Canonicalize
+            ↓
+        Remove Duplicates
+    """
+
+    @classmethod
     def detect(
+        cls,
         text: str,
     ) -> list[str]:
 
-        # ----------------------------------------
-        # Normalize text first
-        # ----------------------------------------
+        if not text:
+            return []
 
         normalized = TechnologyNormalizer.normalize(
             text
         )
 
-        found = set()
-
-        # ----------------------------------------
-        # Longest technologies first
-        # ----------------------------------------
+        found = []
 
         technologies = sorted(
 
-            TECHNOLOGY_CATEGORY.keys(),
+            (
+                item["name"]
+                for item in KnowledgeEngine.technologies()
+            ),
 
             key=len,
 
@@ -43,7 +64,11 @@ class TechnologyDetector:
 
         for technology in technologies:
 
-            pattern = rf"(?<![A-Za-z0-9]){re.escape(technology)}(?![A-Za-z0-9])"
+            pattern = (
+                rf"(?<![A-Za-z0-9])"
+                rf"{re.escape(technology)}"
+                rf"(?![A-Za-z0-9])"
+            )
 
             if re.search(
 
@@ -55,8 +80,14 @@ class TechnologyDetector:
 
             ):
 
-                found.add(
-                    technology
+                found.append(
+
+                    TechnologyCanonicalizer.normalize(
+                        technology
+                    )
+
                 )
 
-        return sorted(found)
+        return TechnologyMatcher.normalize_list(
+            found
+        )

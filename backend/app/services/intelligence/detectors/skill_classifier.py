@@ -1,5 +1,5 @@
-from app.services.intelligence.constants import (
-    TECHNOLOGY_CATEGORY,
+from app.services.intelligence.knowledge.engine import (
+    KnowledgeEngine,
 )
 
 from app.services.intelligence.models import (
@@ -50,25 +50,41 @@ class SkillClassifier:
 
         SkillCategory.OTHER:
             "Other",
-
     }
 
-    @staticmethod
+    @classmethod
     def classify(
+        cls,
         technology: str,
         source: str = "resume",
     ) -> Skill:
 
-        key = technology.lower().strip()
-
-        category = TECHNOLOGY_CATEGORY.get(
-            key,
-            SkillCategory.OTHER,
+        category_name = KnowledgeEngine.category(
+            technology
         )
 
-        section = SkillClassifier.SECTION_MAPPING[
-            category
-        ]
+        try:
+
+            category = SkillCategory(
+                category_name.upper()
+            )
+
+        except Exception:
+
+            try:
+
+                category = SkillCategory[
+                    category_name.upper()
+                ]
+
+            except Exception:
+
+                category = SkillCategory.OTHER
+
+        section = cls.SECTION_MAPPING.get(
+            category,
+            "Other",
+        )
 
         return Skill(
 
@@ -79,4 +95,7 @@ class SkillClassifier:
             section=section,
 
             source=source,
+
+            confidence=1.0,
+
         )
