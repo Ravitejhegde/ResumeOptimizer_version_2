@@ -6,9 +6,20 @@ from app.services.intelligence.evidence.evidence import (
 
 
 class RoleScorer:
-    """
-    Aggregates all evidence into role scores.
-    """
+
+    SOURCE_WEIGHTS = {
+
+        "title": 3.0,
+
+        "experience": 2.5,
+
+        "projects": 2.0,
+
+        "summary": 1.5,
+
+        "skills": 1.0,
+
+    }
 
     @classmethod
     def score(
@@ -16,10 +27,23 @@ class RoleScorer:
         evidence: list[Evidence],
     ) -> dict[str, int]:
 
-        scores = defaultdict(int)
+        scores = defaultdict(float)
 
         for item in evidence:
 
-            scores[item.role] += item.confidence
+            multiplier = cls.SOURCE_WEIGHTS.get(
+                item.source.lower(),
+                1.0,
+            )
 
-        return dict(scores)
+            scores[item.role] += (
+                item.confidence * multiplier
+            )
+
+        return {
+
+            role: round(score)
+
+            for role, score in scores.items()
+
+        }

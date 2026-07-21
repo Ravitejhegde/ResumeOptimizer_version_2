@@ -3,7 +3,9 @@ from app.services.intelligence.evidence.summary_evidence import SummaryEvidence
 from app.services.intelligence.evidence.skills_evidence import SkillsEvidence
 from app.services.intelligence.evidence.experience_evidence import ExperienceEvidence
 from app.services.intelligence.evidence.projects_evidence import ProjectsEvidence
-
+from app.services.intelligence.evidence.evidence_optimizer import (
+    EvidenceOptimizer,
+)
 
 class EvidenceBuilder:
 
@@ -45,4 +47,6 @@ class EvidenceBuilder:
             )
         )
 
-        return evidence
+        return EvidenceOptimizer.optimize(
+    evidence
+)

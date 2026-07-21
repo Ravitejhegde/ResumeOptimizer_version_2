@@ -1,4 +1,9 @@
 import json
+import re
+
+from app.services.batch.models import (
+    AIBlockUpdate,
+)
 
 
 class BatchResponseParser:
@@ -10,7 +15,28 @@ class BatchResponseParser:
     def parse(
         cls,
         response: str,
-    ):
+    ) -> list[AIBlockUpdate]:
+
+        # -----------------------------------
+        # Remove Markdown code fences
+        # -----------------------------------
+
+        response = response.strip()
+
+        response = re.sub(
+            r"^```(?:json)?",
+            "",
+            response,
+            flags=re.IGNORECASE,
+        )
+
+        response = re.sub(
+            r"```$",
+            "",
+            response,
+        )
+
+        response = response.strip()
 
         # -----------------------------------
         # Parse JSON
@@ -50,7 +76,7 @@ class BatchResponseParser:
                 "'blocks' must be a list."
             )
 
-        validated = []
+        validated: list[AIBlockUpdate] = []
 
         # -----------------------------------
         # Validate every block
@@ -59,32 +85,23 @@ class BatchResponseParser:
         for block in blocks:
 
             if not isinstance(block, dict):
-
                 continue
 
             if "id" not in block:
-
                 continue
 
             if "text" not in block:
-
                 continue
 
             validated.append(
-
-                {
-
-                    "id": block["id"],
-
-                    "status": block.get(
+                AIBlockUpdate(
+                    id=block["id"],
+                    status=block.get(
                         "status",
                         "updated",
                     ),
-
-                    "text": block["text"],
-
-                }
-
+                    text=block["text"],
+                )
             )
 
         return validated

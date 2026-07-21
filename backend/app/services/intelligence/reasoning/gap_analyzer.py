@@ -1,47 +1,48 @@
-from .models import (
-    SkillGap,
+from .models import SkillGap
+
+from app.services.intelligence.technology.matcher import (
+    TechnologyMatcher,
 )
 
 
 class GapAnalyzer:
+    """
+    Compares resume skills with JD skills and
+    identifies matched, missing, and extra skills.
+    """
 
     @classmethod
     def analyze(
-
         cls,
-
         resume_skills,
-
         jd_skills,
-
     ):
 
         matched = []
         missing = []
         extra = []
 
-        resume = {
+        # -----------------------------------
+        # Matched & Missing
+        # -----------------------------------
 
-            skill.name.lower()
+        for jd_skill in jd_skills:
 
-            for skill in resume_skills
+            matched_resume_skill = None
 
-        }
+            for resume_skill in resume_skills:
 
-        jd = {
+                if TechnologyMatcher.equals(
+                    resume_skill.name,
+                    jd_skill.name,
+                ):
+                    matched_resume_skill = resume_skill
+                    break
 
-            skill.name.lower()
-
-            for skill in jd_skills
-
-        }
-
-        for skill in jd_skills:
-
-            if skill.name.lower() in resume:
+            if matched_resume_skill:
 
                 matched.append(
-                    skill.name
+                    matched_resume_skill.name
                 )
 
             else:
@@ -50,32 +51,67 @@ class GapAnalyzer:
 
                     SkillGap(
 
-                        name=skill.name,
+                        name=jd_skill.name,
 
-                        priority=50,
+                        category=getattr(
+                            jd_skill,
+                            "category",
+                            "OTHER",
+                        ),
 
-                        required=True,
+                        priority=getattr(
+                            jd_skill,
+                            "priority",
+                            50,
+                        ),
 
-                        reason="Missing from resume",
+                        confidence=100,
+
+                        required=getattr(
+                            jd_skill,
+                            "required",
+                            True,
+                        ),
+
+                        reason="Technology required by the Job Description but not found in the resume.",
+
+                        matched_by="No Match",
+
+                        related_skills=[],
+
+                        recommendation=(
+                            "Add this technology only if you have genuine experience with it."
+                        ),
 
                     )
 
                 )
 
-        for skill in resume_skills:
+        # -----------------------------------
+        # Extra Skills
+        # -----------------------------------
 
-            if skill.name.lower() not in jd:
+        for resume_skill in resume_skills:
+
+            found = False
+
+            for jd_skill in jd_skills:
+
+                if TechnologyMatcher.equals(
+                    resume_skill.name,
+                    jd_skill.name,
+                ):
+                    found = True
+                    break
+
+            if not found:
 
                 extra.append(
-                    skill.name
+                    resume_skill.name
                 )
 
         return (
-
             matched,
-
             missing,
-
             extra,
-
         )

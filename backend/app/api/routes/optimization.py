@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
-
 from pydantic import BaseModel
+
+import traceback
 
 from app.services.optimization.optimization_pipeline import (
     OptimizationPipeline,
@@ -30,10 +31,10 @@ def optimize_resume(request: OptimizeRequest):
         pipeline = OptimizationPipeline()
 
         result = pipeline.optimize(
-    resume_path=resume_path,
-    job_description=request.job_description,
-    selected_skills=request.selected_skills,
-)
+            resume_path=resume_path,
+            job_description=request.job_description,
+            selected_skills=request.selected_skills,
+        )
 
         return {
             "success": True,
@@ -41,6 +42,8 @@ def optimize_resume(request: OptimizeRequest):
         }
 
     except Exception as e:
+
+        traceback.print_exc()      # <-- IMPORTANT
 
         raise HTTPException(
             status_code=500,

@@ -26,9 +26,10 @@ class OpenRouterProvider(AIProvider):
             )
 
         self.client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=settings.OPENROUTER_API_KEY,
-        )
+    base_url="https://openrouter.ai/api/v1",
+    api_key=settings.OPENROUTER_API_KEY,
+    timeout=120.0,
+)
 
     def generate(
         self,
@@ -41,14 +42,16 @@ class OpenRouterProvider(AIProvider):
         try:
 
             response = self.client.chat.completions.create(
-                model=settings.OPENROUTER_MODEL,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    }
-                ],
-            )
+    model=settings.OPENROUTER_MODEL,
+    messages=[
+        {
+            "role": "user",
+            "content": prompt,
+        }
+    ],
+    max_tokens=3000,
+    temperature=0.2,
+)
             logger.info(
     "OpenRouter response received."
 )

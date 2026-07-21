@@ -1,3 +1,8 @@
+from app.services.batch.models import (
+    AIBlockUpdate,
+)
+
+
 class BlockMerger:
     """
     Safely merges AI updates into the
@@ -6,13 +11,9 @@ class BlockMerger:
 
     @classmethod
     def merge(
-
         cls,
-
         original_blocks,
-
-        updated_blocks,
-
+        updated_blocks: list[AIBlockUpdate],
     ):
 
         # -----------------------------
@@ -20,11 +21,8 @@ class BlockMerger:
         # -----------------------------
 
         original = {
-
             block.id: block
-
             for block in original_blocks
-
         }
 
         # -----------------------------
@@ -33,17 +31,14 @@ class BlockMerger:
 
         for update in updated_blocks:
 
-            block_id = update["id"]
-
             # Unknown block
-            if block_id not in original:
-
+            if update.id not in original:
                 continue
 
-            block = original[block_id]
+            block = original[update.id]
 
             # Replace text only
-            block.text = update["text"]
+            block.text = update.text
 
         # -----------------------------
         # Preserve Original Order

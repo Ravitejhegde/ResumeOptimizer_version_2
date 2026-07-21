@@ -1,6 +1,6 @@
-from app.services.ai.openrouter_provider import (
-    OpenRouterProvider,
-)
+from app.core.logger import logger
+
+from app.services.ai.ai_factory import AIFactory
 
 from app.services.batch.batch_response_parser import (
     BatchResponseParser,
@@ -46,16 +46,12 @@ class BatchOptimizer:
 
     def __init__(self):
 
-        self.ai = OpenRouterProvider()
+        self.ai = AIFactory.create()
 
     def optimize(
-
         self,
-
         blocks: list[DocumentBlock],
-
         job_description: str,
-
     ) -> list[DocumentBlock]:
 
         # -----------------------------------------
@@ -63,11 +59,8 @@ class BatchOptimizer:
         # -----------------------------------------
 
         plan = IntelligenceEngine.analyze(
-
             blocks=blocks,
-
             job_description=job_description,
-
         )
 
         # -----------------------------------------
@@ -75,21 +68,13 @@ class BatchOptimizer:
         # -----------------------------------------
 
         editable_blocks = [
-
             {
-
                 "id": block.id,
-
                 "type": block.block_type,
-
                 "text": block.text,
-
             }
-
             for block in blocks
-
             if block.can_optimize
-
         ]
 
         # -----------------------------------------
@@ -97,52 +82,33 @@ class BatchOptimizer:
         # -----------------------------------------
 
         context = PromptContext(
-
             plan=plan,
-
             blocks=editable_blocks,
-
             keep=[
-
                 item.skill.name
-
                 for item in plan.keep
-
             ],
-
             remove=[
-
                 item.skill.name
-
                 for item in plan.remove
-
             ],
-
             add=[
-
                 item.skill.name
-
                 for item in plan.add
-
             ],
-
             warnings=plan.warnings,
-
             formatting_rules="""
 Keep paragraph length similar.
 Do not add new paragraphs.
 Do not remove paragraphs.
 Preserve formatting.
 """,
-
             job_description=job_description,
-
             system_rules="",
-
         )
 
         # -----------------------------------------
-        # Prompt
+        # Build Prompt
         # -----------------------------------------
 
         prompt = PromptBuilder.build(
@@ -153,50 +119,60 @@ Preserve formatting.
         # AI
         # -----------------------------------------
 
+        logger.info(
+            "Sending optimization request to AI..."
+        )
+
+        logger.info(f"Prompt length: {len(prompt)} characters")
+        logger.info(f"Editable blocks: {len(context.blocks)}")
         response = self.ai.generate(
             prompt
         )
+        logger.info(prompt[:2000])
+        logger.info("===== RAW AI RESPONSE =====")
+        logger.info(response)
+        logger.info("===========================")
 
-        print("\n========== AI RAW RESPONSE ==========\n")
-        print(response)
-        print("\n====================================\n")
+        logger.info(
+            "AI response received."
+        )
+
+        # -----------------------------------------
+        # Validate Response
+        # -----------------------------------------
 
         if response is None:
-
             raise ValueError(
                 "AI returned None."
             )
 
         if not isinstance(response, str):
-
             response = str(response)
 
         response = response.strip()
 
-        if response == "":
-
+        if not response:
             raise ValueError(
                 "AI returned an empty response."
             )
 
         # -----------------------------------------
-        # Parse
+        # Parse AI Response
         # -----------------------------------------
 
         parsed = BatchResponseParser.parse(
             response
         )
+        
 
+        logger.info(f"Parsed result: {parsed}")
         # -----------------------------------------
-        # Merge
+        # Merge Updated Blocks
         # -----------------------------------------
 
         optimized_blocks = BlockMerger.merge(
-
             original_blocks=blocks,
-
             updated_blocks=parsed,
-
         )
 
         return optimized_blocks

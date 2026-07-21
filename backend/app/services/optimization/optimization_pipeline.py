@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from docx import Document
-
+from app.core.logger import logger
 from app.document.parser.snapshot_builder import SnapshotBuilder
 from app.document.parser.block_builder import BlockBuilder
 
@@ -12,6 +12,7 @@ from app.services.docx.writer import DocxWriter
 from app.services.layout_validation.layout_validator import (
     LayoutValidator,
 )
+from app.core.config import settings
 
 
 class OptimizationPipeline:
@@ -59,7 +60,9 @@ class OptimizationPipeline:
             optimized_blocks=optimized_blocks,
         )
 
-        print(validation)
+        logger.info(
+    "Layout validation completed."
+)
 
         # -----------------------------------------
         # Load Original DOCX
@@ -83,12 +86,9 @@ class OptimizationPipeline:
         # -----------------------------------------
 
         output_path = (
-            Path("storage/exports")
-            / (
-                Path(resume_path).stem
-                + "_Optimized.docx"
-            )
-        )
+    settings.EXPORT_DIR
+    / f"{Path(resume_path).stem}_Optimized.docx"
+)
 
         DocxWriter.save(
             document=document,

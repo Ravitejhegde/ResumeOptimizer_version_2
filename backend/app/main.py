@@ -10,7 +10,9 @@ from app.api.routes.optimization import router as optimization_router
 from app.api.routes.download import (
     router as download_router,
 )
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 app = FastAPI(

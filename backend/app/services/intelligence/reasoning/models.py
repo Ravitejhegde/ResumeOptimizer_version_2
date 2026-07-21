@@ -24,13 +24,38 @@ class Recommendation:
 
 
 @dataclass
-class Risk:
+class SkillGap:
+    """
+    Represents one missing or partially matched
+    technology discovered during gap analysis.
+    """
 
-    title: str
+    # Technology
+    name: str
 
-    level: str
+    # Technology category
+    category: str
 
-    description: str
+    # Importance (0–100)
+    priority: int
+
+    # Confidence in this gap (0–100)
+    confidence: int
+
+    # Is it explicitly required by the JD?
+    required: bool
+
+    # Why is it considered a gap?
+    reason: str
+
+    # ExactMatch / AliasMatch / SynonymMatch / RelatedTechnology
+    matched_by: str
+
+    # Similar technologies already present
+    related_skills: list[str] = field(default_factory=list)
+
+    # Recommendation for the planner / AI
+    recommendation: str = ""
 
 
 @dataclass
