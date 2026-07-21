@@ -1,11 +1,14 @@
-import os
-
-from dotenv import load_dotenv
 from google import genai
 
-from .ai_provider import AIProvider
+from app.core.config import settings
+from app.core.logger import logger
 
-load_dotenv()
+from .ai_provider import AIProvider
+from .exceptions import (
+    AIConfigurationError,
+    AIRequestError,
+    AIResponseError,
+)
 
 
 class GeminiProvider(AIProvider):
@@ -18,17 +21,13 @@ class GeminiProvider(AIProvider):
 
     def __init__(self):
 
-        api_key = os.getenv(
-            "GEMINI_API_KEY"
-        )
-
-        if not api_key:
-            raise ValueError(
+        if not settings.GEMINI_API_KEY:
+            raise AIConfigurationError(
                 "GEMINI_API_KEY not found."
             )
 
         self.client = genai.Client(
-            api_key=api_key
+            api_key=settings.GEMINI_API_KEY
         )
 
     def generate(
@@ -36,20 +35,37 @@ class GeminiProvider(AIProvider):
         prompt: str,
     ) -> str:
 
-        model = os.getenv(
-
-            "GEMINI_MODEL",
-
-            "gemini-2.5-flash-lite",
-
+        logger.info(
+            "Sending request to Gemini..."
         )
 
-        response = self.client.models.generate_content(
+        try:
 
-            model=model,
+            response = self.client.models.generate_content(
+                model=settings.GEMINI_MODEL,
+                contents=prompt,
+            )
 
-            contents=prompt,
+            logger.info(
+                "Gemini response received."
+            )
 
-        )
+        except Exception as e:
 
-        return response.text.strip()
+            logger.exception(
+                "Gemini request failed."
+            )
+
+            raise AIRequestError(
+                f"Gemini request failed: {e}"
+            ) from e
+
+        content = response.text
+
+        if not content:
+
+            raise AIResponseError(
+                "Gemini returned an empty response."
+            )
+
+        return content.strip()

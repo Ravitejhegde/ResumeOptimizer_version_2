@@ -19,6 +19,10 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------
     OPENROUTER_API_KEY: str = ""
     OPENROUTER_MODEL: str = "deepseek/deepseek-chat-v3-0324:free"
+
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+
     AI_PROVIDER: str = "openrouter"
 
     # ------------------------------------------------------------------
