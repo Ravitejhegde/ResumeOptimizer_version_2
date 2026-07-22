@@ -1,24 +1,19 @@
 class PriorityEngine:
+    """
+    Calculates optimization priority for a missing skill.
+    """
 
     @classmethod
     def score(
-
         cls,
-
         gap,
+    ) -> int:
 
-    ):
-
-        score = 50
+        score = gap.priority
 
         if gap.required:
-
             score += 40
 
-        return min(
+        score += int(gap.confidence * 0.1)
 
-            score,
-
-            100,
-
-        )
+        return min(score, 100)

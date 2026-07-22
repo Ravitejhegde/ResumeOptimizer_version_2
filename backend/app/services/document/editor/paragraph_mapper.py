@@ -1,40 +1,28 @@
 from docx.document import Document as DocxDocument
-from docx.text.paragraph import Paragraph
 
 
 class ParagraphMapper:
     """
-    Maps document paragraphs by index.
-
-    Later this will support:
-    - Heading mapping
-    - Similarity matching
-    - Block IDs
+    Maps paragraph IDs to Word paragraphs.
     """
 
     @classmethod
     def map(
         cls,
         document: DocxDocument,
-    ) -> dict[int, Paragraph]:
+    ):
 
-        return {
+        mapping = {}
 
-            index: paragraph
+        for index, paragraph in enumerate(
+            document.paragraphs,
+            start=1,
+        ):
 
-            for index, paragraph in enumerate(
-                document.paragraphs
-            )
+            paragraph_id = f"P{index:05}"
 
-        }
+            mapping[
+                paragraph_id
+            ] = paragraph
 
-    @classmethod
-    def get(
-        cls,
-        document: DocxDocument,
-        index: int,
-    ) -> Paragraph | None:
-
-        mapping = cls.map(document)
-
-        return mapping.get(index)
+        return mapping

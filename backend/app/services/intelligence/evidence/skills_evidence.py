@@ -2,14 +2,6 @@ from app.services.intelligence.evidence.evidence import (
     Evidence,
 )
 
-from app.services.intelligence.evidence.evidence import (
-    Evidence,
-)
-
-from app.services.intelligence.const.role_weights import (
-    ROLE_WEIGHTS,
-)
-
 from app.services.intelligence.const.role_weights import (
     ROLE_WEIGHTS,
 )
@@ -17,31 +9,27 @@ from app.services.intelligence.const.role_weights import (
 
 class SkillsEvidence:
     """
-    Builds evidence from detected resume skills.
+    Builds evidence from ResumeKnowledge technologies.
     """
 
     @classmethod
     def build(
         cls,
-        skills,
+        technologies: list[str],
     ) -> list[Evidence]:
 
         evidence = []
 
-        for skill in skills:
+        for technology in technologies:
 
-            technology = (
-                skill.name.lower().strip()
-            )
+            key = technology.lower().strip()
 
             for role, weights in ROLE_WEIGHTS.items():
 
-                if technology not in weights:
+                if key not in weights:
                     continue
 
-                weight = weights[
-                    technology
-                ]
+                confidence = weights[key]
 
                 evidence.append(
 
@@ -51,15 +39,14 @@ class SkillsEvidence:
 
                         source="skills",
 
-                        confidence=weight,
+                        confidence=confidence,
 
-                        technology=skill.name,
+                        technology=technology,
 
-                        section=skill.section,
+                        section="Skills",
 
                         explanation=(
-                            f"{skill.name} "
-                            f"supports {role}"
+                            f"{technology} supports {role}"
                         ),
 
                     )

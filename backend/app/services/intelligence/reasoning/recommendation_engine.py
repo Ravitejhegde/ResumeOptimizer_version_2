@@ -18,7 +18,6 @@ class RecommendationEngine:
 
         recommendations = []
 
-        # Highest priority first
         ordered = sorted(
             gaps,
             key=lambda gap: gap.priority,
@@ -41,7 +40,7 @@ class RecommendationEngine:
                         if gap.recommendation
                         else (
                             f"Add {gap.name} only if you have genuine "
-                            f"professional or project experience."
+                            "experience using it."
                         )
                     ),
 

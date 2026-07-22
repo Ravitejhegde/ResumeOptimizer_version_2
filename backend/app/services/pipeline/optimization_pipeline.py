@@ -10,7 +10,7 @@ from app.services.document.editor.editor_pipeline import (
     EditorPipeline,
 )
 
-from app.services.intelligence.role_detector import (
+from app.services.intelligence.detectors.role_detector import (
     RoleDetector,
 )
 
@@ -33,17 +33,17 @@ class OptimizationPipeline:
 
     Resume
         ↓
-    Document Parser
+    Parser
         ↓
     Snapshot
         ↓
-    Intelligence
+    ResumeKnowledge
         ↓
-    Optimization Plan
+    Intelligence
         ↓
     Paragraph Updates
         ↓
-    Document Editor
+    Editor
         ↓
     Optimized Resume
     """
@@ -74,13 +74,17 @@ class OptimizationPipeline:
 
         snapshot = snapshot_service.snapshot
 
+        knowledge = snapshot_service.get_knowledge()
+
         # -----------------------------------------
         # Detect Resume Role
         # -----------------------------------------
 
         detected_role = RoleDetector.detect(
-            snapshot
+            knowledge
         )
+
+        knowledge.detected_role = detected_role
 
         print("\n" + "=" * 60)
         print("DETECTED ROLE")
@@ -92,7 +96,7 @@ class OptimizationPipeline:
         # -----------------------------------------
 
         reasoning = ReasoningEngine.analyze(
-            snapshot,
+            knowledge,
             job_description,
         )
 
@@ -101,7 +105,7 @@ class OptimizationPipeline:
         # -----------------------------------------
 
         plan = OptimizationPlanBuilder.build(
-            snapshot,
+            knowledge,
             job_description,
         )
 
@@ -116,7 +120,7 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Apply Updates to Original DOCX
+        # Apply Updates
         # -----------------------------------------
 
         EditorPipeline.apply(
@@ -126,14 +130,23 @@ class OptimizationPipeline:
         )
 
         # -----------------------------------------
-        # Pipeline Result
+        # Result
         # -----------------------------------------
 
         return {
+
             "snapshot": snapshot,
+
+            "knowledge": knowledge,
+
             "role": detected_role,
+
             "reasoning": reasoning,
+
             "plan": plan,
+
             "paragraph_updates": paragraph_updates,
+
             "output": output_file,
+
         }

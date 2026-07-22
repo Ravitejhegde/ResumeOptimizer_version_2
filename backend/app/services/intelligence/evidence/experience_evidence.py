@@ -8,54 +8,53 @@ from app.services.intelligence.const.role_weights import (
 
 
 class ExperienceEvidence:
+    """
+    Builds evidence from technologies found
+    in work experience.
+    """
 
     EXPERIENCE_MULTIPLIER = 1.5
 
     @classmethod
     def build(
         cls,
-        experiences,
+        technologies: list[str],
     ) -> list[Evidence]:
 
         evidence = []
 
-        if not experiences:
-            return evidence
+        for technology in technologies:
 
-        for experience in experiences:
+            key = technology.lower()
 
-            for technology in experience.technologies:
+            for role, weights in ROLE_WEIGHTS.items():
 
-                key = technology.lower()
+                if key not in weights:
+                    continue
 
-                for role, weights in ROLE_WEIGHTS.items():
+                evidence.append(
 
-                    if key not in weights:
-                        continue
+                    Evidence(
 
-                    evidence.append(
+                        role=role,
 
-                        Evidence(
+                        source="experience",
 
-                            role=role,
+                        confidence=int(
+                            weights[key]
+                            * cls.EXPERIENCE_MULTIPLIER
+                        ),
 
-                            source="experience",
+                        technology=technology,
 
-                            confidence=int(
-                                weights[key]
-                                * cls.EXPERIENCE_MULTIPLIER
-                            ),
+                        section="Experience",
 
-                            technology=technology,
-
-                            section="Experience",
-
-                            explanation=(
-                                f"{technology} used in work experience"
-                            ),
-
-                        )
+                        explanation=(
+                            f"{technology} found in work experience"
+                        ),
 
                     )
+
+                )
 
         return evidence

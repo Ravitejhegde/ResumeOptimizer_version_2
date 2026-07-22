@@ -8,54 +8,53 @@ from app.services.intelligence.const.role_weights import (
 
 
 class ProjectsEvidence:
+    """
+    Builds evidence from technologies found
+    in projects.
+    """
 
     PROJECT_MULTIPLIER = 1.2
 
     @classmethod
     def build(
         cls,
-        projects,
+        technologies: list[str],
     ) -> list[Evidence]:
 
         evidence = []
 
-        if not projects:
-            return evidence
+        for technology in technologies:
 
-        for project in projects:
+            key = technology.lower()
 
-            for technology in project.technologies:
+            for role, weights in ROLE_WEIGHTS.items():
 
-                key = technology.lower()
+                if key not in weights:
+                    continue
 
-                for role, weights in ROLE_WEIGHTS.items():
+                evidence.append(
 
-                    if key not in weights:
-                        continue
+                    Evidence(
 
-                    evidence.append(
+                        role=role,
 
-                        Evidence(
+                        source="projects",
 
-                            role=role,
+                        confidence=int(
+                            weights[key]
+                            * cls.PROJECT_MULTIPLIER
+                        ),
 
-                            source="projects",
+                        technology=technology,
 
-                            confidence=int(
-                                weights[key]
-                                * cls.PROJECT_MULTIPLIER
-                            ),
+                        section="Projects",
 
-                            technology=technology,
-
-                            section="Projects",
-
-                            explanation=(
-                                f"{technology} used in project"
-                            ),
-
-                        )
+                        explanation=(
+                            f"{technology} found in projects"
+                        ),
 
                     )
+
+                )
 
         return evidence

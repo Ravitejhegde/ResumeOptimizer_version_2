@@ -8,13 +8,23 @@ from app.services.intelligence.const.role_weights import (
 
 
 class SummaryEvidence:
+    """
+    Builds evidence from technologies found in the
+    resume summary.
+
+    In the new architecture the summary is plain text,
+    while the extracted technologies are stored in
+    ResumeKnowledge. Therefore this builder receives
+    both values.
+    """
 
     SUMMARY_MULTIPLIER = 1.0
 
     @classmethod
     def build(
         cls,
-        summary,
+        summary: str,
+        technologies: list[str],
     ) -> list[Evidence]:
 
         evidence = []
@@ -22,7 +32,12 @@ class SummaryEvidence:
         if not summary:
             return evidence
 
-        for technology in summary.technologies:
+        summary_lower = summary.lower()
+
+        for technology in technologies:
+
+            if technology.lower() not in summary_lower:
+                continue
 
             key = technology.lower()
 
@@ -48,9 +63,7 @@ class SummaryEvidence:
 
                         section="Summary",
 
-                        explanation=(
-                            f"{technology} found in summary"
-                        ),
+                        explanation=f"{technology} found in summary",
 
                     )
 

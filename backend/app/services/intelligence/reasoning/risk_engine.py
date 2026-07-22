@@ -16,7 +16,7 @@ class RiskEngine:
         missing: list[SkillGap],
     ) -> list[Risk]:
 
-        risks: list[Risk] = []
+        risks = []
 
         # -----------------------------------------
         # Too many missing skills
@@ -30,11 +30,15 @@ class RiskEngine:
 
                     title="High Skill Gap",
 
-                    level="HIGH",
-
                     description=(
-                        "The resume is missing a large number of required technologies. "
-                        "Only technologies with genuine experience should be added."
+                        "The resume is missing many important technologies. "
+                        "Only add technologies you genuinely know."
+                    ),
+
+                    severity=90,
+
+                    recommendation=(
+                        "Review missing technologies carefully."
                     ),
 
                 )
@@ -71,10 +75,14 @@ class RiskEngine:
 
                     title="Critical Missing Skills",
 
-                    level="MEDIUM",
-
                     description=(
-                        f"High-priority technologies are missing: {names}."
+                        f"Critical technologies missing: {names}"
+                    ),
+
+                    severity=70,
+
+                    recommendation=(
+                        "Add only if you have real experience."
                     ),
 
                 )
@@ -82,7 +90,7 @@ class RiskEngine:
             )
 
         # -----------------------------------------
-        # Low confidence recommendations
+        # Low confidence matches
         # -----------------------------------------
 
         low_confidence = [
@@ -103,11 +111,14 @@ class RiskEngine:
 
                     title="Low Confidence Matches",
 
-                    level="LOW",
-
                     description=(
-                        "Some technology recommendations have low confidence "
-                        "and should be reviewed before optimization."
+                        "Some recommendations have low confidence."
+                    ),
+
+                    severity=40,
+
+                    recommendation=(
+                        "Review these manually."
                     ),
 
                 )

@@ -6,6 +6,7 @@ from app.services.intelligence.evidence.role_scorer import (
     RoleScorer,
 )
 
+
 from app.services.intelligence.evidence.role_ranker import (
     RoleRanker,
 )

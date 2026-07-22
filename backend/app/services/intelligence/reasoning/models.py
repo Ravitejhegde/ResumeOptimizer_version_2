@@ -1,27 +1,9 @@
 from dataclasses import dataclass, field
 
 
-@dataclass
-class SkillGap:
-
-    name: str
-
-    priority: int
-
-    required: bool
-
-    reason: str
-
-
-@dataclass
-class Recommendation:
-
-    title: str
-
-    description: str
-
-    priority: int
-
+# -----------------------------------------
+# Skill Gap
+# -----------------------------------------
 
 @dataclass
 class SkillGap:
@@ -36,27 +18,66 @@ class SkillGap:
     # Technology category
     category: str
 
-    # Importance (0–100)
+    # Importance (0-100)
     priority: int
 
-    # Confidence in this gap (0–100)
+    # Confidence (0-100)
     confidence: int
 
-    # Is it explicitly required by the JD?
+    # Required by Job Description?
     required: bool
 
-    # Why is it considered a gap?
+    # Why is it missing?
     reason: str
 
     # ExactMatch / AliasMatch / SynonymMatch / RelatedTechnology
     matched_by: str
 
-    # Similar technologies already present
-    related_skills: list[str] = field(default_factory=list)
+    # Similar technologies already in resume
+    related_skills: list[str] = field(
+        default_factory=list
+    )
 
-    # Recommendation for the planner / AI
+    # Planner recommendation
     recommendation: str = ""
 
+
+# -----------------------------------------
+# Recommendation
+# -----------------------------------------
+
+@dataclass
+class Recommendation:
+
+    title: str
+
+    description: str
+
+    priority: int
+
+
+# -----------------------------------------
+# Risk
+# -----------------------------------------
+
+@dataclass
+class Risk:
+    """
+    Represents one weakness in the resume.
+    """
+
+    title: str
+
+    description: str
+
+    severity: int
+
+    recommendation: str = ""
+
+
+# -----------------------------------------
+# Reasoning Result
+# -----------------------------------------
 
 @dataclass
 class ReasoningResult:

@@ -1,23 +1,14 @@
-from app.services.ai.provider.openrouter_provider import (
-    OpenRouterProvider,
-)
-
 from app.services.ai.batch.batch_prompt_builder import (
     BatchPromptBuilder,
-)
-
-from app.services.ai.batch.batch_response_parser import (
-    BatchResponseParser,
 )
 
 
 class BatchRewriteEngine:
     """
-    Rewrites multiple resume paragraphs
-    in a single AI request.
-    """
+    Temporary rewrite engine for integration testing.
 
-    provider = OpenRouterProvider()
+    Returns original paragraph text without calling AI.
+    """
 
     @classmethod
     def rewrite(
@@ -25,21 +16,21 @@ class BatchRewriteEngine:
         paragraphs,
         optimization_plan,
         job_description,
-    ) -> dict:
+    ):
 
         if not paragraphs:
             return {}
 
-        prompt = BatchPromptBuilder.build(
+        # Build prompt (for debugging only)
+        BatchPromptBuilder.build(
             paragraphs,
             optimization_plan,
             job_description,
         )
 
-        response = cls.provider.generate(
-            prompt
-        )
+        updates = {}
 
-        return BatchResponseParser.parse(
-            response
-        )
+        for paragraph in paragraphs:
+            updates[paragraph.id] = paragraph.text
+
+        return updates
