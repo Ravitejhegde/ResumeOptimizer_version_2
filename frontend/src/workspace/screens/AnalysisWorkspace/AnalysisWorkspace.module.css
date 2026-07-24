@@ -1,0 +1,45 @@
+.workspace{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:32px;
+
+    align-items:start;
+
+}
+
+.left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:32px;
+
+}
+
+.right{
+
+    position:sticky;
+
+    top:96px;
+
+}
+
+@media (max-width:1100px){
+
+    .workspace{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .right{
+
+        position:static;
+
+    }
+
+}

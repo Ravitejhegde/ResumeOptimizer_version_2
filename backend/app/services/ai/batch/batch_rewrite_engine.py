@@ -1,13 +1,19 @@
+from app.services.ai.provider.openrouter_provider import (
+    OpenRouterProvider,
+)
+
 from app.services.ai.batch.batch_prompt_builder import (
     BatchPromptBuilder,
+)
+
+from app.services.ai.batch.batch_response_parser import (
+    BatchResponseParser,
 )
 
 
 class BatchRewriteEngine:
     """
-    Temporary rewrite engine for integration testing.
-
-    Returns original paragraph text without calling AI.
+    Rewrites resume paragraphs using OpenRouter.
     """
 
     @classmethod
@@ -21,16 +27,43 @@ class BatchRewriteEngine:
         if not paragraphs:
             return {}
 
-        # Build prompt (for debugging only)
-        BatchPromptBuilder.build(
-            paragraphs,
-            optimization_plan,
-            job_description,
-        )
+        provider = OpenRouterProvider()
 
         updates = {}
 
         for paragraph in paragraphs:
-            updates[paragraph.id] = paragraph.text
+
+            print("=" * 60)
+            print("Rewriting:", paragraph.id)
+            print("=" * 60)
+
+            prompt = BatchPromptBuilder.build(
+                [paragraph],
+                optimization_plan,
+                job_description,
+            )
+
+            response = provider.generate(
+                prompt=prompt,
+                temperature=0.2,
+                max_tokens=800,
+            )
+
+            result = BatchResponseParser.parse(
+                response
+            )
+
+            # Expected format:
+            # {
+            #     "P00001": "...new text..."
+            # }
+
+            if isinstance(result, dict):
+
+                updates.update(result)
+
+            else:
+
+                updates[paragraph.id] = paragraph.text
 
         return updates

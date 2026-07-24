@@ -1,0 +1,1384 @@
+
+======================================================================
+DOCUMENT COMPARISON
+======================================================================
+PASS   Document Fonts
+FAIL   Document Text Length
+       Expected : 3436
+       Actual   : 4118
+PASS   Paragraph Count
+PASS   Paragraph 1 Text
+PASS   Paragraph 2 Text
+PASS   Paragraph 3 Text
+PASS   Paragraph 4 Text
+PASS   Paragraph 5 Text
+FAIL   Paragraph 6 Text
+       Expected : PROFESSIONAL SUMMARY
+       Actual   : PROFESSIONAL SUMMARY Experienced Python Backend Developer skilled in building scalable and high-performance backend APIs using FastAPI and REST API principles. Proficient in containerization with Docker, version control with Git, and database management using PostgreSQL. Adept at deploying cloud applications on AWS and implementing CI/CD pipelines to streamline development and deployment processes. Committed to writing clean, maintainable code and optimizing backend performance.
+FAIL   Paragraph 7 Text
+       Expected : Software Engineer and MCA student with hands-on experience in developing scalable web solutions through academic and internship projects. Strong foundation in Object-Oriented Programming, Data Structures, Database Management Systems, and Software Engineering, with a passion for solving real-world problems and continuously learning modern technologies.
+       Actual   : Software Engineer and MCA student with practical experience in developing scalable backend APIs and web solutions through academic and internship projects. Solid understanding of Object-Oriented Programming, Data Structures, Database Management Systems, and Software Engineering principles, with a strong commitment to solving real-world problems and continuously advancing skills in modern backend technologies such as Python, FastAPI, and cloud deployment.
+PASS   Paragraph 8 Text
+PASS   Paragraph 9 Text
+PASS   Paragraph 10 Text
+PASS   Paragraph 11 Text
+FAIL   Paragraph 12 Text
+       Expected : Implemented RESTful APIs using Node.js and integrated them seamlessly with Angular front-end applications to ensure efficient data flow and improved user experience.
+       Actual   : Developed RESTful APIs using Python and FastAPI, ensuring efficient data flow and seamless integration with front-end applications to enhance user experience.
+PASS   Paragraph 13 Text
+PASS   Paragraph 14 Text
+PASS   Paragraph 15 Text
+PASS   Paragraph 16 Text
+PASS   Paragraph 17 Text
+FAIL   Paragraph 18 Text
+       Expected : Developed a responsive Dairy Management System to streamline customer subscriptions, product catalog, inventory management, and milk delivery operations. Designed reusable Angular components, implemented routing, reactive forms, CRUD operations, authentication, and REST API integration to enhance operational efficiency and provide a seamless user experience using a component-based architecture.
+       Actual   : Developed a backend system for Dairy Management to optimize customer subscriptions, product catalog, inventory management, and milk delivery operations. Implemented RESTful APIs, authentication, and CRUD operations to improve operational efficiency and ensure seamless integration with frontend components.
+PASS   Paragraph 19 Text
+PASS   Paragraph 20 Text
+PASS   Paragraph 21 Text
+PASS   Paragraph 22 Text
+PASS   Paragraph 23 Text
+PASS   Paragraph 24 Text
+PASS   Paragraph 25 Text
+FAIL   Paragraph 26 Text
+       Expected : SKILLS
+       Actual   : SKILLS: Proficient in Python programming, FastAPI framework, RESTful API development, Docker containerization, Git version control, PostgreSQL database management, AWS cloud services, and CI/CD pipeline implementation.
+PASS   Paragraph 27 Text
+PASS   Paragraph 28 Text
+PASS   Paragraph 29 Text
+PASS   Paragraph 30 Text
+PASS   Paragraph 31 Text
+PASS   Paragraph 32 Text
+PASS   Paragraph 33 Text
+PASS   Paragraph 34 Text
+PASS   Paragraph 35 Text
+PASS   Paragraph 36 Text
+PASS   Paragraph 37 Text
+PASS   Paragraph 38 Text
+PASS   Paragraph 39 Text
+PASS   Paragraph 40 Text
+PASS   Paragraph 41 Text
+PASS   Paragraph 1 List
+PASS   Paragraph 2 List
+PASS   Paragraph 3 List
+PASS   Paragraph 4 List
+PASS   Paragraph 5 List
+PASS   Paragraph 6 List
+PASS   Paragraph 7 List
+PASS   Paragraph 8 List
+PASS   Paragraph 9 List
+PASS   Paragraph 10 List
+PASS   Paragraph 11 List
+PASS   Paragraph 12 List
+PASS   Paragraph 13 List
+PASS   Paragraph 14 List
+PASS   Paragraph 15 List
+PASS   Paragraph 16 List
+PASS   Paragraph 17 List
+PASS   Paragraph 18 List
+PASS   Paragraph 19 List
+PASS   Paragraph 20 List
+PASS   Paragraph 21 List
+PASS   Paragraph 22 List
+PASS   Paragraph 23 List
+PASS   Paragraph 24 List
+PASS   Paragraph 25 List
+PASS   Paragraph 26 List
+PASS   Paragraph 27 List
+PASS   Paragraph 28 List
+PASS   Paragraph 29 List
+PASS   Paragraph 30 List
+PASS   Paragraph 31 List
+PASS   Paragraph 32 List
+PASS   Paragraph 33 List
+PASS   Paragraph 34 List
+PASS   Paragraph 35 List
+PASS   Paragraph 36 List
+PASS   Paragraph 37 List
+PASS   Paragraph 38 List
+PASS   Paragraph 39 List
+PASS   Paragraph 40 List
+PASS   Paragraph 41 List
+PASS   Section Count
+PASS   Section 1 Page Width
+PASS   Section 1 Page Height
+PASS   Section 1 Left Margin
+PASS   Section 1 Right Margin
+PASS   Section 1 Top Margin
+PASS   Section 1 Bottom Margin
+PASS   Section 1 Header Distance
+PASS   Section 1 Footer Distance
+PASS   Section 1 Orientation
+PASS   Section 2 Page Width
+PASS   Section 2 Page Height
+PASS   Section 2 Left Margin
+PASS   Section 2 Right Margin
+PASS   Section 2 Top Margin
+PASS   Section 2 Bottom Margin
+PASS   Section 2 Header Distance
+PASS   Section 2 Footer Distance
+PASS   Section 2 Orientation
+PASS   Table Count
+PASS   Section 1 Header
+PASS   Section 1 Footer
+PASS   Section 2 Header
+PASS   Section 2 Footer
+PASS   Inline Images
+PASS   Sections
+PASS   Paragraphs
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Run 6 Bold
+PASS   Run 6 Italic
+PASS   Run 6 Underline
+PASS   Run 6 Font Name
+PASS   Run 6 Font Size
+PASS   Run 6 Font Color
+PASS   Run 7 Bold
+PASS   Run 7 Italic
+PASS   Run 7 Underline
+PASS   Run 7 Font Name
+PASS   Run 7 Font Size
+PASS   Run 7 Font Color
+PASS   Run 8 Bold
+PASS   Run 8 Italic
+PASS   Run 8 Underline
+PASS   Run 8 Font Name
+PASS   Run 8 Font Size
+PASS   Run 8 Font Color
+PASS   Run 9 Bold
+PASS   Run 9 Italic
+PASS   Run 9 Underline
+PASS   Run 9 Font Name
+PASS   Run 9 Font Size
+PASS   Run 9 Font Color
+PASS   Run 10 Bold
+PASS   Run 10 Italic
+PASS   Run 10 Underline
+PASS   Run 10 Font Name
+PASS   Run 10 Font Size
+PASS   Run 10 Font Color
+PASS   Run 11 Bold
+PASS   Run 11 Italic
+PASS   Run 11 Underline
+PASS   Run 11 Font Name
+PASS   Run 11 Font Size
+PASS   Run 11 Font Color
+PASS   Run 12 Bold
+PASS   Run 12 Italic
+PASS   Run 12 Underline
+PASS   Run 12 Font Name
+PASS   Run 12 Font Size
+PASS   Run 12 Font Color
+PASS   Run 13 Bold
+PASS   Run 13 Italic
+PASS   Run 13 Underline
+PASS   Run 13 Font Name
+PASS   Run 13 Font Size
+PASS   Run 13 Font Color
+PASS   Run 14 Bold
+PASS   Run 14 Italic
+PASS   Run 14 Underline
+PASS   Run 14 Font Name
+PASS   Run 14 Font Size
+PASS   Run 14 Font Color
+PASS   Run 15 Bold
+PASS   Run 15 Italic
+PASS   Run 15 Underline
+PASS   Run 15 Font Name
+PASS   Run 15 Font Size
+PASS   Run 15 Font Color
+PASS   Run 16 Bold
+PASS   Run 16 Italic
+PASS   Run 16 Underline
+PASS   Run 16 Font Name
+PASS   Run 16 Font Size
+PASS   Run 16 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Run 6 Bold
+PASS   Run 6 Italic
+PASS   Run 6 Underline
+PASS   Run 6 Font Name
+PASS   Run 6 Font Size
+PASS   Run 6 Font Color
+PASS   Run 7 Bold
+PASS   Run 7 Italic
+PASS   Run 7 Underline
+PASS   Run 7 Font Name
+PASS   Run 7 Font Size
+PASS   Run 7 Font Color
+PASS   Run 8 Bold
+PASS   Run 8 Italic
+PASS   Run 8 Underline
+PASS   Run 8 Font Name
+PASS   Run 8 Font Size
+PASS   Run 8 Font Color
+PASS   Run 9 Bold
+PASS   Run 9 Italic
+PASS   Run 9 Underline
+PASS   Run 9 Font Name
+PASS   Run 9 Font Size
+PASS   Run 9 Font Color
+PASS   Run 10 Bold
+PASS   Run 10 Italic
+PASS   Run 10 Underline
+PASS   Run 10 Font Name
+PASS   Run 10 Font Size
+PASS   Run 10 Font Color
+PASS   Run 11 Bold
+PASS   Run 11 Italic
+PASS   Run 11 Underline
+PASS   Run 11 Font Name
+PASS   Run 11 Font Size
+PASS   Run 11 Font Color
+PASS   Run 12 Bold
+PASS   Run 12 Italic
+PASS   Run 12 Underline
+PASS   Run 12 Font Name
+PASS   Run 12 Font Size
+PASS   Run 12 Font Color
+PASS   Run 13 Bold
+PASS   Run 13 Italic
+PASS   Run 13 Underline
+PASS   Run 13 Font Name
+PASS   Run 13 Font Size
+PASS   Run 13 Font Color
+PASS   Run 14 Bold
+PASS   Run 14 Italic
+PASS   Run 14 Underline
+PASS   Run 14 Font Name
+PASS   Run 14 Font Size
+PASS   Run 14 Font Color
+PASS   Run 15 Bold
+PASS   Run 15 Italic
+PASS   Run 15 Underline
+PASS   Run 15 Font Name
+PASS   Run 15 Font Size
+PASS   Run 15 Font Color
+PASS   Run 16 Bold
+PASS   Run 16 Italic
+PASS   Run 16 Underline
+PASS   Run 16 Font Name
+PASS   Run 16 Font Size
+PASS   Run 16 Font Color
+PASS   Run 17 Bold
+PASS   Run 17 Italic
+PASS   Run 17 Underline
+PASS   Run 17 Font Name
+PASS   Run 17 Font Size
+PASS   Run 17 Font Color
+PASS   Run 18 Bold
+PASS   Run 18 Italic
+PASS   Run 18 Underline
+PASS   Run 18 Font Name
+PASS   Run 18 Font Size
+PASS   Run 18 Font Color
+PASS   Run 19 Bold
+PASS   Run 19 Italic
+PASS   Run 19 Underline
+PASS   Run 19 Font Name
+PASS   Run 19 Font Size
+PASS   Run 19 Font Color
+PASS   Run 20 Bold
+PASS   Run 20 Italic
+PASS   Run 20 Underline
+PASS   Run 20 Font Name
+PASS   Run 20 Font Size
+PASS   Run 20 Font Color
+PASS   Run 21 Bold
+PASS   Run 21 Italic
+PASS   Run 21 Underline
+PASS   Run 21 Font Name
+PASS   Run 21 Font Size
+PASS   Run 21 Font Color
+PASS   Run 22 Bold
+PASS   Run 22 Italic
+PASS   Run 22 Underline
+PASS   Run 22 Font Name
+PASS   Run 22 Font Size
+PASS   Run 22 Font Color
+PASS   Run 23 Bold
+PASS   Run 23 Italic
+PASS   Run 23 Underline
+PASS   Run 23 Font Name
+PASS   Run 23 Font Size
+PASS   Run 23 Font Color
+PASS   Run 24 Bold
+PASS   Run 24 Italic
+PASS   Run 24 Underline
+PASS   Run 24 Font Name
+PASS   Run 24 Font Size
+PASS   Run 24 Font Color
+PASS   Run 25 Bold
+PASS   Run 25 Italic
+PASS   Run 25 Underline
+PASS   Run 25 Font Name
+PASS   Run 25 Font Size
+PASS   Run 25 Font Color
+PASS   Run 26 Bold
+PASS   Run 26 Italic
+PASS   Run 26 Underline
+PASS   Run 26 Font Name
+PASS   Run 26 Font Size
+PASS   Run 26 Font Color
+PASS   Run 27 Bold
+PASS   Run 27 Italic
+PASS   Run 27 Underline
+PASS   Run 27 Font Name
+PASS   Run 27 Font Size
+PASS   Run 27 Font Color
+PASS   Run 28 Bold
+PASS   Run 28 Italic
+PASS   Run 28 Underline
+PASS   Run 28 Font Name
+PASS   Run 28 Font Size
+PASS   Run 28 Font Color
+PASS   Run 29 Bold
+PASS   Run 29 Italic
+PASS   Run 29 Underline
+PASS   Run 29 Font Name
+PASS   Run 29 Font Size
+PASS   Run 29 Font Color
+PASS   Run 30 Bold
+PASS   Run 30 Italic
+PASS   Run 30 Underline
+PASS   Run 30 Font Name
+PASS   Run 30 Font Size
+PASS   Run 30 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Run 6 Bold
+PASS   Run 6 Italic
+PASS   Run 6 Underline
+PASS   Run 6 Font Name
+PASS   Run 6 Font Size
+PASS   Run 6 Font Color
+PASS   Run 7 Bold
+PASS   Run 7 Italic
+PASS   Run 7 Underline
+PASS   Run 7 Font Name
+PASS   Run 7 Font Size
+PASS   Run 7 Font Color
+PASS   Run 8 Bold
+PASS   Run 8 Italic
+PASS   Run 8 Underline
+PASS   Run 8 Font Name
+PASS   Run 8 Font Size
+PASS   Run 8 Font Color
+PASS   Run 9 Bold
+PASS   Run 9 Italic
+PASS   Run 9 Underline
+PASS   Run 9 Font Name
+PASS   Run 9 Font Size
+PASS   Run 9 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Run 1 Bold
+PASS   Run 1 Italic
+PASS   Run 1 Underline
+PASS   Run 1 Font Name
+PASS   Run 1 Font Size
+PASS   Run 1 Font Color
+PASS   Run 2 Bold
+PASS   Run 2 Italic
+PASS   Run 2 Underline
+PASS   Run 2 Font Name
+PASS   Run 2 Font Size
+PASS   Run 2 Font Color
+PASS   Run 3 Bold
+PASS   Run 3 Italic
+PASS   Run 3 Underline
+PASS   Run 3 Font Name
+PASS   Run 3 Font Size
+PASS   Run 3 Font Color
+PASS   Run 4 Bold
+PASS   Run 4 Italic
+PASS   Run 4 Underline
+PASS   Run 4 Font Name
+PASS   Run 4 Font Size
+PASS   Run 4 Font Color
+PASS   Run 5 Bold
+PASS   Run 5 Italic
+PASS   Run 5 Underline
+PASS   Run 5 Font Name
+PASS   Run 5 Font Size
+PASS   Run 5 Font Color
+PASS   Run 6 Bold
+PASS   Run 6 Italic
+PASS   Run 6 Underline
+PASS   Run 6 Font Name
+PASS   Run 6 Font Size
+PASS   Run 6 Font Color
+PASS   Run 7 Bold
+PASS   Run 7 Italic
+PASS   Run 7 Underline
+PASS   Run 7 Font Name
+PASS   Run 7 Font Size
+PASS   Run 7 Font Color
+PASS   Run 8 Bold
+PASS   Run 8 Italic
+PASS   Run 8 Underline
+PASS   Run 8 Font Name
+PASS   Run 8 Font Size
+PASS   Run 8 Font Color
+PASS   Run 9 Bold
+PASS   Run 9 Italic
+PASS   Run 9 Underline
+PASS   Run 9 Font Name
+PASS   Run 9 Font Size
+PASS   Run 9 Font Color
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+PASS   Style
+PASS   Alignment
+PASS   Left Indent
+PASS   Right Indent
+PASS   First Line Indent
+PASS   Space Before
+PASS   Space After
+PASS   Line Spacing
+PASS   Keep Together
+PASS   Keep With Next
+PASS   Widow Control
+PASS   Run Count
+
+Overall Score : 99.56%

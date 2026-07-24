@@ -9,27 +9,33 @@ from app.services.intelligence.const.role_weights import (
 
 class SkillsEvidence:
     """
-    Builds evidence from ResumeKnowledge technologies.
+    Builds evidence from detected skills.
     """
+
+    SKILL_MULTIPLIER = 1.2
 
     @classmethod
     def build(
         cls,
-        technologies: list[str],
+        skills,
     ) -> list[Evidence]:
 
         evidence = []
 
-        for technology in technologies:
+        for skill in skills:
 
-            key = technology.lower().strip()
+            skill_name = getattr(
+                skill,
+                "name",
+                str(skill),
+            )
+
+            key = skill_name.lower().strip()
 
             for role, weights in ROLE_WEIGHTS.items():
 
                 if key not in weights:
                     continue
-
-                confidence = weights[key]
 
                 evidence.append(
 
@@ -39,15 +45,16 @@ class SkillsEvidence:
 
                         source="skills",
 
-                        confidence=confidence,
+                        confidence=int(
+                            weights[key]
+                            * cls.SKILL_MULTIPLIER
+                        ),
 
-                        technology=technology,
+                        technology=skill_name,
 
                         section="Skills",
 
-                        explanation=(
-                            f"{technology} supports {role}"
-                        ),
+                        explanation=f"{skill_name} found in skills",
 
                     )
 

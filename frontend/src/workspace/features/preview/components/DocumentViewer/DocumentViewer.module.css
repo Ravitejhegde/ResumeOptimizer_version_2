@@ -1,0 +1,75 @@
+.viewer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    height: 100%;
+
+}
+
+.toolbar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    padding: 12px 20px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+
+}
+
+.toolbar button {
+
+    width: 36px;
+
+    height: 36px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+.toolbar span {
+
+    min-width: 60px;
+
+    text-align: center;
+
+    font-weight: 600;
+
+}
+
+.canvas {
+
+    flex: 1;
+
+    overflow: auto;
+
+    background: #f3f4f6;
+
+    padding: 40px;
+
+}

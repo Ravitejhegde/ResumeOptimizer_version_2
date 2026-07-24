@@ -1,0 +1,63 @@
+.chip{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:8px 14px;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.default{
+
+    background:#f3f4f6;
+
+    color:#374151;
+
+}
+
+.primary{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.danger{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+.selected{
+
+    background:var(--color-success);
+
+    color:white;
+
+}

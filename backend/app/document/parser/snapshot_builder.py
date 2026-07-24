@@ -36,8 +36,10 @@ class SnapshotBuilder:
 
                 color = None
 
-                if run.font.color.rgb:
-
+                if (
+                    run.font.color
+                    and run.font.color.rgb
+                ):
                     color = str(
                         run.font.color.rgb
                     )
@@ -45,7 +47,6 @@ class SnapshotBuilder:
                 size = None
 
                 if run.font.size:
-
                     size = run.font.size.pt
 
                 para.runs.append(
@@ -67,6 +68,11 @@ class SnapshotBuilder:
                         font_size=size,
 
                         color=color,
+
+                        # Placeholder.
+                        # Real hyperlink extraction
+                        # will be added in the next step.
+                        hyperlink=None,
 
                     )
 

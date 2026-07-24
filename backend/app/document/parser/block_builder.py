@@ -18,7 +18,7 @@ class BlockBuilder:
         snapshot: DocumentSnapshot,
     ) -> list[DocumentBlock]:
 
-        blocks = []
+        blocks: list[DocumentBlock] = []
 
         for index, paragraph in enumerate(
             snapshot.paragraphs
@@ -57,6 +57,8 @@ class BlockBuilder:
                         font_size=run.font_size,
 
                         color=run.color,
+
+                        hyperlink=run.hyperlink,
 
                     )
 

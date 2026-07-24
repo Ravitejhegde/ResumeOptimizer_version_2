@@ -1,0 +1,32 @@
+.paper {
+
+    width: 794px;
+
+    min-height: 1123px;
+
+    margin: 40px auto;
+
+    padding: 64px;
+
+    background: #ffffff;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.08);
+
+    box-sizing: border-box;
+
+}
+
+.paragraph {
+
+    margin: 0 0 14px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+}

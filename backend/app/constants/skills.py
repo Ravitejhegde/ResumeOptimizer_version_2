@@ -1,65 +1,171 @@
 COMMON_SKILLS = [
 
-    "React",
-    "Angular",
-    "Vue",
+    # Frontend
+    "HTML",
+    "CSS",
+    "SASS",
+    "SCSS",
+    "Bootstrap",
+    "Tailwind",
+    "Material UI",
+    "Ant Design",
 
     "JavaScript",
     "TypeScript",
 
-    "Python",
-    "Java",
-    "C#",
-    "C++",
+    "React",
+    "Next.js",
+    "Redux",
+    "Redux Toolkit",
+    "Angular",
+    "Vue",
+    "Nuxt.js",
+    "Svelte",
 
+    # Backend
     "Node.js",
-
     "Express",
+    "NestJS",
 
+    "Python",
+    "Django",
+    "Flask",
+    "FastAPI",
+
+    "Java",
+    "Spring",
     "Spring Boot",
 
-    "REST API",
+    "C#",
+    ".NET",
+    "ASP.NET",
 
-    "GraphQL",
+    "PHP",
+    "Laravel",
 
-    "Git",
+    "Go",
+    "Rust",
 
-    "Docker",
+    "C",
+    "C++",
 
-    "Kubernetes",
+    # Mobile
+    "Flutter",
+    "Dart",
+    "React Native",
+    "Kotlin",
+    "Swift",
+    "Android",
+    "iOS",
 
-    "AWS",
-
-    "Azure",
-
-    "GCP",
-
-    "CI/CD",
-
+    # Database
     "SQL",
-
     "MySQL",
-
     "PostgreSQL",
+    "SQLite",
+    "Oracle",
+    "SQL Server",
 
     "MongoDB",
-
     "Redis",
+    "Firebase",
+    "Supabase",
 
-    "HTML",
+    # Cloud
+    "AWS",
+    "Azure",
+    "GCP",
 
-    "CSS",
+    # DevOps
+    "Docker",
+    "Kubernetes",
+    "Jenkins",
+    "GitHub Actions",
+    "GitLab CI",
+    "CI/CD",
+    "Terraform",
+    "Ansible",
 
-    "Tailwind",
+    # Version Control
+    "Git",
+    "GitHub",
+    "GitLab",
+    "Bitbucket",
 
-    "Flutter",
+    # APIs
+    "REST",
+    "REST API",
+    "RESTful API",
+    "GraphQL",
+    "gRPC",
+    "SOAP",
 
-    "React Native",
+    # Testing
+    "Jest",
+    "Cypress",
+    "Playwright",
+    "Selenium",
+    "JUnit",
+    "PyTest",
 
+    # AI / ML
+    "Artificial Intelligence",
+    "AI",
     "Machine Learning",
+    "Deep Learning",
+    "Generative AI",
+
+    "LLM",
+    "Large Language Models",
+
+    "GPT",
+    "ChatGPT",
+    "Claude",
+    "Gemini",
+    "Llama",
+    "Mistral",
+
+    "RAG",
+    "Prompt Engineering",
+    "Fine Tuning",
+    "Vector Database",
+    "Vector Search",
+    "Vector Embeddings",
+    "Semantic Search",
+    "Embeddings",
+
+    "LangChain",
+    "LlamaIndex",
+    "CrewAI",
+    "AutoGen",
+    "OpenAI API",
 
     "TensorFlow",
+    "PyTorch",
+    "Keras",
+    "Scikit-learn",
 
-    "PyTorch"
+    # Data Engineering
+    "Apache Spark",
+    "Kafka",
+    "Airflow",
+    "Snowflake",
+    "Databricks",
+    "ETL",
+    "ELT",
+
+    # Security
+    "OAuth",
+    "JWT",
+    "SSO",
+    "IAM",
+
+    # Tools
+    "Linux",
+    "Bash",
+    "PowerShell",
+    "Postman",
+    "Swagger",
+    "VS Code",
 
 ]

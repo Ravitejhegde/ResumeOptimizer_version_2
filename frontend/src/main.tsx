@@ -1,24 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import App from "./app/App";
-
-import "./styles/global.css";
-
-import { ResumeProvider } from "./context/ResumeContext";
+import "./workspace/styles/globals.css";
+import App from "./workspace/app/App";
 
 ReactDOM.createRoot(
-    document.getElementById("root")!
+  document.getElementById("root")!
 ).render(
-
-    <React.StrictMode>
-
-        <ResumeProvider>
-
-            <App/>
-
-        </ResumeProvider>
-
-    </React.StrictMode>
-
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );

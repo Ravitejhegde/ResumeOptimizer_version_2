@@ -1,0 +1,27 @@
+.group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.group h4{
+
+    margin:0;
+
+    font-size:16px;
+
+}
+
+.skills{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+}

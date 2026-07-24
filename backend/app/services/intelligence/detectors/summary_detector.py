@@ -61,7 +61,6 @@ class SummaryDetector:
         )
 
         summary.sentences = len(
-
             [
                 sentence
                 for sentence in summary.text.replace(
@@ -70,7 +69,6 @@ class SummaryDetector:
                 ).split(".")
                 if sentence.strip()
             ]
-
         )
 
         summary.words = len(

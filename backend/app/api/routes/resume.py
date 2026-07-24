@@ -1,9 +1,11 @@
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import File
+from fastapi import UploadFile
+from sqlalchemy.orm import Session
 
-from app.core.exceptions import FileValidationError, StorageError
-from app.schemas.response import ApiResponse
-from app.services.storage.file_storage import FileStorage
-from app.services.validation.file_validator import FileValidator
+from app.database.session import get_db
+from app.services.upload.upload_service import UploadService
 
 router = APIRouter(
     prefix="/resume",
@@ -11,27 +13,25 @@ router = APIRouter(
 )
 
 
-@router.post("/upload", response_model=ApiResponse)
-async def upload_resume(file: UploadFile = File(...)):
-    try:
-        await FileValidator.validate(file)
+@router.post("/upload")
+async def upload_resume(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+):
+    """
+    Temporary guest upload.
+    """
 
-        result = await FileStorage.save(file)
+    service = UploadService(db)
 
-        return ApiResponse(
-            success=True,
-            message="Resume uploaded successfully.",
-            data=result,
-        )
+    resume = await service.upload_resume(
+        workspace_id=1,
+        file=file,
+    )
 
-    except FileValidationError as e:
-        raise HTTPException(
-            status_code=400,
-            detail=str(e),
-        )
-
-    except StorageError as e:
-        raise HTTPException(
-            status_code=500,
-            detail=str(e),
-        )
+    return {
+        "resume_id": resume.id,
+        "filename": resume.original_filename,
+        "stored_filename": resume.stored_filename,
+        "status": resume.status,
+    }

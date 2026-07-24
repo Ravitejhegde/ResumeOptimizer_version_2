@@ -1,0 +1,9 @@
+.workspace{
+
+    max-width:var(--workspace-max-width);
+
+    margin:auto;
+
+    padding:40px;
+
+}

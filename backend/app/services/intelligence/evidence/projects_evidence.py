@@ -9,8 +9,8 @@ from app.services.intelligence.const.role_weights import (
 
 class ProjectsEvidence:
     """
-    Builds evidence from technologies found
-    in projects.
+    Builds evidence from technologies used
+    in resume projects.
     """
 
     PROJECT_MULTIPLIER = 1.2
@@ -18,43 +18,49 @@ class ProjectsEvidence:
     @classmethod
     def build(
         cls,
-        technologies: list[str],
+        projects,
     ) -> list[Evidence]:
 
         evidence = []
 
-        for technology in technologies:
+        for project in projects:
 
-            key = technology.lower()
+            technologies = getattr(
+                project,
+                "technologies",
+                [],
+            )
 
-            for role, weights in ROLE_WEIGHTS.items():
+            for technology in technologies:
 
-                if key not in weights:
-                    continue
+                key = technology.lower().strip()
 
-                evidence.append(
+                for role, weights in ROLE_WEIGHTS.items():
 
-                    Evidence(
+                    if key not in weights:
+                        continue
 
-                        role=role,
+                    evidence.append(
 
-                        source="projects",
+                        Evidence(
 
-                        confidence=int(
-                            weights[key]
-                            * cls.PROJECT_MULTIPLIER
-                        ),
+                            role=role,
 
-                        technology=technology,
+                            source="projects",
 
-                        section="Projects",
+                            confidence=int(
+                                weights[key]
+                                * cls.PROJECT_MULTIPLIER
+                            ),
 
-                        explanation=(
-                            f"{technology} found in projects"
-                        ),
+                            technology=technology,
+
+                            section="Projects",
+
+                            explanation=f"{technology} found in projects",
+
+                        )
 
                     )
-
-                )
 
         return evidence

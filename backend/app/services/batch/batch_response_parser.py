@@ -8,7 +8,7 @@ from app.services.batch.models import (
 
 class BatchResponseParser:
     """
-    Parses and validates AI JSON response.
+    Parses, cleans and validates AI responses.
     """
 
     @classmethod
@@ -17,9 +17,12 @@ class BatchResponseParser:
         response: str,
     ) -> list[AIBlockUpdate]:
 
-        # -----------------------------------
-        # Remove Markdown code fences
-        # -----------------------------------
+        if not response:
+            return []
+
+        # -----------------------------------------
+        # Remove Markdown
+        # -----------------------------------------
 
         response = response.strip()
 
@@ -38,37 +41,74 @@ class BatchResponseParser:
 
         response = response.strip()
 
-        # -----------------------------------
+        # -----------------------------------------
+        # Extract JSON object if AI added text
+        # -----------------------------------------
+
+        start = response.find("{")
+        end = response.rfind("}")
+
+        if start != -1 and end != -1:
+            response = response[start:end + 1]
+
+        # -----------------------------------------
         # Parse JSON
-        # -----------------------------------
+        # -----------------------------------------
 
         try:
-
             data = json.loads(response)
 
-        except json.JSONDecodeError as e:
-
+        except Exception as e:
             raise ValueError(
-                f"AI returned invalid JSON.\n{e}"
+                f"Invalid AI JSON response:\n{e}\n\n{response}"
             )
 
-        # -----------------------------------
-        # Validate root
-        # -----------------------------------
+        # -----------------------------------------
+        # Legacy format
+        #
+        # {
+        #   "P00001":"text",
+        #   "P00002":"text"
+        # }
+        # -----------------------------------------
+
+        if isinstance(data, dict) and "blocks" not in data:
+
+            updates = []
+
+            for paragraph_id, text in data.items():
+
+                updates.append(
+
+                    AIBlockUpdate(
+
+                        id=paragraph_id,
+
+                        status="updated",
+
+                        text=str(text).strip(),
+
+                    )
+
+                )
+
+            return updates
+
+        # -----------------------------------------
+        # New format
+        #
+        # {
+        #   "blocks":[]
+        # }
+        # -----------------------------------------
 
         if not isinstance(data, dict):
 
             raise ValueError(
-                "Response must be a JSON object."
+                "AI response must be a JSON object."
             )
 
-        if "blocks" not in data:
-
-            raise ValueError(
-                "Missing 'blocks' field."
-            )
-
-        blocks = data["blocks"]
+        blocks = data.get("blocks", [])
 
         if not isinstance(blocks, list):
 
@@ -76,32 +116,38 @@ class BatchResponseParser:
                 "'blocks' must be a list."
             )
 
-        validated: list[AIBlockUpdate] = []
-
-        # -----------------------------------
-        # Validate every block
-        # -----------------------------------
+        updates = []
 
         for block in blocks:
 
             if not isinstance(block, dict):
                 continue
 
-            if "id" not in block:
+            paragraph_id = block.get("id")
+
+            text = block.get("text")
+
+            if not paragraph_id:
                 continue
 
-            if "text" not in block:
+            if text is None:
                 continue
 
-            validated.append(
+            updates.append(
+
                 AIBlockUpdate(
-                    id=block["id"],
+
+                    id=str(paragraph_id),
+
                     status=block.get(
                         "status",
                         "updated",
                     ),
-                    text=block["text"],
+
+                    text=str(text).strip(),
+
                 )
+
             )
 
-        return validated
+        return updates

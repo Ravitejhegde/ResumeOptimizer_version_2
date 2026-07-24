@@ -29,3 +29,17 @@ class OptimizationPlan:
     warnings: list[str] = field(
         default_factory=list
     )
+
+    # -----------------------------
+    # Skills Optimizer
+    # -----------------------------
+
+    jd_skills: list[str] = field(
+        default_factory=list
+    )
+
+    selected_skills: list[str] = field(
+        default_factory=list
+    )
+
+    max_skill_lines: int = 5

@@ -18,7 +18,7 @@ class RunTextDistributor:
             return
 
         # ------------------------------------------
-        # Restore formatting FIRST
+        # Restore original formatting
         # ------------------------------------------
 
         for i, run in enumerate(runs):
@@ -35,11 +35,10 @@ class RunTextDistributor:
         # ------------------------------------------
 
         if not block.can_optimize:
-
             return
 
         # ------------------------------------------
-        # Find editable runs
+        # Editable runs
         # ------------------------------------------
 
         editable = []
@@ -47,32 +46,67 @@ class RunTextDistributor:
         for i, snapshot in enumerate(block.runs):
 
             if not snapshot.bold:
-
                 editable.append(i)
 
-        # ------------------------------------------
-        # If every run is bold,
-        # use the last run.
-        # ------------------------------------------
-
         if not editable:
-
             editable = [len(runs) - 1]
+
+        # ------------------------------------------
+        # Original editable text lengths
+        # ------------------------------------------
+
+        original_lengths = []
+
+        total_length = 0
+
+        for i in editable:
+
+            length = len(block.runs[i].text)
+
+            if length <= 0:
+                length = 1
+
+            original_lengths.append(length)
+
+            total_length += length
 
         # ------------------------------------------
         # Clear editable runs
         # ------------------------------------------
 
         for i in editable:
-
             runs[i].text = ""
 
-        # ------------------------------------------
-        # Put ALL new text into first editable run
-        # ------------------------------------------
+        text = block.text
 
-        runs[editable[0]].text = block.text
+        start = 0
 
         # ------------------------------------------
-        # Keep locked runs untouched
+        # Distribute proportionally
         # ------------------------------------------
+
+        for position, run_index in enumerate(editable):
+
+            if position == len(editable) - 1:
+
+                runs[run_index].text = text[start:]
+
+                break
+
+            share = original_lengths[position] / total_length
+
+            characters = int(len(text) * share)
+
+            end = start + characters
+
+            # Avoid cutting a word in half
+            while (
+                end < len(text)
+                and end > start
+                and text[end] != " "
+            ):
+                end += 1
+
+            runs[run_index].text = text[start:end].strip()
+
+            start = end

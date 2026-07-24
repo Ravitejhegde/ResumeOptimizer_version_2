@@ -5,11 +5,8 @@ from app.services.intelligence.models import (
 
 class OptimizationPlanBuilder:
     """
-    Temporary V3 planner.
-
-    Builds an optimization plan from
-    ResumeKnowledge until the advanced
-    planner is migrated.
+    Builds an optimization plan from the
+    structured ResumeAnalysis and JDAnalysis.
     """
 
     @classmethod
@@ -17,35 +14,106 @@ class OptimizationPlanBuilder:
         cls,
         knowledge,
         job_description,
+        selected_skills: list[str],
     ) -> OptimizationPlan:
 
-        jd_lower = job_description.lower()
-
         keep = []
-        add = []
         remove = []
+        add = []
 
-        for technology in knowledge.technologies:
+        # -----------------------------------------
+        # JD Skills
+        # -----------------------------------------
 
-            if technology.lower() in jd_lower:
+        jd_skills = getattr(
+            job_description,
+            "skills",
+            [],
+        )
 
-                keep.append(technology)
+        jd_skill_set = {
+
+            getattr(skill, "name", str(skill))
+            .lower()
+            .strip()
+
+            for skill in jd_skills
+
+        }
+
+        # -----------------------------------------
+        # Resume Skills
+        # -----------------------------------------
+
+        resume_skills = []
+
+        for skill in knowledge.skills:
+
+            skill_name = getattr(
+
+                skill,
+
+                "name",
+
+                str(skill),
+
+            )
+
+            resume_skills.append(skill_name)
+
+            if skill_name.lower().strip() in jd_skill_set:
+
+                keep.append(skill_name)
 
             else:
 
-                remove.append(technology)
+                remove.append(skill_name)
 
-        for technology in knowledge.technologies:
+        # -----------------------------------------
+        # Add Only Selected Skills
+        # -----------------------------------------
 
-            if technology.lower() in jd_lower:
+        resume_skill_set = {
 
-                continue
+            skill.lower().strip()
+
+            for skill in resume_skills
+
+        }
+
+        for skill in selected_skills:
+
+            skill_name = getattr(
+
+                skill,
+
+                "name",
+
+                str(skill),
+
+            )
+
+            if skill_name.lower().strip() not in resume_skill_set:
+
+                add.append(skill_name)
+
+        # -----------------------------------------
+        # Build Plan
+        # -----------------------------------------
 
         return OptimizationPlan(
 
             source_role=knowledge.detected_role,
 
-            target_role="Unknown",
+            target_role=getattr(
+
+                job_description,
+
+                "title",
+
+                knowledge.detected_role,
+
+            ),
 
             keep=keep,
 
@@ -54,5 +122,17 @@ class OptimizationPlanBuilder:
             add=add,
 
             warnings=[],
+
+            jd_skills=[
+
+                getattr(skill, "name", str(skill))
+
+                for skill in jd_skills
+
+            ],
+
+            selected_skills=selected_skills,
+
+            max_skill_lines=5,
 
         )

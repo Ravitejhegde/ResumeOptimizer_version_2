@@ -26,6 +26,10 @@ from app.services.intelligence.translator.paragraph_update_builder import (
     ParagraphUpdateBuilder,
 )
 
+from app.services.intelligence.skills.skills_section_locator import (
+    SkillsSectionLocator,
+)
+
 
 class OptimizationPipeline:
     """
@@ -63,7 +67,11 @@ class OptimizationPipeline:
         document_model = DocumentParser.parse(
             input_file
         )
-
+        optimized_blocks = optimizer.optimize(
+    blocks=blocks,
+    job_description=job_description,
+    selected_skills=selected_skills,
+)
         # -----------------------------------------
         # Build Snapshot
         # -----------------------------------------
@@ -75,7 +83,25 @@ class OptimizationPipeline:
         snapshot = snapshot_service.snapshot
 
         knowledge = snapshot_service.get_knowledge()
+        # -----------------------------------------
+# Locate Skills Section
+# -----------------------------------------
 
+        skills_paragraphs = SkillsSectionLocator.locate(
+        snapshot
+        )
+
+        print("\n" + "=" * 60)
+        print("SKILLS SECTION")
+        print("=" * 60)
+
+        for paragraph in skills_paragraphs:
+
+            print(
+        paragraph.id,
+        "|",
+        paragraph.text,
+    )
         # -----------------------------------------
         # Detect Resume Role
         # -----------------------------------------

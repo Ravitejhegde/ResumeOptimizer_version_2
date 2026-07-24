@@ -1,0 +1,83 @@
+.toast{
+
+    position:fixed;
+
+    top:24px;
+
+    right:24px;
+
+    min-width:320px;
+
+    padding:18px 20px;
+
+    border-radius:16px;
+
+    box-shadow:var(--shadow-lg);
+
+    color:white;
+
+    z-index:9999;
+
+    animation:slideIn .25s ease;
+
+}
+
+.toast h4{
+
+    margin:0 0 6px;
+
+    font-size:15px;
+
+}
+
+.toast p{
+
+    margin:0;
+
+    font-size:14px;
+
+}
+
+.success{
+
+    background:#16a34a;
+
+}
+
+.error{
+
+    background:#dc2626;
+
+}
+
+.warning{
+
+    background:#d97706;
+
+}
+
+.info{
+
+    background:#2563eb;
+
+}
+
+@keyframes slideIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}

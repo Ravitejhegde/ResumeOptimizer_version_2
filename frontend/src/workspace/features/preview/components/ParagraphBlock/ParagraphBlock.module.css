@@ -1,0 +1,41 @@
+.readonly{
+
+    margin:0 0 18px;
+
+    line-height:1.7;
+
+    white-space:pre-wrap;
+
+}
+
+.editable{
+
+    margin:0 0 18px;
+
+    padding:8px;
+
+    border-radius:8px;
+
+    line-height:1.7;
+
+    white-space:pre-wrap;
+
+    transition:var(--transition);
+
+    outline:none;
+
+}
+
+.editable:hover{
+
+    background:#f8fafc;
+
+}
+
+.editable:focus{
+
+    background:#eef2ff;
+
+    box-shadow:0 0 0 2px rgba(37,99,235,.15);
+
+}

@@ -49,19 +49,21 @@ class BatchOptimizer:
         self.ai = AIFactory.create()
 
     def optimize(
-        self,
-        blocks: list[DocumentBlock],
-        job_description: str,
-    ) -> list[DocumentBlock]:
+    self,
+    blocks: list[DocumentBlock],
+    job_description: str,
+    selected_skills: list[str],
+) -> list[DocumentBlock]:
 
         # -----------------------------------------
         # Intelligence
         # -----------------------------------------
 
         plan = IntelligenceEngine.analyze(
-            blocks=blocks,
-            job_description=job_description,
-        )
+    blocks=blocks,
+    job_description=job_description,
+    selected_skills=selected_skills,
+)
 
         # -----------------------------------------
         # Editable Blocks
@@ -82,29 +84,57 @@ class BatchOptimizer:
         # -----------------------------------------
 
         context = PromptContext(
+
             plan=plan,
+
             blocks=editable_blocks,
+
             keep=[
-                item.skill.name
+                item
+                if isinstance(item, str)
+                else getattr(
+                    getattr(item, "skill", item),
+                    "name",
+                    str(item),
+                )
                 for item in plan.keep
             ],
+
             remove=[
-                item.skill.name
+                item
+                if isinstance(item, str)
+                else getattr(
+                    getattr(item, "skill", item),
+                    "name",
+                    str(item),
+                )
                 for item in plan.remove
             ],
+
             add=[
-                item.skill.name
+                item
+                if isinstance(item, str)
+                else getattr(
+                    getattr(item, "skill", item),
+                    "name",
+                    str(item),
+                )
                 for item in plan.add
             ],
+
             warnings=plan.warnings,
+
             formatting_rules="""
 Keep paragraph length similar.
 Do not add new paragraphs.
 Do not remove paragraphs.
 Preserve formatting.
 """,
+
             job_description=job_description,
+
             system_rules="",
+
         )
 
         # -----------------------------------------
@@ -123,12 +153,20 @@ Preserve formatting.
             "Sending optimization request to AI..."
         )
 
-        logger.info(f"Prompt length: {len(prompt)} characters")
-        logger.info(f"Editable blocks: {len(context.blocks)}")
+        logger.info(
+            f"Prompt length: {len(prompt)} characters"
+        )
+
+        logger.info(
+            f"Editable blocks: {len(context.blocks)}"
+        )
+
         response = self.ai.generate(
             prompt
         )
+
         logger.info(prompt[:2000])
+
         logger.info("===== RAW AI RESPONSE =====")
         logger.info(response)
         logger.info("===========================")
@@ -163,9 +201,11 @@ Preserve formatting.
         parsed = BatchResponseParser.parse(
             response
         )
-        
 
-        logger.info(f"Parsed result: {parsed}")
+        logger.info(
+            f"Parsed result: {parsed}"
+        )
+
         # -----------------------------------------
         # Merge Updated Blocks
         # -----------------------------------------

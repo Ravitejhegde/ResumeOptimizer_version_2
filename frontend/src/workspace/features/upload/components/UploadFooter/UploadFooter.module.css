@@ -1,0 +1,47 @@
+.footer{
+
+    margin-top:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:var(--color-text-secondary);
+
+    font-size:14px;
+
+}
+
+.icon{
+
+    width:34px;
+
+    height:34px;
+
+    border-radius:50%;
+
+    background:#eef2ff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.footer p{
+
+    margin:0;
+
+}
+
+.footer strong{
+
+    color:var(--color-text);
+
+    font-weight:600;
+
+}

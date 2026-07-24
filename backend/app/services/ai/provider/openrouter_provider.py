@@ -1,22 +1,41 @@
 import os
+import time
 
 import requests
+
+from dotenv import load_dotenv
 
 from app.services.ai.provider.ai_provider import (
     AIProvider,
 )
 
+load_dotenv()
+
 
 class OpenRouterProvider(AIProvider):
     """
     OpenRouter AI Provider.
+
+    Features
+    --------
+    - Retry logic
+    - Timeout protection
+    - JSON response mode
+    - Better error handling
+    - Configurable model
     """
 
-    BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
-
-    DEFAULT_MODEL = (
-        "openai/gpt-4.1-mini"
+    BASE_URL = (
+        "https://openrouter.ai/api/v1/chat/completions"
     )
+
+    DEFAULT_MODEL = "openai/gpt-4.1-mini"
+
+    MAX_RETRIES = 3
+
+    RETRY_DELAY = 2
+
+    TIMEOUT = 180
 
     def __init__(self):
 
@@ -26,8 +45,10 @@ class OpenRouterProvider(AIProvider):
 
         if not self.api_key:
 
-            raise ValueError(
-                "OPENROUTER_API_KEY not found."
+            raise RuntimeError(
+                "OPENROUTER_API_KEY is missing.\n"
+                "Create backend/.env and add:\n"
+                "OPENROUTER_API_KEY=your_key"
             )
 
     def generate(
@@ -42,60 +63,137 @@ class OpenRouterProvider(AIProvider):
 
         headers = {
 
-            "Authorization":
-                f"Bearer {self.api_key}",
+            "Authorization": (
+                f"Bearer {self.api_key}"
+            ),
 
-            "Content-Type":
-                "application/json",
+            "Content-Type": "application/json",
+
+            # Recommended by OpenRouter
+            "HTTP-Referer": (
+                "http://localhost:5173"
+            ),
+
+            "X-Title": (
+                "Resume Optimizer"
+            ),
 
         }
 
         payload = {
 
-            "model": model,
+    "model": model,
 
-            "temperature": temperature,
+    "temperature": temperature,
 
-            "max_tokens": max_tokens,
+    "max_tokens": max_tokens,
 
-            "messages": [
+    "messages": [
 
-                {
+        {
 
-                    "role": "user",
+            "role": "user",
 
-                    "content": prompt,
-
-                }
-
-            ],
+            "content": prompt,
 
         }
 
-        response = requests.post(
+    ],
 
-            self.BASE_URL,
+}
 
-            headers=headers,
+        last_error = None
 
-            json=payload,
+        for attempt in range(
+            1,
+            self.MAX_RETRIES + 1,
+        ):
 
-            timeout=120,
+            response = None
 
-        )
+            try:
 
-        response.raise_for_status()
+                response = requests.post(
 
-        data = response.json()
+                    self.BASE_URL,
 
-        return (
+                    headers=headers,
 
-            data["choices"][0]
+                    json=payload,
 
-            ["message"]
+                    timeout=self.TIMEOUT,
 
-            ["content"]
+                )
 
-            .strip()
+                response.raise_for_status()
 
-        )
+                data = response.json()
+
+                content = (
+
+                    data
+
+                    .get("choices", [{}])[0]
+
+                    .get("message", {})
+
+                    .get("content", "")
+
+                )
+
+                if not content:
+
+                    raise RuntimeError(
+                        "AI returned an empty response."
+                    )
+
+                return content.strip()
+
+            except requests.RequestException as e:
+
+                last_error = e
+
+                print()
+
+                print("=" * 60)
+
+                print(
+                    f"OpenRouter Retry "
+                    f"{attempt}/{self.MAX_RETRIES}"
+                )
+
+                if response is not None:
+
+                    try:
+
+                        print(
+                            response.status_code
+                        )
+
+                        print(
+                            response.text
+                        )
+
+                    except Exception:
+
+                        print(e)
+
+                else:
+
+                    print(e)
+
+                print("=" * 60)
+
+                if attempt < self.MAX_RETRIES:
+
+                    time.sleep(
+                        self.RETRY_DELAY
+                    )
+
+        raise RuntimeError(
+
+            "OpenRouter request failed after "
+
+            f"{self.MAX_RETRIES} attempts."
+
+        ) from last_error
