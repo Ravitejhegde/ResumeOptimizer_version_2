@@ -34,10 +34,13 @@ class OptimizationPipeline:
 
     @classmethod
     def run(
+
         cls,
+
         blocks,
+
         job_description,
-        selected_skills,
+
     ):
 
         # -----------------------------
@@ -61,9 +64,11 @@ class OptimizationPipeline:
         # -----------------------------
 
         plan = OptimizationPlanBuilder.build(
+
             resume,
+
             jd,
-            selected_skills,
+
         )
 
         # -----------------------------
@@ -71,9 +76,13 @@ class OptimizationPipeline:
         # -----------------------------
 
         plan.warnings = WarningBuilder.build(
+
             resume,
+
             jd,
+
             plan,
+
         )
 
         return plan

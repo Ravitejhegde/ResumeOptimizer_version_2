@@ -1,36 +1,32 @@
-from app.services.intelligence.evidence.evidence import (
-    Evidence,
-)
-
-from app.services.intelligence.const.role_weights import (
-    ROLE_WEIGHTS,
-)
+from app.services.intelligence.evidence.evidence import Evidence
+from app.services.intelligence.const.role_weights import ROLE_WEIGHTS
 
 
 class SkillsEvidence:
-    """
-    Builds evidence from detected skills.
-    """
 
-    SKILL_MULTIPLIER = 1.2
+    SKILL_MULTIPLIER = 1.0
 
     @classmethod
     def build(
         cls,
-        skills,
+        technologies,
     ) -> list[Evidence]:
 
         evidence = []
 
-        for skill in skills:
+        if not technologies:
+            return evidence
 
-            skill_name = getattr(
-                skill,
+        for technology in technologies:
+
+            # Support both Skill objects and strings
+            technology_name = getattr(
+                technology,
                 "name",
-                str(skill),
+                str(technology),
             )
 
-            key = skill_name.lower().strip()
+            key = technology_name.lower().strip()
 
             for role, weights in ROLE_WEIGHTS.items():
 
@@ -46,15 +42,14 @@ class SkillsEvidence:
                         source="skills",
 
                         confidence=int(
-                            weights[key]
-                            * cls.SKILL_MULTIPLIER
+                            weights[key] * cls.SKILL_MULTIPLIER
                         ),
 
-                        technology=skill_name,
+                        technology=technology_name,
 
                         section="Skills",
 
-                        explanation=f"{skill_name} found in skills",
+                        explanation=f"{technology_name} found in skills",
 
                     )
 

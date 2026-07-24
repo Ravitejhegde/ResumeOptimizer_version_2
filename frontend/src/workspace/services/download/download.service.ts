@@ -6,7 +6,7 @@ export const downloadResume = async (
 
     const response = await api.get(
 
-        `/download/${filename}`,
+        `/resume/download/${filename}`,
 
         {
 

@@ -166,6 +166,8 @@ class ResumePipeline:
 
             skills=skills,
 
+            technologies=skills,
+
             sections=list(
                 indexed_sections.keys()
             ),

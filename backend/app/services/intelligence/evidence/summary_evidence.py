@@ -9,7 +9,8 @@ from app.services.intelligence.const.role_weights import (
 
 class SummaryEvidence:
     """
-    Builds evidence from the resume summary.
+    Builds evidence from technologies found in the
+    resume summary.
     """
 
     SUMMARY_MULTIPLIER = 1.0
@@ -18,12 +19,12 @@ class SummaryEvidence:
     def build(
         cls,
         summary,
-        skills,
+        technologies: list[str],
     ) -> list[Evidence]:
 
         evidence = []
 
-        if summary is None:
+        if not summary:
             return evidence
 
         summary_text = getattr(
@@ -37,18 +38,18 @@ class SummaryEvidence:
 
         summary_lower = summary_text.lower()
 
-        for skill in skills:
+        for technology in technologies:
 
-            skill_name = getattr(
-                skill,
-                "name",
-                str(skill),
-            )
+            technology_name = getattr(
+            technology,
+            "name",
+            str(technology),
+        )
 
-            if skill_name.lower() not in summary_lower:
+            if technology_name.lower() not in summary_lower:
                 continue
 
-            key = skill_name.lower()
+            key = technology_name.lower()
 
             for role, weights in ROLE_WEIGHTS.items():
 
@@ -68,11 +69,13 @@ class SummaryEvidence:
                             * cls.SUMMARY_MULTIPLIER
                         ),
 
-                        technology=skill_name,
+                        technology=technology_name,
+
 
                         section="Summary",
 
-                        explanation=f"{skill_name} found in summary",
+                        explanation=f"{technology_name} found in summary",
+
 
                     )
 

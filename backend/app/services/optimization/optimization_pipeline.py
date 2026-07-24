@@ -74,10 +74,9 @@ class OptimizationPipeline:
         optimizer = BatchOptimizer()
 
         optimized_blocks = optimizer.optimize(
-    blocks=blocks,
-    job_description=job_description,
-    selected_skills=selected_skills,
-)
+            blocks=blocks,
+            job_description=job_description,
+        )
 
         # -----------------------------------------
         # Validate Layout
@@ -118,7 +117,7 @@ class OptimizationPipeline:
         # -----------------------------------------
 
         output_path = (
-            settings.EXPORT_PATH
+            settings.EXPORT_DIR
             / f"{Path(resume_path).stem}_Optimized.docx"
         )
 

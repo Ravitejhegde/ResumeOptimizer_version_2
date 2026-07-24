@@ -10,5 +10,3 @@ class MatchResponse(BaseModel):
     missing_skills: list[str]
 
     extra_skills: list[str]
-
-    

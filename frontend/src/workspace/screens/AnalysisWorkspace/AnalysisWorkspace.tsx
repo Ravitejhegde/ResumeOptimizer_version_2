@@ -20,7 +20,7 @@ const AnalysisWorkspace = () => {
 
     const {
         state,
-        setState
+        setState,
     } = useWorkspace();
 
     const [loading, setLoading] = useState(false);
@@ -43,17 +43,31 @@ const AnalysisWorkspace = () => {
 
         }
 
+        const payload = {
+
+            resume_id: state.resume.id,
+
+            job_description: state.jobDescription,
+
+        };
+
+        console.log("Workspace State:", state);
+        console.log("Resume:", state.resume);
+        console.log("Analysis Payload:", payload);
+
+        if (!payload.resume_id) {
+
+            alert("Resume ID is missing.");
+
+            return;
+
+        }
+
         try {
 
             setLoading(true);
 
-            const result = await analyzeResume({
-
-                resume_id: state.resume.id,
-
-                job_description: state.jobDescription
-
-            });
+            const result = await analyzeResume(payload);
 
             console.log("Analysis Response:", result);
 
@@ -65,15 +79,19 @@ const AnalysisWorkspace = () => {
 
                 matchedSkills: result.matched_skills,
 
-                missingSkills: result.missing_skills
+                missingSkills: result.missing_skills,
 
             }));
 
         }
 
-        catch (error) {
+        catch (error: any) {
 
             console.error(error);
+
+            console.log("Error Response:", error.response);
+
+            console.log("Error Data:", error.response?.data);
 
             alert("Analysis failed.");
 
@@ -118,14 +136,10 @@ const AnalysisWorkspace = () => {
             setLoading(true);
 
             const result = await optimizeResume(
-
-                state.resume.id,
-
-                state.jobDescription,
-
-                state.selectedSkills
-
-            );
+    state.resume.storedFilename,
+    state.jobDescription,
+    state.selectedSkills
+);
 
             console.log("Optimization Response:", result);
 
@@ -133,21 +147,23 @@ const AnalysisWorkspace = () => {
 
                 ...previous,
 
-                optimizedFilename: result.optimized_filename,
+                optimizedFilename: result.data.optimized_filename,
+previewBlocks: result.data.blocks,
+previewLayout: result.data.layout,
 
-                previewBlocks: result.blocks,
-
-                previewLayout: result.layout,
-
-                step: "optimization"
+                step: "optimization",
 
             }));
 
         }
 
-        catch (error) {
+        catch (error: any) {
 
             console.error(error);
+
+            console.log(error.response);
+
+            console.log(error.response?.data);
 
             alert("Optimization failed.");
 
@@ -185,7 +201,7 @@ const AnalysisWorkspace = () => {
 
                                 ...previous,
 
-                                resume: null
+                                resume: null,
 
                             }));
 
@@ -208,7 +224,7 @@ const AnalysisWorkspace = () => {
 
                             ...previous,
 
-                            jobDescription: value
+                            jobDescription: value,
 
                         }))
 
@@ -220,7 +236,7 @@ const AnalysisWorkspace = () => {
 
                             ...previous,
 
-                            jobDescription: ""
+                            jobDescription: "",
 
                         }))
 
@@ -266,7 +282,7 @@ const AnalysisWorkspace = () => {
 
                                 selectedSkills: exists
                                     ? previous.selectedSkills.filter(item => item !== skill)
-                                    : [...previous.selectedSkills, skill]
+                                    : [...previous.selectedSkills, skill],
 
                             };
 
@@ -280,7 +296,7 @@ const AnalysisWorkspace = () => {
 
                             ...previous,
 
-                            selectedSkills: [...previous.missingSkills]
+                            selectedSkills: [...previous.missingSkills],
 
                         }));
 
@@ -292,7 +308,7 @@ const AnalysisWorkspace = () => {
 
                             ...previous,
 
-                            selectedSkills: []
+                            selectedSkills: [],
 
                         }));
 

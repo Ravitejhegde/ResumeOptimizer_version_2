@@ -1,33 +1,58 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import APIRouter, HTTPException
 
-from app.core.auth.dependencies import (
-    get_current_user,
-)
-from app.database.models.user import User
-from app.schemas.token import UserResponse
+from app.platform.users.user_service import UserService
 
 router = APIRouter(
-    prefix="/users",
-    tags=["Users"],
+    prefix="/user",
+    tags=["User"],
 )
 
 
-@router.get(
-    "/me",
-    response_model=UserResponse,
-)
-def get_me(
-    current_user: User = Depends(
-        get_current_user,
-    ),
+@router.get("/{user_id}")
+def get_user(
+    user_id: str,
 ):
 
-    return UserResponse(
-        id=current_user.id,
-        name=current_user.name,
-        email=current_user.email,
-        provider=current_user.provider,
-        verified=current_user.verified,
-        active=current_user.active,
+    user = UserService.get(
+        user_id
     )
+
+    if not user:
+
+        raise HTTPException(
+            status_code=404,
+            detail="User not found.",
+        )
+
+    return {
+
+        "success": True,
+
+        "data": user,
+
+    }
+
+
+@router.get("/email/{email}")
+def get_user_by_email(
+    email: str,
+):
+
+    user = UserService.get_by_email(
+        email
+    )
+
+    if not user:
+
+        raise HTTPException(
+            status_code=404,
+            detail="User not found.",
+        )
+
+    return {
+
+        "success": True,
+
+        "data": user,
+
+    }

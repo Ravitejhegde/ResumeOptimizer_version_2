@@ -67,11 +67,7 @@ class OptimizationPipeline:
         document_model = DocumentParser.parse(
             input_file
         )
-        optimized_blocks = optimizer.optimize(
-    blocks=blocks,
-    job_description=job_description,
-    selected_skills=selected_skills,
-)
+
         # -----------------------------------------
         # Build Snapshot
         # -----------------------------------------

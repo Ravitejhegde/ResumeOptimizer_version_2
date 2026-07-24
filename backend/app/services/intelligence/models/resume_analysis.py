@@ -20,6 +20,13 @@ class ResumeAnalysis:
         default_factory=list
     )
 
+    # Technologies extracted from the resume.
+    # Currently mirrors skills and is used by the
+    # EvidenceBuilder and RoleDetector.
+    technologies: list[Skill] = field(
+        default_factory=list
+    )
+
     summary: list = field(
         default_factory=list
     )

@@ -5,8 +5,8 @@ from app.services.intelligence.models import (
 
 class OptimizationPlanBuilder:
     """
-    Builds an optimization plan from the
-    structured ResumeAnalysis and JDAnalysis.
+    Builds an optimization plan from
+    ResumeAnalysis and JDAnalysis.
     """
 
     @classmethod
@@ -14,7 +14,6 @@ class OptimizationPlanBuilder:
         cls,
         knowledge,
         job_description,
-        selected_skills: list[str],
     ) -> OptimizationPlan:
 
         keep = []
@@ -22,27 +21,31 @@ class OptimizationPlanBuilder:
         add = []
 
         # -----------------------------------------
-        # JD Skills
+        # Extract JD skills from JDAnalysis
         # -----------------------------------------
 
-        jd_skills = getattr(
-            job_description,
-            "skills",
-            [],
-        )
+        jd_skills = []
+
+        for skill in getattr(job_description, "skills", []):
+
+            skill_name = getattr(
+                skill,
+                "name",
+                str(skill),
+            )
+
+            jd_skills.append(skill_name)
 
         jd_skill_set = {
 
-            getattr(skill, "name", str(skill))
-            .lower()
-            .strip()
+            skill.lower().strip()
 
             for skill in jd_skills
 
         }
 
         # -----------------------------------------
-        # Resume Skills
+        # Compare Resume Skills
         # -----------------------------------------
 
         resume_skills = []
@@ -50,13 +53,9 @@ class OptimizationPlanBuilder:
         for skill in knowledge.skills:
 
             skill_name = getattr(
-
                 skill,
-
                 "name",
-
                 str(skill),
-
             )
 
             resume_skills.append(skill_name)
@@ -70,7 +69,7 @@ class OptimizationPlanBuilder:
                 remove.append(skill_name)
 
         # -----------------------------------------
-        # Add Only Selected Skills
+        # Missing JD Skills
         # -----------------------------------------
 
         resume_skill_set = {
@@ -81,21 +80,11 @@ class OptimizationPlanBuilder:
 
         }
 
-        for skill in selected_skills:
+        for skill in jd_skills:
 
-            skill_name = getattr(
+            if skill.lower().strip() not in resume_skill_set:
 
-                skill,
-
-                "name",
-
-                str(skill),
-
-            )
-
-            if skill_name.lower().strip() not in resume_skill_set:
-
-                add.append(skill_name)
+                add.append(skill)
 
         # -----------------------------------------
         # Build Plan
@@ -106,13 +95,9 @@ class OptimizationPlanBuilder:
             source_role=knowledge.detected_role,
 
             target_role=getattr(
-
                 job_description,
-
                 "title",
-
                 knowledge.detected_role,
-
             ),
 
             keep=keep,
@@ -123,15 +108,9 @@ class OptimizationPlanBuilder:
 
             warnings=[],
 
-            jd_skills=[
+            jd_skills=jd_skills,
 
-                getattr(skill, "name", str(skill))
-
-                for skill in jd_skills
-
-            ],
-
-            selected_skills=selected_skills,
+            selected_skills=add,
 
             max_skill_lines=5,
 

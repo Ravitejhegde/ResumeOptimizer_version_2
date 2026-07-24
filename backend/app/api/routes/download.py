@@ -7,21 +7,32 @@ from fastapi.responses import FileResponse
 from app.core.config import settings
 
 router = APIRouter(
-    prefix="/download",
-    tags=["Download"],
+    prefix="/resume",
+    tags=["Resume"],
 )
 
 
-@router.get("/{filename}")
-def download_resume(filename: str):
+@router.get("/download/{filename}")
+def download_resume(
+    filename: str,
+):
 
-    file_path = settings.EXPORT_PATH / filename
+    # -----------------------------------------
+    # Prevent path traversal
+    # -----------------------------------------
 
-    if not Path(file_path).exists():
+    filename = Path(filename).name
+
+    file_path = (
+        settings.EXPORT_DIR
+        / filename
+    )
+
+    if not file_path.exists():
 
         raise HTTPException(
             status_code=404,
-            detail="File not found."
+            detail="Optimized resume not found.",
         )
 
     return FileResponse(
@@ -30,6 +41,14 @@ def download_resume(filename: str):
 
         filename=filename,
 
-        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        media_type=(
+            "application/"
+            "vnd.openxmlformats-officedocument."
+            "wordprocessingml.document"
+        ),
+
+        headers={
+            "Cache-Control": "no-cache",
+        },
 
     )

@@ -1,19 +1,29 @@
-from dotenv import load_dotenv
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes.analysis import router as analysis_router
-from app.api.routes.auth import router as auth_router
-from app.api.routes.download import router as download_router
-from app.api.routes.job_description import router as job_router
-from app.api.routes.optimization import router as optimization_router
-from app.api.routes.resume import router as resume_router
-from app.api.routes.user import router as user_router
 from app.core.config import settings
-from app.database.init_db import initialize_database
 
+from app.api.routes.resume import router as resume_router
+from app.api.routes.job_description import router as job_router
+from app.api.routes.analysis import router as analysis_router
+from app.api.routes.optimization import router as optimization_router
+from app.api.routes.download import (
+    router as download_router,
+)
+from dotenv import load_dotenv
+from app.api.routes.auth import (
+    router as auth_router,
+)
+
+from app.api.routes.user import (
+    router as users_router,
+)
+from app.api.routes.user import (
+    router as user_router,
+)
+from app.api.routes.user import router as user_router
 load_dotenv()
+
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -30,67 +40,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.on_event("startup")
-async def startup() -> None:
-    """
-    Create required storage folders
-    and initialize the database.
-    """
-
-    settings.STORAGE_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.TEMP_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.RESUME_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.PREVIEW_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.EXPORT_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.LOG_PATH.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    initialize_database()
-
-
 app.include_router(resume_router)
 app.include_router(job_router)
 app.include_router(analysis_router)
 app.include_router(optimization_router)
-app.include_router(download_router)
+app.include_router(
+    download_router
+)
 app.include_router(auth_router)
+app.include_router(users_router)
 app.include_router(user_router)
+
+@app.on_event("startup")
+async def startup():
+    settings.TEMP_DIR.mkdir(parents=True, exist_ok=True)
+    settings.PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    settings.EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 @app.get("/")
-async def root():
+def root():
     return {
         "name": settings.APP_NAME,
         "version": settings.APP_VERSION,
-        "status": "running",
     }
 
 
 @app.get("/health")
-async def health():
+def health():
     return {
         "status": "healthy",
     }

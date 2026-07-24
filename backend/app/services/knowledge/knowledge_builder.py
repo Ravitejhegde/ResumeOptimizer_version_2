@@ -1,116 +1,90 @@
-from app.services.knowledge.extractors.achievement_extractor import AchievementExtractor
-from app.services.knowledge.extractors.certification_extractor import CertificationExtractor
-from app.services.knowledge.extractors.education_extractor import EducationExtractor
-from app.services.knowledge.extractors.email_extractor import EmailExtractor
-from app.services.knowledge.extractors.experience_extractor import ExperienceExtractor
-from app.services.knowledge.extractors.language_extractor import LanguageExtractor
-from app.services.knowledge.extractors.name_extractor import NameExtractor
-from app.services.knowledge.extractors.phone_extractor import PhoneExtractor
-from app.services.knowledge.extractors.project_extractor import ProjectExtractor
-from app.services.knowledge.extractors.skills_extractor import SkillsExtractor
-from app.services.knowledge.extractors.technology_extractor import TechnologyExtractor
-from app.services.knowledge.models import ResumeKnowledge
-from app.services.knowledge.section_detector import SectionDetector
-from app.services.parser.models import ResumeDocument
+import re
+
+from app.services.docx.document_block import DocumentBlock
+
+from app.services.knowledge.resume_knowledge import (
+    ResumeKnowledge,
+)
+
+from app.services.knowledge.technology_classifier import (
+    TechnologyClassifier,
+)
+
+from app.services.knowledge.section_detector import (
+    SectionDetector,
+)
+
+from app.services.knowledge.skill_occurrence import (
+    SkillOccurrence,
+)
 
 
 class KnowledgeBuilder:
-    """
-    Builds structured knowledge from a parsed resume.
-    """
 
     @staticmethod
     def build(
-        document: ResumeDocument,
+        blocks: list[DocumentBlock],
     ) -> ResumeKnowledge:
-
-        sections = SectionDetector.detect(
-            document,
-        )
-
-        text = "\n".join(
-            paragraph.text
-            for paragraph in document.paragraphs
-        )
 
         knowledge = ResumeKnowledge()
 
-        knowledge.sections = sections
+        current_section = "unknown"
 
-        knowledge.total_sections = len(
-            sections,
-        )
+        for block in blocks:
 
-        knowledge.detected_name = NameExtractor.extract(
-            document,
-        )
+            # Detect section headings
+            detected = SectionDetector.detect(block.text)
 
-        knowledge.detected_email = EmailExtractor.extract(
-            text,
-        )
+            if detected != "unknown":
+                current_section = detected
+                continue
 
-        knowledge.detected_phone = PhoneExtractor.extract(
-            text,
-        )
+            # Extract possible technologies
+            words = re.findall(
+                r"[A-Za-z0-9.+#-]+(?:\s+[A-Za-z0-9.+#-]+)?",
+                block.text,
+            )
 
-        knowledge.skills = SkillsExtractor.extract(
-            sections,
-        )
+            for word in words:
 
-        knowledge.technologies = TechnologyExtractor.extract(
-            sections,
-        )
+                category = TechnologyClassifier.classify(word)
 
-        knowledge.education = EducationExtractor.extract(
-            sections,
-        )
+                if category == "frontend":
 
-        knowledge.experience = ExperienceExtractor.extract(
-            sections,
-        )
+                    knowledge.frontend.add(word)
 
-        knowledge.projects = ProjectExtractor.extract(
-            sections,
-        )
+                    knowledge.skills.append(
 
-        knowledge.certifications = CertificationExtractor.extract(
-            sections,
-        )
+                        SkillOccurrence(
 
-        knowledge.languages = LanguageExtractor.extract(
-            sections,
-        )
+                            name=word,
 
-        knowledge.achievements = AchievementExtractor.extract(
-            sections,
-        )
+                            category=category,
 
-        knowledge.total_skills = len(
-            knowledge.skills,
-        )
+                            section=current_section,
 
-        knowledge.total_projects = len(
-            knowledge.projects,
-        )
+                            paragraph_id=block.paragraph_index,
 
-        knowledge.total_experience = len(
-            knowledge.experience,
-        )
+                        )
 
-        knowledge.total_education = len(
-            knowledge.education,
-        )
+                )
 
-        knowledge.has_summary = (
-            knowledge.summary != ""
-        )
+                elif category == "backend":
+                    knowledge.backend.add(word)
 
-        knowledge.has_projects = (
-            len(knowledge.projects) > 0
-        )
+                elif category == "database":
+                    knowledge.database.add(word)
 
-        knowledge.has_certifications = (
-            len(knowledge.certifications) > 0
-        )
+                elif category == "programming_languages":
+                    knowledge.programming_languages.add(word)
+
+                elif category == "cloud":
+                    knowledge.cloud.add(word)
+
+                elif category == "devops":
+                    knowledge.devops.add(word)
+
+                elif category == "tools":
+                    knowledge.tools.add(word)
 
         return knowledge

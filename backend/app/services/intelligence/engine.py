@@ -13,11 +13,9 @@ class IntelligenceEngine:
         cls,
         blocks,
         job_description,
-        selected_skills,
     ):
 
         return OptimizationPipeline.run(
             blocks=blocks,
             job_description=job_description,
-            selected_skills=selected_skills,
         )

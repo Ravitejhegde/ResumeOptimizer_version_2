@@ -25,7 +25,7 @@ from app.services.intelligence.evidence.evidence_optimizer import (
 
 class EvidenceBuilder:
     """
-    Builds normalized evidence from ResumeAnalysis.
+    Builds normalized evidence from ResumeKnowledge.
     """
 
     @classmethod
@@ -56,7 +56,7 @@ class EvidenceBuilder:
 
             SummaryEvidence.build(
                 knowledge.summary,
-                knowledge.skills,
+                knowledge.technologies,
             )
 
         )
@@ -68,7 +68,7 @@ class EvidenceBuilder:
         evidence.extend(
 
             SkillsEvidence.build(
-                knowledge.skills
+                knowledge.technologies
             )
 
         )

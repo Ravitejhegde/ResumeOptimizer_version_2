@@ -31,17 +31,45 @@ class PromptBuilder:
             context.plan.target_role,
         )
 
-        # -----------------------------------------
-        # Use Optimization Plan
-        # -----------------------------------------
+        reasoning = getattr(
+            context,
+            "reasoning",
+            None,
+        )
 
-        matched = context.plan.keep
+        matched = []
+        missing = []
+        recommendations = []
+        risks = []
 
-        missing = context.plan.add
+        if reasoning:
 
-        recommendations = context.plan.selected_skills
+            matched = reasoning.matched
 
-        risks = context.plan.warnings
+            missing = [
+                gap.name
+                for gap in reasoning.missing
+            ]
+
+            recommendations = [
+
+                recommendation.description
+
+                for recommendation
+
+                in reasoning.recommendations
+
+            ]
+
+            risks = [
+
+                risk.description
+
+                for risk
+
+                in reasoning.risks
+
+            ]
 
         return f"""
 ==============================

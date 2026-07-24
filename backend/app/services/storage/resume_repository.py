@@ -1,25 +1,17 @@
 from pathlib import Path
 
-from sqlalchemy.orm import Session
-
-from app.database.models.resume import Resume
+from app.core.config import settings
 
 
 class ResumeRepository:
 
     @staticmethod
-    def get_path(
-        db: Session,
-        resume_id: str,
-    ) -> Path | None:
+    def get_path(resume_id: str) -> Path | None:
 
-        resume = (
-            db.query(Resume)
-            .filter(Resume.id == resume_id)
-            .first()
-        )
+        for file in settings.TEMP_DIR.iterdir():
 
-        if resume is None:
-            return None
+            if file.stem == resume_id:
 
-        return Path(resume.file_path)
+                return file
+
+        return None

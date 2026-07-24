@@ -14,7 +14,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const UploadDropzone = ({
     onBrowse,
-    onDrop
+    onDrop,
 }: UploadDropzoneProps) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -23,9 +23,7 @@ const UploadDropzone = ({
 
     const [loading, setLoading] = useState(false);
 
-    const {
-        setState
-    } = useWorkspace();
+    const { setState } = useWorkspace();
 
     const upload = async (file: File) => {
 
@@ -35,19 +33,27 @@ const UploadDropzone = ({
 
             const response = await uploadResume(file);
 
+console.log("UPLOAD RESPONSE");
+console.log(response);
+console.log("UPLOAD RESPONSE", response);
+console.log("UPLOAD DATA", response.data);
+console.log("UPLOAD ID", response.data.id);
+
+            console.log("Upload Response:", response);
+
             setState(previous => ({
 
                 ...previous,
 
-                resume: {
+            resume: {
 
-                    id: response.resume_id,
+    id: response.data.id,
 
-                    filename: response.filename,
+    filename: response.data.original_filename,
 
-                    storedFilename: response.stored_filename
+    storedFilename: response.data.stored_filename,
 
-                }
+},
 
             }));
 

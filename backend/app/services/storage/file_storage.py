@@ -31,11 +31,11 @@ class FileStorage:
             await file.seek(0)
 
             return UploadResult(
-                resume_id=resume_id,
-                original_filename=file.filename,
-                stored_filename=stored_filename,
-                uploaded_at=datetime.now(timezone.utc),
-            )
+    id=resume_id,
+    original_filename=file.filename,
+    stored_filename=stored_filename,
+    uploaded_at=datetime.now(timezone.utc),
+)
 
         except Exception as e:
             raise StorageError(

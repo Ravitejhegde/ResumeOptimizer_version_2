@@ -1,9 +1,12 @@
-from app.database.session import SessionLocal
-from app.database.repositories.resume_repository import ResumeRepository
+from app.services.storage.resume_repository import ResumeRepository
 
 from app.services.resume.extractor import ResumeExtractor
 from app.services.resume.profile_builder import ResumeProfileBuilder
-from app.services.job_description.analyzer import JobDescriptionAnalyzer
+
+from app.services.job_description.analyzer import (
+    JobDescriptionAnalyzer,
+)
+
 from app.services.matching.matcher import ResumeMatcher
 
 
@@ -15,37 +18,29 @@ class ResumeAnalysisService:
         job_description: str,
     ):
 
-        db = SessionLocal()
+        resume_path = ResumeRepository.get_path(
+            resume_id
+        )
 
-        try:
+        if resume_path is None:
 
-            repository = ResumeRepository(db)
-
-            resume = repository.get(resume_id)
-
-            if resume is None:
-
-                raise FileNotFoundError(
-                    "Resume not found."
-                )
-
-            resume_text = ResumeExtractor.extract(
-                resume.file_path
+            raise FileNotFoundError(
+                "Resume not found."
             )
 
-            resume_profile = ResumeProfileBuilder.build(
-                resume_text
-            )
+        resume_text = ResumeExtractor.extract(
+            str(resume_path)
+        )
 
-            job_profile = JobDescriptionAnalyzer.analyze(
-                job_description
-            )
+        resume_profile = ResumeProfileBuilder.build(
+            resume_text
+        )
 
-            return ResumeMatcher.match(
-                resume_profile,
-                job_profile,
-            )
+        job_profile = JobDescriptionAnalyzer.analyze(
+            job_description
+        )
 
-        finally:
-
-            db.close()
+        return ResumeMatcher.match(
+            resume_profile,
+            job_profile,
+        )
