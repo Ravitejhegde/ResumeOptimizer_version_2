@@ -34,7 +34,9 @@ from app.database.models.pricing import Pricing
 from app.database.models.order import Order
 from app.database.models.payment_transaction import PaymentTransaction
 from app.database.models.subscription import Subscription
-
+from app.database.models.webhook_event import (
+    WebhookEvent,
+)
 
 def initialize_database() -> None:
     """

@@ -66,13 +66,47 @@ class BlockBuilder:
 
                         underline=run.underline,
 
-                        font_name=run.font_name,
+                        font_name=getattr(
+                            run,
+                            "font_name",
+                            getattr(run, "font", None),
+                        ),
 
-                        font_size=run.font_size,
+                        font_size=getattr(
+                            run,
+                            "font_size",
+                            getattr(run, "size", None),
+                        ),
 
-                        color=run.color,
+                        color=getattr(
+                            run,
+                            "color",
+                            None,
+                        ),
 
-                        hyperlink=run.hyperlink,
+                        hyperlink=getattr(
+                            run,
+                            "hyperlink",
+                            None,
+                        ),
+
+                        editable=getattr(
+                            run,
+                            "editable",
+                            True,
+                        ),
+
+                        object_type=getattr(
+                            run,
+                            "object_type",
+                            "text",
+                        ),
+
+                        locked_reason=getattr(
+                            run,
+                            "locked_reason",
+                            None,
+                        ),
 
                     )
 

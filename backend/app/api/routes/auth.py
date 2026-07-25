@@ -2,10 +2,13 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
-from app.core.auth.jwt import create_access_token
-from app.core.auth.password import hash_password
-from app.core.auth.password import verify_password
+from app.core.security.jwt import (
+    create_access_token,
+)
+from app.core.security.password import (
+    hash_password,
+    verify_password,
+)
 
 from app.database.models.user import User
 from app.database.models.workspace import Workspace

@@ -10,7 +10,7 @@ from app.services.document.snapshot.paragraph_snapshot import (
     ParagraphSnapshot,
 )
 
-from app.services.document.snapshot.run_snapshot import (
+from app.document.snapshot.run_snapshot import (
     RunSnapshot,
 )
 
@@ -47,19 +47,48 @@ class SnapshotBuilder:
 
                         RunSnapshot(
 
-                            text=run.text,
+    text=run.text,
 
-                            bold=run.bold,
+    bold=run.bold,
 
-                            italic=run.italic,
+    italic=run.italic,
 
-                            underline=run.underline,
+    underline=run.underline,
 
-                            font=run.font_name,
+    font_name=run.font_name,
 
-                            size=run.font_size,
+    font_size=run.font_size,
 
-                        )
+    color=getattr(
+        run,
+        "color",
+        None,
+    ),
+
+    hyperlink=getattr(
+        run,
+        "hyperlink",
+        None,
+    ),
+
+    editable=getattr(
+        run,
+        "editable",
+        True,
+    ),
+
+    object_type=getattr(
+        run,
+        "object_type",
+        "text",
+    ),
+
+    locked_reason=getattr(
+        run,
+        "locked_reason",
+        None,
+    ),
+)
 
                     )
 
@@ -99,7 +128,11 @@ class SnapshotBuilder:
 
                             style=link.style,
 
-                            paragraph_id=link.paragraph_id,
+                            paragraph_id=getattr(
+    link,
+    "paragraph_index",
+    None,
+),
 
                             run_index=link.run_index,
 

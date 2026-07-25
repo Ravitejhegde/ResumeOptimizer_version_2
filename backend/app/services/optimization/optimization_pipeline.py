@@ -5,7 +5,11 @@ from docx import Document
 from app.core.config import settings
 from app.core.logger import logger
 
-from app.document.parser.snapshot_builder import (
+from app.services.document.parser.document_parser import (
+    DocumentParser,
+)
+
+from app.services.document.snapshot.snapshot_builder import (
     SnapshotBuilder,
 )
 from app.document.parser.block_builder import (
@@ -55,10 +59,21 @@ class OptimizationPipeline:
         # Build Snapshot
         # -----------------------------------------
 
-        snapshot = SnapshotBuilder.build(
-            resume_path
-        )
+        # -----------------------------------------
+# Parse Document
+# -----------------------------------------
 
+        document_model = DocumentParser.parse(
+    resume_path
+)
+
+# -----------------------------------------
+# Build Snapshot
+# -----------------------------------------
+
+        snapshot = SnapshotBuilder.build(
+    document_model
+)
         # -----------------------------------------
         # Snapshot -> Blocks
         # -----------------------------------------

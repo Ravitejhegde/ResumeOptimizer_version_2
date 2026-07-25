@@ -1,0 +1,88 @@
+{
+    "IN": {
+        "starter": {
+            "name": "Starter",
+            "price": 29,
+            "currency": "INR",
+            "billing": "monthly",
+            "stripe_price_id": "price_starter_in_monthly",
+
+            "features": [
+                "resume_optimizer",
+                "ats_score",
+                "download_docx"
+            ],
+
+            "limits": {
+                "resume_optimizations": 100,
+                "ai_requests": 100,
+                "downloads": 100
+            }
+        },
+
+        "pro": {
+            "name": "Pro",
+            "price": 99,
+            "currency": "INR",
+            "billing": "monthly",
+            "stripe_price_id": "price_pro_in_monthly",
+
+            "features": [
+                "resume_optimizer",
+                "ats_score",
+                "download_docx",
+                "priority_ai"
+            ],
+
+            "limits": {
+                "resume_optimizations": 500,
+                "ai_requests": 500,
+                "downloads": 500
+            }
+        },
+
+        "unlimited": {
+            "name": "Unlimited",
+            "price": 299,
+            "currency": "INR",
+            "billing": "monthly",
+            "stripe_price_id": "price_unlimited_in_monthly",
+
+            "features": [
+                "resume_optimizer",
+                "ats_score",
+                "download_docx",
+                "priority_ai",
+                "future_features"
+            ],
+
+            "limits": {
+                "resume_optimizations": -1,
+                "ai_requests": -1,
+                "downloads": -1
+            }
+        }
+    },
+
+    "US": {
+        "starter": {
+            "name": "Starter",
+            "price": 4.99,
+            "currency": "USD",
+            "billing": "monthly",
+            "stripe_price_id": "price_starter_us_monthly",
+
+            "features": [
+                "resume_optimizer",
+                "ats_score",
+                "download_docx"
+            ],
+
+            "limits": {
+                "resume_optimizations": 100,
+                "ai_requests": 100,
+                "downloads": 100
+            }
+        }
+    }
+}

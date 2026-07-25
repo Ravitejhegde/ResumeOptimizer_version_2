@@ -43,10 +43,13 @@ class Feature(Base):
         nullable=False,
     )
 
-    description: Mapped[str | None] = mapped_column(
-        String(500),
-        nullable=True,
-    )
+    description: Mapped[str | None]
+
+    value_type: Mapped[str] = mapped_column(
+    String(20),
+    default="boolean",
+    nullable=False,
+)
 
     active: Mapped[bool] = mapped_column(
         Boolean,

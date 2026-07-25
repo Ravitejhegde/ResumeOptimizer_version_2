@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends
 
-from app.core.auth.dependencies import (
+from app.core.security.dependencies import (
     get_current_user,
 )
 from app.database.models.user import User

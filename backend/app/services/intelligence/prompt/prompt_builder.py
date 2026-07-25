@@ -15,7 +15,7 @@ from app.services.intelligence.prompt.optimization_rules import (
 
 class PromptBuilder:
     """
-    Builds the Brain v3 prompt.
+    Builds the ResumeOptimizer AI prompt.
     """
 
     @classmethod
@@ -31,16 +31,9 @@ class PromptBuilder:
             context.plan.target_role,
         )
 
-        # -----------------------------------------
-        # Use Optimization Plan
-        # -----------------------------------------
-
         matched = context.plan.keep
-
         missing = context.plan.add
-
         recommendations = context.plan.selected_skills
-
         risks = context.plan.warnings
 
         return f"""
@@ -114,12 +107,22 @@ STRICT INSTRUCTIONS
 
 - Never invent work experience.
 - Never invent companies.
-- Never change education.
+- Never modify education.
 - Never modify dates.
-- Never create fake technologies.
-- Rewrite only editable blocks.
+- Never invent technologies.
+- Rewrite ONLY editable content.
+- Preserve document structure.
 - Preserve paragraph count.
 - Preserve formatting.
+- Preserve run order.
+- Do not create new runs.
+- Do not remove runs.
+- Never modify hyperlinks.
+- Never modify URLs.
+- Never modify bookmarks.
+- Never modify comments.
+- Never modify hidden fields.
+- Never modify images.
 - Return ONLY valid JSON.
 
 ==============================
@@ -127,13 +130,40 @@ OUTPUT FORMAT
 ==============================
 
 {{
-    "version": 3,
-    "blocks": [
+  "version": 4,
+  "blocks": [
+    {{
+      "id": 1,
+      "status": "updated",
+      "runs": [
         {{
-            "id": 1,
-            "status": "updated",
-            "text": "Updated paragraph"
+          "index": 0,
+          "text": "Updated editable run"
+        }},
+        {{
+          "index": 3,
+          "text": "Another updated editable run"
         }}
-    ]
+      ]
+    }}
+  ]
 }}
+
+==============================
+IMPORTANT
+==============================
+
+- Return ONLY valid JSON.
+- Do not wrap the JSON inside markdown.
+- Return ONLY editable runs.
+- Never return hyperlinks.
+- Never return URLs.
+- Never return images.
+- Never return bookmarks.
+- Never return comments.
+- Never return hidden fields.
+- Never return locked runs.
+- Keep run indexes unchanged.
+- Preserve run order.
+- Update ONLY the text of editable runs.
 """

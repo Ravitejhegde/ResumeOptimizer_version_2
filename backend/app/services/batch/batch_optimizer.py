@@ -69,15 +69,52 @@ class BatchOptimizer:
         # Editable Blocks
         # -----------------------------------------
 
-        editable_blocks = [
+        # -----------------------------------------
+# Editable Blocks (Run Based)
+# -----------------------------------------
+
+        editable_blocks = []
+
+        for block in blocks:
+
+            if not block.can_optimize:
+                continue
+
+        editable_runs = []
+
+        for index, run in enumerate(block.runs):
+
+            if not getattr(run, "editable", True):
+                continue
+
+            if not run.text.strip():
+                continue
+
+        editable_runs.append(
+
             {
-                "id": block.id,
-                "type": block.block_type,
-                "text": block.text,
+
+                "index": index,
+
+                "text": run.text,
+
             }
-            for block in blocks
-            if block.can_optimize
-        ]
+
+        )
+
+        editable_blocks.append(
+
+        {
+
+            "id": block.id,
+
+            "type": block.block_type,
+
+            "runs": editable_runs,
+
+        }
+
+    )
 
         # -----------------------------------------
         # Prompt Context
@@ -159,7 +196,16 @@ Preserve formatting.
 
         logger.info(
             f"Editable blocks: {len(context.blocks)}"
-        )
+)
+
+        total_runs = sum(
+            len(block["runs"])
+            for block in context.blocks
+)
+
+        logger.info(
+            f"Editable runs: {total_runs}"
+)
 
         response = self.ai.generate(
             prompt

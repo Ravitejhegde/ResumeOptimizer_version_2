@@ -12,7 +12,29 @@ from app.api.routes.resume import router as resume_router
 from app.api.routes.user import router as user_router
 from app.core.config import settings
 from app.database.init_db import initialize_database
+from app.billing.routes.checkout import (
+    router as billing_checkout_router,
+)
 
+from app.billing.routes.plans import (
+    router as billing_plans_router,
+)
+
+from app.billing.routes.pricing import (
+    router as billing_pricing_router,
+)
+
+# from app.billing.routes.subscription import (
+#     router as billing_subscription_router,
+# )
+
+# from app.billing.routes.portal import (
+#     router as billing_portal_router,
+# )
+
+from app.billing.routes.webhook import (
+    router as billing_webhook_router,
+)
 load_dotenv()
 
 app = FastAPI(
@@ -78,7 +100,29 @@ app.include_router(optimization_router)
 app.include_router(download_router)
 app.include_router(auth_router)
 app.include_router(user_router)
+app.include_router(
+    billing_checkout_router
+)
 
+app.include_router(
+    billing_plans_router
+)
+
+app.include_router(
+    billing_pricing_router
+)
+
+# app.include_router(
+#     billing_subscription_router
+# )
+
+# app.include_router(
+#     billing_portal_router
+# )
+
+app.include_router(
+    billing_webhook_router
+)
 
 @app.get("/")
 async def root():

@@ -25,9 +25,9 @@ async def upload_resume(
     service = UploadService(db)
 
     resume = await service.upload_resume(
-        workspace_id=1,
-        file=file,
-    )
+    workspace_id="b0beec5d-28bd-4f51-a104-6e006cd3e617",
+    file=file,
+)
 
     return {
         "resume_id": resume.id,

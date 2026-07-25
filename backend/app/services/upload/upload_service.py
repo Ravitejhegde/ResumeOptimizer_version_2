@@ -79,7 +79,11 @@ class UploadService:
 
             return resume
 
-        except Exception:
+        except Exception as e:
+
+            import traceback
+
+            traceback.print_exc()
 
             StorageService.delete_resume(
                 file_path
@@ -87,5 +91,5 @@ class UploadService:
 
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Unable to upload resume.",
+                detail=str(e),
             )
