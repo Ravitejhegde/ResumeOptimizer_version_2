@@ -100,9 +100,10 @@ class RunParser:
 
             if font.color:
 
-                model.color = str(
-                    font.color.rgb
-                )
+                if font.color.rgb:
+                    model.color = str(
+                        font.color.rgb
+                    )
 
                 model.theme_color = str(
                     font.color.theme_color

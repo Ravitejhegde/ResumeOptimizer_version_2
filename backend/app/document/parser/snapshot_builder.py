@@ -10,6 +10,10 @@ from app.document.snapshot.run_snapshot import (
     RunSnapshot,
 )
 
+from app.services.hyperlink.parser.hyperlink_parser import (
+    HyperlinkParser,
+)
+
 
 class SnapshotBuilder:
 
@@ -31,6 +35,18 @@ class SnapshotBuilder:
                 style=paragraph.style.name,
 
             )
+
+            # -----------------------------------------
+            # Parse Hyperlinks
+            # -----------------------------------------
+
+            para.hyperlinks = HyperlinkParser.parse(
+                paragraph
+            )
+
+            # -----------------------------------------
+            # Parse Runs
+            # -----------------------------------------
 
             for run in paragraph.runs:
 
@@ -69,9 +85,6 @@ class SnapshotBuilder:
 
                         color=color,
 
-                        # Placeholder.
-                        # Real hyperlink extraction
-                        # will be added in the next step.
                         hyperlink=None,
 
                     )

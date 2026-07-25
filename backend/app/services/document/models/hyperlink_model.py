@@ -4,7 +4,9 @@ from dataclasses import dataclass
 @dataclass
 class HyperlinkModel:
     """
-    Represents one hyperlink in a Word document.
+    Represents a hyperlink extracted from a Word document.
+    Preserves both hyperlink metadata and its position so it
+    can be recreated exactly during document generation.
     """
 
     # -----------------------------------------
@@ -12,21 +14,16 @@ class HyperlinkModel:
     # -----------------------------------------
 
     text: str = ""
-
     url: str = ""
-
     tooltip: str = ""
 
     # -----------------------------------------
-    # Type
+    # Hyperlink Type
     # -----------------------------------------
 
     is_external: bool = True
-
     bookmark: str = ""
-
     email: str = ""
-
     phone: str = ""
 
     # -----------------------------------------
@@ -40,17 +37,16 @@ class HyperlinkModel:
     # -----------------------------------------
 
     color: str = ""
-
     underline: bool = True
-
     visited: bool = False
-
     style: str = ""
 
     # -----------------------------------------
-    # Position
+    # Document Position
     # -----------------------------------------
 
     paragraph_id: int = -1
 
-    run_index: int = -1
+    # A hyperlink may span multiple runs
+    start_run: int = -1
+    end_run: int = -1

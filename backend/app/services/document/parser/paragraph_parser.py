@@ -3,12 +3,17 @@ from docx.text.paragraph import Paragraph
 from app.services.document.models.paragraph_model import (
     ParagraphModel,
 )
-
+from app.services.document.locker.run_locker import (
+    RunLocker,
+)
 from app.services.document.parser.run_parser import (
     RunParser,
 )
 
-from app.services.document.parser.hyperlink_parser import (
+from app.services.hyperlink.parser.hyperlink_parser import (
+    HyperlinkParser,
+)
+from app.services.hyperlink.parser.hyperlink_parser import (
     HyperlinkParser,
 )
 
@@ -120,11 +125,18 @@ class ParagraphParser:
             # Hyperlinks
             # -----------------------------------------
 
-            model.hyperlinks = (
-                HyperlinkParser.parse(
-                    paragraph
-                )
-            )
+            model.hyperlinks = HyperlinkParser.parse(
+    paragraph
+)
+            # -----------------------------------------
+# Lock non-editable runs
+# -----------------------------------------
+
+            RunLocker.lock(
+    paragraph=paragraph,
+    runs=model.runs,
+    hyperlinks=model.hyperlinks,
+)
 
             result.append(model)
 

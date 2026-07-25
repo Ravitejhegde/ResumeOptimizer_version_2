@@ -1,9 +1,38 @@
+from docx.oxml.ns import qn
+
 from .run_formatter import (
     RunFormatter,
 )
 
 
 class RunTextDistributor:
+
+    @staticmethod
+    def _is_hyperlink_run(run) -> bool:
+        """
+        Returns True if this run belongs to a hyperlink.
+        """
+
+        parent = run._element.getparent()
+
+        return (
+            parent is not None
+            and parent.tag == qn("w:hyperlink")
+        )
+
+    @staticmethod
+    def _editable_runs(paragraph):
+
+        editable = []
+
+        for index, run in enumerate(paragraph.runs):
+
+            if RunTextDistributor._is_hyperlink_run(run):
+                continue
+
+            editable.append(index)
+
+        return editable
 
     @staticmethod
     def distribute(
@@ -39,17 +68,15 @@ class RunTextDistributor:
 
         # ------------------------------------------
         # Editable runs
+        # (Hyperlink runs are skipped)
         # ------------------------------------------
 
-        editable = []
-
-        for i, snapshot in enumerate(block.runs):
-
-            if not snapshot.bold:
-                editable.append(i)
+        editable = RunTextDistributor._editable_runs(
+            paragraph
+        )
 
         if not editable:
-            editable = [len(runs) - 1]
+            return
 
         # ------------------------------------------
         # Original editable text lengths
@@ -61,6 +88,9 @@ class RunTextDistributor:
 
         for i in editable:
 
+            if i >= len(block.runs):
+                continue
+
             length = len(block.runs[i].text)
 
             if length <= 0:
@@ -70,11 +100,15 @@ class RunTextDistributor:
 
             total_length += length
 
+        if total_length == 0:
+            total_length = 1
+
         # ------------------------------------------
         # Clear editable runs
         # ------------------------------------------
 
         for i in editable:
+
             runs[i].text = ""
 
         text = block.text
@@ -93,13 +127,17 @@ class RunTextDistributor:
 
                 break
 
-            share = original_lengths[position] / total_length
+            share = (
+                original_lengths[position]
+                / total_length
+            )
 
-            characters = int(len(text) * share)
+            characters = int(
+                len(text) * share
+            )
 
             end = start + characters
 
-            # Avoid cutting a word in half
             while (
                 end < len(text)
                 and end > start
@@ -107,6 +145,8 @@ class RunTextDistributor:
             ):
                 end += 1
 
-            runs[run_index].text = text[start:end].strip()
+            runs[run_index].text = (
+                text[start:end].strip()
+            )
 
             start = end

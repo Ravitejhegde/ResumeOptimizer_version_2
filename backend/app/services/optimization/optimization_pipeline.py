@@ -78,6 +78,16 @@ class OptimizationPipeline:
     job_description=job_description,
     selected_skills=selected_skills,
 )
+        # -----------------------------------------
+# Preserve hyperlinks
+# -----------------------------------------
+
+        for original, optimized in zip(
+        blocks,
+        optimized_blocks,
+        ):
+
+            optimized.hyperlinks = original.hyperlinks
 
         # -----------------------------------------
         # Validate Layout

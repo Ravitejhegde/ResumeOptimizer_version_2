@@ -5,7 +5,9 @@ from docx.shared import Pt
 from app.services.document.models.paragraph_model import (
     ParagraphModel,
 )
-
+from app.services.document.writer.hyperlink_writer import (
+    HyperlinkWriter,
+)
 from app.services.document.writer.run_writer import (
     RunWriter,
 )
@@ -110,3 +112,7 @@ class ParagraphWriter:
                 paragraph,
                 paragraph_model.runs,
             )
+            HyperlinkWriter.write(
+    paragraph,
+    paragraph_model.hyperlinks,
+)

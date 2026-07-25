@@ -12,6 +12,10 @@ from app.services.docx.document_run import (
 
 
 class BlockBuilder:
+    """
+    Converts a DocumentSnapshot into editable
+    DocumentBlock objects used by the optimizer.
+    """
 
     @staticmethod
     def build(
@@ -23,6 +27,10 @@ class BlockBuilder:
         for index, paragraph in enumerate(
             snapshot.paragraphs
         ):
+
+            # -----------------------------------------
+            # Create Block
+            # -----------------------------------------
 
             block = DocumentBlock(
 
@@ -36,7 +44,13 @@ class BlockBuilder:
 
                 style=paragraph.style,
 
+                hyperlinks=paragraph.hyperlinks,
+
             )
+
+            # -----------------------------------------
+            # Copy Runs
+            # -----------------------------------------
 
             for run in paragraph.runs:
 
