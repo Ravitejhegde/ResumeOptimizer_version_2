@@ -9,7 +9,7 @@ from app.engine.models.page_geometry import (
 
 class PageGeometryReader:
     """
-    Reads physical page geometry from a Word section.
+    Reads page geometry from a Word document section.
     """
 
     @staticmethod
@@ -17,27 +17,25 @@ class PageGeometryReader:
         section: Section,
     ) -> PageGeometry:
 
-        setup = section
-
         return PageGeometry(
 
-            width=setup.page_width.pt,
+            width=section.page_width.pt,
 
-            height=setup.page_height.pt,
+            height=section.page_height.pt,
 
-            margin_left=setup.left_margin.pt,
+            margin_left=section.left_margin.pt,
 
-            margin_right=setup.right_margin.pt,
+            margin_right=section.right_margin.pt,
 
-            margin_top=setup.top_margin.pt,
+            margin_top=section.top_margin.pt,
 
-            margin_bottom=setup.bottom_margin.pt,
+            margin_bottom=section.bottom_margin.pt,
 
-            header_distance=setup.header_distance.pt,
+            header_distance=section.header_distance.pt,
 
-            footer_distance=setup.footer_distance.pt,
+            footer_distance=section.footer_distance.pt,
 
-            gutter=setup.gutter.pt,
+            gutter=section.gutter.pt,
 
             columns=1,
 

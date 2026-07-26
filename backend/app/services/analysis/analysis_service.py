@@ -1,18 +1,39 @@
-from app.database.session import SessionLocal
-from app.database.repositories.resume_repository import ResumeRepository
+from __future__ import annotations
 
-from app.services.resume.extractor import ResumeExtractor
-from app.services.resume.profile_builder import ResumeProfileBuilder
-from app.services.job_description.analyzer import JobDescriptionAnalyzer
-from app.services.matching.matcher import ResumeMatcher
+from app.database.session import SessionLocal
+from app.database.repositories.resume_repository import (
+    ResumeRepository,
+)
+
+from app.engine.analyzer.document_analyzer import (
+    DocumentAnalyzer,
+)
+from app.engine.knowledge.knowledge_base import (
+    KnowledgeBase,
+)
+from app.engine.reader.parser import (
+    DocumentParser,
+)
 
 
 class ResumeAnalysisService:
+    """
+    Analysis service powered by the new V3 engine.
+
+    Responsibilities
+    ----------------
+    - Load resume
+    - Parse document
+    - Analyze document
+    - Return analysis result
+
+    This service NEVER performs optimization.
+    """
 
     @staticmethod
     def analyze(
         resume_id: str,
-        job_description: str,
+        job_description: str | None = None,
     ):
 
         db = SessionLocal()
@@ -24,27 +45,30 @@ class ResumeAnalysisService:
             resume = repository.get(resume_id)
 
             if resume is None:
-
                 raise FileNotFoundError(
                     "Resume not found."
                 )
 
-            resume_text = ResumeExtractor.extract(
+            # Parse DOCX using the new engine
+            document = DocumentParser.parse(
                 resume.file_path
             )
 
-            resume_profile = ResumeProfileBuilder.build(
-                resume_text
+            # Initialize knowledge
+            knowledge = KnowledgeBase()
+
+            knowledge.initialize()
+
+            # Analyze document
+            analyzer = DocumentAnalyzer(
+                knowledge
             )
 
-            job_profile = JobDescriptionAnalyzer.analyze(
-                job_description
+            analysis = analyzer.analyze(
+                document
             )
 
-            return ResumeMatcher.match(
-                resume_profile,
-                job_profile,
-            )
+            return analysis
 
         finally:
 

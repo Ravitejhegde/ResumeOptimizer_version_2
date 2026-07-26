@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
 from app.schemas.analysis import ResumeAnalysisRequest
-from app.schemas.match import MatchResponse
 
 from app.services.analysis.analysis_service import (
     ResumeAnalysisService,
@@ -9,27 +8,19 @@ from app.services.analysis.analysis_service import (
 
 router = APIRouter(
     prefix="/analysis",
-    
     tags=["Analysis"],
 )
 
 
-@router.post(
-    "/match",
-    response_model=MatchResponse,
-)
+@router.post("/match")
 async def match_resume(
     request: ResumeAnalysisRequest,
 ):
-
     try:
 
         return ResumeAnalysisService.analyze(
-
             request.resume_id,
-
             request.job_description,
-
         )
 
     except FileNotFoundError as e:

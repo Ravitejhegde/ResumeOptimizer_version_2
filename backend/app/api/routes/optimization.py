@@ -7,10 +7,13 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from app.database.repositories.resume_repository import (
+    ResumeRepository,
+)
 from app.database.session import get_db
-from app.database.repositories.resume_repository import ResumeRepository
-from app.services.optimization.optimization_pipeline import (
-    OptimizationPipeline,
+
+from app.engine.orchestrator import (
+    ResumeOptimizationEngine,
 )
 
 router = APIRouter(
@@ -36,33 +39,48 @@ def optimize_resume(
 
     repository = ResumeRepository(db)
 
-    resume = repository.get(request.resume_id)
+    resume = repository.get(
+        request.resume_id
+    )
 
     if resume is None:
 
         raise HTTPException(
             status_code=404,
-            detail="Resume not found."
+            detail="Resume not found.",
         )
 
-    resume_path = Path(resume.file_path)
+    resume_path = Path(
+        resume.file_path
+    )
 
     if not resume_path.exists():
 
         raise HTTPException(
             status_code=404,
-            detail="Resume file not found."
+            detail="Resume file not found.",
         )
 
     try:
 
-        pipeline = OptimizationPipeline()
+        engine = ResumeOptimizationEngine()
 
-        result = pipeline.optimize(
+        output_path = (
+            resume_path.parent
+            / f"{resume_path.stem}_optimized.docx"
+        )
 
-            resume_path=str(resume_path),
+        engine.optimize(
 
-            job_description=request.job_description,
+            input_docx=str(
+                resume_path
+            ),
+
+            output_docx=str(
+                output_path
+            ),
+
+            resume_skills=[],
 
             selected_skills=request.selected_skills,
 
@@ -72,27 +90,22 @@ def optimize_resume(
 
             "success": True,
 
-            "optimized_filename": result.get(
-                "optimized_filename"
-            ),
+            "optimized_filename": output_path.name,
 
-            "blocks": result.get(
-                "blocks",
-                []
+            "output_path": str(
+                output_path
             ),
-
-            "layout": result.get(
-                "layout",
-                {}
-            )
 
         }
 
-    except Exception:
+    except Exception as exc:
 
         traceback.print_exc()
 
         raise HTTPException(
+
             status_code=500,
-            detail="Resume optimization failed."
+
+            detail=str(exc),
+
         )
