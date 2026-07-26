@@ -1,18 +1,20 @@
 from __future__ import annotations
 
-from dataclasses import replace
-
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.paragraph import (
+    Paragraph,
+)
 
 
 class TextOptimizer:
     """
-    Applies rewritten text to a paragraph.
+    Applies AI-generated text to an existing paragraph.
 
-    This class NEVER calls AI.
-
-    It simply applies already-approved text while
-    preserving every formatting object.
+    Responsibilities
+    ----------------
+    - Never calls AI
+    - Never changes formatting
+    - Never changes runs except their text
+    - Updates the paragraph in-place
     """
 
     @staticmethod
@@ -21,18 +23,13 @@ class TextOptimizer:
         optimized_text: str,
     ) -> Paragraph:
 
-        new_paragraph = replace(
-            paragraph
-        )
+        if not paragraph.runs:
+            return paragraph
 
-        if not new_paragraph.runs:
+        paragraph.runs[0].text = optimized_text
 
-            return new_paragraph
-
-        new_paragraph.runs[0].text = optimized_text
-
-        for run in new_paragraph.runs[1:]:
+        for run in paragraph.runs[1:]:
 
             run.text = ""
 
-        return new_paragraph
+        return paragraph

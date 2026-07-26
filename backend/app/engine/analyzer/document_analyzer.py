@@ -1,14 +1,24 @@
 from __future__ import annotations
 
-from app.engine.analyzer.ats_analyzer import ATSAnalyzer
-from app.engine.analyzer.keyword_analyzer import KeywordAnalyzer
+from app.engine.analyzer.ats_analyzer import (
+    ATSAnalyzer,
+)
+from app.engine.analyzer.keyword_analyzer import (
+    KeywordAnalyzer,
+)
 from app.engine.analyzer.structure_analyzer import (
     StructureAnalyzer,
 )
 from app.engine.knowledge.knowledge_base import (
     KnowledgeBase,
 )
-from app.engine.models.document import Document
+from app.engine.models.analysis_result import (
+    AnalysisResult,
+    StructureAnalysisResult,
+)
+from app.engine.models.document import (
+    Document,
+)
 
 
 class DocumentAnalyzer:
@@ -17,10 +27,11 @@ class DocumentAnalyzer:
 
     Central analysis coordinator.
 
-    This class orchestrates all analyzers and
-    returns a complete understanding of the resume.
-
-    It NEVER modifies the document.
+    Responsibilities
+    ----------------
+    - Coordinate analyzers
+    - Aggregate analysis results
+    - Never modify the document
     """
 
     def __init__(
@@ -41,32 +52,38 @@ class DocumentAnalyzer:
     def analyze(
         self,
         document: Document,
-    ) -> dict:
+    ) -> AnalysisResult:
 
-        keywords = (
+        keyword_result = (
             self._keyword_analyzer.analyze(
                 document
             )
         )
 
-        structure = (
+        structure_result = (
             self._structure_analyzer.analyze(
                 document
             )
         )
 
-        ats = (
+        ats_result = (
             self._ats_analyzer.analyze(
                 document
             )
         )
 
-        return {
+        if not isinstance(
+            structure_result,
+            StructureAnalysisResult,
+        ):
+            structure_result = (
+                StructureAnalysisResult(
+                    sections=[]
+                )
+            )
 
-            "keywords": keywords,
-
-            "structure": structure,
-
-            "ats": ats,
-
-        }
+        return AnalysisResult(
+            keywords=keyword_result,
+            structure=structure_result,
+            ats=ats_result,
+        )

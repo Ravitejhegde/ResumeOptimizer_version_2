@@ -2,10 +2,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.paragraph import (
+    Paragraph,
+)
+from app.engine.planner.layout_budget_planner import (
+    LayoutConstraints,
+)
 from app.engine.validator.layout_validator import (
-    LayoutValidator,
     LayoutValidationResult,
+    LayoutValidator,
 )
 
 
@@ -17,7 +22,7 @@ class ContentValidationResult:
 
     valid: bool
 
-    message: str | None = None
+    message: str |None = None
 
     layout_result: LayoutValidationResult | None = None
 
@@ -37,6 +42,7 @@ class ContentValidator:
     def validate(
         paragraph: Paragraph,
         optimized_text: str,
+        constraints: LayoutConstraints | None,
     ) -> ContentValidationResult:
 
         if not paragraph.editable:
@@ -46,15 +52,19 @@ class ContentValidator:
             )
 
         if not optimized_text.strip():
-            return ContentValidationResult(
-                valid=False,
-                message="Optimized text is empty.",
-            )
 
-        if paragraph.layout_budget is not None:
+            return ContentValidationResult(
+        valid=False,
+        message=(
+            f"Optimized text is empty "
+            f"(Paragraph: {paragraph.id})"
+        ),
+    )
+
+        if constraints is not None:
 
             layout_result = LayoutValidator.validate(
-                budget=paragraph.layout_budget,
+                constraints=constraints,
                 optimized_text=optimized_text,
             )
 

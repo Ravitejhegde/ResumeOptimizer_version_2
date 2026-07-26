@@ -2,20 +2,20 @@ from __future__ import annotations
 
 from collections import defaultdict
 
+from app.engine.knowledge.taxonomy import (
+    TechnologyTaxonomy,
+)
+
 
 class SkillCategorizer:
     """
-    Organizes technologies into logical categories.
-
-    The categorizer NEVER guesses categories.
-
-    It uses the TechnologyTaxonomy as the
-    single source of truth.
+    Organizes technologies into categories
+    using the TechnologyTaxonomy.
     """
 
     def __init__(
         self,
-        taxonomy,
+        taxonomy: TechnologyTaxonomy,
     ) -> None:
 
         self._taxonomy = taxonomy
@@ -27,44 +27,20 @@ class SkillCategorizer:
 
         categorized = defaultdict(list)
 
-        unknown = []
-
         for skill in skills:
 
-            technology = self._taxonomy.get(skill)
-
-            if technology is None:
-
-                unknown.append(skill)
-
-                continue
-
-            categorized[
-                technology.category
-            ].append(
-                technology.name
+            category = self._taxonomy.category_of(
+                skill
             )
 
-        if unknown:
+            if category is None:
+                category = "unknown"
 
             categorized[
-                "Unknown"
-            ] = sorted(
-                unknown
-            )
-
-        result = {}
-
-        for category in sorted(categorized):
-
-            result[
                 category
-            ] = sorted(
-                set(
-                    categorized[
-                        category
-                    ]
-                )
-            )
+            ].append(skill)
 
-        return result
+        return {
+            category: sorted(set(values))
+            for category, values in categorized.items()
+        }

@@ -23,11 +23,8 @@ router = APIRouter(
 
 
 class OptimizeRequest(BaseModel):
-
     resume_id: str
-
     job_description: str
-
     selected_skills: list[str] = []
 
 
@@ -37,24 +34,34 @@ def optimize_resume(
     db: Session = Depends(get_db),
 ):
 
+    print("=" * 80)
+    print("OPTIMIZATION REQUEST")
+    print("=" * 80)
+    print("Resume ID:", request.resume_id)
+    print("Selected Skills:", request.selected_skills)
+    print("=" * 80)
+
     repository = ResumeRepository(db)
 
-    resume = repository.get(
-        request.resume_id
-    )
+    resume = repository.get(request.resume_id)
 
     if resume is None:
+
+        print("❌ Resume not found in database.")
 
         raise HTTPException(
             status_code=404,
             detail="Resume not found.",
         )
 
-    resume_path = Path(
-        resume.file_path
-    )
+    print("✅ Resume found.")
+    print("File Path:", resume.file_path)
+
+    resume_path = Path(resume.file_path)
 
     if not resume_path.exists():
+
+        print("❌ Resume file missing:", resume_path)
 
         raise HTTPException(
             status_code=404,
@@ -71,31 +78,15 @@ def optimize_resume(
         )
 
         engine.optimize(
-
-            input_docx=str(
-                resume_path
-            ),
-
-            output_docx=str(
-                output_path
-            ),
-
-            resume_skills=[],
-
+            input_docx=str(resume_path),
+            output_docx=str(output_path),
             selected_skills=request.selected_skills,
-
         )
 
         return {
-
             "success": True,
-
             "optimized_filename": output_path.name,
-
-            "output_path": str(
-                output_path
-            ),
-
+            "output_path": str(output_path),
         }
 
     except Exception as exc:
@@ -103,9 +94,6 @@ def optimize_resume(
         traceback.print_exc()
 
         raise HTTPException(
-
             status_code=500,
-
             detail=str(exc),
-
         )

@@ -4,23 +4,18 @@ from pathlib import Path
 
 from docx import Document as DocxDocument
 
-from app.engine.models.document import Document
-from app.engine.writer.layout_writer import LayoutWriter
+from app.engine.models.document import (
+    Document,
+)
+from app.engine.writer.layout_writer import (
+    LayoutWriter,
+)
 
 
 class DocxWriter:
     """
-    Writes the optimized document back to a DOCX file.
-
-    Responsibilities
-    ----------------
-    - Preserve document formatting
-    - Preserve paragraph order
-    - Preserve run formatting
-    - Preserve hyperlinks
-    - Save optimized document
-
-    This class NEVER performs optimization.
+    Writes an optimized engine Document back
+    to a DOCX file while preserving formatting.
     """
 
     @staticmethod
@@ -50,28 +45,28 @@ class DocxWriter:
 
             engine_paragraph = document.paragraphs[index]
 
-            optimized_text = engine_paragraph.text
+            engine_paragraph = LayoutWriter.apply(
+    paragraph=engine_paragraph,
+    optimized_text=engine_paragraph.text,
+)
 
-            # Apply optimized text while preserving
-            # formatting information stored in the
-            # engine paragraph.
-            LayoutWriter.apply(
-                engine_paragraph,
-                optimized_text,
-            )
-
-            if docx_paragraph.runs:
-
-                docx_paragraph.runs[0].text = optimized_text
-
-                for run in docx_paragraph.runs[1:]:
-
-                    run.text = ""
-
-            else:
+            if not docx_paragraph.runs:
 
                 docx_paragraph.add_run(
-                    optimized_text
+                    engine_paragraph.text
                 )
+
+                continue
+
+            original_runs = len(docx_paragraph.runs)
+
+            docx_paragraph.runs[0].text = (
+                engine_paragraph.text
+            )
+
+            for run in docx_paragraph.runs[
+                1:original_runs
+            ]:
+                run.text = ""
 
         doc.save(output_file)

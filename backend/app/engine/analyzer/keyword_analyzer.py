@@ -5,15 +5,27 @@ import re
 from app.engine.knowledge.knowledge_base import (
     KnowledgeBase,
 )
-from app.engine.models.document import Document
+from app.engine.models.analysis_result import (
+    KeywordAnalysisResult,
+)
+from app.engine.models.document import (
+    Document,
+)
 
 
 class KeywordAnalyzer:
     """
-    Extracts normalized technologies and keywords
-    from a resume.
+    Extracts and understands technologies found
+    in a resume.
 
-    This analyzer never modifies the document.
+    Responsibilities
+    ----------------
+    - Extract keywords
+    - Normalize technologies
+    - Remove duplicates
+    - Categorize skills
+
+    Never modifies the document.
     """
 
     def __init__(
@@ -26,24 +38,44 @@ class KeywordAnalyzer:
     def analyze(
         self,
         document: Document,
-    ) -> list[str]:
+    ) -> KeywordAnalysisResult:
 
-        keywords: list[str] = []
+        extracted: list[str] = []
 
         for paragraph in document.paragraphs:
 
-            text = paragraph.text
-
             words = re.findall(
-
                 r"[A-Za-z0-9.+#-]+",
-
-                text,
-
+                paragraph.text,
             )
 
-            keywords.extend(words)
+            extracted.extend(words)
 
-        return self._knowledge.normalizer.normalize_many(
-            keywords
+        normalized = self._knowledge.normalizer.normalize_many(
+            extracted
+        )
+
+        unique_skills = sorted(
+            set(normalized)
+        )
+
+        duplicates = sorted(
+            {
+                skill
+                for skill in normalized
+                if normalized.count(skill) > 1
+            }
+        )
+
+        categorized = (
+            self._knowledge.categorizer.categorize(
+                unique_skills
+            )
+        )
+
+        return KeywordAnalysisResult(
+            detected_skills=sorted(set(extracted)),
+            normalized_skills=unique_skills,
+            categorized_skills=categorized,
+            duplicate_skills=duplicates,
         )

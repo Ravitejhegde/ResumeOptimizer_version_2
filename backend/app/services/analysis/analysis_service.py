@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from app.database.session import SessionLocal
 from app.database.repositories.resume_repository import (
     ResumeRepository,
 )
+from app.database.session import SessionLocal
 
 from app.engine.analyzer.document_analyzer import (
     DocumentAnalyzer,
@@ -18,16 +18,16 @@ from app.engine.reader.parser import (
 
 class ResumeAnalysisService:
     """
-    Analysis service powered by the new V3 engine.
+    V3 Resume Analysis Service.
 
     Responsibilities
     ----------------
     - Load resume
     - Parse document
-    - Analyze document
-    - Return analysis result
+    - Run analysis
+    - Return frontend-ready response
 
-    This service NEVER performs optimization.
+    Never performs optimization.
     """
 
     @staticmethod
@@ -42,24 +42,22 @@ class ResumeAnalysisService:
 
             repository = ResumeRepository(db)
 
-            resume = repository.get(resume_id)
+            resume = repository.get(
+                resume_id
+            )
 
             if resume is None:
                 raise FileNotFoundError(
                     "Resume not found."
                 )
 
-            # Parse DOCX using the new engine
             document = DocumentParser.parse(
                 resume.file_path
             )
 
-            # Initialize knowledge
             knowledge = KnowledgeBase()
-
             knowledge.initialize()
 
-            # Analyze document
             analyzer = DocumentAnalyzer(
                 knowledge
             )
@@ -68,7 +66,19 @@ class ResumeAnalysisService:
                 document
             )
 
-            return analysis
+            return {
+
+                "score": analysis.ats.score,
+
+                "matched_skills": (
+                    analysis.keywords.normalized_skills
+                ),
+
+                "missing_skills": [],
+
+                "extra_skills": [],
+
+            }
 
         finally:
 

@@ -1,50 +1,68 @@
+from __future__ import annotations
+
 import json
+
+from app.services.ai.batch.batch_models import (
+    BatchRewriteResult,
+    ParagraphRewriteResult,
+)
 
 
 class BatchResponseParser:
     """
-    Parses the JSON response returned by the AI.
+    Parses the JSON returned by the AI after
+    batch resume rewriting.
     """
 
-    @classmethod
+    @staticmethod
     def parse(
-        cls,
         response: str,
-    ) -> dict:
-
-        if not response:
-            return {}
-
-        response = response.strip()
-
-        # Remove Markdown code fences if present
-        if response.startswith("```"):
-
-            lines = response.splitlines()
-
-            if lines:
-                lines = lines[1:]
-
-            if lines and lines[-1].startswith("```"):
-                lines = lines[:-1]
-
-            response = "\n".join(lines).strip()
+        provider: str,
+    ) -> BatchRewriteResult:
 
         try:
 
+            response = response.strip()
+
+            # Remove Markdown code fences if present.
+            if response.startswith("```"):
+                lines = response.splitlines()
+
+                if lines and lines[0].startswith("```"):
+                    lines = lines[1:]
+
+                if lines and lines[-1].startswith("```"):
+                    lines = lines[:-1]
+
+                response = "\n".join(lines).strip()
+
             data = json.loads(response)
 
-            if isinstance(data, dict):
-                return data
+            paragraphs = []
 
-        except json.JSONDecodeError as e:
+            for item in data.get("paragraphs", []):
 
-            print()
-            print("=" * 60)
-            print("INVALID AI RESPONSE")
-            print("=" * 60)
+                paragraphs.append(
+                    ParagraphRewriteResult(
+                        id=item["id"],
+                        text=item["text"].strip(),
+                    )
+                )
+
+            return BatchRewriteResult(
+                paragraphs=paragraphs,
+                success=True,
+                provider=provider,
+            )
+
+        except Exception as e:
+
+            print("\n===== BATCH PARSER ERROR =====")
             print(e)
-            print(response)
-            print("=" * 60)
+            print("==============================\n")
 
-        return {}
+            return BatchRewriteResult(
+                paragraphs=[],
+                success=False,
+                provider=provider,
+            )

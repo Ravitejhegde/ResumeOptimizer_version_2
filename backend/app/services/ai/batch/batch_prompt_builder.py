@@ -1,165 +1,218 @@
+from __future__ import annotations
+
+import json
+
+from app.services.ai.batch.batch_models import (
+    BatchRewriteRequest,
+)
+
+
 class BatchPromptBuilder:
     """
-    Builds high-quality prompts for rewriting
-    resume paragraphs while preserving truth,
-    formatting, and ATS relevance.
+    Builds a single prompt for rewriting
+    an entire resume.
+
+    One Resume
+        ↓
+    One Prompt
+        ↓
+    One AI Call
     """
 
-    @classmethod
+    @staticmethod
     def build(
-        cls,
-        paragraphs,
-        optimization_plan,
-        job_description,
+        request: BatchRewriteRequest,
     ) -> str:
 
-        keep = ", ".join(
-            map(
-                str,
-                getattr(
-                    optimization_plan,
-                    "keep",
-                    [],
-                ),
-            )
-        )
+        payload = {
+            "target_role": request.target_role,
+            "selected_skills": request.selected_skills,
+            "locked": request.locked.model_dump(),
+            "paragraphs": [
+                {
+                    "id": paragraph.id,
+                    "type": paragraph.type,
+                    "layout": {
+                        "target_characters": paragraph.max_characters,
+                        "hard_limit_characters": paragraph.max_characters,
+                        "target_words": paragraph.max_words,
+                        "hard_limit_words": paragraph.max_words,
+                        "preserve_layout": True,
+                    },
+                    "rewrite": paragraph.rewrite,
+                    "text": paragraph.text,
+                }
+                for paragraph in request.paragraphs
+            ],
+        }
 
-        add = ", ".join(
-            map(
-                str,
-                getattr(
-                    optimization_plan,
-                    "add",
-                    [],
-                ),
-            )
-        )
+        return f"""
+You are ResumeOptimizer AI.
 
-        remove = ", ".join(
-            map(
-                str,
-                getattr(
-                    optimization_plan,
-                    "remove",
-                    [],
-                ),
-            )
-        )
+Your job is to optimize an existing DOCX resume for ATS while preserving its original layout.
 
-        warnings = "\n".join(
-            getattr(
-                optimization_plan,
-                "warnings",
-                [],
-            )
-        )
+The optimization will be inserted back into the original Microsoft Word document.
 
-        prompt = f"""
-You are a senior ATS Resume Optimization Expert.
-
-Your task is to rewrite ONLY the supplied resume paragraphs.
+Breaking the layout is considered a failure.
 
 ==================================================
-JOB DESCRIPTION
+PRIORITY ORDER
 ==================================================
 
-{job_description}
+Priority 1
+-----------
+Preserve document layout.
 
-==================================================
-OPTIMIZATION PLAN
-==================================================
+Priority 2
+-----------
+Never exceed layout limits.
 
-Keep Skills:
-{keep}
+Priority 3
+-----------
+Never invent information.
 
-Add Skills:
-{add}
+Priority 4
+-----------
+Improve ATS score.
 
-Remove Skills:
-{remove}
-
-Warnings:
-{warnings}
-
-==================================================
-OBJECTIVE
-==================================================
-
-Rewrite the supplied resume paragraphs so they
-better match the Job Description while remaining
-100% truthful.
+Priority 5
+-----------
+Improve grammar and readability.
 
 ==================================================
 STRICT RULES
 ==================================================
 
-1. NEVER invent work experience.
+1. Never invent experience.
 
-2. NEVER invent projects.
+2. Never invent projects.
 
-3. NEVER invent companies.
+3. Never invent technologies.
 
-4. NEVER invent education.
+4. Never change:
 
-5. NEVER invent certifications.
+   • Company names
+   • Dates
+   • Degree names
+   • College names
+   • Project names
 
-6. NEVER invent dates.
+5. Preserve the original meaning.
 
-7. NEVER claim experience with technologies
-the candidate has never used.
+6. Improve ATS keywords naturally.
 
-8. Add only relevant ATS keywords naturally.
+7. Remove weak wording.
 
-9. Preserve the original meaning.
+8. Use strong action verbs.
 
-10. Preserve approximately the same paragraph length.
+9. Keep professional language.
 
-11. Improve grammar and readability.
+10. Preserve paragraph type.
 
-12. Do NOT use Markdown.
+11. Do not change paragraph order.
 
-13. Do NOT use bullet points unless the original
-paragraph already contains bullets.
+12. Never merge paragraphs.
 
-14. Return ONLY a valid JSON object.
+13. Never split paragraphs.
 
-15. Do NOT include explanations.
+14. Never create extra paragraphs.
 
-16. Do NOT include code fences.
+15. Never create bullet points unless they already exist.
 
-17. The response must start with "{{" and end with "}}".
+16. Never create blank lines.
+
+17. Never output Markdown.
+
+18. Never output explanations.
+
+19. Return ONLY valid JSON.
+
+==================================================
+LAYOUT RULES
+==================================================
+
+Every paragraph contains layout constraints.
+
+For EACH paragraph:
+
+• Stay close to target_words.
+
+• Stay close to target_characters.
+
+• NEVER exceed:
+
+    hard_limit_words
+
+or
+
+    hard_limit_characters
+
+If your rewrite exceeds a limit:
+
+Rewrite it internally until it fits.
+
+Do NOT return an oversized paragraph.
+
+==================================================
+QUALITY RULES
+==================================================
+
+Every rewritten paragraph must:
+
+✓ Improve ATS
+
+✓ Improve readability
+
+✓ Preserve facts
+
+✓ Preserve formatting intent
+
+✓ Fit inside the supplied layout budget
+
+==================================================
+SELF VALIDATION
+==================================================
+
+Before returning JSON, verify:
+
+✓ Valid JSON
+
+✓ Every paragraph has an id
+
+✓ Every paragraph has text
+
+✓ No Markdown
+
+✓ No explanations
+
+✓ No missing paragraphs
+
+✓ No extra paragraphs
+
+✓ All layout limits satisfied
+
+If any check fails,
+
+rewrite internally before returning.
 
 ==================================================
 OUTPUT FORMAT
 ==================================================
 
-Return ONLY this JSON object.
+Return ONLY this JSON:
 
 {{
-    "P00001": "rewritten paragraph",
-    "P00002": "rewritten paragraph"
+    "paragraphs": [
+        {{
+            "id": "P00001",
+            "text": "Optimized paragraph"
+        }}
+    ]
 }}
 
-Do not write anything before or after the JSON.
-
 ==================================================
-PARAGRAPHS
+RESUME DATA
 ==================================================
-"""
 
-        for paragraph in paragraphs:
-
-            prompt += f"""
-
-----------------------------------------
-
-Paragraph ID:
-{paragraph.id}
-
-Original Text:
-
-{paragraph.text}
-
-"""
-
-        return prompt
+{json.dumps(payload, indent=2)}
+""".strip()
