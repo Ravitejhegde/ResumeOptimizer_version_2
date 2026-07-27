@@ -1,0 +1,186 @@
+{
+    "metadata": {
+        "domain": "software_engineering",
+        "version": "1.0.0",
+        "category": "programming_languages",
+        "description": "Programming language synonyms and aliases"
+    },
+
+    "synonyms": [
+
+        {
+            "canonical": "python",
+            "aliases": [
+                "py"
+            ]
+        },
+
+        {
+            "canonical": "java",
+            "aliases": [
+                "core java",
+                "java se",
+                "java ee",
+                "jdk"
+            ]
+        },
+
+        {
+            "canonical": "javascript",
+            "aliases": [
+                "js",
+                "ecmascript",
+                "es6",
+                "es7",
+                "es8",
+                "es2020",
+                "es2021",
+                "es2022"
+            ]
+        },
+
+        {
+            "canonical": "typescript",
+            "aliases": [
+                "ts"
+            ]
+        },
+
+        {
+            "canonical": "c",
+            "aliases": [
+                "ansi c"
+            ]
+        },
+
+        {
+            "canonical": "cpp",
+            "aliases": [
+                "c++",
+                "cplusplus",
+                "c plus plus"
+            ]
+        },
+
+        {
+            "canonical": "csharp",
+            "aliases": [
+                "c#",
+                "c sharp",
+                "dotnet",
+                ".net",
+                ".net core",
+                ".net framework",
+                "asp.net"
+            ]
+        },
+
+        {
+            "canonical": "go",
+            "aliases": [
+                "golang"
+            ]
+        },
+
+        {
+            "canonical": "kotlin",
+            "aliases": [
+                "kt"
+            ]
+        },
+
+        {
+            "canonical": "swift",
+            "aliases": [
+                "swift ui",
+                "swiftui"
+            ]
+        },
+
+        {
+            "canonical": "objective_c",
+            "aliases": [
+                "objective c",
+                "objc"
+            ]
+        },
+
+        {
+            "canonical": "php",
+            "aliases": [
+                "php8",
+                "php 8",
+                "php7",
+                "php 7"
+            ]
+        },
+
+        {
+            "canonical": "ruby",
+            "aliases": [
+                "ruby language"
+            ]
+        },
+
+        {
+            "canonical": "r",
+            "aliases": [
+                "r language"
+            ]
+        },
+
+        {
+            "canonical": "matlab",
+            "aliases": [
+                "matrix laboratory"
+            ]
+        },
+
+        {
+            "canonical": "dart",
+            "aliases": [
+                "dart language"
+            ]
+        },
+
+        {
+            "canonical": "vb_net",
+            "aliases": [
+                "vb",
+                "visual basic",
+                "visual basic .net",
+                "vb.net"
+            ]
+        },
+
+        {
+            "canonical": "fsharp",
+            "aliases": [
+                "f#",
+                "f sharp"
+            ]
+        },
+
+        {
+            "canonical": "powershell",
+            "aliases": [
+                "windows powershell",
+                "pwsh"
+            ]
+        },
+
+        {
+            "canonical": "assembly",
+            "aliases": [
+                "asm"
+            ]
+        },
+
+        {
+            "canonical": "solidity",
+            "aliases": [
+                "sol"
+            ]
+        }
+    ]
+}

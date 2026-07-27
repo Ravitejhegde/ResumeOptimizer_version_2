@@ -28,25 +28,13 @@ from app.engine.knowledge.transition_rules import (
 
 class KnowledgeBase:
     """
-    Central knowledge registry for ResumeOptimizer.
+    Central knowledge registry.
 
-    This is the single source of truth for every
-    knowledge component used by the engine.
-
-    Analyzer
-        ↓
-    Planner
-        ↓
-    Optimizer
-
-    All access the same KnowledgeBase instance.
+    All analyzers, planners and optimizers
+    share the same knowledge instance.
     """
 
     def __init__(self) -> None:
-
-        # -----------------------------------------
-        # Core Knowledge
-        # -----------------------------------------
 
         self.taxonomy = TechnologyTaxonomy()
 
@@ -60,10 +48,6 @@ class KnowledgeBase:
 
         self.section_rules = SectionRules()
 
-        # -----------------------------------------
-        # Intelligent Services
-        # -----------------------------------------
-
         self.normalizer = SkillNormalizer(
             self.synonyms
         )
@@ -73,18 +57,193 @@ class KnowledgeBase:
         )
 
     def initialize(self) -> None:
-        """
-        Bootstraps the knowledge base.
 
-        Later this method will load
+        self._load_taxonomy()
 
-        - Technology taxonomy
-        - Synonyms
-        - Role profiles
-        - Transition rules
-        - Technology graph
-        - Section rules
+        self._load_synonyms()
 
-        from versioned knowledge datasets.
-        """
-        pass
+    # --------------------------------------------------
+
+    def _load_taxonomy(
+        self,
+    ) -> None:
+
+        # -----------------------------
+        # Programming Languages
+        # -----------------------------
+
+        self.taxonomy.register(
+            "Programming Language",
+            "Python",
+            "Java",
+            "JavaScript",
+            "TypeScript",
+            "C",
+            "C++",
+            "C#",
+            ".NET",
+            "SQL",
+        )
+
+        # -----------------------------
+        # Backend
+        # -----------------------------
+
+        self.taxonomy.register(
+            "Backend",
+            "FastAPI",
+            "Flask",
+            "Django",
+            "Spring Boot",
+            "Node.js",
+            "Express",
+            "REST API",
+        )
+
+        # -----------------------------
+        # AI / ML
+        # -----------------------------
+
+        self.taxonomy.register(
+            "AI / ML",
+            "TensorFlow",
+            "PyTorch",
+            "YOLO",
+            "OpenCV",
+            "Machine Learning",
+            "Deep Learning",
+            "Artificial Intelligence",
+            "Computer Vision",
+            "Natural Language Processing",
+            "Scikit Learn",
+        )
+
+        # -----------------------------
+        # Database
+        # -----------------------------
+
+        self.taxonomy.register(
+            "Database",
+            "PostgreSQL",
+            "MySQL",
+            "MongoDB",
+            "Redis",
+        )
+
+        # -----------------------------
+        # Cloud
+        # -----------------------------
+
+        self.taxonomy.register(
+            "Cloud",
+            "AWS",
+            "Azure",
+            "GCP",
+            "Firebase",
+        )
+
+        # -----------------------------
+        # DevOps
+        # -----------------------------
+
+        self.taxonomy.register(
+            "DevOps",
+            "Docker",
+            "Kubernetes",
+            "Git",
+            "GitHub",
+            "CI/CD",
+        )
+
+        # -----------------------------
+        # Libraries
+        # -----------------------------
+
+        self.taxonomy.register(
+            "Libraries",
+            "NumPy",
+            "Pandas",
+            "Streamlit",
+            "OpenAI",
+            "Postman",
+        )
+
+    # --------------------------------------------------
+
+    def _load_synonyms(
+        self,
+    ) -> None:
+
+        self.synonyms.register(
+            "artificial intelligence",
+            "ai",
+        )
+
+        self.synonyms.register(
+            "machine learning",
+            "ml",
+        )
+
+        self.synonyms.register(
+            "natural language processing",
+            "nlp",
+        )
+
+        self.synonyms.register(
+            "speech recognition",
+            "asr",
+        )
+
+        self.synonyms.register(
+            "text to speech",
+            "tts",
+        )
+
+        self.synonyms.register(
+            "javascript",
+            "js",
+        )
+
+        self.synonyms.register(
+            "typescript",
+            "ts",
+        )
+
+        self.synonyms.register(
+            "node.js",
+            "nodejs",
+            "node js",
+        )
+
+        self.synonyms.register(
+            "rest api",
+            "rest",
+            "restful api",
+            "restful apis",
+        )
+
+        self.synonyms.register(
+            "postgresql",
+            "postgres",
+            "postgre sql",
+        )
+
+        self.synonyms.register(
+            "scikit learn",
+            "sklearn",
+        )
+
+        self.synonyms.register(
+            "computer vision",
+            "cv",
+        )
+
+        self.synonyms.register(
+            "continuous integration",
+            "ci",
+        )
+
+        self.synonyms.register(
+            "continuous delivery",
+            "cd",
+        )

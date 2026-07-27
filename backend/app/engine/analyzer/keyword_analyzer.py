@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import re
-
 from app.engine.knowledge.knowledge_base import (
     KnowledgeBase,
+)
+from app.engine.knowledge.technology_extractor import (
+    TechnologyExtractor,
 )
 from app.engine.models.analysis_result import (
     KeywordAnalysisResult,
@@ -15,16 +16,16 @@ from app.engine.models.document import (
 
 class KeywordAnalyzer:
     """
-    Extracts and understands technologies found
-    in a resume.
+    Extracts technologies from the resume.
 
     Responsibilities
     ----------------
-    - Extract keywords
-    - Normalize technologies
-    - Remove duplicates
-    - Categorize skills
+    • Detect technologies
+    • Normalize technologies
+    • Remove duplicates
+    • Categorize technologies
 
+    Never extracts arbitrary words.
     Never modifies the document.
     """
 
@@ -35,29 +36,47 @@ class KeywordAnalyzer:
 
         self._knowledge = knowledge
 
+        self._extractor = TechnologyExtractor(
+            taxonomy=knowledge.taxonomy,
+            normalizer=knowledge.normalizer,
+        )
+
     def analyze(
         self,
         document: Document,
     ) -> KeywordAnalysisResult:
 
-        extracted: list[str] = []
+        detected: list[str] = []
+
+        # -----------------------------------------
+        # Extract technologies
+        # -----------------------------------------
 
         for paragraph in document.paragraphs:
 
-            words = re.findall(
-                r"[A-Za-z0-9.+#-]+",
-                paragraph.text,
+            detected.extend(
+                self._extractor.extract(
+                    paragraph.text
+                )
             )
 
-            extracted.extend(words)
+        # -----------------------------------------
+        # Normalize
+        # -----------------------------------------
 
-        normalized = self._knowledge.normalizer.normalize_many(
-            extracted
+        normalized = (
+            self._knowledge.normalizer.normalize_many(
+                detected
+            )
         )
 
-        unique_skills = sorted(
+        unique = sorted(
             set(normalized)
         )
+
+        # -----------------------------------------
+        # Duplicate technologies
+        # -----------------------------------------
 
         duplicates = sorted(
             {
@@ -67,15 +86,24 @@ class KeywordAnalyzer:
             }
         )
 
+        # -----------------------------------------
+        # Categorize
+        # -----------------------------------------
+
         categorized = (
             self._knowledge.categorizer.categorize(
-                unique_skills
+                unique
             )
         )
 
         return KeywordAnalysisResult(
-            detected_skills=sorted(set(extracted)),
-            normalized_skills=unique_skills,
+
+            detected_skills=unique,
+
+            normalized_skills=unique,
+
             categorized_skills=categorized,
+
             duplicate_skills=duplicates,
+
         )

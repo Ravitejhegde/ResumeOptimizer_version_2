@@ -2,24 +2,21 @@ from __future__ import annotations
 
 from dataclasses import replace
 
-from app.engine.models.paragraph import Paragraph
-from app.engine.planner.skill_planner import SkillPlan
+from app.engine.models.paragraph import (
+    Paragraph,
+)
+from app.engine.planner.skill_planner import (
+    SkillPlan,
+)
 
 
 class SkillOptimizer:
     """
-    Updates the Skills section according to the
-    approved SkillPlan.
+    Updates the Skills section using the
+    prepared SkillPlan.
 
-    Responsibilities
-    ----------------
-    - Preserve existing skills
-    - Insert approved missing skills
-    - Preserve category structure
-    - Preserve formatting
-    - Preserve run order
-
-    This class NEVER calls AI.
+    No AI.
+    No business logic.
     """
 
     @staticmethod
@@ -39,7 +36,12 @@ class SkillOptimizer:
         if not optimized.runs:
             return optimized
 
-        optimized.runs[0].text = optimized_text
+        # Preserve formatting by only
+        # replacing the text of existing runs.
+
+        optimized.runs[0].text = (
+            optimized_text
+        )
 
         for run in optimized.runs[1:]:
 

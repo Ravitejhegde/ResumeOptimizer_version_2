@@ -2,6 +2,22 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from app.engine.models.optimization_strategy import (
+    OptimizationStrategy,
+)
+from app.engine.models.role_profile import (
+    RoleProfile,
+)
+from app.engine.models.skill_gap import (
+    SkillGap,
+)
+from app.engine.models.skill_priority import (
+    SkillPriority,
+)
+from app.engine.models.technology_category import (
+    TechnologyCategory,
+)
+
 
 @dataclass(slots=True)
 class KeywordAnalysisResult:
@@ -17,7 +33,10 @@ class KeywordAnalysisResult:
         default_factory=list
     )
 
-    categorized_skills: dict[str, list[str]] = field(
+    categorized_skills: dict[
+        str,
+        list[str],
+    ] = field(
         default_factory=dict
     )
 
@@ -62,10 +81,35 @@ class StructureAnalysisResult:
 class AnalysisResult:
     """
     Complete document analysis.
+
+    Produced by DocumentAnalyzer and
+    consumed by the Planner.
     """
+
+    # Existing analyzers
 
     keywords: KeywordAnalysisResult
 
     structure: StructureAnalysisResult
 
     ats: ATSAnalysisResult
+
+    # Intelligence layer
+
+    optimization_strategy: OptimizationStrategy
+
+    role_profile: RoleProfile | None = None
+
+    technology_categories: list[
+        TechnologyCategory
+    ] = field(
+        default_factory=list
+    )
+
+    prioritized_skills: list[
+        SkillPriority
+    ] = field(
+        default_factory=list
+    )
+
+    skill_gap: SkillGap | None = None

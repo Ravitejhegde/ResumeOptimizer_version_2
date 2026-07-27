@@ -8,7 +8,12 @@ from app.engine.knowledge.knowledge_base import (
 from app.engine.models.analysis_result import (
     AnalysisResult,
 )
-from app.engine.models.document import Document
+from app.engine.models.document import (
+    Document,
+)
+from app.engine.models.optimization_strategy import (
+    OptimizationStrategy,
+)
 from app.engine.planner.change_detector import (
     ChangeDecision,
     ChangeDetector,
@@ -28,11 +33,13 @@ class OptimizationPlan:
     """
     Complete optimization plan.
 
-    This is the ONLY object consumed by
-    the OptimizationCoordinator.
+    This is consumed by the
+    OptimizationCoordinator.
     """
 
     document: Document
+
+    optimization_strategy: OptimizationStrategy | None = None
 
     paragraph_changes: dict[
         str,
@@ -53,7 +60,12 @@ class OptimizationPlan:
 
 class PlanBuilder:
     """
-    Builds the complete optimization plan.
+    Builds the execution plan.
+
+    Intelligence decisions are already
+    computed by IntelligenceEngine.
+
+    This planner only prepares execution.
     """
 
     def __init__(
@@ -77,16 +89,16 @@ class PlanBuilder:
             ChangeDecision,
         ] = {}
 
-        rewrite_paragraph_ids: set[str] = set()
+        rewrite_ids: set[str] = set()
 
         layout_constraints: dict[
             str,
             LayoutConstraints,
         ] = {}
 
-        # ----------------------------------------
+        # ----------------------------------
         # Paragraph Decisions
-        # ----------------------------------------
+        # ----------------------------------
 
         for paragraph in document.paragraphs:
 
@@ -99,7 +111,8 @@ class PlanBuilder:
             ] = decision
 
             if decision.should_rewrite:
-                rewrite_paragraph_ids.add(
+
+                rewrite_ids.add(
                     paragraph.id
                 )
 
@@ -111,23 +124,38 @@ class PlanBuilder:
                     paragraph.layout_budget
                 )
 
-        # ----------------------------------------
-        # Skill Plan
-        # ----------------------------------------
+        # ----------------------------------
+        # Skills Planning
+        # ----------------------------------
 
         skill_plan = self._skill_planner.build(
-            resume_skills=analysis.keywords.normalized_skills,
+
+            resume_skills=(
+                analysis.keywords.normalized_skills
+            ),
+
             selected_skills=selected_skills,
+
         )
 
-        # ----------------------------------------
+        # ----------------------------------
         # Final Plan
-        # ----------------------------------------
+        # ----------------------------------
 
         return OptimizationPlan(
+
             document=document,
+
+            optimization_strategy=(
+                analysis.optimization_strategy
+            ),
+
             paragraph_changes=paragraph_changes,
-            rewrite_paragraph_ids=rewrite_paragraph_ids,
+
+            rewrite_paragraph_ids=rewrite_ids,
+
             skill_plan=skill_plan,
+
             layout_constraints=layout_constraints,
+
         )

@@ -1,21 +1,22 @@
 from __future__ import annotations
 
-from app.engine.analyzer.ats_analyzer import (
-    ATSAnalyzer,
+from app.engine.analyzer.ats_analyzer import ATSAnalyzer
+from app.engine.analyzer.keyword_analyzer import KeywordAnalyzer
+from app.engine.analyzer.structure_analyzer import StructureAnalyzer
+
+from app.engine.intelligence.intelligence_engine import (
+    IntelligenceEngine,
 )
-from app.engine.analyzer.keyword_analyzer import (
-    KeywordAnalyzer,
-)
-from app.engine.analyzer.structure_analyzer import (
-    StructureAnalyzer,
-)
+
 from app.engine.knowledge.knowledge_base import (
     KnowledgeBase,
 )
+
 from app.engine.models.analysis_result import (
     AnalysisResult,
     StructureAnalysisResult,
 )
+
 from app.engine.models.document import (
     Document,
 )
@@ -23,15 +24,14 @@ from app.engine.models.document import (
 
 class DocumentAnalyzer:
     """
-    ResumeOptimizer V3
-
     Central analysis coordinator.
 
     Responsibilities
     ----------------
-    - Coordinate analyzers
-    - Aggregate analysis results
-    - Never modify the document
+    • Keyword analysis
+    • Structure analysis
+    • ATS analysis
+    • Delegate intelligence building
     """
 
     def __init__(
@@ -48,6 +48,10 @@ class DocumentAnalyzer:
         )
 
         self._ats_analyzer = ATSAnalyzer()
+
+        self._intelligence = (
+            IntelligenceEngine()
+        )
 
     def analyze(
         self,
@@ -66,12 +70,6 @@ class DocumentAnalyzer:
             )
         )
 
-        ats_result = (
-            self._ats_analyzer.analyze(
-                document
-            )
-        )
-
         if not isinstance(
             structure_result,
             StructureAnalysisResult,
@@ -82,8 +80,37 @@ class DocumentAnalyzer:
                 )
             )
 
-        return AnalysisResult(
-            keywords=keyword_result,
-            structure=structure_result,
-            ats=ats_result,
+        ats_result = (
+            self._ats_analyzer.analyze(
+                document
+            )
         )
+
+        analysis = AnalysisResult(
+
+            keywords=keyword_result,
+
+            structure=structure_result,
+
+            ats=ats_result,
+
+            optimization_strategy=None,
+
+            role_profile=None,
+
+            technology_categories=[],
+
+            prioritized_skills=[],
+
+            skill_gap=None,
+
+        )
+
+        analysis.optimization_strategy = (
+            self._intelligence.build(
+                document=document,
+                analysis=analysis,
+            )
+        )
+
+        return analysis

@@ -27,7 +27,12 @@ class LayoutValidationResult:
 class LayoutValidator:
     """
     Validates optimized content against the
-    planner-generated layout constraints.
+    REAL document layout limits.
+
+    The AI receives safe limits.
+
+    Validation always uses the original
+    measured DOCX capacity.
     """
 
     @staticmethod
@@ -49,14 +54,18 @@ class LayoutValidator:
             optimized_text.count("\n") + 1,
         )
 
+        # -------------------------------------
+        # Validate against REAL limits
+        # -------------------------------------
+
         character_overflow = (
             character_count >
-            constraints.max_characters
+            constraints.hard_limit_characters
         )
 
         word_overflow = (
             word_count >
-            constraints.max_words
+            constraints.hard_limit_words
         )
 
         line_overflow = (
@@ -79,27 +88,54 @@ class LayoutValidator:
                 line_overflow=False,
             )
 
-        reasons = []
+        reasons: list[str] = []
 
         if character_overflow:
+
             reasons.append(
-                f"Characters {character_count}/{constraints.max_characters}"
+
+                f"Characters "
+
+                f"{character_count}/"
+
+                f"{constraints.hard_limit_characters}"
+
             )
 
         if word_overflow:
+
             reasons.append(
-                f"Words {word_count}/{constraints.max_words}"
+
+                f"Words "
+
+                f"{word_count}/"
+
+                f"{constraints.hard_limit_words}"
+
             )
 
         if line_overflow:
+
             reasons.append(
-                f"Lines {estimated_lines}/{constraints.max_lines}"
+
+                f"Lines "
+
+                f"{estimated_lines}/"
+
+                f"{constraints.max_lines}"
+
             )
 
         return LayoutValidationResult(
+
             valid=False,
+
             character_overflow=character_overflow,
+
             word_overflow=word_overflow,
+
             line_overflow=line_overflow,
+
             message=" | ".join(reasons),
+
         )

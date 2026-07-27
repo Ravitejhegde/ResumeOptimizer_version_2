@@ -7,13 +7,13 @@ from app.engine.knowledge.knowledge_base import (
 )
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True)
 class SkillPlan:
     """
-    Planning result for the Skills section.
+    Simple skill planning.
 
-    The planner never modifies the resume.
-    It only decides WHAT should happen.
+    Intelligence is handled by
+    IntelligenceEngine.
     """
 
     existing_skills: list[str] = field(
@@ -38,18 +38,11 @@ class SkillPlan:
 
 class SkillPlanner:
     """
-    Creates the optimization plan for the
-    Skills section.
+    Builds the basic skill plan.
 
-    Responsibilities
-    ----------------
-    • Normalize skills
-    • Remove duplicates
-    • Detect missing skills
-    • Categorize technologies
-
-    Never edits the document.
-    Never calls AI.
+    Role detection, prioritization,
+    categorization and promotion are now
+    handled by IntelligenceEngine.
     """
 
     def __init__(
@@ -65,19 +58,21 @@ class SkillPlanner:
         selected_skills: list[str],
     ) -> SkillPlan:
 
-        existing = (
+        existing = sorted(
+
             self._knowledge.normalizer.normalize_many(
                 resume_skills
             )
+
         )
 
-        selected = (
+        selected = sorted(
+
             self._knowledge.normalizer.normalize_many(
                 selected_skills
             )
-        )
 
-        existing_set = set(existing)
+        )
 
         missing = sorted(
 
@@ -85,22 +80,22 @@ class SkillPlanner:
 
             for skill in selected
 
-            if skill not in existing_set
-
-        )
-
-        merged = sorted(
-
-            existing_set.union(
-                selected
-            )
+            if skill not in existing
 
         )
 
         categorized = (
+
             self._knowledge.categorizer.categorize(
-                merged
+
+                sorted(
+                    set(existing).union(
+                        selected
+                    )
+                )
+
             )
+
         )
 
         return SkillPlan(

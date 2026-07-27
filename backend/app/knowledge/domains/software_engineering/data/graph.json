@@ -1,0 +1,83 @@
+{
+    "metadata": {
+        "domain": "software_engineering",
+        "version": "1.0.0",
+        "description": "Technology relationship graph"
+    },
+
+    "relationships": [
+
+        {
+            "technology": "python",
+            "related": [
+                "fastapi",
+                "flask",
+                "django",
+                "tensorflow",
+                "opencv",
+                "numpy",
+                "pandas"
+            ]
+        },
+
+        {
+            "technology": "java",
+            "related": [
+                "spring_boot",
+                "hibernate",
+                "maven",
+                "gradle"
+            ]
+        },
+
+        {
+            "technology": "javascript",
+            "related": [
+                "typescript",
+                "react",
+                "angular",
+                "vue",
+                "nodejs",
+                "express",
+                "nextjs"
+            ]
+        },
+
+        {
+            "technology": "typescript",
+            "related": [
+                "angular",
+                "react",
+                "nextjs",
+                "nestjs"
+            ]
+        },
+
+        {
+            "technology": "csharp",
+            "related": [
+                "dotnet",
+                "aspnet_core",
+                "entity_framework"
+            ]
+        },
+
+        {
+            "technology": "go",
+            "related": [
+                "gin",
+                "fiber",
+                "docker",
+                "kubernetes"
+            ]
+        },
+
+        {
+            "technology": "dart",
+            "related": [
+                "flutter"
+            ]
+        }
+
+    ]
+}

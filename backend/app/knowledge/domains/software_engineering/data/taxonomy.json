@@ -1,0 +1,181 @@
+{
+    "metadata": {
+        "domain": "software_engineering",
+        "version": "1.0.0",
+        "author": "ResumeOptimizer",
+        "description": "Software Engineering Knowledge Taxonomy",
+        "last_updated": "2026-07-27"
+    },
+
+    "categories": [
+        {
+            "id": "programming_languages",
+            "name": "Programming Languages"
+        },
+        {
+            "id": "frontend",
+            "name": "Frontend"
+        },
+        {
+            "id": "backend",
+            "name": "Backend"
+        },
+        {
+            "id": "mobile",
+            "name": "Mobile"
+        },
+        {
+            "id": "desktop",
+            "name": "Desktop"
+        },
+        {
+            "id": "database",
+            "name": "Database"
+        },
+        {
+            "id": "cloud",
+            "name": "Cloud"
+        },
+        {
+            "id": "devops",
+            "name": "DevOps"
+        },
+        {
+            "id": "ai_ml",
+            "name": "Artificial Intelligence & Machine Learning"
+        },
+        {
+            "id": "data_science",
+            "name": "Data Science"
+        },
+        {
+            "id": "testing",
+            "name": "Testing"
+        },
+        {
+            "id": "architecture",
+            "name": "Architecture"
+        },
+        {
+            "id": "security",
+            "name": "Security"
+        },
+        {
+            "id": "networking",
+            "name": "Networking"
+        },
+        {
+            "id": "messaging",
+            "name": "Messaging"
+        },
+        {
+            "id": "version_control",
+            "name": "Version Control"
+        },
+        {
+            "id": "operating_systems",
+            "name": "Operating Systems"
+        },
+        {
+            "id": "build_tools",
+            "name": "Build Tools"
+        },
+        {
+            "id": "ides",
+            "name": "IDEs"
+        },
+        {
+            "id": "project_management",
+            "name": "Project Management"
+        },
+        {
+            "id": "methodologies",
+            "name": "Software Methodologies"
+        }
+    ],
+
+    "technologies_by_category": {
+        "programming_languages": [
+
+    { "id": "python", "name": "Python", "status": "active" },
+    { "id": "java", "name": "Java", "status": "active" },
+    { "id": "javascript", "name": "JavaScript", "status": "active" },
+    { "id": "typescript", "name": "TypeScript", "status": "active" },
+
+    { "id": "c", "name": "C", "status": "active" },
+    { "id": "cpp", "name": "C++", "status": "active" },
+    { "id": "csharp", "name": "C#", "status": "active" },
+
+    { "id": "go", "name": "Go", "status": "active" },
+    { "id": "rust", "name": "Rust", "status": "active" },
+    { "id": "kotlin", "name": "Kotlin", "status": "active" },
+    { "id": "scala", "name": "Scala", "status": "active" },
+    { "id": "groovy", "name": "Groovy", "status": "active" },
+
+    { "id": "swift", "name": "Swift", "status": "active" },
+    { "id": "objective_c", "name": "Objective-C", "status": "active" },
+
+    { "id": "php", "name": "PHP", "status": "active" },
+    { "id": "ruby", "name": "Ruby", "status": "active" },
+    { "id": "perl", "name": "Perl", "status": "active" },
+
+    { "id": "r", "name": "R", "status": "active" },
+    { "id": "matlab", "name": "MATLAB", "status": "active" },
+    { "id": "julia", "name": "Julia", "status": "active" },
+
+    { "id": "dart", "name": "Dart", "status": "active" },
+
+    { "id": "vb_net", "name": "VB.NET", "status": "active" },
+    { "id": "fsharp", "name": "F#", "status": "active" },
+
+    { "id": "bash", "name": "Bash", "status": "active" },
+    { "id": "powershell", "name": "PowerShell", "status": "active" },
+
+    { "id": "lua", "name": "Lua", "status": "active" },
+    { "id": "haskell", "name": "Haskell", "status": "active" },
+    { "id": "erlang", "name": "Erlang", "status": "active" },
+    { "id": "elixir", "name": "Elixir", "status": "active" },
+
+    { "id": "clojure", "name": "Clojure", "status": "active" },
+
+    { "id": "assembly", "name": "Assembly", "status": "active" },
+
+    { "id": "fortran", "name": "Fortran", "status": "active" },
+
+    { "id": "cobol", "name": "COBOL", "status": "active" },
+
+    { "id": "ada", "name": "Ada", "status": "active" },
+
+    { "id": "solidity", "name": "Solidity", "status": "active" },
+
+    { "id": "zig", "name": "Zig", "status": "active" },
+
+    { "id": "ocaml", "name": "OCaml", "status": "active" },
+
+    { "id": "prolog", "name": "Prolog", "status": "active" },
+
+    { "id": "lisp", "name": "Lisp", "status": "active" }
+
+],
+        "frontend": [],
+        "backend": [],
+        "mobile": [],
+        "desktop": [],
+        "database": [],
+        "cloud": [],
+        "devops": [],
+        "ai_ml": [],
+        "data_science": [],
+        "testing": [],
+        "architecture": [],
+        "security": [],
+        "networking": [],
+        "messaging": [],
+        "version_control": [],
+        "operating_systems": [],
+        "build_tools": [],
+        "ides": [],
+        "project_management": [],
+        "methodologies": []
+    }
+}

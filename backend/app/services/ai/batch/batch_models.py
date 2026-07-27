@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
+from app.engine.models.optimization_strategy import (
+    OptimizationStrategy,
+)
+
 
 class LockedEntities(BaseModel):
     """
@@ -41,23 +45,46 @@ class ParagraphRewriteRequest(BaseModel):
 
 class BatchRewriteRequest(BaseModel):
     """
-    Entire resume rewrite request.
+    Complete resume rewrite request.
+
+    This is the only object passed to
+    the Prompt Builder.
     """
 
-    target_role: str
+    # ----------------------------------
+    # Intelligence
+    # ----------------------------------
 
-    selected_skills: list[str]
+    optimization_strategy: (
+        OptimizationStrategy | None
+    ) = None
+
+    target_role: str = ""
+
+    selected_skills: list[str] = Field(
+        default_factory=list
+    )
+
+    # ----------------------------------
+    # Locked Content
+    # ----------------------------------
 
     locked: LockedEntities = Field(
         default_factory=LockedEntities
     )
 
-    paragraphs: list[ParagraphRewriteRequest]
+    # ----------------------------------
+    # Paragraphs
+    # ----------------------------------
+
+    paragraphs: list[
+        ParagraphRewriteRequest
+    ] = Field(default_factory=list)
 
 
 class ParagraphRewriteResult(BaseModel):
     """
-    Rewritten paragraph returned by AI.
+    AI rewritten paragraph.
     """
 
     id: str

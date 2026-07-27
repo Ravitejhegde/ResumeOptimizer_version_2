@@ -10,12 +10,10 @@ from app.engine.models.document import (
 
 class ATSAnalyzer:
     """
-    Performs ATS-related structural analysis.
+    Performs ATS structural analysis.
 
-    This analyzer evaluates measurable ATS
-    characteristics only.
-
-    It never modifies the document.
+    Evaluates measurable ATS characteristics
+    without modifying the document.
     """
 
     SECTION_PENALTY = 8
@@ -35,55 +33,106 @@ class ATSAnalyzer:
     ) -> ATSAnalysisResult:
 
         section_names = {
-            paragraph.section
+
+            paragraph.section.lower()
+
             for paragraph in document.paragraphs
+
             if paragraph.section
+
         }
 
         missing_sections = sorted(
-            self.REQUIRED_SECTIONS - section_names
+
+            self.REQUIRED_SECTIONS
+            - section_names
+
         )
 
-        has_tables = len(document.tables) > 0
+        has_tables = (
+            len(document.tables) > 0
+        )
 
         paragraph_count = len(
             document.paragraphs
         )
 
         empty_paragraphs = sum(
+
             1
+
             for paragraph in document.paragraphs
+
             if not paragraph.text.strip()
+
         )
+
+        score = self._calculate_score(
+
+            missing_sections,
+
+            has_tables,
+
+            empty_paragraphs,
+
+        )
+
+        return ATSAnalysisResult(
+
+            score=score,
+
+            required_sections=sorted(
+                self.REQUIRED_SECTIONS
+            ),
+
+            missing_sections=missing_sections,
+
+            has_tables=has_tables,
+
+            paragraph_count=paragraph_count,
+
+            empty_paragraphs=empty_paragraphs,
+
+            is_ats_friendly=(
+                score >= 80
+            ),
+
+        )
+
+    # --------------------------------------------------
+
+    def _calculate_score(
+
+        self,
+
+        missing_sections: list[str],
+
+        has_tables: bool,
+
+        empty_paragraphs: int,
+
+    ) -> int:
 
         score = 100
 
         score -= (
+
             len(missing_sections)
             * self.SECTION_PENALTY
+
         )
 
         if has_tables:
+
             score -= self.TABLE_PENALTY
 
         if empty_paragraphs > 5:
+
             score -= (
                 self.EMPTY_PARAGRAPH_PENALTY
             )
 
-        score = max(
+        return max(
             0,
             min(score, 100),
-        )
-
-        return ATSAnalysisResult(
-            score=score,
-            required_sections=sorted(
-                self.REQUIRED_SECTIONS
-            ),
-            missing_sections=missing_sections,
-            has_tables=has_tables,
-            paragraph_count=paragraph_count,
-            empty_paragraphs=empty_paragraphs,
-            is_ats_friendly=score >= 80,
         )

@@ -9,8 +9,7 @@ from app.services.ai.batch.batch_models import (
 
 class BatchPromptBuilder:
     """
-    Builds a single prompt for rewriting
-    an entire resume.
+    Builds the single optimization prompt.
 
     One Resume
         ↓
@@ -24,194 +23,293 @@ class BatchPromptBuilder:
         request: BatchRewriteRequest,
     ) -> str:
 
+        strategy = request.optimization_strategy
+
         payload = {
+
+            # ------------------------------------------
+            # Resume Intelligence
+            # ------------------------------------------
+
             "target_role": request.target_role,
-            "selected_skills": request.selected_skills,
-            "locked": request.locked.model_dump(),
-            "paragraphs": [
+
+            "optimization_strategy": (
+
                 {
-                    "id": paragraph.id,
-                    "type": paragraph.type,
-                    "layout": {
-                        "target_characters": paragraph.max_characters,
-                        "hard_limit_characters": paragraph.max_characters,
-                        "target_words": paragraph.max_words,
-                        "hard_limit_words": paragraph.max_words,
-                        "preserve_layout": True,
-                    },
-                    "rewrite": paragraph.rewrite,
-                    "text": paragraph.text,
+
+                    "role": strategy.role,
+
+                    "role_family": strategy.role_family,
+
+                    "categories": strategy.categories,
+
+                    "targets": [
+
+                        {
+
+                            "technology": target.technology,
+
+                            "category": target.category,
+
+                            "score": target.score,
+
+                            "action": target.action,
+
+                            "section": target.section,
+
+                            "paragraph_id": target.paragraph_id,
+
+                            "reason": target.reason,
+
+                        }
+
+                        for target in strategy.targets
+
+                    ],
+
+                    "summary_targets": strategy.summary_targets,
+
+                    "experience_targets": strategy.experience_targets,
+
+                    "project_targets": strategy.project_targets,
+
+                    "skills_targets": strategy.skills_targets,
+
+                    "ignored": strategy.ignored,
+
                 }
+
+                if strategy
+
+                else None
+
+            ),
+
+            # Temporary compatibility
+
+            "selected_skills": request.selected_skills,
+
+            # Locked entities
+
+            "locked": request.locked.model_dump(),
+
+            # Paragraphs
+
+            "paragraphs": [
+
+                {
+
+                    "id": paragraph.id,
+
+                    "type": paragraph.type,
+
+                    "layout": {
+
+                        "max_characters": paragraph.max_characters,
+
+                        "max_words": paragraph.max_words,
+
+                    },
+
+                    "rewrite": paragraph.rewrite,
+
+                    "text": paragraph.text,
+
+                }
+
                 for paragraph in request.paragraphs
+
             ],
+
         }
 
         return f"""
 You are ResumeOptimizer AI.
 
-Your job is to optimize an existing DOCX resume for ATS while preserving its original layout.
+You optimize existing Microsoft Word resumes.
 
-The optimization will be inserted back into the original Microsoft Word document.
+Your task is NOT to create a new resume.
 
-Breaking the layout is considered a failure.
+Your task is to improve the existing resume while preserving its layout.
 
 ==================================================
-PRIORITY ORDER
+PRIMARY OBJECTIVES
 ==================================================
 
-Priority 1
------------
-Preserve document layout.
+1. Preserve document structure.
 
-Priority 2
------------
-Never exceed layout limits.
+2. Improve ATS quality.
 
-Priority 3
------------
-Never invent information.
+3. Preserve every factual statement.
 
-Priority 4
------------
-Improve ATS score.
+4. Improve readability.
 
-Priority 5
------------
-Improve grammar and readability.
+5. Never exceed layout limits.
 
 ==================================================
 STRICT RULES
 ==================================================
 
-1. Never invent experience.
+Never invent:
 
-2. Never invent projects.
+• experience
 
-3. Never invent technologies.
+• projects
 
-4. Never change:
+• companies
 
-   • Company names
-   • Dates
-   • Degree names
-   • College names
-   • Project names
+• dates
 
-5. Preserve the original meaning.
+• technologies
 
-6. Improve ATS keywords naturally.
+• certifications
 
-7. Remove weak wording.
+• achievements
 
-8. Use strong action verbs.
+Never modify:
 
-9. Keep professional language.
+• company names
 
-10. Preserve paragraph type.
+• project names
 
-11. Do not change paragraph order.
+• college names
 
-12. Never merge paragraphs.
+• degree names
 
-13. Never split paragraphs.
+• dates
 
-14. Never create extra paragraphs.
+Use ONLY technologies supplied inside the optimization strategy.
 
-15. Never create bullet points unless they already exist.
+Promote technologies only where instructed.
 
-16. Never create blank lines.
+Never duplicate technologies.
 
-17. Never output Markdown.
+Never move technologies between unrelated sections.
 
-18. Never output explanations.
+Never change paragraph order.
 
-19. Return ONLY valid JSON.
+Never merge paragraphs.
 
-==================================================
-LAYOUT RULES
-==================================================
+Never split paragraphs.
 
-Every paragraph contains layout constraints.
+Never generate Markdown.
 
-For EACH paragraph:
+Never generate explanations.
 
-• Stay close to target_words.
+Never generate notes.
 
-• Stay close to target_characters.
-
-• NEVER exceed:
-
-    hard_limit_words
-
-or
-
-    hard_limit_characters
-
-If your rewrite exceeds a limit:
-
-Rewrite it internally until it fits.
-
-Do NOT return an oversized paragraph.
+Return JSON only.
 
 ==================================================
-QUALITY RULES
+LAYOUT CONTRACT
 ==================================================
 
-Every rewritten paragraph must:
+Every paragraph contains a maximum word count and maximum character count.
 
-✓ Improve ATS
+These limits are absolute.
 
-✓ Improve readability
+The supplied limits already include a safety margin.
 
-✓ Preserve facts
+Never try to use the entire budget.
 
-✓ Preserve formatting intent
+If a rewrite is close to the limit:
 
-✓ Fit inside the supplied layout budget
+rewrite it shorter.
+
+Repeat internally until BOTH limits are satisfied.
+
+Do not return oversized paragraphs.
+
+==================================================
+PARAGRAPH RULES
+==================================================
+
+Each paragraph is independent.
+
+Rewrite ONLY the supplied paragraph.
+
+Preserve its purpose.
+
+Summary remains summary.
+
+Experience remains experience.
+
+Projects remain projects.
+
+Skills remain skills.
+
+==================================================
+QUALITY
+==================================================
+
+Use:
+
+• strong action verbs
+
+• ATS keywords naturally
+
+• concise wording
+
+• professional grammar
+
+Avoid:
+
+• keyword stuffing
+
+• repetition
+
+• unnecessary adjectives
 
 ==================================================
 SELF VALIDATION
 ==================================================
 
-Before returning JSON, verify:
+Before producing JSON verify:
 
-✓ Valid JSON
+✓ valid JSON
 
-✓ Every paragraph has an id
+✓ every paragraph exists
 
-✓ Every paragraph has text
+✓ every paragraph has an id
 
-✓ No Markdown
+✓ every paragraph has text
 
-✓ No explanations
+✓ paragraph order unchanged
 
-✓ No missing paragraphs
+✓ no extra paragraphs
 
-✓ No extra paragraphs
+✓ no missing paragraphs
 
-✓ All layout limits satisfied
+✓ character limit satisfied
 
-If any check fails,
+✓ word limit satisfied
 
-rewrite internally before returning.
+If any validation fails:
+
+rewrite internally until valid.
 
 ==================================================
 OUTPUT FORMAT
 ==================================================
 
-Return ONLY this JSON:
+Return ONLY:
 
 {{
     "paragraphs": [
+
         {{
+
             "id": "P00001",
+
             "text": "Optimized paragraph"
+
         }}
+
     ]
 }}
 
 ==================================================
-RESUME DATA
+INPUT
 ==================================================
 
 {json.dumps(payload, indent=2)}
