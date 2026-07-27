@@ -35,3 +35,7 @@ class ResumeProfile:
     education: list[Education] = field(default_factory=list)
 
     projects: list[Project] = field(default_factory=list)
+
+
+
+

@@ -57,11 +57,11 @@ def optimize_resume(
     print("✅ Resume found.")
     print("File Path:", resume.file_path)
 
-    resume_path = Path(resume.file_path)
+    RESUME_DIR = Path(resume.file_path)
 
-    if not resume_path.exists():
+    if not RESUME_DIR.exists():
 
-        print("❌ Resume file missing:", resume_path)
+        print("❌ Resume file missing:", RESUME_DIR)
 
         raise HTTPException(
             status_code=404,
@@ -73,12 +73,12 @@ def optimize_resume(
         engine = ResumeOptimizationEngine()
 
         output_path = (
-            resume_path.parent
-            / f"{resume_path.stem}_optimized.docx"
+            RESUME_DIR.parent
+            / f"{RESUME_DIR.stem}_optimized.docx"
         )
 
         engine.optimize(
-            input_docx=str(resume_path),
+            input_docx=str(RESUME_DIR),
             output_docx=str(output_path),
             selected_skills=request.selected_skills,
         )
@@ -97,3 +97,7 @@ def optimize_resume(
             status_code=500,
             detail=str(exc),
         )
+
+
+
+

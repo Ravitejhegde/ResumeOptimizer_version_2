@@ -84,3 +84,7 @@ class RecoveryProtocol(Protocol):
         self,
         document: Document,
     ) -> Document: ...
+
+
+
+

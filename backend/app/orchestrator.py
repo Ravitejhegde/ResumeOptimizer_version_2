@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from app.engine.analyzer.document_analyzer import DocumentAnalyzer
-from app.engine.knowledge.knowledge_base import KnowledgeBase
+from app.knowledge.knowledge_manager import KnowledgeManager
 from app.engine.models.document import Document
 from app.engine.optimizer.optimization_coordinator import (
     OptimizationCoordinator,
@@ -38,7 +38,7 @@ class ResumeOptimizationEngine:
 
     def __init__(self) -> None:
 
-        self._knowledge = KnowledgeBase()
+        self._knowledge = KnowledgeManager()
 
         self._knowledge.initialize()
 
@@ -121,3 +121,7 @@ class ResumeOptimizationEngine:
             return self._recovery.rollback(
                 backup
             )
+
+
+
+

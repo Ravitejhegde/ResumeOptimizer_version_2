@@ -69,3 +69,7 @@ class Guest(Base):
         onupdate=datetime.utcnow,
         nullable=False,
     )
+
+
+
+

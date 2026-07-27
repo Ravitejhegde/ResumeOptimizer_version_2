@@ -24,3 +24,7 @@ class Paragraph:
 @dataclass
 class ResumeDocument:
     paragraphs: list[Paragraph] = field(default_factory=list)
+
+
+
+

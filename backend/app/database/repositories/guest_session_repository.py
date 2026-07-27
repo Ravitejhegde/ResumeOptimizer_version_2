@@ -61,3 +61,7 @@ class GuestSessionRepository(
         session.active = False
 
         return self.update(session)
+
+
+
+

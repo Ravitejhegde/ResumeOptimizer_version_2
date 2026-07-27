@@ -8,3 +8,7 @@ class JobAnalysisResponse(BaseModel):
     experience: str
 
     skills: list[str]
+
+
+
+

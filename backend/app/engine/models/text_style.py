@@ -33,3 +33,7 @@ class TextStyle:
 
     # Visibility
     hidden: bool = False
+
+
+
+

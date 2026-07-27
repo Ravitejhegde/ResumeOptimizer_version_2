@@ -91,3 +91,7 @@ class FileValidator:
                 status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
                 detail="Resume exceeds the maximum size of 10 MB.",
             )
+
+
+
+

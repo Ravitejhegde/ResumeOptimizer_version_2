@@ -136,3 +136,7 @@ class IntelligenceEngine:
             promotions,
             assignments,
         )
+
+
+
+

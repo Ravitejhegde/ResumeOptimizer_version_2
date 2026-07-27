@@ -70,3 +70,7 @@ class DocxWriter:
                 run.text = ""
 
         doc.save(output_file)
+
+
+
+

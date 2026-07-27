@@ -8,8 +8,8 @@ from app.engine.intelligence.intelligence_engine import (
     IntelligenceEngine,
 )
 
-from app.engine.knowledge.knowledge_base import (
-    KnowledgeBase,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 from app.engine.models.analysis_result import (
@@ -36,7 +36,7 @@ class DocumentAnalyzer:
 
     def __init__(
         self,
-        knowledge: KnowledgeBase,
+        knowledge: KnowledgeManager,
     ) -> None:
 
         self._keyword_analyzer = KeywordAnalyzer(
@@ -114,3 +114,7 @@ class DocumentAnalyzer:
         )
 
         return analysis
+
+
+
+

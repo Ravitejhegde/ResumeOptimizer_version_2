@@ -35,3 +35,7 @@ class PromotionPlan:
     decisions: list[PromotionDecision] = field(
         default_factory=list
     )
+
+
+
+

@@ -35,3 +35,7 @@ class JobDescriptionAnalyzer:
         print(profile.skills)
 
         return profile
+
+
+
+

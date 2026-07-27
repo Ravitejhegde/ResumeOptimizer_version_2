@@ -1,40 +1,41 @@
 from __future__ import annotations
 
-from app.engine.knowledge.categorizer import (
+from app.knowledge.services.categorizer import (
     SkillCategorizer,
 )
-from app.engine.knowledge.normalizer import (
+from app.knowledge.services.normalizer import (
     SkillNormalizer,
 )
-from app.engine.knowledge.role_mapper import (
+from app.knowledge.services.role_mapper import (
     RoleMapper,
 )
-from app.engine.knowledge.section_rules import (
+from app.knowledge.services.section_rules import (
     SectionRules,
 )
-from app.engine.knowledge.synonyms import (
+from app.knowledge.services.synonyms import (
     SynonymDictionary,
 )
-from app.engine.knowledge.taxonomy import (
+from app.knowledge.services.taxonomy import (
     TechnologyTaxonomy,
 )
-from app.engine.knowledge.technology_graph import (
+from app.knowledge.services.technology_graph import (
     TechnologyGraph,
 )
-from app.engine.knowledge.transition_rules import (
+from app.knowledge.services.transition_rules import (
     TransitionRules,
 )
 
 
-class KnowledgeBase:
+class KnowledgeManager:
     """
     Central knowledge registry.
 
-    All analyzers, planners and optimizers
-    share the same knowledge instance.
+    Coordinates all knowledge components.
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+    ) -> None:
 
         self.taxonomy = TechnologyTaxonomy()
 
@@ -49,28 +50,34 @@ class KnowledgeBase:
         self.section_rules = SectionRules()
 
         self.normalizer = SkillNormalizer(
-            self.synonyms
+            self.synonyms,
         )
 
         self.categorizer = SkillCategorizer(
-            self.taxonomy
+            self.taxonomy,
         )
 
-    def initialize(self) -> None:
-
-        self._load_taxonomy()
-
-        self._load_synonyms()
+        self.initialize()
 
     # --------------------------------------------------
 
-    def _load_taxonomy(
+    def initialize(
         self,
     ) -> None:
 
-        # -----------------------------
-        # Programming Languages
-        # -----------------------------
+        self._register_taxonomy()
+
+        self._register_synonyms()
+
+        self._register_graph()
+
+        self._register_roles()
+
+    # --------------------------------------------------
+
+    def _register_taxonomy(
+        self,
+    ) -> None:
 
         self.taxonomy.register(
             "Programming Language",
@@ -85,10 +92,6 @@ class KnowledgeBase:
             "SQL",
         )
 
-        # -----------------------------
-        # Backend
-        # -----------------------------
-
         self.taxonomy.register(
             "Backend",
             "FastAPI",
@@ -100,9 +103,30 @@ class KnowledgeBase:
             "REST API",
         )
 
-        # -----------------------------
-        # AI / ML
-        # -----------------------------
+        self.taxonomy.register(
+            "Database",
+            "PostgreSQL",
+            "MySQL",
+            "MongoDB",
+            "Redis",
+        )
+
+        self.taxonomy.register(
+            "Cloud",
+            "AWS",
+            "Azure",
+            "GCP",
+            "Firebase",
+        )
+
+        self.taxonomy.register(
+            "DevOps",
+            "Docker",
+            "Kubernetes",
+            "Git",
+            "GitHub",
+            "CI/CD",
+        )
 
         self.taxonomy.register(
             "AI / ML",
@@ -118,47 +142,6 @@ class KnowledgeBase:
             "Scikit Learn",
         )
 
-        # -----------------------------
-        # Database
-        # -----------------------------
-
-        self.taxonomy.register(
-            "Database",
-            "PostgreSQL",
-            "MySQL",
-            "MongoDB",
-            "Redis",
-        )
-
-        # -----------------------------
-        # Cloud
-        # -----------------------------
-
-        self.taxonomy.register(
-            "Cloud",
-            "AWS",
-            "Azure",
-            "GCP",
-            "Firebase",
-        )
-
-        # -----------------------------
-        # DevOps
-        # -----------------------------
-
-        self.taxonomy.register(
-            "DevOps",
-            "Docker",
-            "Kubernetes",
-            "Git",
-            "GitHub",
-            "CI/CD",
-        )
-
-        # -----------------------------
-        # Libraries
-        # -----------------------------
-
         self.taxonomy.register(
             "Libraries",
             "NumPy",
@@ -170,7 +153,7 @@ class KnowledgeBase:
 
     # --------------------------------------------------
 
-    def _load_synonyms(
+    def _register_synonyms(
         self,
     ) -> None:
 
@@ -187,16 +170,6 @@ class KnowledgeBase:
         self.synonyms.register(
             "natural language processing",
             "nlp",
-        )
-
-        self.synonyms.register(
-            "speech recognition",
-            "asr",
-        )
-
-        self.synonyms.register(
-            "text to speech",
-            "tts",
         )
 
         self.synonyms.register(
@@ -238,12 +211,56 @@ class KnowledgeBase:
             "cv",
         )
 
-        self.synonyms.register(
-            "continuous integration",
-            "ci",
+    # --------------------------------------------------
+
+    def _register_graph(
+        self,
+    ) -> None:
+
+        self.graph.add_relationship(
+            "FastAPI",
+            "Python",
         )
 
-        self.synonyms.register(
-            "continuous delivery",
-            "cd",
+        self.graph.add_relationship(
+            "Django",
+            "Python",
         )
+
+        self.graph.add_relationship(
+            "Flask",
+            "Python",
+        )
+
+        self.graph.add_relationship(
+            "Spring Boot",
+            "Java",
+        )
+
+        self.graph.add_relationship(
+            "Express",
+            "Node.js",
+        )
+
+        self.graph.add_relationship(
+            "TensorFlow",
+            "Python",
+        )
+
+        self.graph.add_relationship(
+            "PyTorch",
+            "Python",
+        )
+
+    # --------------------------------------------------
+
+    def _register_roles(
+        self,
+    ) -> None:
+
+        # Will be populated in the next milestone.
+        pass
+
+
+
+

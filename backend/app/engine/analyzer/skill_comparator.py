@@ -116,3 +116,7 @@ class SkillComparator:
             * 100
 
         )
+
+
+
+

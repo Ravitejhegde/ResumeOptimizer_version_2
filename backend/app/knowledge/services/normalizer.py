@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from app.engine.knowledge.synonyms import (
+from app.knowledge.services.synonyms import (
     SynonymDictionary,
 )
 
@@ -83,3 +83,7 @@ class SkillNormalizer:
         }
 
         return sorted(normalized)
+
+
+
+

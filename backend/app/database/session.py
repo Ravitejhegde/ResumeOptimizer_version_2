@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 from collections.abc import Generator
 
 from sqlalchemy.orm import Session
 
-from .database import SessionLocal
+from app.database.database import SessionLocal
 
 
 def get_db() -> Generator[Session, None, None]:
     """
-    FastAPI dependency for database sessions.
+    FastAPI dependency that provides a database
+    session for a single request.
     """
 
     db = SessionLocal()
@@ -17,3 +20,7 @@ def get_db() -> Generator[Session, None, None]:
 
     finally:
         db.close()
+
+
+
+

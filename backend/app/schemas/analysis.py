@@ -17,3 +17,7 @@ class ResumeAnalysisRequest(BaseModel):
         min_length=1,
         description="Target job description",
     )
+
+
+
+

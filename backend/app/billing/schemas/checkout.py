@@ -73,3 +73,7 @@ class CheckoutResponse(BaseModel):
     trial_days: int
 
     features: list[str]
+
+
+
+

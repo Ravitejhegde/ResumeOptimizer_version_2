@@ -33,3 +33,7 @@ class TextOptimizer:
             run.text = ""
 
         return paragraph
+
+
+
+

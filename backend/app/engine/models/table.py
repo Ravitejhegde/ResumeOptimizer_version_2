@@ -30,3 +30,7 @@ class Table:
 
     # Metadata
     editable: bool = True
+
+
+
+

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from app.engine.knowledge.knowledge_base import (
-    KnowledgeBase,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 
@@ -47,7 +47,7 @@ class SkillPlanner:
 
     def __init__(
         self,
-        knowledge: KnowledgeBase,
+        knowledge: KnowledgeManager,
     ) -> None:
 
         self._knowledge = knowledge
@@ -109,3 +109,7 @@ class SkillPlanner:
             categorized_skills=categorized,
 
         )
+
+
+
+

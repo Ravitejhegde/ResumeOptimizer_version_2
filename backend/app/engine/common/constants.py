@@ -69,3 +69,7 @@ SECTION_SKILLS = "skills"
 SECTION_EDUCATION = "education"
 
 SECTION_CERTIFICATIONS = "certifications"
+
+
+
+

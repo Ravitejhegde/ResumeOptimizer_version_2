@@ -60,32 +60,32 @@ async def startup() -> None:
     and initialize the database.
     """
 
-    settings.STORAGE_PATH.mkdir(
+    settings.STORAGE_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    settings.TEMP_PATH.mkdir(
+    settings.TEMP_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    settings.RESUME_PATH.mkdir(
+    settings.RESUME_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    settings.PREVIEW_PATH.mkdir(
+    settings.PREVIEW_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    settings.EXPORT_PATH.mkdir(
+    settings.EXPORT_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    settings.LOG_PATH.mkdir(
+    settings.LOG_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
@@ -138,3 +138,7 @@ async def health():
     return {
         "status": "healthy",
     }
+
+
+
+

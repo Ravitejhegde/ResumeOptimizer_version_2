@@ -25,3 +25,7 @@ class SkillGap:
     )
 
     score: float = 0.0
+
+
+
+

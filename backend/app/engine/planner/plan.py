@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from app.engine.knowledge.knowledge_base import (
-    KnowledgeBase,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 from app.engine.models.analysis_result import (
     AnalysisResult,
@@ -70,7 +70,7 @@ class PlanBuilder:
 
     def __init__(
         self,
-        knowledge: KnowledgeBase,
+        knowledge: KnowledgeManager,
     ) -> None:
 
         self._skill_planner = SkillPlanner(
@@ -159,3 +159,7 @@ class PlanBuilder:
             layout_constraints=layout_constraints,
 
         )
+
+
+
+

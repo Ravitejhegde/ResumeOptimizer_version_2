@@ -15,3 +15,7 @@ class StripeClient:
         stripe.api_version = settings.STRIPE_API_VERSION
 
         self.client = stripe
+
+
+
+

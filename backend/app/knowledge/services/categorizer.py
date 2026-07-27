@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from app.engine.knowledge.taxonomy import (
+from app.knowledge.services.taxonomy import (
     TechnologyTaxonomy,
 )
 
@@ -44,3 +44,7 @@ class SkillCategorizer:
             category: sorted(set(values))
             for category, values in categorized.items()
         }
+
+
+
+

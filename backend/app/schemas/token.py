@@ -13,3 +13,7 @@ class UserResponse(BaseModel):
     provider: str
     verified: bool
     active: bool
+
+
+
+

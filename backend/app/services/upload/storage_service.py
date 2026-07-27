@@ -18,7 +18,7 @@ class StorageService:
     def get_resume_directory(cls) -> Path:
 
         directory = (
-            Path(settings.STORAGE_PATH)
+            Path(settings.STORAGE_DIR)
             / cls.RESUME_DIRECTORY
         )
 
@@ -75,3 +75,7 @@ class StorageService:
         if path.exists():
 
             path.unlink()
+
+
+
+

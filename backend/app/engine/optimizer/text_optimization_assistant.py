@@ -86,3 +86,7 @@ class TextOptimizationAssistant:
             document=document,
             result=result,
         )
+
+
+
+

@@ -50,3 +50,7 @@ class SectionOptimizer:
             run.text = ""
 
         return optimized
+
+
+
+

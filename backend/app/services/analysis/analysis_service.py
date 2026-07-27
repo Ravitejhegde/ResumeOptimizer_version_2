@@ -16,8 +16,8 @@ from app.engine.analyzer.job_description_analyzer import (
 from app.engine.analyzer.skill_comparator import (
     SkillComparator,
 )
-from app.engine.knowledge.knowledge_base import (
-    KnowledgeBase,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 from app.engine.reader.parser import (
     DocumentParser,
@@ -71,7 +71,7 @@ class ResumeAnalysisService:
             # Initialize Knowledge
             # ----------------------------------
 
-            knowledge = KnowledgeBase()
+            knowledge = KnowledgeManager()
             knowledge.initialize()
 
             # ----------------------------------
@@ -189,3 +189,7 @@ class ResumeAnalysisService:
         finally:
 
             db.close()
+
+
+
+

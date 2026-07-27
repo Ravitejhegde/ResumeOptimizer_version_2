@@ -101,3 +101,7 @@ class LockedEntityExtractor:
         locked.locations = sorted(set(locked.locations))
 
         return locked
+
+
+
+

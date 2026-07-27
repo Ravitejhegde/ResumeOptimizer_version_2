@@ -44,3 +44,7 @@ def get_pricing(
         for item in pricing
 
     ]
+
+
+
+

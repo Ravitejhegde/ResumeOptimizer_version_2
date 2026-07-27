@@ -120,3 +120,7 @@ class Recovery(ABC):
         Restore document after failure.
         """
         raise NotImplementedError
+
+
+
+

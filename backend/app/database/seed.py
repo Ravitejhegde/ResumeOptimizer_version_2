@@ -70,3 +70,7 @@ def seed_database(db: Session) -> None:
     db.add(pricing)
 
     db.commit()
+
+
+
+

@@ -65,3 +65,7 @@ class ResumeRepository(
         self.delete(resume)
 
         return True
+
+
+
+

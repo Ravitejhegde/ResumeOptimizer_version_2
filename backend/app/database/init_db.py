@@ -55,3 +55,7 @@ def initialize_database() -> None:
 
     finally:
         db.close()
+
+
+
+

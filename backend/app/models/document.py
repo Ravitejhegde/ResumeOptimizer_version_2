@@ -17,3 +17,7 @@ class ParagraphNode:
 @dataclass
 class DocumentNode:
     paragraphs: list[ParagraphNode] = field(default_factory=list)
+
+
+
+

@@ -59,3 +59,7 @@ class JDAnalysis:
     keywords: list[str] = field(
         default_factory=list
     )
+
+
+
+

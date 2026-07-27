@@ -117,3 +117,7 @@ class SkillGapAnalyzer:
             score=score,
 
         )
+
+
+
+

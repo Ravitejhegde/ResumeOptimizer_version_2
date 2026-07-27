@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from app.knowledge.domains.software_engineering.index import (
     TechnologyIndex,
 )
@@ -7,8 +9,7 @@ from app.knowledge.domains.software_engineering.index import (
 
 class TechnologyExtractor:
     """
-    Extracts technologies from text using the
-    Software Engineering Knowledge Platform.
+    Extract technologies from text.
 
     Responsibilities
     ----------------
@@ -30,8 +31,16 @@ class TechnologyExtractor:
         text: str,
     ) -> list[str]:
 
-        if not text.strip():
+        if not text:
+            return []
 
+        text = re.sub(
+            r"\s+",
+            " ",
+            text,
+        ).strip()
+
+        if not text:
             return []
 
         remaining = text
@@ -47,29 +56,26 @@ class TechnologyExtractor:
                 )
 
                 if match is None:
-
                     break
 
                 detected.add(
-
                     self._index.canonical(
                         technology
                     )
-
                 )
 
                 start, end = match.span()
 
                 remaining = (
-
                     remaining[:start]
-
                     + (" " * (end - start))
-
                     + remaining[end:]
-
                 )
 
         return sorted(
             detected
         )
+
+
+
+

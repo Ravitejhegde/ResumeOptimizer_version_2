@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from app.engine.knowledge.knowledge_base import (
-    KnowledgeBase,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
-from app.engine.knowledge.technology_extractor import (
+from app.knowledge.services.technology_extractor import (
     TechnologyExtractor,
 )
 from app.engine.models.jd_analysis import (
@@ -32,7 +32,7 @@ class JobDescriptionAnalyzer:
 
     def __init__(
         self,
-        knowledge: KnowledgeBase,
+        knowledge: KnowledgeManager,
     ) -> None:
 
         self._extractor = TechnologyExtractor(
@@ -58,3 +58,7 @@ class JobDescriptionAnalyzer:
             keywords=skills,
 
         )
+
+
+
+

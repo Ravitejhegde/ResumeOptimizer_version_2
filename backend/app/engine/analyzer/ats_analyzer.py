@@ -136,3 +136,7 @@ class ATSAnalyzer:
             0,
             min(score, 100),
         )
+
+
+
+

@@ -15,7 +15,7 @@ router = APIRouter(
 @router.get("/{filename}")
 def download_resume(filename: str):
 
-    file_path = settings.EXPORT_PATH / filename
+    file_path = settings.EXPORT_DIR / filename
 
     if not Path(file_path).exists():
 
@@ -33,3 +33,7 @@ def download_resume(filename: str):
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 
     )
+
+
+
+

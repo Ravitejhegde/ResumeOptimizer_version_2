@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from typing import Generic
-from typing import Type
 from typing import TypeVar
 
 from sqlalchemy.orm import Session
 
 from app.database.base import Base
+
 
 ModelType = TypeVar(
     "ModelType",
@@ -21,12 +23,16 @@ class BaseRepository(
 
     def __init__(
         self,
-        model: Type[ModelType],
+        model: type[ModelType],
         db: Session,
     ) -> None:
 
         self.model = model
         self.db = db
+
+    # ---------------------------------------------------------
+    # Read
+    # ---------------------------------------------------------
 
     def get(
         self,
@@ -48,6 +54,26 @@ class BaseRepository(
             .all()
         )
 
+    def exists(
+        self,
+        object_id: str,
+    ) -> bool:
+
+        return self.get(object_id) is not None
+
+    def count(
+        self,
+    ) -> int:
+
+        return (
+            self.db.query(self.model)
+            .count()
+        )
+
+    # ---------------------------------------------------------
+    # Create
+    # ---------------------------------------------------------
+
     def create(
         self,
         instance: ModelType,
@@ -59,6 +85,10 @@ class BaseRepository(
 
         return instance
 
+    # ---------------------------------------------------------
+    # Update
+    # ---------------------------------------------------------
+
     def update(
         self,
         instance: ModelType,
@@ -69,6 +99,10 @@ class BaseRepository(
 
         return instance
 
+    # ---------------------------------------------------------
+    # Delete
+    # ---------------------------------------------------------
+
     def delete(
         self,
         instance: ModelType,
@@ -76,3 +110,25 @@ class BaseRepository(
 
         self.db.delete(instance)
         self.db.commit()
+
+    def delete_by_id(
+        self,
+        object_id: str,
+    ) -> bool:
+
+        instance = self.get(
+            object_id
+        )
+
+        if instance is None:
+            return False
+
+        self.delete(
+            instance
+        )
+
+        return True
+
+
+
+

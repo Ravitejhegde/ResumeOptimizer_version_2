@@ -17,3 +17,7 @@ async def analyze(
     return JobDescriptionAnalyzer.analyze(
         request.job_description
     )
+
+
+
+

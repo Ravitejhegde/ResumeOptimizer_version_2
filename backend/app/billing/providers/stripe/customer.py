@@ -98,3 +98,7 @@ class StripeCustomer:
             return customers.data[0]
 
         return None
+
+
+
+

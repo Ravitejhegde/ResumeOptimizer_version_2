@@ -113,3 +113,7 @@ class AnalysisResult:
     )
 
     skill_gap: SkillGap | None = None
+
+
+
+

@@ -11,3 +11,7 @@ class MatchResult:
     missing_skills: list[str] = field(default_factory=list)
 
     extra_skills: list[str] = field(default_factory=list)
+
+
+
+

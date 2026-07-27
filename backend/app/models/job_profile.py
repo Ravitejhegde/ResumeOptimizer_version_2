@@ -9,3 +9,7 @@ class JobProfile:
     experience: str = ""
 
     skills: list[str] = field(default_factory=list)
+
+
+
+

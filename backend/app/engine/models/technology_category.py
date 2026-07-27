@@ -15,3 +15,7 @@ class TechnologyCategory:
     technologies: list[str] = field(
         default_factory=list
     )
+
+
+
+

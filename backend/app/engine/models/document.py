@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 from app.engine.models.paragraph import Paragraph
 from app.engine.models.table import Table
@@ -9,42 +10,78 @@ from app.engine.models.table import Table
 @dataclass(slots=True)
 class Document:
     """
-    Root model representing an entire Word document.
+    Root model representing an entire document.
 
-    This is the single source of truth used throughout
-    the ResumeOptimizer engine.
-
-    The Reader builds it.
-    The Analyzer understands it.
-    The Planner plans changes.
-    The Optimizer modifies it.
-    The Validator verifies it.
-    The Writer saves it.
+    This is the canonical model exchanged
+    between all engine components.
     """
 
-    # Paragraphs in document order
+    # Document content
+
     paragraphs: list[Paragraph] = field(
-        default_factory=list
+        default_factory=list,
     )
 
-    # Tables in document order
     tables: list[Table] = field(
-        default_factory=list
+        default_factory=list,
     )
 
-    # Document metadata
+    # Metadata
+
     page_count: int = 0
+
     section_count: int = 0
 
-    # Original source
     source_path: str | None = None
 
     @property
-    def text(self) -> str:
+    def text(
+        self,
+    ) -> str:
         """
         Returns the complete document text.
         """
+
         return "\n".join(
             paragraph.text
             for paragraph in self.paragraphs
         )
+
+    @property
+    def is_empty(
+        self,
+    ) -> bool:
+        """
+        Returns True if the document
+        contains no visible text.
+        """
+
+        return not self.text.strip()
+
+    @property
+    def paragraph_count(
+        self,
+    ) -> int:
+        """
+        Number of paragraphs.
+        """
+
+        return len(
+            self.paragraphs
+        )
+
+    @property
+    def table_count(
+        self,
+    ) -> int:
+        """
+        Number of tables.
+        """
+
+        return len(
+            self.tables
+        )
+
+
+
+
