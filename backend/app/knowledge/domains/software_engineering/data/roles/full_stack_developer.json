@@ -1,0 +1,27 @@
+{
+    "id": "full_stack_developer",
+
+    "title": "Full Stack Developer",
+
+    "required": [
+        "javascript",
+        "typescript",
+        "react",
+        "nodejs",
+        "express",
+        "mongodb",
+        "git"
+    ],
+
+    "preferred": [
+        "docker",
+        "aws",
+        "redis",
+        "github_actions"
+    ],
+
+    "nice_to_have": [
+        "kubernetes",
+        "terraform"
+    ]
+}

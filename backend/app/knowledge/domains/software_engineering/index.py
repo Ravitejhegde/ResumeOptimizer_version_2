@@ -11,8 +11,12 @@ class TechnologyIndex:
     """
     Fast in-memory technology index.
 
-    Built once during startup and reused
-    throughout the application.
+    Responsibilities
+    ----------------
+    - Build regex patterns
+    - Delegate synonym lookup
+    - Delegate category lookup
+    - Delegate relationship lookup
     """
 
     def __init__(
@@ -26,80 +30,25 @@ class TechnologyIndex:
             tuple[str, re.Pattern]
         ] = []
 
-        self._canonical: dict[str, str] = {}
-
-        self._categories: dict[str, str] = {}
-
-        self._related: dict[str, list[str]] = {}
-
-        self._build()
+        self._build_patterns()
 
     # --------------------------------------------------
 
-    def _build(self) -> None:
+    def _build_patterns(
+        self,
+    ) -> None:
 
         technologies: list[str] = []
 
-        # -----------------------------
-        # Taxonomy
-        # -----------------------------
-
-        for category, values in (
-            self._domain.technologies().items()
+        for values in (
+            self._domain.technologies().values()
         ):
 
             for item in values:
 
-                technology_id = item["id"]
-                technology_name = item["name"]
-
-                self._canonical[
-                    technology_name.lower()
-                ] = technology_id
-
-                self._categories[
-                    technology_id
-                ] = category
-
                 technologies.append(
-                    technology_name
+                    item["name"]
                 )
-
-        # -----------------------------
-        # Synonyms
-        # -----------------------------
-
-        for synonym in (
-            self._domain.synonyms.synonyms
-        ):
-
-            canonical = synonym["canonical"]
-
-            self._canonical[
-                canonical.lower()
-            ] = canonical
-
-            for alias in synonym["aliases"]:
-
-                self._canonical[
-                    alias.lower()
-                ] = canonical
-
-        # -----------------------------
-        # Graph
-        # -----------------------------
-
-        for relation in (
-            self._domain.graph.relationships
-        ):
-
-            self._related[
-                relation["technology"]
-            ] = relation["related"]
-
-        # -----------------------------
-        # Regex
-        # -----------------------------
 
         technologies = sorted(
             set(technologies),
@@ -110,7 +59,7 @@ class TechnologyIndex:
         for technology in technologies:
 
             escaped = re.escape(
-                technology
+                technology,
             ).replace(
                 r"\ ",
                 r"\s+",
@@ -142,18 +91,21 @@ class TechnologyIndex:
     @property
     def patterns(
         self,
-    ):
+    ) -> list[
+        tuple[str, re.Pattern]
+    ]:
 
         return self._patterns
+
+    # --------------------------------------------------
 
     def canonical(
         self,
         value: str,
     ) -> str:
 
-        return self._canonical.get(
-            value.lower(),
-            value.lower(),
+        return self._domain.synonyms.canonical(
+            value,
         )
 
     def category(
@@ -161,7 +113,7 @@ class TechnologyIndex:
         technology: str,
     ) -> str | None:
 
-        return self._categories.get(
+        return self._domain.taxonomy.category(
             technology,
         )
 
@@ -170,11 +122,6 @@ class TechnologyIndex:
         technology: str,
     ) -> list[str]:
 
-        return self._related.get(
+        return self._domain.graph.related(
             technology,
-            [],
         )
-
-
-
-

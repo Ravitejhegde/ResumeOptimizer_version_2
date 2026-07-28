@@ -1,0 +1,13 @@
+{
+  "category": {
+    "id": "devops",
+    "name": "DevOps"
+  },
+  "technologies": [
+    {"id":"docker","name":"Docker","status":"active"},
+    {"id":"kubernetes","name":"Kubernetes","status":"active"},
+    {"id":"jenkins","name":"Jenkins","status":"active"},
+    {"id":"github_actions","name":"GitHub Actions","status":"active"},
+    {"id":"terraform","name":"Terraform","status":"active"}
+  ]
+}

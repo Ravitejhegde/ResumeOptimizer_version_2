@@ -1,5 +1,4 @@
-from pathlib import Path
-import traceback
+from __future__ import annotations
 
 from fastapi import APIRouter
 from fastapi import Depends
@@ -7,13 +6,10 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.database.repositories.resume_repository import (
-    ResumeRepository,
-)
 from app.database.session import get_db
 
-from app.engine.orchestrator import (
-    ResumeOptimizationEngine,
+from app.services.optimization.optimization_service import (
+    OptimizationService,
 )
 
 router = APIRouter(
@@ -34,70 +30,31 @@ def optimize_resume(
     db: Session = Depends(get_db),
 ):
 
-    print("=" * 80)
-    print("OPTIMIZATION REQUEST")
-    print("=" * 80)
-    print("Resume ID:", request.resume_id)
-    print("Selected Skills:", request.selected_skills)
-    print("=" * 80)
-
-    repository = ResumeRepository(db)
-
-    resume = repository.get(request.resume_id)
-
-    if resume is None:
-
-        print("❌ Resume not found in database.")
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume not found.",
-        )
-
-    print("✅ Resume found.")
-    print("File Path:", resume.file_path)
-
-    RESUME_DIR = Path(resume.file_path)
-
-    if not RESUME_DIR.exists():
-
-        print("❌ Resume file missing:", RESUME_DIR)
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume file not found.",
-        )
+    service = OptimizationService(db)
 
     try:
 
-        engine = ResumeOptimizationEngine()
-
-        output_path = (
-            RESUME_DIR.parent
-            / f"{RESUME_DIR.stem}_optimized.docx"
-        )
-
-        engine.optimize(
-            input_docx=str(RESUME_DIR),
-            output_docx=str(output_path),
+        output_file = service.optimize(
+            resume_id=request.resume_id,
+            job_description=request.job_description,
             selected_skills=request.selected_skills,
         )
 
         return {
             "success": True,
-            "optimized_filename": output_path.name,
-            "output_path": str(output_path),
+            "output_file": output_file,
         }
 
-    except Exception as exc:
+    except FileNotFoundError as e:
 
-        traceback.print_exc()
+        raise HTTPException(
+            status_code=404,
+            detail=str(e),
+        )
+
+    except Exception as e:
 
         raise HTTPException(
             status_code=500,
-            detail=str(exc),
+            detail=str(e),
         )
-
-
-
-

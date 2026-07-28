@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+import logging
+
+from sqlalchemy.orm import Session
+
 from app.database.repositories.resume_repository import (
     ResumeRepository,
 )
-from app.database.session import (
-    SessionLocal,
-)
-
 from app.engine.analyzer.document_analyzer import (
     DocumentAnalyzer,
 )
@@ -16,12 +16,14 @@ from app.engine.analyzer.job_description_analyzer import (
 from app.engine.analyzer.skill_comparator import (
     SkillComparator,
 )
-from app.knowledge.knowledge_manager import (
-    KnowledgeManager,
-)
 from app.engine.reader.parser import (
     DocumentParser,
 )
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
+)
+
+logger = logging.getLogger(__name__)
 
 
 class ResumeAnalysisService:
@@ -31,165 +33,151 @@ class ResumeAnalysisService:
     Responsibilities
     ----------------
     • Load resume
+    • Parse resume
     • Analyze resume
     • Analyze job description
     • Compare skills
-    • Return frontend response
+    • Return analysis results
     """
 
-    @staticmethod
+    def __init__(
+        self,
+        db: Session,
+    ) -> None:
+
+        self._repository = ResumeRepository(db)
+
+        self._knowledge = KnowledgeManager()
+        self._knowledge.initialize()
+
     def analyze(
+        self,
         resume_id: str,
         job_description: str | None = None,
-    ):
+    ) -> dict:
 
-        db = SessionLocal()
+        resume = self._repository.get(
+            resume_id
+        )
 
-        try:
+        if resume is None:
 
-            repository = ResumeRepository(db)
-
-            resume = repository.get(
-                resume_id
+            raise FileNotFoundError(
+                "Resume not found."
             )
 
-            if resume is None:
+        # ----------------------------------
+        # Parse Resume
+        # ----------------------------------
 
-                raise FileNotFoundError(
-                    "Resume not found."
-                )
+        document = DocumentParser.parse(
+            resume.file_path
+        )
 
-            # ----------------------------------
-            # Parse Resume
-            # ----------------------------------
+        # ----------------------------------
+        # Analyze Resume
+        # ----------------------------------
 
-            document = DocumentParser.parse(
-                resume.file_path
+        analysis = DocumentAnalyzer(
+            self._knowledge
+        ).analyze(
+            document
+        )
+
+        resume_skills = (
+            analysis.keywords.normalized_skills
+        )
+        print("\n" + "=" * 80)
+        print("RESUME SKILLS")
+        print("=" * 80)
+        print(resume_skills)
+        logger.info(
+            "Resume skills: %s",
+            resume_skills,
+        )
+
+        # ----------------------------------
+        # Analyze Job Description
+        # ----------------------------------
+
+        jd_skills: list[str] = []
+
+        if job_description:
+
+            jd_analysis = JobDescriptionAnalyzer(
+                self._knowledge
+            ).analyze(
+                job_description
             )
 
-            # ----------------------------------
-            # Initialize Knowledge
-            # ----------------------------------
-
-            knowledge = KnowledgeManager()
-            knowledge.initialize()
-
-            # ----------------------------------
-            # Analyze Resume
-            # ----------------------------------
-
-            document_analyzer = (
-                DocumentAnalyzer(
-                    knowledge
-                )
+            jd_skills = (
+                jd_analysis.required_skills
             )
-
-            analysis = (
-                document_analyzer.analyze(
-                    document
-                )
-            )
-
-            resume_skills = (
-                analysis.keywords.normalized_skills
-            )
-
-            print("\n" + "=" * 80)
-            print("RESUME SKILLS")
-            print("=" * 80)
-            print(resume_skills)
-            print("=" * 80)
-
-            # ----------------------------------
-            # Analyze Job Description
-            # ----------------------------------
-
-            jd_analysis = None
-            jd_skills: list[str] = []
-
-            if job_description:
-
-                jd_analyzer = (
-                    JobDescriptionAnalyzer(
-                        knowledge
-                    )
-                )
-
-                jd_analysis = (
-                    jd_analyzer.analyze(
-                        job_description
-                    )
-                )
-
-                jd_skills = (
-                    jd_analysis.required_skills
-                )
-
             print("\n" + "=" * 80)
             print("JD SKILLS")
             print("=" * 80)
             print(jd_skills)
-            print("=" * 80)
+        logger.info(
+            "JD skills: %s",
+            jd_skills,
+        )
 
-            # ----------------------------------
-            # Compare Skills
-            # ----------------------------------
+        # ----------------------------------
+        # Compare Skills
+        # ----------------------------------
 
-            comparison = (
-                SkillComparator.compare(
-                    resume_skills=resume_skills,
-                    jd_skills=jd_skills,
-                )
-            )
+        comparison = SkillComparator.compare(
+            resume_skills=resume_skills,
+            jd_skills=jd_skills,
+        )
+        print("\n" + "=" * 80)
+        print("MATCHED")
+        print(comparison.matched_skills)
 
-            print("\n" + "=" * 80)
-            print("MATCHED SKILLS")
-            print("=" * 80)
-            print(comparison.matched_skills)
+        print("\nMISSING")
+        print(comparison.missing_skills)
 
-            print("\n" + "=" * 80)
-            print("MISSING SKILLS")
-            print("=" * 80)
-            print(comparison.missing_skills)
+        print("\nEXTRA")
+        print(comparison.extra_skills)
+        print("=" * 80)
 
-            print("\n" + "=" * 80)
-            print("EXTRA SKILLS")
-            print("=" * 80)
-            print(comparison.extra_skills)
-            print("=" * 80)
+        logger.info(
+            "Matched: %s",
+            comparison.matched_skills,
+        )
 
-            # ----------------------------------
-            # Response
-            # ----------------------------------
+        logger.info(
+            "Missing: %s",
+            comparison.missing_skills,
+        )
 
-            return {
+        logger.info(
+            "Extra: %s",
+            comparison.extra_skills,
+        )
 
-                "score": comparison.match_percentage,
+        # ----------------------------------
+        # Response
+        # ----------------------------------
+        
+        return {
 
-                "matched_skills": (
-                    comparison.matched_skills
-                ),
+            "score": comparison.match_percentage,
 
-                "missing_skills": (
-                    comparison.missing_skills
-                ),
+            "matched_skills": (
+                comparison.matched_skills
+            ),
 
-                "extra_skills": (
-                    comparison.extra_skills
-                ),
+            "missing_skills": (
+                comparison.missing_skills
+            ),
 
-                # Placeholder until Role Analyzer
-                # and Experience Analyzer are built.
-                "detected_role": "",
+            "extra_skills": (
+                comparison.extra_skills
+            ),
 
-                "experience": 0,
+            "detected_role": "",
 
-            }
+            "experience": 0,
 
-        finally:
-
-            db.close()
-
-
-
-
+        }

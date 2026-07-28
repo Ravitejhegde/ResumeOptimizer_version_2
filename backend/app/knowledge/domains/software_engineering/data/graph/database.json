@@ -1,0 +1,18 @@
+{
+    "relationships": [
+        {
+            "technology": "postgresql",
+            "related": [
+                "sql",
+                "pgadmin"
+            ]
+        },
+        {
+            "technology": "mongodb",
+            "related": [
+                "mongoose",
+                "nodejs"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+  "category": {
+    "id": "cloud",
+    "name": "Cloud"
+  },
+  "technologies": [
+    {"id":"aws","name":"AWS","status":"active"},
+    {"id":"azure","name":"Azure","status":"active"},
+    {"id":"gcp","name":"Google Cloud","status":"active"},
+    {"id":"firebase","name":"Firebase","status":"active"}
+  ]
+}

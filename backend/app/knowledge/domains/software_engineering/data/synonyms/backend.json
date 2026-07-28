@@ -1,0 +1,32 @@
+{
+    "synonyms": [
+        {
+            "canonical": "nodejs",
+            "aliases": [
+                "node",
+                "node js",
+                "node.js"
+            ]
+        },
+        {
+            "canonical": "express",
+            "aliases": [
+                "expressjs",
+                "express.js"
+            ]
+        },
+        {
+            "canonical": "fastapi",
+            "aliases": [
+                "fast api"
+            ]
+        },
+        {
+            "canonical": "spring_boot",
+            "aliases": [
+                "spring",
+                "springboot"
+            ]
+        }
+    ]
+}

@@ -5,6 +5,9 @@ from pathlib import Path
 from app.knowledge.domains.software_engineering.loaders.graph_loader import (
     GraphLoader,
 )
+from app.knowledge.domains.software_engineering.loaders.role_loader import (
+    RoleLoader,
+)
 from app.knowledge.domains.software_engineering.loaders.synonym_loader import (
     SynonymLoader,
 )
@@ -15,13 +18,10 @@ from app.knowledge.domains.software_engineering.loaders.taxonomy_loader import (
 
 class SoftwareEngineeringDomain:
     """
-    Software Engineering knowledge domain.
+    Software Engineering Knowledge Domain.
 
-    Provides search APIs over the knowledge
-    instead of exposing raw JSON.
-
-    Future analyzers should only call these
-    methods.
+    Central access point for all knowledge used by
+    analyzers, planners and optimizers.
     """
 
     def __init__(
@@ -34,28 +34,42 @@ class SoftwareEngineeringDomain:
         data = root / "data"
 
         self.taxonomy = TaxonomyLoader(
-            data / "taxonomy.json"
+            data / "taxonomy",
         )
 
         self.synonyms = SynonymLoader(
-            data / "synonyms.json"
+            data / "synonyms",
         )
 
         self.graph = GraphLoader(
-            data / "graph.json"
+            data / "graph",
         )
 
-    def load(self) -> None:
+        self.roles = RoleLoader(
+            data / "roles",
+        )
+
+    # --------------------------------------------------
+
+    def load(
+        self,
+    ) -> None:
 
         self.taxonomy.load()
+
         self.synonyms.load()
+
         self.graph.load()
+
+        self.roles.load()
 
     # --------------------------------------------------
     # Categories
     # --------------------------------------------------
 
-    def categories(self) -> list[dict]:
+    def categories(
+        self,
+    ) -> list[dict]:
 
         return self.taxonomy.categories
 
@@ -63,7 +77,9 @@ class SoftwareEngineeringDomain:
     # Technologies
     # --------------------------------------------------
 
-    def technologies(self) -> dict:
+    def technologies(
+        self,
+    ) -> dict[str, list[dict]]:
 
         return self.taxonomy.technologies
 
@@ -72,17 +88,9 @@ class SoftwareEngineeringDomain:
         technology: str,
     ) -> bool:
 
-        technology = technology.lower()
-
-        for technologies in self.taxonomy.technologies.values():
-
-            for item in technologies:
-
-                if item["id"] == technology:
-
-                    return True
-
-        return False
+        return self.taxonomy.category(
+            technology.lower(),
+        ) is not None
 
     # --------------------------------------------------
     # Synonyms
@@ -93,19 +101,22 @@ class SoftwareEngineeringDomain:
         value: str,
     ) -> str:
 
-        value = value.lower().strip()
+        return self.synonyms.canonical(
+            value,
+        )
 
-        for item in self.synonyms.synonyms:
+    # --------------------------------------------------
+    # Categories
+    # --------------------------------------------------
 
-            if item["canonical"] == value:
+    def category(
+        self,
+        technology: str,
+    ) -> str | None:
 
-                return value
-
-            if value in item["aliases"]:
-
-                return item["canonical"]
-
-        return value
+        return self.taxonomy.category(
+            technology,
+        )
 
     # --------------------------------------------------
     # Relationships
@@ -116,18 +127,21 @@ class SoftwareEngineeringDomain:
         technology: str,
     ) -> list[str]:
 
-        technology = self.canonical(
-            technology
+        return self.graph.related(
+            self.canonical(
+                technology,
+            ),
         )
 
-        for relation in self.graph.relationships:
+    # --------------------------------------------------
+    # Roles
+    # --------------------------------------------------
 
-            if relation["technology"] == technology:
+    def role(
+        self,
+        role_id: str,
+    ) -> dict | None:
 
-                return relation["related"]
-
-        return []
-
-
-
-
+        return self.roles.find(
+            role_id,
+        )

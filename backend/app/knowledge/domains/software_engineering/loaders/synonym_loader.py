@@ -6,13 +6,26 @@ from pathlib import Path
 
 class SynonymLoader:
     """
-    Loads technology synonyms for the
-    Software Engineering domain.
+    Loads technology synonyms.
 
-    The JSON contains:
+    Folder structure
 
-    - metadata
-    - synonyms
+    synonyms/
+        frontend.json
+        backend.json
+        database.json
+        ...
+
+    Each file contains
+
+    {
+        "synonyms": [
+            {
+                "canonical": "...",
+                "aliases": [...]
+            }
+        ]
+    }
     """
 
     def __init__(
@@ -22,35 +35,89 @@ class SynonymLoader:
 
         self._path = Path(path)
 
-        self._data: dict = {}
+        self._synonyms: list[dict] = []
 
-    def load(self) -> dict:
+        self._lookup: dict[str, str] = {}
 
-        with self._path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
+    # --------------------------------------------------
 
-            self._data = json.load(file)
+    def load(
+        self,
+    ) -> None:
 
-        return self._data
+        self._synonyms.clear()
+
+        self._lookup.clear()
+
+        if not self._path.exists():
+
+            raise FileNotFoundError(
+                f"Synonym directory not found: {self._path}"
+            )
+
+        for file in sorted(
+            self._path.glob("*.json")
+        ):
+
+            with file.open(
+                "r",
+                encoding="utf-8",
+            ) as stream:
+
+                data = json.load(stream)
+
+            synonyms = data.get(
+                "synonyms",
+                [],
+            )
+
+            self._synonyms.extend(
+                synonyms,
+            )
+
+            for item in synonyms:
+
+                canonical = item[
+                    "canonical"
+                ].lower()
+
+                self._lookup[
+                    canonical
+                ] = canonical
+
+                for alias in item.get(
+                    "aliases",
+                    [],
+                ):
+
+                    self._lookup[
+                        alias.lower()
+                    ] = canonical
+
+    # --------------------------------------------------
 
     @property
-    def metadata(self) -> dict:
+    def synonyms(
+        self,
+    ) -> list[dict]:
 
-        return self._data.get(
-            "metadata",
-            {},
+        return self._synonyms
+
+    # --------------------------------------------------
+
+    def canonical(
+        self,
+        value: str,
+    ) -> str:
+
+        return self._lookup.get(
+            value.lower(),
+            value.lower(),
         )
 
-    @property
-    def synonyms(self) -> list[dict]:
+    def exists(
+        self,
+        value: str,
+    ) -> bool:
 
-        return self._data.get(
-            "synonyms",
-            [],
-        )
-
-
-
-
+        return value.lower() in self._lookup

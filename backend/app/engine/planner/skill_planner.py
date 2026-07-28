@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field
 
 from app.knowledge.knowledge_manager import (
     KnowledgeManager,
@@ -10,39 +11,48 @@ from app.knowledge.knowledge_manager import (
 @dataclass(slots=True)
 class SkillPlan:
     """
-    Simple skill planning.
+    Execution-ready skill plan.
 
-    Intelligence is handled by
-    IntelligenceEngine.
+    IntelligenceEngine decides WHAT should
+    be promoted.
+
+    SkillPlanner prepares the data required
+    by the optimizer.
     """
 
     existing_skills: list[str] = field(
-        default_factory=list
+        default_factory=list,
     )
 
     selected_skills: list[str] = field(
-        default_factory=list
+        default_factory=list,
     )
 
     missing_skills: list[str] = field(
-        default_factory=list
+        default_factory=list,
     )
 
     categorized_skills: dict[
         str,
         list[str],
     ] = field(
-        default_factory=dict
+        default_factory=dict,
     )
 
 
 class SkillPlanner:
     """
-    Builds the basic skill plan.
+    Converts analyzed skills into an
+    execution-ready plan.
 
-    Role detection, prioritization,
-    categorization and promotion are now
-    handled by IntelligenceEngine.
+    This class performs lightweight
+    preparation only.
+
+    It does NOT:
+    - detect roles
+    - rank skills
+    - prioritize skills
+    - call AI
     """
 
     def __init__(
@@ -57,21 +67,16 @@ class SkillPlanner:
         resume_skills: list[str],
         selected_skills: list[str],
     ) -> SkillPlan:
+        """
+        Build a skill plan for execution.
+        """
 
-        existing = sorted(
-
-            self._knowledge.normalizer.normalize_many(
-                resume_skills
-            )
-
+        existing = self._knowledge.normalize_many(
+            resume_skills,
         )
 
-        selected = sorted(
-
-            self._knowledge.normalizer.normalize_many(
-                selected_skills
-            )
-
+        selected = self._knowledge.normalize_many(
+            selected_skills,
         )
 
         missing = sorted(
@@ -84,14 +89,12 @@ class SkillPlanner:
 
         )
 
-        categorized = (
+        categorized = self._knowledge.categorize(
 
-            self._knowledge.categorizer.categorize(
+            sorted(
 
-                sorted(
-                    set(existing).union(
-                        selected
-                    )
+                set(existing).union(
+                    selected,
                 )
 
             )
@@ -109,7 +112,3 @@ class SkillPlanner:
             categorized_skills=categorized,
 
         )
-
-
-
-

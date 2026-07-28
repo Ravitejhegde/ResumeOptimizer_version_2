@@ -7,34 +7,28 @@ from app.api.routes.analysis import router as analysis_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.download import router as download_router
 from app.api.routes.job_description import router as job_router
-from app.api.routes.optimization import router as optimization_router
+from app.api.routes.optimization import (
+    router as optimization_router,
+)
 from app.api.routes.resume import router as resume_router
 from app.api.routes.user import router as user_router
-from app.core.config import settings
-from app.database.init_db import initialize_database
+
 from app.billing.routes.checkout import (
     router as billing_checkout_router,
 )
-
 from app.billing.routes.plans import (
     router as billing_plans_router,
 )
-
 from app.billing.routes.pricing import (
     router as billing_pricing_router,
 )
-
-# from app.billing.routes.subscription import (
-#     router as billing_subscription_router,
-# )
-
-# from app.billing.routes.portal import (
-#     router as billing_portal_router,
-# )
-
 from app.billing.routes.webhook import (
     router as billing_webhook_router,
 )
+
+from app.core.config import settings
+from app.database.init_db import initialize_database
+
 load_dotenv()
 
 app = FastAPI(
@@ -56,42 +50,17 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup() -> None:
     """
-    Create required storage folders
-    and initialize the database.
+    Initialize the application.
     """
 
-    settings.STORAGE_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.TEMP_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.RESUME_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.PREVIEW_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.EXPORT_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    settings.LOG_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    settings.create_directories()
 
     initialize_database()
 
+
+# --------------------------------------------------
+# API Routes
+# --------------------------------------------------
 
 app.include_router(resume_router)
 app.include_router(job_router)
@@ -100,32 +69,43 @@ app.include_router(optimization_router)
 app.include_router(download_router)
 app.include_router(auth_router)
 app.include_router(user_router)
+
+# --------------------------------------------------
+# Billing Routes
+# --------------------------------------------------
+
 app.include_router(
-    billing_checkout_router
+    billing_checkout_router,
 )
 
 app.include_router(
-    billing_plans_router
+    billing_plans_router,
 )
 
 app.include_router(
-    billing_pricing_router
+    billing_pricing_router,
 )
 
 # app.include_router(
-#     billing_subscription_router
+#     billing_subscription_router,
 # )
 
 # app.include_router(
-#     billing_portal_router
+#     billing_portal_router,
 # )
 
 app.include_router(
-    billing_webhook_router
+    billing_webhook_router,
 )
+
+
+# --------------------------------------------------
+# Health
+# --------------------------------------------------
 
 @app.get("/")
 async def root():
+
     return {
         "name": settings.APP_NAME,
         "version": settings.APP_VERSION,
@@ -135,10 +115,7 @@ async def root():
 
 @app.get("/health")
 async def health():
+
     return {
         "status": "healthy",
     }
-
-
-
-

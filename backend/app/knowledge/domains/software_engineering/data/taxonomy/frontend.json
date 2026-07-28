@@ -1,0 +1,16 @@
+{
+  "category": {
+    "id": "frontend",
+    "name": "Frontend"
+  },
+  "technologies": [
+    {"id":"react","name":"React","status":"active"},
+    {"id":"angular","name":"Angular","status":"active"},
+    {"id":"vue","name":"Vue.js","status":"active"},
+    {"id":"nextjs","name":"Next.js","status":"active"},
+    {"id":"html","name":"HTML","status":"active"},
+    {"id":"css","name":"CSS","status":"active"},
+    {"id":"javascript","name":"JavaScript","status":"active"},
+    {"id":"typescript","name":"TypeScript","status":"active"}
+  ]
+}

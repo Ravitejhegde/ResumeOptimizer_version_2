@@ -1,0 +1,13 @@
+{
+  "category": {
+    "id": "build_tools",
+    "name": "Build Tools"
+  },
+  "technologies": [
+    {"id":"maven","name":"Maven","status":"active"},
+    {"id":"gradle","name":"Gradle","status":"active"},
+    {"id":"npm","name":"NPM","status":"active"},
+    {"id":"yarn","name":"Yarn","status":"active"},
+    {"id":"vite","name":"Vite","status":"active"}
+  ]
+}

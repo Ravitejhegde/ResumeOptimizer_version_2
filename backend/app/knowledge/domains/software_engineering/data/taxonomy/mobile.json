@@ -1,0 +1,14 @@
+{
+  "category": {
+    "id": "mobile",
+    "name": "Mobile"
+  },
+  "technologies": [
+    {"id":"flutter","name":"Flutter","status":"active"},
+    {"id":"android","name":"Android","status":"active"},
+    {"id":"ios","name":"iOS","status":"active"},
+    {"id":"react_native","name":"React Native","status":"active"},
+    {"id":"kotlin","name":"Kotlin","status":"active"},
+    {"id":"swift","name":"Swift","status":"active"}
+  ]
+}

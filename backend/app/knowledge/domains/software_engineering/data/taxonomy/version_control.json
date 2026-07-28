@@ -1,0 +1,12 @@
+{
+  "category": {
+    "id": "version_control",
+    "name": "Version Control"
+  },
+  "technologies": [
+    {"id":"git","name":"Git","status":"active"},
+    {"id":"github","name":"GitHub","status":"active"},
+    {"id":"gitlab","name":"GitLab","status":"active"},
+    {"id":"bitbucket","name":"Bitbucket","status":"active"}
+  ]
+}

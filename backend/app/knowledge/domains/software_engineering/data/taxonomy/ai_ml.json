@@ -1,0 +1,14 @@
+{
+  "category": {
+    "id": "ai_ml",
+    "name": "AI / Machine Learning"
+  },
+  "technologies": [
+    {"id":"tensorflow","name":"TensorFlow","status":"active"},
+    {"id":"pytorch","name":"PyTorch","status":"active"},
+    {"id":"langchain","name":"LangChain","status":"active"},
+    {"id":"huggingface","name":"Hugging Face","status":"active"},
+    {"id":"opencv","name":"OpenCV","status":"active"},
+    {"id":"scikit_learn","name":"Scikit-learn","status":"active"}
+  ]
+}

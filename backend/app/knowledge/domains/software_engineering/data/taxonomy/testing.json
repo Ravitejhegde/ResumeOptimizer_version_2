@@ -1,0 +1,13 @@
+{
+  "category": {
+    "id": "testing",
+    "name": "Testing"
+  },
+  "technologies": [
+    {"id":"pytest","name":"Pytest","status":"active"},
+    {"id":"junit","name":"JUnit","status":"active"},
+    {"id":"selenium","name":"Selenium","status":"active"},
+    {"id":"cypress","name":"Cypress","status":"active"},
+    {"id":"playwright","name":"Playwright","status":"active"}
+  ]
+}

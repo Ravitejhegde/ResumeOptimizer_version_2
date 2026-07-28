@@ -1,0 +1,23 @@
+{
+    "relationships": [
+        {
+            "technology": "react",
+            "related": [
+                "typescript",
+                "redux",
+                "nextjs",
+                "react_router",
+                "material_ui"
+            ]
+        },
+        {
+            "technology": "angular",
+            "related": [
+                "typescript",
+                "rxjs",
+                "ngrx",
+                "angular_material"
+            ]
+        }
+    ]
+}

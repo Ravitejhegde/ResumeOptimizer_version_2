@@ -1,0 +1,34 @@
+{
+    "synonyms": [
+        {
+            "canonical": "react",
+            "aliases": [
+                "reactjs",
+                "react.js"
+            ]
+        },
+        {
+            "canonical": "angular",
+            "aliases": [
+                "angular2",
+                "angular 2",
+                "angular 17",
+                "angular 18"
+            ]
+        },
+        {
+            "canonical": "vue",
+            "aliases": [
+                "vuejs",
+                "vue.js"
+            ]
+        },
+        {
+            "canonical": "nextjs",
+            "aliases": [
+                "next",
+                "next.js"
+            ]
+        }
+    ]
+}

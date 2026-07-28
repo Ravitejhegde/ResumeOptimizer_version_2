@@ -6,13 +6,26 @@ from pathlib import Path
 
 class GraphLoader:
     """
-    Loads technology relationships for the
-    Software Engineering domain.
+    Loads technology relationship graph.
 
-    The JSON contains:
+    Folder structure
 
-    - metadata
-    - relationships
+    graph/
+        frontend.json
+        backend.json
+        database.json
+        ...
+
+    Each file contains
+
+    {
+        "relationships": [
+            {
+                "technology": "...",
+                "related": [...]
+            }
+        ]
+    }
     """
 
     def __init__(
@@ -22,35 +35,79 @@ class GraphLoader:
 
         self._path = Path(path)
 
-        self._data: dict = {}
+        self._relationships: list[dict] = []
 
-    def load(self) -> dict:
+        self._graph: dict[str, list[str]] = {}
 
-        with self._path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
+    # --------------------------------------------------
 
-            self._data = json.load(file)
+    def load(
+        self,
+    ) -> None:
 
-        return self._data
+        self._relationships.clear()
+
+        self._graph.clear()
+
+        if not self._path.exists():
+
+            raise FileNotFoundError(
+                f"Graph directory not found: {self._path}"
+            )
+
+        for file in sorted(
+            self._path.glob("*.json")
+        ):
+
+            with file.open(
+                "r",
+                encoding="utf-8",
+            ) as stream:
+
+                data = json.load(stream)
+
+            relationships = data.get(
+                "relationships",
+                [],
+            )
+
+            self._relationships.extend(
+                relationships,
+            )
+
+            for relation in relationships:
+
+                self._graph[
+                    relation["technology"]
+                ] = relation.get(
+                    "related",
+                    [],
+                )
+
+    # --------------------------------------------------
 
     @property
-    def metadata(self) -> dict:
+    def relationships(
+        self,
+    ) -> list[dict]:
 
-        return self._data.get(
-            "metadata",
-            {},
-        )
+        return self._relationships
 
-    @property
-    def relationships(self) -> list[dict]:
+    # --------------------------------------------------
 
-        return self._data.get(
-            "relationships",
+    def related(
+        self,
+        technology: str,
+    ) -> list[str]:
+
+        return self._graph.get(
+            technology,
             [],
         )
 
+    def exists(
+        self,
+        technology: str,
+    ) -> bool:
 
-
-
+        return technology in self._graph

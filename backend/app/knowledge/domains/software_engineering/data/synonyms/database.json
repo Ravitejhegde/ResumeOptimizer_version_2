@@ -1,0 +1,25 @@
+{
+    "synonyms": [
+        {
+            "canonical": "postgresql",
+            "aliases": [
+                "postgres",
+                "pgsql",
+                "postgre"
+            ]
+        },
+        {
+            "canonical": "mongodb",
+            "aliases": [
+                "mongo",
+                "mongo db"
+            ]
+        },
+        {
+            "canonical": "mysql",
+            "aliases": [
+                "my sql"
+            ]
+        }
+    ]
+}

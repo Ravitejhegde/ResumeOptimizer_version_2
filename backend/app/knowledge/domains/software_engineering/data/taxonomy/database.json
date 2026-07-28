@@ -1,0 +1,14 @@
+{
+  "category": {
+    "id": "database",
+    "name": "Database"
+  },
+  "technologies": [
+    {"id":"mysql","name":"MySQL","status":"active"},
+    {"id":"postgresql","name":"PostgreSQL","status":"active"},
+    {"id":"mongodb","name":"MongoDB","status":"active"},
+    {"id":"sqlite","name":"SQLite","status":"active"},
+    {"id":"redis","name":"Redis","status":"active"},
+    {"id":"oracle","name":"Oracle","status":"active"}
+  ]
+}

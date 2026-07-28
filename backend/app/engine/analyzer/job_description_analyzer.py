@@ -1,33 +1,32 @@
 from __future__ import annotations
 
-from app.knowledge.knowledge_manager import (
-    KnowledgeManager,
-)
-from app.knowledge.services.technology_extractor import (
-    TechnologyExtractor,
-)
+import re
+
 from app.engine.models.jd_analysis import (
     JDAnalysis,
+)
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 
 class JobDescriptionAnalyzer:
     """
-    Analyzes a Job Description.
+    Analyze a Job Description.
 
     Responsibilities
     ----------------
     • Extract technologies
     • Normalize technologies
-    • Produce a structured JDAnalysis
-
-    Future Responsibilities
-    -----------------------
-    • Detect role
-    • Detect seniority
     • Detect experience
-    • Detect responsibilities
-    • Detect preferred skills
+    • Produce JDAnalysis
+
+    Future
+    ------
+    • Role detection
+    • Seniority detection
+    • Responsibilities
+    • Qualifications
     """
 
     def __init__(
@@ -35,18 +34,19 @@ class JobDescriptionAnalyzer:
         knowledge: KnowledgeManager,
     ) -> None:
 
-        self._extractor = TechnologyExtractor(
-            taxonomy=knowledge.taxonomy,
-            normalizer=knowledge.normalizer,
-        )
+        self._knowledge = knowledge
 
     def analyze(
         self,
         text: str,
     ) -> JDAnalysis:
 
-        skills = self._extractor.extract(
-            text
+        detected = self._knowledge.extract(
+            text,
+        )
+
+        skills = self._knowledge.normalize_many(
+            detected,
         )
 
         return JDAnalysis(
@@ -57,8 +57,27 @@ class JobDescriptionAnalyzer:
 
             keywords=skills,
 
+            minimum_experience=self._detect_experience(
+                text,
+            ),
         )
 
+    # --------------------------------------------------
 
+    @staticmethod
+    def _detect_experience(
+        text: str,
+    ) -> float | None:
 
+        match = re.search(
+            r"(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)",
+            text,
+            re.IGNORECASE,
+        )
 
+        if match is None:
+            return None
+
+        return float(
+            match.group(1),
+        )

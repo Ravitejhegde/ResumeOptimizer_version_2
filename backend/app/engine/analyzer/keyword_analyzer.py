@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from app.engine.analyzer.resume_skill_extractor import (
+    ResumeSkillExtractor,
+)
 from app.engine.models.analysis_result import (
     KeywordAnalysisResult,
 )
@@ -13,14 +16,16 @@ from app.knowledge.knowledge_manager import (
 
 class KeywordAnalyzer:
     """
-    Extracts technologies from a resume.
+    Analyzes resume technologies.
 
     Responsibilities
     ----------------
-    • Detect technologies
-    • Normalize technologies
+    • Normalize detected skills
     • Remove duplicates
-    • Categorize technologies
+    • Categorize skills
+
+    Never reads document text directly.
+    Never extracts technologies.
     """
 
     def __init__(
@@ -30,35 +35,46 @@ class KeywordAnalyzer:
 
         self._knowledge = knowledge
 
+        self._extractor = ResumeSkillExtractor(
+            knowledge,
+        )
+
     def analyze(
         self,
         document: Document,
     ) -> KeywordAnalysisResult:
 
-        detected: list[str] = []
-
-        for paragraph in document.paragraphs:
-
-            detected.extend(
-                self._knowledge.extract(
-                    paragraph.text
-                )
-            )
-
-        normalized = sorted(
-            set(detected)
+        detected = self._extractor.extract(
+            document,
         )
 
-        categorized = {}
+        normalized = (
+            self._knowledge.normalize_many(
+                detected,
+            )
+        )
 
-        duplicates = []
+        duplicates = sorted(
+            {
+                skill
+                for skill in normalized
+                if normalized.count(skill) > 1
+            }
+        )
+
+        categorized = (
+            self._knowledge.categorize(
+                normalized,
+            )
+        )
+
+        unique = sorted(
+            set(normalized),
+        )
 
         return KeywordAnalysisResult(
-            detected_skills=normalized,
-            normalized_skills=normalized,
+            detected_skills=detected,
+            normalized_skills=unique,
             categorized_skills=categorized,
             duplicate_skills=duplicates,
         )
-
-
-

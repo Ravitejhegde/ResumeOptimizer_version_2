@@ -3,8 +3,9 @@ from __future__ import annotations
 from dataclasses import replace
 
 from app.engine.models.paragraph import Paragraph
-from app.engine.common.enums import SectionType
-
+from app.engine.common.enums import (
+    SectionType,
+)
 
 class SectionOptimizer:
     """

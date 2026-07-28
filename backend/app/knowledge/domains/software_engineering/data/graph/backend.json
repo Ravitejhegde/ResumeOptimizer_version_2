@@ -1,0 +1,32 @@
+{
+    "relationships": [
+        {
+            "technology": "nodejs",
+            "related": [
+                "express",
+                "nestjs",
+                "mongodb",
+                "jwt",
+                "socketio"
+            ]
+        },
+        {
+            "technology": "fastapi",
+            "related": [
+                "python",
+                "uvicorn",
+                "pydantic",
+                "sqlalchemy"
+            ]
+        },
+        {
+            "technology": "spring_boot",
+            "related": [
+                "java",
+                "hibernate",
+                "maven",
+                "gradle"
+            ]
+        }
+    ]
+}

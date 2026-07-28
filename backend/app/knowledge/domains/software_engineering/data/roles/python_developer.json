@@ -1,0 +1,23 @@
+{
+    "id": "python_developer",
+
+    "title": "Python Developer",
+
+    "required": [
+        "python",
+        "fastapi",
+        "sql",
+        "git"
+    ],
+
+    "preferred": [
+        "docker",
+        "aws",
+        "postgresql"
+    ],
+
+    "nice_to_have": [
+        "redis",
+        "celery"
+    ]
+}

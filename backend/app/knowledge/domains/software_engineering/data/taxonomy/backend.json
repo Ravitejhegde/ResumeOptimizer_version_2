@@ -1,0 +1,16 @@
+{
+  "category": {
+    "id": "backend",
+    "name": "Backend"
+  },
+  "technologies": [
+    {"id":"nodejs","name":"Node.js","status":"active"},
+    {"id":"express","name":"Express","status":"active"},
+    {"id":"nestjs","name":"NestJS","status":"active"},
+    {"id":"fastapi","name":"FastAPI","status":"active"},
+    {"id":"django","name":"Django","status":"active"},
+    {"id":"flask","name":"Flask","status":"active"},
+    {"id":"spring_boot","name":"Spring Boot","status":"active"},
+    {"id":"aspnet_core","name":"ASP.NET Core","status":"active"}
+  ]
+}

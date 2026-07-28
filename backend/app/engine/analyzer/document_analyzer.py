@@ -1,37 +1,40 @@
 from __future__ import annotations
 
-from app.engine.analyzer.ats_analyzer import ATSAnalyzer
-from app.engine.analyzer.keyword_analyzer import KeywordAnalyzer
-from app.engine.analyzer.structure_analyzer import StructureAnalyzer
-
+from app.engine.analyzer.ats_analyzer import (
+    ATSAnalyzer,
+)
+from app.engine.analyzer.keyword_analyzer import (
+    KeywordAnalyzer,
+)
+from app.engine.analyzer.structure_analyzer import (
+    StructureAnalyzer,
+)
 from app.engine.intelligence.intelligence_engine import (
     IntelligenceEngine,
 )
-
-from app.knowledge.knowledge_manager import (
-    KnowledgeManager,
-)
-
 from app.engine.models.analysis_result import (
     AnalysisResult,
-    StructureAnalysisResult,
 )
-
 from app.engine.models.document import (
     Document,
+)
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 
 class DocumentAnalyzer:
     """
-    Central analysis coordinator.
+    Coordinates all document analyzers.
 
     Responsibilities
     ----------------
     • Keyword analysis
     • Structure analysis
     • ATS analysis
-    • Delegate intelligence building
+    • Build optimization intelligence
+
+    Never performs analysis itself.
     """
 
     def __init__(
@@ -40,7 +43,7 @@ class DocumentAnalyzer:
     ) -> None:
 
         self._keyword_analyzer = KeywordAnalyzer(
-            knowledge
+            knowledge,
         )
 
         self._structure_analyzer = (
@@ -58,41 +61,31 @@ class DocumentAnalyzer:
         document: Document,
     ) -> AnalysisResult:
 
-        keyword_result = (
+        keywords = (
             self._keyword_analyzer.analyze(
-                document
+                document,
             )
         )
 
-        structure_result = (
+        structure = (
             self._structure_analyzer.analyze(
-                document
+                document,
             )
         )
 
-        if not isinstance(
-            structure_result,
-            StructureAnalysisResult,
-        ):
-            structure_result = (
-                StructureAnalysisResult(
-                    sections=[]
-                )
-            )
-
-        ats_result = (
+        ats = (
             self._ats_analyzer.analyze(
-                document
+                document,
             )
         )
 
         analysis = AnalysisResult(
 
-            keywords=keyword_result,
+            keywords=keywords,
 
-            structure=structure_result,
+            structure=structure,
 
-            ats=ats_result,
+            ats=ats,
 
             optimization_strategy=None,
 
@@ -114,7 +107,3 @@ class DocumentAnalyzer:
         )
 
         return analysis
-
-
-
-

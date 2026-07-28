@@ -6,13 +6,27 @@ from pathlib import Path
 
 class TaxonomyLoader:
     """
-    Loads the Software Engineering taxonomy.
+    Loads all taxonomy category files.
 
-    The taxonomy is stored as JSON and contains:
+    Folder structure:
 
-    - metadata
-    - categories
-    - technologies_by_category
+    taxonomy/
+        frontend.json
+        backend.json
+        database.json
+        ...
+
+    Each file contains:
+
+    {
+        "category": {
+            "id": "...",
+            "name": "..."
+        },
+        "technologies": [
+            ...
+        ]
+    }
     """
 
     def __init__(
@@ -22,43 +36,133 @@ class TaxonomyLoader:
 
         self._path = Path(path)
 
-        self._data: dict = {}
+        self._categories: list[dict] = []
 
-    def load(self) -> dict:
+        self._technologies: dict[
+            str,
+            list[dict],
+        ] = {}
 
-        with self._path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
+        # technology_id -> category_id
+        self._category_lookup: dict[
+            str,
+            str,
+        ] = {}
 
-            self._data = json.load(file)
+    # --------------------------------------------------
 
-        return self._data
+    def load(
+        self,
+    ) -> None:
+
+        self._categories.clear()
+
+        self._technologies.clear()
+
+        self._category_lookup.clear()
+
+        if not self._path.exists():
+
+            raise FileNotFoundError(
+                f"Taxonomy directory not found: {self._path}"
+            )
+
+        for file in sorted(
+            self._path.glob("*.json")
+        ):
+
+            with file.open(
+                "r",
+                encoding="utf-8",
+            ) as stream:
+
+                data = json.load(stream)
+
+            category = data.get(
+                "category",
+            )
+
+            if category is None:
+
+                raise ValueError(
+                    f"{file.name} is missing 'category'."
+                )
+
+            category_id = category["id"]
+
+            technologies = data.get(
+                "technologies",
+                [],
+            )
+
+            self._categories.append(
+                category,
+            )
+
+            self._technologies[
+                category_id
+            ] = technologies
+
+            for technology in technologies:
+
+                self._category_lookup[
+                    technology["id"]
+                ] = category_id
+
+    # --------------------------------------------------
 
     @property
-    def metadata(self) -> dict:
+    def categories(
+        self,
+    ) -> list[dict]:
 
-        return self._data.get(
-            "metadata",
-            {},
-        )
+        return self._categories
 
     @property
-    def categories(self) -> list[dict]:
+    def technologies(
+        self,
+    ) -> dict[str, list[dict]]:
 
-        return self._data.get(
-            "categories",
+        return self._technologies
+
+    # --------------------------------------------------
+
+    def exists(
+        self,
+        category_id: str,
+    ) -> bool:
+
+        return category_id in self._technologies
+
+    def get(
+        self,
+        category_id: str,
+    ) -> list[dict]:
+
+        return self._technologies.get(
+            category_id,
             [],
         )
 
-    @property
-    def technologies(self) -> dict:
+    def all(
+        self,
+    ) -> list[dict]:
 
-        return self._data.get(
-            "technologies_by_category",
-            {},
+        technologies: list[dict] = []
+
+        for items in self._technologies.values():
+
+            technologies.extend(items)
+
+        return technologies
+
+    # --------------------------------------------------
+
+    def category(
+        self,
+        technology_id: str,
+    ) -> str | None:
+
+        return self._category_lookup.get(
+            technology_id,
         )
-
-
-
-
