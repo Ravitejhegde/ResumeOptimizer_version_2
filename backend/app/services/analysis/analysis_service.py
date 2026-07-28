@@ -10,10 +10,10 @@ from app.database.repositories.resume_repository import (
 from app.engine.analyzer.document_analyzer import (
     DocumentAnalyzer,
 )
-from app.engine.analyzer.job_description_analyzer import (
+from app.engine.analyzer.analyzers.job_description_analyzer import (
     JobDescriptionAnalyzer,
 )
-from app.engine.analyzer.skill_comparator import (
+from app.engine.analyzer.comparators.skill_comparator import (
     SkillComparator,
 )
 from app.engine.reader.parser import (

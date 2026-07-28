@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.engine.models.paragraph import (
+from app.engine.models.document.paragraph import (
     Paragraph,
 )
 from app.engine.planner.layout_budget_planner import (

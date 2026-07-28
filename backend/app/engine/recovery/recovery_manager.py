@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 
 from app.engine.recovery.backup import BackupManager
 from app.engine.recovery.rollback import RollbackManager

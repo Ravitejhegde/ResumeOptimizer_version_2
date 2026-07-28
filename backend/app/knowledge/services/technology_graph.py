@@ -1,68 +1,37 @@
 from __future__ import annotations
 
-from collections import defaultdict
+from app.knowledge.domains.software_engineering.domain import (
+    SoftwareEngineeringDomain,
+)
 
 
 class TechnologyGraph:
     """
-    Represents relationships between technologies.
+    Technology relationship service.
 
-    The graph is used by the Planner and Optimizer to:
-
-    - Find related technologies
-    - Discover neighbouring skills
-    - Suggest replacements
-    - Build technology clusters
-
-    This class NEVER performs AI reasoning.
+    Uses the Software Engineering Knowledge Domain
+    as the single source of truth.
     """
 
-    def __init__(self) -> None:
-
-        self._graph: dict[str, set[str]] = defaultdict(set)
-
-    @staticmethod
-    def _normalize(
-        technology: str,
-    ) -> str:
-
-        return technology.strip().lower()
-
-    def add_relationship(
+    def __init__(
         self,
-        technology_a: str,
-        technology_b: str,
+        domain: SoftwareEngineeringDomain,
     ) -> None:
 
-        a = self._normalize(
-            technology_a,
-        )
+        self._domain = domain
 
-        b = self._normalize(
-            technology_b,
-        )
-
-        if a == b:
-            return
-
-        self._graph[a].add(b)
-        self._graph[b].add(a)
+    # --------------------------------------------------
 
     def related_to(
         self,
         technology: str,
     ) -> list[str]:
 
-        node = self._normalize(
+        return self._domain.related(
             technology,
         )
 
-        return sorted(
-            self._graph.get(
-                node,
-                set(),
-            )
-        )
+    # --------------------------------------------------
 
     def has_relationship(
         self,
@@ -70,27 +39,37 @@ class TechnologyGraph:
         technology_b: str,
     ) -> bool:
 
-        a = self._normalize(
-            technology_a,
-        )
-
-        b = self._normalize(
+        technology_b = self._domain.canonical(
             technology_b,
         )
 
-        return b in self._graph.get(
-            a,
-            set(),
+        return (
+            technology_b
+            in self._domain.related(
+                technology_a,
+            )
         )
+
+    # --------------------------------------------------
 
     def technologies(
         self,
     ) -> list[str]:
 
+        technologies: list[str] = []
+
+        for values in (
+            self._domain.technologies().values()
+        ):
+
+            technologies.extend(
+
+                technology["id"]
+
+                for technology in values
+
+            )
+
         return sorted(
-            self._graph.keys()
+            set(technologies),
         )
-
-
-
-

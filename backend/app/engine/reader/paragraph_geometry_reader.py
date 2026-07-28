@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from app.engine.models.page_geometry import (
+from app.engine.models.document.page_geometry import (
     PageGeometry,
 )
 
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.document.paragraph import Paragraph
 
-from app.engine.models.paragraph_geometry import (
+from app.engine.models.document.paragraph_geometry import (
     ParagraphGeometry,
 )
 

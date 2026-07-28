@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 
 
 class Reader(ABC):

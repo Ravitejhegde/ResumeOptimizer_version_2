@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from app.engine.common.enums import SectionType
 
@@ -32,18 +32,19 @@ class SectionRule:
 
 class SectionRules:
     """
-    Central registry of resume section rules.
-
-    Every optimizer must consult these rules before
-    modifying a section.
+    Registry of resume section rules.
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+    ) -> None:
 
         self._rules: dict[
             SectionType,
             SectionRule,
         ] = {}
+
+    # --------------------------------------------------
 
     def register(
         self,
@@ -54,33 +55,52 @@ class SectionRules:
             rule.section
         ] = rule
 
+    # --------------------------------------------------
+
     def get(
         self,
         section: SectionType,
     ) -> SectionRule | None:
 
         return self._rules.get(
-            section
+            section,
         )
+
+    # --------------------------------------------------
 
     def exists(
         self,
         section: SectionType,
     ) -> bool:
 
-        return (
-            section
-            in self._rules
+        return section in self._rules
+
+    # --------------------------------------------------
+
+    def remove(
+        self,
+        section: SectionType,
+    ) -> None:
+
+        self._rules.pop(
+            section,
+            None,
         )
+
+    # --------------------------------------------------
+
+    def clear(
+        self,
+    ) -> None:
+
+        self._rules.clear()
+
+    # --------------------------------------------------
 
     def all_rules(
         self,
     ) -> list[SectionRule]:
 
         return list(
-            self._rules.values()
+            self._rules.values(),
         )
-
-
-
-

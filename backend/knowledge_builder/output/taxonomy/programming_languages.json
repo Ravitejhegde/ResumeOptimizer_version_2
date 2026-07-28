@@ -1,0 +1,56 @@
+{
+    "category": {
+        "id": "programming_languages",
+        "name": "Programming Languages",
+        "description": "Programming languages used in software engineering."
+    },
+    "technologies": [
+        {
+            "id": "python",
+            "name": "Python",
+            "aliases": [
+                "python3",
+                "py"
+            ],
+            "category": "programming_languages",
+            "tags": [],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "java",
+            "name": "Java",
+            "aliases": [],
+            "category": "programming_languages",
+            "tags": [],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "javascript",
+            "name": "JavaScript",
+            "aliases": [
+                "js"
+            ],
+            "category": "programming_languages",
+            "tags": [],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "typescript",
+            "name": "TypeScript",
+            "aliases": [
+                "ts"
+            ],
+            "category": "programming_languages",
+            "tags": [],
+            "description": "",
+            "related": [],
+            "official_url": null
+        }
+    ]
+}

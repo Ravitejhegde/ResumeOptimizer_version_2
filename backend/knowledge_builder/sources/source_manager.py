@@ -1,7 +1,11 @@
 from __future__ import annotations
 
-from knowledge_builder.models.category import Category
-from knowledge_builder.sources.registry import SourceRegistry
+from knowledge_builder.models.source_package import (
+    SourcePackage,
+)
+from knowledge_builder.sources.registry import (
+    SourceRegistry,
+)
 
 
 class SourceManager:
@@ -9,16 +13,16 @@ class SourceManager:
     Loads every knowledge source.
     """
 
-    def load_categories(
+    def load_packages(
         self,
-    ) -> list[Category]:
+    ) -> list[SourcePackage]:
 
-        categories: list[Category] = []
+        packages: list[SourcePackage] = []
 
         for source in SourceRegistry.all():
 
-            categories.append(
+            packages.append(
                 source.load(),
             )
 
-        return categories
+        return packages

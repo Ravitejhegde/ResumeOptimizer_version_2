@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.engine.models.paragraph import Paragraph
-
+from app.engine.models.document.paragraph import (
+    Paragraph,
+)
 
 @dataclass(slots=True, frozen=True)
 class StyleValidationResult:

@@ -1,0 +1,164 @@
+{
+    "category": {
+        "id": "frameworks",
+        "name": "Frameworks",
+        "description": "Software development frameworks."
+    },
+    "technologies": [
+        {
+            "id": "react",
+            "name": "React",
+            "aliases": [
+                "reactjs"
+            ],
+            "category": "frameworks",
+            "tags": [
+                "frontend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "angular",
+            "name": "Angular",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "frontend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "vue",
+            "name": "Vue",
+            "aliases": [
+                "vuejs"
+            ],
+            "category": "frameworks",
+            "tags": [
+                "frontend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "nodejs",
+            "name": "Node.js",
+            "aliases": [
+                "node"
+            ],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "express",
+            "name": "Express",
+            "aliases": [
+                "expressjs"
+            ],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "nestjs",
+            "name": "NestJS",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "django",
+            "name": "Django",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "flask",
+            "name": "Flask",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "fastapi",
+            "name": "FastAPI",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "backend",
+                "api"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "spring",
+            "name": "Spring",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "spring_boot",
+            "name": "Spring Boot",
+            "aliases": [
+                "springboot"
+            ],
+            "category": "frameworks",
+            "tags": [
+                "backend"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        },
+        {
+            "id": "hibernate",
+            "name": "Hibernate",
+            "aliases": [],
+            "category": "frameworks",
+            "tags": [
+                "orm"
+            ],
+            "description": "",
+            "related": [],
+            "official_url": null
+        }
+    ]
+}

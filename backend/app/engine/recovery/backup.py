@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 
 
 class BackupManager:

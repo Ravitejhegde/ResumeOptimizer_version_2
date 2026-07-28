@@ -3,7 +3,9 @@ from __future__ import annotations
 from knowledge_builder.models.category import Category
 from knowledge_builder.models.technology import Technology
 from knowledge_builder.sources.base_source import BaseSource
-
+from knowledge_builder.models.source_package import (
+    SourcePackage,
+)
 
 class FrameworksSource(BaseSource):
 
@@ -115,4 +117,6 @@ class FrameworksSource(BaseSource):
         for technology in technologies:
             category.add(technology)
 
-        return category
+        return SourcePackage(
+            category=category,
+)

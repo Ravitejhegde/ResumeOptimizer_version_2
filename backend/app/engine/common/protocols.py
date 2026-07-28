@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 
 
 class ReaderProtocol(Protocol):

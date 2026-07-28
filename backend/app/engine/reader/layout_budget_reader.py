@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from app.engine.models.layout_budget import LayoutBudget
-from app.engine.models.page_geometry import PageGeometry
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.document.layout_budget import LayoutBudget
+from app.engine.models.document.page_geometry import PageGeometry
+from app.engine.models.document.paragraph import Paragraph
 
 from app.engine.reader.paragraph_geometry_reader import (
     ParagraphGeometryReader,

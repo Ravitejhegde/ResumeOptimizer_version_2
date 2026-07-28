@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 from app.engine.planner.plan import (
     OptimizationPlan,
 )

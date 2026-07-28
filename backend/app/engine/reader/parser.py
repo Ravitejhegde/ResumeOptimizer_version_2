@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 from app.engine.reader.document_reader import DocumentReader
 from app.engine.reader.snapshot_builder import SnapshotBuilder
 

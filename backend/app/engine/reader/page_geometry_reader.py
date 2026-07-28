@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from docx.section import Section
 
-from app.engine.models.page_geometry import (
+from app.engine.models.document.page_geometry import (
     PageGeometry,
 )
 

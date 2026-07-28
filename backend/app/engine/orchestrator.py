@@ -5,29 +5,26 @@ import logging
 from app.engine.analyzer.document_analyzer import (
     DocumentAnalyzer,
 )
-from app.knowledge.knowledge_manager import (
-    KnowledgeManager,
-)
-from app.engine.models.document import (
+from app.engine.models.document.document import (
     Document,
 )
-from app.engine.optimizer.optimization_coordinator import (
-    OptimizationCoordinator,
+from app.engine.models.optimizer.optimization_request import (
+    OptimizationRequest,
 )
-from app.engine.planner.plan import (
-    PlanBuilder,
+from app.engine.optimizer.optimizer_engine import (
+    OptimizerEngine,
+)
+from app.engine.planner.planner_engine import (
+    PlannerEngine,
 )
 from app.engine.reader.parser import (
     DocumentParser,
 )
-from app.engine.recovery.recovery_manager import (
-    RecoveryManager,
+from app.engine.writer.writer_engine import (
+    WriterEngine,
 )
-from app.engine.validator.validation_coordinator import (
-    ValidationCoordinator,
-)
-from app.engine.writer.docx_writer import (
-    DocxWriter,
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 logger = logging.getLogger(__name__)
@@ -35,117 +32,82 @@ logger = logging.getLogger(__name__)
 
 class ResumeOptimizationEngine:
     """
+    ResumeOptimizer V3
+
     Central orchestration engine.
 
     Pipeline
 
-    Read
-        ↓
-    Analyze
-        ↓
-    Plan
-        ↓
-    Optimize
-        ↓
-    Validate
-        ↓
-    Write
+        Read
+          ↓
+        Analyze
+          ↓
+        Plan
+          ↓
+        Optimize
+          ↓
+        Write
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+    ) -> None:
 
         self._knowledge = KnowledgeManager()
         self._knowledge.initialize()
 
         self._analyzer = DocumentAnalyzer(
-            self._knowledge
+            self._knowledge,
         )
 
-        self._planner = PlanBuilder(
-            self._knowledge
-        )
+        self._planner = PlannerEngine()
 
-        self._optimizer = (
-            OptimizationCoordinator()
-        )
+        self._optimizer = OptimizerEngine()
 
-        self._validator = (
-            ValidationCoordinator()
-        )
+        self._writer = WriterEngine()
 
-        self._recovery = (
-            RecoveryManager()
-        )
+    # --------------------------------------------------
 
     def optimize(
         self,
         input_docx: str,
         output_docx: str,
         selected_skills: list[str],
+        job_description: str | None = None,
     ) -> Document:
 
         document = DocumentParser.parse(
-            input_docx
+            input_docx,
         )
 
-        backup = self._recovery.backup(
-            document
+        analysis = self._analyzer.analyze(
+            document=document,
+            job_description=job_description,
         )
 
-        try:
+        plan = self._planner.build(
+            document=document,
+            analysis=analysis,
+            selected_skills=selected_skills,
+        )
 
-            analysis = self._analyzer.analyze(
-                document
-            )
+        request = OptimizationRequest(
+            document=document,
+            plan=plan,
+        )
 
-            plan = self._planner.build(
-                document=document,
-                analysis=analysis,
-                selected_skills=selected_skills,
-            )
+        result = self._optimizer.optimize(
+            request,
+        )
 
-            optimized = self._optimizer.optimize(
-                document=document,
-                plan=plan,
-            )
+        self._writer.write(
+            result=result,
+            source_file=input_docx,
+            output_file=output_docx,
+        )
 
-            validation = (
-    self._validator.validate(
-        original=document,
-        optimized=optimized,
-        plan=plan,
-    )
-)
+        logger.info(
+            "Resume optimization completed successfully."
+        )
 
-            if not validation.valid:
-
-                logger.warning(
-                    "Optimization validation failed: %s",
-                    validation.message,
-                )
-
-                return self._recovery.rollback(
-                    backup
-                )
-
-            DocxWriter.write(
-                document=optimized,
-                source_file=input_docx,
-                output_file=output_docx,
-            )
-
-            return optimized
-
-        except Exception:
-
-            logger.exception(
-                "Resume optimization failed."
-            )
-
-            return self._recovery.rollback(
-                backup
-            )
-
-
-
-
+        return result.document

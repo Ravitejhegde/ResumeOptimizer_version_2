@@ -2,43 +2,32 @@ from __future__ import annotations
 
 import re
 
-from app.knowledge.services.synonyms import (
-    SynonymDictionary,
+from app.knowledge.domains.software_engineering.domain import (
+    SoftwareEngineeringDomain,
 )
 
 
 class SkillNormalizer:
     """
-    Converts raw skills into a canonical form.
-
-    Examples
-
-    AI -> artificial intelligence
-
-    JS -> javascript
-
-    Node JS -> node.js
-
-    REST API -> rest api
-
-    Postgre SQL -> postgresql
+    Converts raw skills into their canonical form
+    using the Software Engineering Knowledge Domain.
     """
 
     def __init__(
         self,
-        dictionary: SynonymDictionary,
+        domain: SoftwareEngineeringDomain,
     ) -> None:
 
-        self._dictionary = dictionary
+        self._domain = domain
+
+    # --------------------------------------------------
 
     @staticmethod
     def _clean(
         text: str,
     ) -> str:
 
-        text = text.lower()
-
-        text = text.strip()
+        text = text.lower().strip()
 
         text = re.sub(
             r"\s+",
@@ -54,6 +43,8 @@ class SkillNormalizer:
 
         return text
 
+    # --------------------------------------------------
+
     def normalize(
         self,
         value: str,
@@ -63,9 +54,11 @@ class SkillNormalizer:
             value,
         )
 
-        return self._dictionary.normalize(
+        return self._domain.canonical(
             cleaned,
         )
+
+    # --------------------------------------------------
 
     def normalize_many(
         self,
@@ -82,8 +75,6 @@ class SkillNormalizer:
 
         }
 
-        return sorted(normalized)
-
-
-
-
+        return sorted(
+            normalized,
+        )

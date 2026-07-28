@@ -1,69 +1,62 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass(slots=True, frozen=True)
 class RoleProfile:
     """
     Represents a normalized job role.
-
-    A role defines:
-    - Required technologies
-    - Optional technologies
-    - Related roles
     """
+
+    id: str
 
     name: str
 
-    required_skills: frozenset[str] = frozenset()
+    required_skills: frozenset[str]
 
-    optional_skills: frozenset[str] = frozenset()
+    optional_skills: frozenset[str]
 
-    related_roles: frozenset[str] = frozenset()
+    related_roles: frozenset[str]
 
 
 class RoleMapper:
     """
-    Maps resumes and job descriptions
-    to normalized roles.
+    Maps skills to software engineering roles.
 
-    This module NEVER calls AI.
-
-    It only uses the knowledge base.
+    Uses the Software Engineering Knowledge Domain.
     """
 
-    def __init__(self) -> None:
-
-        self._roles: dict[str, RoleProfile] = {}
-
-    def register(
+    def __init__(
         self,
-        role: RoleProfile,
+        domain,
     ) -> None:
 
-        self._roles[
-            role.name.lower()
-        ] = role
+        self._domain = domain
+
+    # --------------------------------------------------
 
     def get(
         self,
-        role_name: str,
-    ) -> RoleProfile | None:
+        role_id: str,
+    ) -> dict | None:
 
-        return self._roles.get(
-            role_name.lower()
+        return self._domain.role(
+            role_id,
         )
+
+    # --------------------------------------------------
 
     def exists(
         self,
-        role_name: str,
+        role_id: str,
     ) -> bool:
 
-        return (
-            role_name.lower()
-            in self._roles
-        )
+        return self.get(
+            role_id,
+        ) is not None
+
+    # --------------------------------------------------
 
     def all_roles(
         self,
@@ -71,19 +64,21 @@ class RoleMapper:
 
         return sorted(
 
-            role.name
+            role["id"]
 
-            for role in self._roles.values()
+            for role in self._domain.roles.roles
 
         )
+
+    # --------------------------------------------------
 
     def detect(
         self,
         skills: list[str],
-    ) -> RoleProfile | None:
+    ) -> dict | None:
         """
-        Returns the best matching role
-        based on overlapping skills.
+        Detect the best matching role based on
+        required skills overlap.
         """
 
         skill_set = {
@@ -98,16 +93,23 @@ class RoleMapper:
 
         best_score = -1
 
-        for role in self._roles.values():
+        for role in self._domain.roles.roles:
 
-            score = len(
+            required = {
 
-                skill_set.intersection(
+                skill.lower()
 
-                    role.required_skills
-
+                for skill in role.get(
+                    "required_skills",
+                    [],
                 )
 
+            }
+
+            score = len(
+                skill_set.intersection(
+                    required,
+                )
             )
 
             if score > best_score:
@@ -117,7 +119,3 @@ class RoleMapper:
                 best_role = role
 
         return best_role
-
-
-
-

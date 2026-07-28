@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from docx.text.paragraph import Paragraph as DocxParagraph
 
-from app.engine.models.paragraph import Paragraph
-from app.engine.models.page_geometry import PageGeometry
+from app.engine.models.document.paragraph import Paragraph
+from app.engine.models.document.page_geometry import PageGeometry
 from app.engine.reader.layout_budget_reader import LayoutBudgetReader
 from app.engine.reader.numbering_reader import NumberingReader
 from app.engine.reader.run_reader import RunReader

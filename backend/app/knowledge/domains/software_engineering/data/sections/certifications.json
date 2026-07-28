@@ -1,0 +1,25 @@
+{
+    "section": {
+        "id": "certifications",
+        "name": "Certifications"
+    },
+
+    "rules": {
+        "editable": true,
+        "rename_allowed": false,
+        "reorder_allowed": true,
+        "add_content_allowed": false,
+        "remove_content_allowed": false,
+        "preserve_line_count": true,
+        "preserve_formatting": true,
+        "preserve_hyperlinks": true
+    },
+
+    "ai": {
+        "enabled": false,
+        "priority": "medium",
+        "rewrite": false,
+        "expand": false,
+        "compress": false
+    }
+}

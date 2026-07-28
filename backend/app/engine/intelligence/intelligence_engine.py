@@ -1,142 +1,101 @@
 from __future__ import annotations
 
-from app.engine.intelligence.category_classifier import (
-    CategoryClassifier,
+from app.engine.intelligence.builders.strategy_builder import (
+    StrategyBuilder,
 )
-from app.engine.intelligence.evidence_engine import (
-    EvidenceEngine,
-)
-from app.engine.intelligence.optimization_strategy_builder import (
-    OptimizationStrategyBuilder,
-)
-from app.engine.intelligence.paragraph_assignment_engine import (
-    ParagraphAssignmentEngine,
-)
-from app.engine.intelligence.priority_engine import (
-    PriorityEngine,
-)
-from app.engine.intelligence.promotion_engine import (
-    PromotionEngine,
-)
-from app.engine.intelligence.role_classifier import (
-    RoleClassifier,
-)
-from app.engine.intelligence.role_detector import (
+from app.engine.intelligence.detectors.role_detector import (
     RoleDetector,
 )
-from app.engine.intelligence.technology_ranker import (
-    TechnologyRanker,
+from app.engine.intelligence.planners.promotion_planner import (
+    PromotionPlanner,
 )
-
-from app.engine.models.analysis_result import (
+from app.engine.intelligence.scorers.priority_scorer import (
+    PriorityScorer,
+)
+from app.engine.intelligence.scorers.skill_gap_scorer import (
+    SkillGapScorer,
+)
+from app.engine.intelligence.selectors.technology_selector import (
+    TechnologySelector,
+)
+from app.engine.models.analysis.analysis_result import (
     AnalysisResult,
 )
-from app.engine.models.document import (
-    Document,
+from app.engine.models.intelligence.optimization_strategy import (
+    OptimizationStrategy,
+)
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
 )
 
 
 class IntelligenceEngine:
     """
-    Central coordinator for ResumeOptimizer's
-    intelligence layer.
+    Converts analysis into business intelligence.
 
-    This class orchestrates all intelligence
-    modules and produces one OptimizationStrategy.
+    Analyzer -> Intelligence -> Planner
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        knowledge: KnowledgeManager,
+    ) -> None:
 
-        self._role_detector = RoleDetector()
-
-        self._role_classifier = RoleClassifier()
-
-        self._category_classifier = (
-            CategoryClassifier()
+        self._role_detector = RoleDetector(
+            knowledge,
         )
 
-        self._technology_ranker = (
-            TechnologyRanker()
-        )
+        self._gap_scorer = SkillGapScorer()
 
-        self._priority_engine = (
-            PriorityEngine()
-        )
+        self._priority_scorer = PriorityScorer()
 
-        self._evidence_engine = (
-            EvidenceEngine()
-        )
+        self._selector = TechnologySelector()
 
-        self._promotion_engine = (
-            PromotionEngine()
-        )
+        self._planner = PromotionPlanner()
 
-        self._assignment_engine = (
-            ParagraphAssignmentEngine()
-        )
+        self._builder = StrategyBuilder()
 
-        self._strategy_builder = (
-            OptimizationStrategyBuilder()
-        )
+    # --------------------------------------------------
 
     def build(
         self,
-        document: Document,
         analysis: AnalysisResult,
-    ):
+    ) -> OptimizationStrategy:
 
         role = self._role_detector.detect(
-            " ".join(
-                analysis.keywords.normalized_skills
-            )
+            analysis,
         )
 
-        role_profile = (
-            self._role_classifier.classify(
-                role
-            )
+        gap = self._gap_scorer.score(
+            analysis,
         )
 
-        ranked = (
-            self._technology_ranker.rank(
-                analysis.keywords.normalized_skills,
-                role_profile,
-            )
+        priorities = self._priority_scorer.score(
+            gap,
         )
 
-        evidence = (
-            self._evidence_engine.analyze(
-                document,
-                analysis.keywords.normalized_skills,
-            )
+        selected = self._selector.select(
+            priorities,
         )
 
-        priorities = (
-            self._priority_engine.calculate(
-                ranked
-            )
+        promotion_plan = self._planner.build(
+            selected,
         )
 
-        promotions = (
-            self._promotion_engine.build(
-                priorities,
-                evidence,
-            )
+        analysis.role = role
+
+        analysis.skill_gap = gap
+
+        strategy = self._builder.build(
+
+            analysis=analysis,
+
+            role=role,
+
+            promotion_plan=promotion_plan,
+
         )
 
-        assignments = (
-            self._assignment_engine.assign(
-                document,
-                promotions,
-            )
-        )
+        analysis.optimization_strategy = strategy
 
-        return self._strategy_builder.build(
-            role_profile,
-            promotions,
-            assignments,
-        )
-
-
-
-
+        return strategy

@@ -3,7 +3,7 @@ from __future__ import annotations
 from docx.text.run import Run as DocxRun
 from docx.shared import RGBColor
 
-from app.engine.models.text_style import TextStyle
+from app.engine.models.document.text_style import TextStyle
 
 
 class StyleReader:

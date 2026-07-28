@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from docx import Document as DocxDocument
 
-from app.engine.models.document import Document
+from app.engine.models.document.document import Document
 from app.engine.reader.metadata_reader import MetadataReader
 from app.engine.reader.page_geometry_reader import (
     PageGeometryReader,

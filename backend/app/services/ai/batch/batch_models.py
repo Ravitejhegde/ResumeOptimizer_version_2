@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
-from app.engine.models.optimization_strategy import (
+from app.engine.models.intelligence.optimization_strategy import (
     OptimizationStrategy,
 )
 

@@ -5,8 +5,14 @@ from pathlib import Path
 from app.knowledge.domains.software_engineering.loaders.graph_loader import (
     GraphLoader,
 )
+from app.knowledge.domains.software_engineering.loaders.metadata_loader import (
+    MetadataLoader,
+)
 from app.knowledge.domains.software_engineering.loaders.role_loader import (
     RoleLoader,
+)
+from app.knowledge.domains.software_engineering.loaders.section_loader import (
+    SectionLoader,
 )
 from app.knowledge.domains.software_engineering.loaders.synonym_loader import (
     SynonymLoader,
@@ -20,8 +26,8 @@ class SoftwareEngineeringDomain:
     """
     Software Engineering Knowledge Domain.
 
-    Central access point for all knowledge used by
-    analyzers, planners and optimizers.
+    Central access point for all software engineering
+    knowledge used by analyzers, planners and optimizers.
     """
 
     def __init__(
@@ -32,6 +38,10 @@ class SoftwareEngineeringDomain:
         root = Path(root)
 
         data = root / "data"
+
+        self.metadata = MetadataLoader(
+            data / "metadata.json",
+        )
 
         self.taxonomy = TaxonomyLoader(
             data / "taxonomy",
@@ -49,11 +59,17 @@ class SoftwareEngineeringDomain:
             data / "roles",
         )
 
+        self.sections = SectionLoader(
+            data / "sections",
+        )
+
     # --------------------------------------------------
 
     def load(
         self,
     ) -> None:
+
+        self.metadata.load()
 
         self.taxonomy.load()
 
@@ -62,6 +78,18 @@ class SoftwareEngineeringDomain:
         self.graph.load()
 
         self.roles.load()
+
+        self.sections.load()
+
+    # --------------------------------------------------
+    # Metadata
+    # --------------------------------------------------
+
+    def metadata_info(
+        self,
+    ) -> dict:
+
+        return self.metadata.metadata
 
     # --------------------------------------------------
     # Categories
@@ -88,9 +116,12 @@ class SoftwareEngineeringDomain:
         technology: str,
     ) -> bool:
 
-        return self.taxonomy.category(
-            technology.lower(),
-        ) is not None
+        return (
+            self.taxonomy.category(
+                technology.lower(),
+            )
+            is not None
+        )
 
     # --------------------------------------------------
     # Synonyms
@@ -106,7 +137,7 @@ class SoftwareEngineeringDomain:
         )
 
     # --------------------------------------------------
-    # Categories
+    # Category Lookup
     # --------------------------------------------------
 
     def category(
@@ -145,3 +176,22 @@ class SoftwareEngineeringDomain:
         return self.roles.find(
             role_id,
         )
+
+    # --------------------------------------------------
+    # Sections
+    # --------------------------------------------------
+
+    def section(
+        self,
+        section_id: str,
+    ) -> dict | None:
+
+        return self.sections.get(
+            section_id,
+        )
+
+    def all_sections(
+        self,
+    ) -> list[dict]:
+
+        return self.sections.all()

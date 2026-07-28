@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from docx.text.paragraph import Paragraph as DocxParagraph
 
-from app.engine.models.numbering import Numbering
+from app.engine.models.document.numbering import Numbering
 
 
 class NumberingReader:

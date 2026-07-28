@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 from app.engine.common.enums import SectionType
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.document.paragraph import Paragraph
 
 
 class SectionReader:

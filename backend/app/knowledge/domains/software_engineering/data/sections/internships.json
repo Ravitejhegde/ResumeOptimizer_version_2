@@ -1,0 +1,30 @@
+{
+    "section": {
+        "id": "internships",
+        "name": "Internships"
+    },
+
+    "rules": {
+        "editable": true,
+        "rename_allowed": false,
+        "reorder_allowed": true,
+        "add_content_allowed": false,
+        "remove_content_allowed": false,
+        "preserve_line_count": true,
+        "preserve_formatting": true,
+        "preserve_hyperlinks": true
+    },
+
+    "optimization": {
+        "required": false,
+        "weight": 70
+    },
+
+    "ai": {
+        "enabled": true,
+        "priority": "medium",
+        "rewrite": true,
+        "expand": false,
+        "compress": false
+    }
+}

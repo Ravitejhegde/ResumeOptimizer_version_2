@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from docx.table import Table as DocxTable
 
-from app.engine.models.table import Table
-from app.engine.models.paragraph import Paragraph
+from app.engine.models.document.table import Table
+from app.engine.models.document.paragraph import Paragraph
 from app.engine.reader.run_reader import RunReader
 
 

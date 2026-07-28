@@ -1,0 +1,93 @@
+{
+  "category": {
+    "id": "programming_languages",
+    "name": "Programming Languages"
+  },
+  "technologies": [
+    {
+      "id": "python",
+      "name": "Python",
+      "aliases": ["python3", "py"]
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "aliases": []
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript",
+      "aliases": ["js", "ecmascript"]
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "aliases": ["ts"]
+    },
+    {
+      "id": "c",
+      "name": "C",
+      "aliases": []
+    },
+    {
+      "id": "cpp",
+      "name": "C++",
+      "aliases": ["cplusplus"]
+    },
+    {
+      "id": "csharp",
+      "name": "C#",
+      "aliases": ["csharp", ".net"]
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "aliases": ["golang"]
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "aliases": []
+    },
+    {
+      "id": "kotlin",
+      "name": "Kotlin",
+      "aliases": []
+    },
+    {
+      "id": "swift",
+      "name": "Swift",
+      "aliases": []
+    },
+    {
+      "id": "php",
+      "name": "PHP",
+      "aliases": []
+    },
+    {
+      "id": "ruby",
+      "name": "Ruby",
+      "aliases": []
+    },
+    {
+      "id": "scala",
+      "name": "Scala",
+      "aliases": []
+    },
+    {
+      "id": "dart",
+      "name": "Dart",
+      "aliases": []
+    },
+    {
+      "id": "r",
+      "name": "R",
+      "aliases": []
+    },
+    {
+      "id": "sql",
+      "name": "SQL",
+      "aliases": []
+    }
+  ]
+}

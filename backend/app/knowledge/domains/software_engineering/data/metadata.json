@@ -1,0 +1,16 @@
+{
+    "domain": {
+        "id": "software_engineering",
+        "name": "Software Engineering",
+        "description": "Knowledge base for ResumeOptimizer software engineering domain."
+    },
+    "knowledge": {
+        "version": "1.0.0",
+        "status": "stable",
+        "updated_at": "2026-07-28"
+    },
+    "maintainer": {
+        "name": "ResumeOptimizer",
+        "author": "Raviteja Hegde"
+    }
+}

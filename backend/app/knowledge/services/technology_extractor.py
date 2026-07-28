@@ -9,14 +9,13 @@ from app.knowledge.domains.software_engineering.index import (
 
 class TechnologyExtractor:
     """
-    Extract technologies from text.
+    Extracts technologies from text.
 
     Responsibilities
     ----------------
-    • Match technologies
-    • Resolve synonyms
-    • Prevent substring collisions
-    • Return canonical technology IDs
+    - Match technologies using regex patterns
+    - Resolve to canonical technology IDs
+    - Prevent duplicate and overlapping matches
     """
 
     def __init__(
@@ -26,6 +25,8 @@ class TechnologyExtractor:
 
         self._index = index
 
+    # --------------------------------------------------
+
     def extract(
         self,
         text: str,
@@ -34,16 +35,14 @@ class TechnologyExtractor:
         if not text:
             return []
 
-        text = re.sub(
+        remaining = re.sub(
             r"\s+",
             " ",
             text,
         ).strip()
 
-        if not text:
+        if not remaining:
             return []
-
-        remaining = text
 
         detected: set[str] = set()
 
@@ -52,7 +51,7 @@ class TechnologyExtractor:
             while True:
 
                 match = pattern.search(
-                    remaining
+                    remaining,
                 )
 
                 if match is None:
@@ -60,7 +59,7 @@ class TechnologyExtractor:
 
                 detected.add(
                     self._index.canonical(
-                        technology
+                        technology,
                     )
                 )
 
@@ -73,9 +72,5 @@ class TechnologyExtractor:
                 )
 
         return sorted(
-            detected
+            detected,
         )
-
-
-
-

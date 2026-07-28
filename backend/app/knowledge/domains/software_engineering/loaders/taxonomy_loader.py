@@ -76,7 +76,12 @@ class TaxonomyLoader:
                 encoding="utf-8",
             ) as stream:
 
-                data = json.load(stream)
+                try:
+                    data = json.load(stream)
+                except Exception as e:
+                    raise RuntimeError(
+                        f"Failed to load JSON: {file}"
+                    ) from e
 
             category = data.get(
                 "category",

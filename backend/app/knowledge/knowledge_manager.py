@@ -1,55 +1,26 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-from app.knowledge.domains.software_engineering.domain import (
-    SoftwareEngineeringDomain,
+from app.knowledge.knowledge_initializer import (
+    KnowledgeInitializer,
 )
-from app.knowledge.domains.software_engineering.index import (
-    TechnologyIndex,
-)
-from app.knowledge.services.categorizer import (
-    SkillCategorizer,
-)
-from app.knowledge.services.normalizer import (
-    SkillNormalizer,
-)
-from app.knowledge.services.synonyms import (
-    SynonymDictionary,
-)
-from app.knowledge.services.taxonomy import (
-    TechnologyTaxonomy,
-)
-from app.knowledge.services.technology_extractor import (
-    TechnologyExtractor,
+from app.knowledge.knowledge_registry import (
+    KnowledgeRegistry,
 )
 
 
 class KnowledgeManager:
     """
-    Central entry point to the Knowledge Platform.
+    Public facade of the Knowledge Platform.
 
-    All analyzers, planners and optimizers
-    access knowledge only through this class.
+    Every analyzer, planner and optimizer
+    accesses knowledge only through here.
     """
 
     def __init__(
         self,
     ) -> None:
 
-        root = (
-            Path(__file__).parent
-            / "domains"
-            / "software_engineering"
-        )
-
-        self.software_engineering = (
-            SoftwareEngineeringDomain(
-                root,
-            )
-        )
-
-        self._initialized = False
+        self._registry: KnowledgeRegistry | None = None
 
     # --------------------------------------------------
 
@@ -57,33 +28,25 @@ class KnowledgeManager:
         self,
     ) -> None:
 
-        if self._initialized:
-            return
+        if self._registry is None:
 
-        self.software_engineering.load()
+            self._registry = (
+                KnowledgeInitializer.initialize()
+            )
 
-        self.index = TechnologyIndex(
-            self.software_engineering,
-        )
+    # --------------------------------------------------
 
-        self.extractor = TechnologyExtractor(
-            self.index,
-        )
+    @property
+    def registry(
+        self,
+    ) -> KnowledgeRegistry:
 
-        self.taxonomy = TechnologyTaxonomy()
+        self.initialize()
 
-        self.synonyms = SynonymDictionary()
+        return self._registry
 
-        self._normalizer = SkillNormalizer(
-            self.synonyms,
-        )
-
-        self._categorizer = SkillCategorizer(
-            self.taxonomy,
-        )
-
-        self._initialized = True
-
+    # --------------------------------------------------
+    # Extraction
     # --------------------------------------------------
 
     def extract(
@@ -91,71 +54,148 @@ class KnowledgeManager:
         text: str,
     ) -> list[str]:
 
-        self.initialize()
-
-        return self.extractor.extract(
+        return self.registry.extractor.extract(
             text,
         )
 
     # --------------------------------------------------
+    # Normalization
+    # --------------------------------------------------
 
     def normalize(
         self,
-        skill: str,
+        value: str,
     ) -> str:
 
-        self.initialize()
-
-        return self._normalizer.normalize(
-            skill,
+        return self.registry.normalizer.normalize(
+            value,
         )
-
-    # --------------------------------------------------
 
     def normalize_many(
         self,
-        skills: list[str],
+        values: list[str],
     ) -> list[str]:
 
-        self.initialize()
-
-        return self._normalizer.normalize_many(
-            skills,
+        return self.registry.normalizer.normalize_many(
+            values,
         )
 
+    # --------------------------------------------------
+    # Categorization
     # --------------------------------------------------
 
     def categorize(
         self,
         skills: list[str],
-    ) -> dict[str, list[str]]:
+    ):
 
-        self.initialize()
-
-        return self._categorizer.categorize(
+        return self.registry.categorizer.categorize(
             skills,
         )
 
-    # --------------------------------------------------
-
-    def get_domain(
+    def category(
         self,
-        name: str,
+        technology: str,
     ):
 
-        self.initialize()
+        return self.registry.index.category(
+            technology,
+        )
 
-        domains = {
-            "software_engineering":
-                self.software_engineering,
-        }
+    # --------------------------------------------------
+    # Relationships
+    # --------------------------------------------------
 
-        try:
+    def related(
+        self,
+        technology: str,
+    ):
 
-            return domains[name]
+        return self.registry.index.related(
+            technology,
+        )
 
-        except KeyError as exc:
+    # --------------------------------------------------
+    # Technologies
+    # --------------------------------------------------
 
-            raise ValueError(
-                f"Unknown knowledge domain: {name}"
-            ) from exc
+    def technologies(
+        self,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .technologies()
+        )
+
+    def technology_exists(
+        self,
+        technology: str,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .technology_exists(
+                technology,
+            )
+        )
+
+    # --------------------------------------------------
+    # Roles
+    # --------------------------------------------------
+
+    def role(
+        self,
+        role_id: str,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .role(
+                role_id,
+            )
+        )
+
+    # --------------------------------------------------
+    # Sections
+    # --------------------------------------------------
+
+    def section(
+        self,
+        section_id: str,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .section(
+                section_id,
+            )
+        )
+
+    def all_sections(
+        self,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .all_sections()
+        )
+
+    # --------------------------------------------------
+    # Metadata
+    # --------------------------------------------------
+
+    def metadata(
+        self,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .metadata_info()
+        )

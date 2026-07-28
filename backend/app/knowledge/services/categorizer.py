@@ -2,23 +2,25 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-from app.knowledge.services.taxonomy import (
-    TechnologyTaxonomy,
+from app.knowledge.domains.software_engineering.domain import (
+    SoftwareEngineeringDomain,
 )
 
 
 class SkillCategorizer:
     """
-    Organizes technologies into categories
-    using the TechnologyTaxonomy.
+    Categorizes technologies using the
+    Software Engineering Knowledge Domain.
     """
 
     def __init__(
         self,
-        taxonomy: TechnologyTaxonomy,
+        domain: SoftwareEngineeringDomain,
     ) -> None:
 
-        self._taxonomy = taxonomy
+        self._domain = domain
+
+    # --------------------------------------------------
 
     def categorize(
         self,
@@ -29,22 +31,25 @@ class SkillCategorizer:
 
         for skill in skills:
 
-            category = self._taxonomy.category_of(
-                skill
-            )
+            category = None
+
+            for category_id, technologies in (
+                self._domain.technologies().items()
+            ):
+
+                if any(
+                    technology["id"] == skill
+                    for technology in technologies
+                ):
+                    category = category_id
+                    break
 
             if category is None:
                 category = "unknown"
 
-            categorized[
-                category
-            ].append(skill)
+            categorized[category].append(skill)
 
         return {
             category: sorted(set(values))
             for category, values in categorized.items()
         }
-
-
-
-
