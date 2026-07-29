@@ -5,6 +5,9 @@ import logging
 from app.engine.analyzer.document_analyzer import (
     DocumentAnalyzer,
 )
+from app.engine.intelligence.intelligence_engine import (
+    IntelligenceEngine,
+)
 from app.engine.models.document.document import (
     Document,
 )
@@ -34,13 +37,13 @@ class ResumeOptimizationEngine:
     """
     ResumeOptimizer V3
 
-    Central orchestration engine.
-
     Pipeline
 
         Read
           ↓
         Analyze
+          ↓
+        Intelligence
           ↓
         Plan
           ↓
@@ -60,6 +63,10 @@ class ResumeOptimizationEngine:
             self._knowledge,
         )
 
+        self._intelligence = IntelligenceEngine(
+            self._knowledge,
+        )
+
         self._planner = PlannerEngine()
 
         self._optimizer = OptimizerEngine()
@@ -76,20 +83,43 @@ class ResumeOptimizationEngine:
         job_description: str | None = None,
     ) -> Document:
 
+        # ----------------------------------
+        # Parse document
+        # ----------------------------------
+
         document = DocumentParser.parse(
             input_docx,
         )
+
+        # ----------------------------------
+        # Analyze
+        # ----------------------------------
 
         analysis = self._analyzer.analyze(
             document=document,
             job_description=job_description,
         )
 
-        plan = self._planner.build(
-            document=document,
-            analysis=analysis,
-            selected_skills=selected_skills,
+        # ----------------------------------
+        # Build optimization strategy
+        # ----------------------------------
+
+        strategy = self._intelligence.build(
+            analysis,
         )
+
+        # ----------------------------------
+        # Build optimization plan
+        # ----------------------------------
+
+        plan = self._planner.build(
+            strategy=strategy,
+            document=document,
+        )
+
+        # ----------------------------------
+        # Optimize
+        # ----------------------------------
 
         request = OptimizationRequest(
             document=document,
@@ -99,6 +129,10 @@ class ResumeOptimizationEngine:
         result = self._optimizer.optimize(
             request,
         )
+
+        # ----------------------------------
+        # Write optimized DOCX
+        # ----------------------------------
 
         self._writer.write(
             result=result,

@@ -30,45 +30,20 @@ class JobDescriptionAnalyzer:
         text: str,
     ) -> JDAnalysis:
 
+        # Extract technologies from the JD
         detected = self._knowledge.extract(
             text,
         )
 
-        normalized = (
-            self._knowledge.normalize_many(
-                detected,
-            )
+        # Normalize technology names
+        normalized = self._knowledge.normalize_many(
+            detected,
         )
 
+        # TODO:
+        # Re-implement role detection using the new
+        # KnowledgeManager API.
         role = None
-
-        highest = 0
-
-        for role_data in (
-            self._knowledge
-            .software_engineering
-            .roles
-            .roles
-        ):
-
-            required = set(
-                role_data.get(
-                    "required_skills",
-                    [],
-                )
-            )
-
-            score = len(
-                required.intersection(
-                    normalized,
-                )
-            )
-
-            if score > highest:
-
-                highest = score
-
-                role = role_data["id"]
 
         return JDAnalysis(
 
@@ -99,7 +74,6 @@ class JobDescriptionAnalyzer:
         )
 
         if match is None:
-
             return None
 
         return float(

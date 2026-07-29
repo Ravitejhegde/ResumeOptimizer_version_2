@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from json import JSONDecodeError
 from pathlib import Path
 
 
@@ -35,33 +36,50 @@ class RoleLoader:
     ) -> None:
 
         self._roles.clear()
-
         self._lookup.clear()
 
         if not self._path.exists():
-
             raise FileNotFoundError(
                 f"Roles directory not found: {self._path}"
             )
 
-        for file in sorted(
-            self._path.glob("*.json")
-        ):
+        for file in sorted(self._path.glob("*.json")):
 
-            with file.open(
-                "r",
-                encoding="utf-8",
-            ) as stream:
+            if file.stat().st_size == 0:
+                print(f"[Knowledge] Skipping empty role file: {file.name}")
+                continue
 
-                role = json.load(stream)
+            try:
 
-            self._roles.append(
-                role,
-            )
+                with file.open(
+                    "r",
+                    encoding="utf-8",
+                ) as stream:
 
-            self._lookup[
-                role["id"]
-            ] = role
+                    role = json.load(stream)
+
+            except JSONDecodeError:
+
+                print(f"[Knowledge] Invalid JSON: {file.name}")
+                continue
+
+            except Exception as ex:
+
+                print(f"[Knowledge] Failed to load {file.name}: {ex}")
+                continue
+
+            if not isinstance(role, dict):
+                continue
+
+            role_id = role.get("id")
+
+            if not role_id:
+                print(f"[Knowledge] Missing role id: {file.name}")
+                continue
+
+            self._roles.append(role)
+
+            self._lookup[role_id] = role
 
     # --------------------------------------------------
 
@@ -79,9 +97,7 @@ class RoleLoader:
         role_id: str,
     ) -> dict | None:
 
-        return self._lookup.get(
-            role_id,
-        )
+        return self._lookup.get(role_id)
 
     def exists(
         self,

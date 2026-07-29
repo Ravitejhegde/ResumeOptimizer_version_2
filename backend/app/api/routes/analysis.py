@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 
+import traceback
+
 from sqlalchemy.orm import Session
 
 from app.database.session import (
@@ -28,9 +30,7 @@ async def match_resume(
     db: Session = Depends(get_db),
 ):
 
-    service = ResumeAnalysisService(
-        db,
-    )
+    service = ResumeAnalysisService(db)
 
     try:
 
@@ -47,6 +47,9 @@ async def match_resume(
         )
 
     except Exception as e:
+
+        # Print the complete traceback in the terminal
+        traceback.print_exc()
 
         raise HTTPException(
             status_code=500,

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from json import JSONDecodeError
 from pathlib import Path
 
 
@@ -44,28 +45,47 @@ class SectionLoader:
             self._path.glob("*.json")
         ):
 
-            with file.open(
-                "r",
-                encoding="utf-8",
-            ) as stream:
+            # Skip empty files
+            if file.stat().st_size == 0:
+                print(f"[Knowledge] Skipping empty section file: {file.name}")
+                continue
 
-                data = json.load(
-                    stream,
-                )
+            try:
 
-            section = data.get(
-                "section",
-            )
+                with file.open(
+                    "r",
+                    encoding="utf-8",
+                ) as stream:
 
-            if section is None:
+                    data = json.load(stream)
 
-                raise ValueError(
-                    f"{file.name} is missing 'section'."
-                )
+            except JSONDecodeError:
 
-            self._sections[
-                section["id"]
-            ] = section
+                print(f"[Knowledge] Invalid JSON: {file.name}")
+                continue
+
+            except Exception as ex:
+
+                print(f"[Knowledge] Failed to load {file.name}: {ex}")
+                continue
+
+            if not isinstance(data, dict):
+                print(f"[Knowledge] Invalid section format: {file.name}")
+                continue
+
+            section = data.get("section")
+
+            if not isinstance(section, dict):
+                print(f"[Knowledge] Missing 'section' object: {file.name}")
+                continue
+
+            section_id = section.get("id")
+
+            if not section_id:
+                print(f"[Knowledge] Missing section id: {file.name}")
+                continue
+
+            self._sections[section_id] = section
 
     # --------------------------------------------------
 
@@ -83,10 +103,7 @@ class SectionLoader:
         section_id: str,
     ) -> bool:
 
-        return (
-            section_id
-            in self._sections
-        )
+        return section_id in self._sections
 
     # --------------------------------------------------
 

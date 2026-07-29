@@ -1,31 +1,13 @@
 from __future__ import annotations
 
 import json
+from json import JSONDecodeError
 from pathlib import Path
 
 
 class GraphLoader:
     """
     Loads technology relationship graph.
-
-    Folder structure
-
-    graph/
-        frontend.json
-        backend.json
-        database.json
-        ...
-
-    Each file contains
-
-    {
-        "relationships": [
-            {
-                "technology": "...",
-                "related": [...]
-            }
-        ]
-    }
     """
 
     def __init__(
@@ -46,30 +28,45 @@ class GraphLoader:
     ) -> None:
 
         self._relationships.clear()
-
         self._graph.clear()
 
         if not self._path.exists():
-
             raise FileNotFoundError(
                 f"Graph directory not found: {self._path}"
             )
 
-        for file in sorted(
-            self._path.glob("*.json")
-        ):
+        for file in sorted(self._path.glob("*.json")):
 
-            with file.open(
-                "r",
-                encoding="utf-8",
-            ) as stream:
+            if file.stat().st_size == 0:
+                print(f"[Knowledge] Skipping empty graph file: {file.name}")
+                continue
 
-                data = json.load(stream)
+            try:
+
+                with file.open(
+                    "r",
+                    encoding="utf-8",
+                ) as stream:
+
+                    data = json.load(stream)
+
+            except JSONDecodeError:
+
+                print(f"[Knowledge] Invalid JSON: {file.name}")
+                continue
+
+            except Exception as ex:
+
+                print(f"[Knowledge] Failed to load {file.name}: {ex}")
+                continue
 
             relationships = data.get(
                 "relationships",
                 [],
             )
+
+            if not isinstance(relationships, list):
+                continue
 
             self._relationships.extend(
                 relationships,
@@ -77,12 +74,27 @@ class GraphLoader:
 
             for relation in relationships:
 
-                self._graph[
-                    relation["technology"]
-                ] = relation.get(
+                technology = relation.get(
+                    "technology"
+                )
+
+                if not technology:
+                    continue
+
+                related = relation.get(
                     "related",
                     [],
                 )
+
+                if not isinstance(
+                    related,
+                    list,
+                ):
+                    related = []
+
+                self._graph[
+                    technology
+                ] = related
 
     # --------------------------------------------------
 

@@ -31,12 +31,12 @@ class SkillComparator:
 
     def compare(
         self,
-        resume: SkillAnalysis,
+        resume: KeywordAnalysis,
         job: JDAnalysis,
     ) -> ComparisonAnalysis:
 
         resume_skills = set(
-            resume.skills,
+            resume.normalized,
         )
 
         jd_skills = set(

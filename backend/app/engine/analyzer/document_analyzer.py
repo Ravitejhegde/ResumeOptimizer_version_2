@@ -37,7 +37,6 @@ class DocumentAnalyzer:
     Central orchestrator for all document analysis.
 
     This class contains NO business logic.
-
     It simply coordinates all analyzers.
     """
 
@@ -49,10 +48,7 @@ class DocumentAnalyzer:
         self._knowledge = knowledge
 
         self._ats = ATSAnalyzer()
-
         self._structure = StructureAnalyzer()
-
-       
 
         self._keywords = KeywordAnalyzer(
             knowledge,
@@ -82,8 +78,6 @@ class DocumentAnalyzer:
             document,
         )
 
-        
-
         keywords = self._keywords.analyze(
             document,
         )
@@ -95,9 +89,9 @@ class DocumentAnalyzer:
             )
 
             comparison = self._comparator.compare(
-    keywords,
-    jd,
-)
+                keywords,
+                jd,
+            )
 
         else:
 
@@ -106,21 +100,12 @@ class DocumentAnalyzer:
             comparison = ComparisonAnalysis()
 
         return AnalysisResult(
-
             ats=ats,
-
             keywords=keywords,
-
             structure=structure,
-
             job_description=jd,
-
             comparison=comparison,
-
             role=None,
-
             skill_gap=None,
-
             optimization_strategy=None,
-
         )

@@ -64,22 +64,27 @@ class SoftwareEngineeringDomain:
         )
 
     # --------------------------------------------------
+    # Load Knowledge
+    # --------------------------------------------------
 
     def load(
         self,
     ) -> None:
 
-        self.metadata.load()
+        loaders = [
+            ("metadata", self.metadata.load),
+            ("taxonomy", self.taxonomy.load),
+            ("synonyms", self.synonyms.load),
+            ("graph", self.graph.load),
+            ("roles", self.roles.load),
+            ("sections", self.sections.load),
+        ]
 
-        self.taxonomy.load()
-
-        self.synonyms.load()
-
-        self.graph.load()
-
-        self.roles.load()
-
-        self.sections.load()
+        for name, loader in loaders:
+            try:
+                loader()
+            except Exception as ex:
+                print(f"[Knowledge] Failed to load {name}: {ex}")
 
     # --------------------------------------------------
     # Metadata

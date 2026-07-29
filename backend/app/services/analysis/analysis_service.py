@@ -16,6 +16,9 @@ from app.engine.analyzer.analyzers.job_description_analyzer import (
 from app.engine.analyzer.comparators.skill_comparator import (
     SkillComparator,
 )
+from app.engine.models.analysis.jd_analysis import (
+    JDAnalysis,
+)
 from app.engine.reader.parser import (
     DocumentParser,
 )
@@ -50,20 +53,27 @@ class ResumeAnalysisService:
         self._knowledge = KnowledgeManager()
         self._knowledge.initialize()
 
+    # --------------------------------------------------
+
     def analyze(
         self,
         resume_id: str,
         job_description: str | None = None,
     ) -> dict:
 
+        # ----------------------------------
+        # Load Resume
+        # ----------------------------------
+
         resume = self._repository.get(
-            resume_id
+            resume_id,
         )
 
-        if resume is None:
+        print("STEP 1 - Resume loaded")
 
+        if resume is None:
             raise FileNotFoundError(
-                "Resume not found."
+                "Resume not found.",
             )
 
         # ----------------------------------
@@ -71,26 +81,32 @@ class ResumeAnalysisService:
         # ----------------------------------
 
         document = DocumentParser.parse(
-            resume.file_path
+            resume.file_path,
         )
+
+        print("STEP 2 - Document parsed")
 
         # ----------------------------------
         # Analyze Resume
         # ----------------------------------
 
         analysis = DocumentAnalyzer(
-            self._knowledge
+            self._knowledge,
         ).analyze(
-            document
+            document,
         )
 
+        print("STEP 3 - Resume analyzed")
+
         resume_skills = (
-            analysis.keywords.normalized_skills
+            analysis.keywords.normalized
         )
+
         print("\n" + "=" * 80)
         print("RESUME SKILLS")
         print("=" * 80)
         print(resume_skills)
+
         logger.info(
             "Resume skills: %s",
             resume_skills,
@@ -100,84 +116,87 @@ class ResumeAnalysisService:
         # Analyze Job Description
         # ----------------------------------
 
-        jd_skills: list[str] = []
+        jd_analysis = JDAnalysis()
 
         if job_description:
 
+            print("STEP 4 - JD analysis starting")
+
             jd_analysis = JobDescriptionAnalyzer(
-                self._knowledge
+                self._knowledge,
             ).analyze(
-                job_description
+                job_description,
             )
 
-            jd_skills = (
-                jd_analysis.required_skills
-            )
+            print("STEP 5 - JD analyzed")
+
             print("\n" + "=" * 80)
             print("JD SKILLS")
             print("=" * 80)
-            print(jd_skills)
+            print(
+                jd_analysis.required_skills,
+            )
+
         logger.info(
             "JD skills: %s",
-            jd_skills,
+            jd_analysis.required_skills,
         )
 
         # ----------------------------------
         # Compare Skills
         # ----------------------------------
 
-        comparison = SkillComparator.compare(
-            resume_skills=resume_skills,
-            jd_skills=jd_skills,
+        comparison = SkillComparator(
+            self._knowledge,
+        ).compare(
+            analysis.keywords,
+            jd_analysis,
         )
+
+        print("STEP 6 - Comparison complete")
+
         print("\n" + "=" * 80)
         print("MATCHED")
-        print(comparison.matched_skills)
+        print(comparison.matched)
 
         print("\nMISSING")
-        print(comparison.missing_skills)
+        print(comparison.missing)
 
         print("\nEXTRA")
-        print(comparison.extra_skills)
+        print(comparison.extra)
         print("=" * 80)
 
         logger.info(
             "Matched: %s",
-            comparison.matched_skills,
+            comparison.matched,
         )
 
         logger.info(
             "Missing: %s",
-            comparison.missing_skills,
+            comparison.missing,
         )
 
         logger.info(
             "Extra: %s",
-            comparison.extra_skills,
+            comparison.extra,
         )
 
         # ----------------------------------
         # Response
         # ----------------------------------
-        
+
         return {
 
-            "score": comparison.match_percentage,
+            "score": comparison.score,
 
-            "matched_skills": (
-                comparison.matched_skills
-            ),
+            "matched_skills": comparison.matched,
 
-            "missing_skills": (
-                comparison.missing_skills
-            ),
+            "missing_skills": comparison.missing,
 
-            "extra_skills": (
-                comparison.extra_skills
-            ),
+            "extra_skills": comparison.extra,
 
-            "detected_role": "",
+            "detected_role": jd_analysis.role,
 
-            "experience": 0,
+            "experience": jd_analysis.minimum_experience,
 
         }

@@ -5,7 +5,7 @@ from fastapi import Depends
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-
+import traceback
 from app.database.session import get_db
 
 from app.services.optimization.optimization_service import (
@@ -54,6 +54,7 @@ def optimize_resume(
 
     except Exception as e:
 
+        traceback.print_exc()
         raise HTTPException(
             status_code=500,
             detail=str(e),
