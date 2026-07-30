@@ -1,22 +1,44 @@
+from __future__ import annotations
+
+
 class AIProviderError(Exception):
-    """Base AI provider exception."""
-    pass
+    """
+    Base exception for all AI provider failures.
+    """
+
 
 
 class AIConfigurationError(AIProviderError):
-    """Raised when AI configuration is invalid."""
-    pass
+    """
+    Raised when AI provider configuration is invalid.
+
+    Examples:
+        - Missing API key
+        - Unsupported model
+        - Invalid provider settings
+    """
+
 
 
 class AIRequestError(AIProviderError):
-    """Raised when the AI request fails."""
-    pass
+    """
+    Raised when an AI request fails.
+
+    Examples:
+        - Timeout
+        - Network failure
+        - Rate limit
+        - Provider unavailable
+    """
+
 
 
 class AIResponseError(AIProviderError):
-    """Raised when the AI returns an invalid response."""
-    pass
+    """
+    Raised when AI returns an invalid response.
 
-
-
-
+    Examples:
+        - Invalid JSON
+        - Missing required fields
+        - Malformed output
+    """

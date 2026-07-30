@@ -1,18 +1,31 @@
 from __future__ import annotations
 
 import json
+import logging
 
-from app.services.ai.batch.batch_models import (
+from app.engine.models.ai.prompt_response import (
     BatchRewriteResult,
     ParagraphRewriteResult,
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 class BatchResponseParser:
     """
-    Parses the JSON returned by the AI after
-    batch resume rewriting.
+    Parses AI batch rewrite responses.
+
+    Responsibilities:
+        - Remove formatting noise.
+        - Parse JSON.
+        - Validate paragraph results.
+
+    Does not:
+        - Rewrite content.
+        - Validate document layout.
     """
+
 
     @staticmethod
     def parse(
@@ -22,51 +35,140 @@ class BatchResponseParser:
 
         try:
 
-            response = response.strip()
+            cleaned = (
+                response
+                .strip()
+            )
 
-            # Remove Markdown code fences if present.
-            if response.startswith("```"):
-                lines = response.splitlines()
 
-                if lines and lines[0].startswith("```"):
-                    lines = lines[1:]
+            # ----------------------------------
+            # Remove markdown fences
+            # ----------------------------------
 
-                if lines and lines[-1].startswith("```"):
-                    lines = lines[:-1]
+            if cleaned.startswith(
+                "```"
+            ):
 
-                response = "\n".join(lines).strip()
-
-            data = json.loads(response)
-
-            paragraphs = []
-
-            for item in data.get("paragraphs", []):
-
-                paragraphs.append(
-                    ParagraphRewriteResult(
-                        id=item["id"],
-                        text=item["text"].strip(),
-                    )
+                lines = (
+                    cleaned
+                    .splitlines()
                 )
 
+                if lines[0].startswith(
+                    "```"
+                ):
+                    lines = lines[1:]
+
+
+                if lines and lines[-1].startswith(
+                    "```"
+                ):
+                    lines = lines[:-1]
+
+
+                cleaned = (
+                    "\n".join(lines)
+                    .strip()
+                )
+
+
+            data = json.loads(
+                cleaned
+            )
+
+
+            results: list[
+                ParagraphRewriteResult
+            ] = []
+
+
+            seen_ids: set[str] = set()
+
+
+            for item in data.get(
+                "paragraphs",
+                [],
+            ):
+
+
+                paragraph_id = (
+                    item.get("id")
+                )
+
+
+                text = (
+                    item.get("text")
+                )
+
+
+                if not paragraph_id:
+                    continue
+
+
+                if paragraph_id in seen_ids:
+
+                    logger.warning(
+                        "Duplicate AI paragraph id: %s",
+                        paragraph_id,
+                    )
+
+                    continue
+
+
+                if text is None:
+
+                    continue
+
+
+                seen_ids.add(
+                    paragraph_id
+                )
+
+
+                results.append(
+
+                    ParagraphRewriteResult(
+
+                        id=paragraph_id,
+
+                        text=text.strip(),
+
+                    )
+
+                )
+
+
             return BatchRewriteResult(
-                paragraphs=paragraphs,
+
+                paragraphs=results,
+
                 success=True,
+
                 provider=provider,
-            )
 
-        except Exception as e:
-
-            print("\n===== BATCH PARSER ERROR =====")
-            print(e)
-            print("==============================\n")
-
-            return BatchRewriteResult(
-                paragraphs=[],
-                success=False,
-                provider=provider,
             )
 
 
+        except json.JSONDecodeError:
+
+            logger.exception(
+                "AI returned invalid JSON"
+            )
 
 
+        except Exception:
+
+            logger.exception(
+                "Batch response parsing failed"
+            )
+
+
+        return BatchRewriteResult(
+
+            paragraphs=[],
+
+            success=False,
+
+            provider=provider,
+
+        )

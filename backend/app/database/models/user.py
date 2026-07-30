@@ -1,12 +1,10 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
@@ -18,11 +16,21 @@ class User(Base):
 
     __tablename__ = "users"
 
+
+    # ==========================================================
+    # Primary Key
+    # ==========================================================
+
     id: Mapped[str] = mapped_column(
         String(36),
         primary_key=True,
         default=lambda: str(uuid.uuid4()),
     )
+
+
+    # ==========================================================
+    # Authentication
+    # ==========================================================
 
     email: Mapped[str] = mapped_column(
         String(255),
@@ -31,15 +39,22 @@ class User(Base):
         nullable=False,
     )
 
-    password: Mapped[str] = mapped_column(
+
+    password_hash: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
     )
+
+
+    # ==========================================================
+    # Profile
+    # ==========================================================
 
     name: Mapped[str] = mapped_column(
         String(150),
         nullable=False,
     )
+
 
     provider: Mapped[str] = mapped_column(
         String(30),
@@ -47,11 +62,13 @@ class User(Base):
         nullable=False,
     )
 
+
     country: Mapped[str] = mapped_column(
         String(5),
         default="IN",
         nullable=False,
     )
+
 
     language: Mapped[str] = mapped_column(
         String(10),
@@ -59,11 +76,17 @@ class User(Base):
         nullable=False,
     )
 
+
+    # ==========================================================
+    # Account Status
+    # ==========================================================
+
     active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
         nullable=False,
     )
+
 
     verified: Mapped[bool] = mapped_column(
         Boolean,
@@ -71,23 +94,35 @@ class User(Base):
         nullable=False,
     )
 
+
+    # ==========================================================
+    # Timestamps
+    # ==========================================================
+
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
+
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
+
     last_login: Mapped[datetime | None] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=True,
     )
+
+
+    # ==========================================================
+    # Relationships
+    # ==========================================================
 
     workspace: Mapped["Workspace | None"] = relationship(
         "Workspace",
@@ -96,17 +131,20 @@ class User(Base):
         cascade="all, delete-orphan",
     )
 
+
     orders: Mapped[list["Order"]] = relationship(
         "Order",
         back_populates="user",
         cascade="all, delete-orphan",
     )
 
+
     subscriptions: Mapped[list["Subscription"]] = relationship(
         "Subscription",
         back_populates="user",
         cascade="all, delete-orphan",
     )
+
 
     usage_events: Mapped[list["UsageEvent"]] = relationship(
         "UsageEvent",
@@ -115,5 +153,11 @@ class User(Base):
     )
 
 
+    # ==========================================================
+    # Debug
+    # ==========================================================
 
-
+    def __repr__(self) -> str:
+        return (
+            f"<User(id={self.id}, email={self.email})>"
+        )

@@ -1,34 +1,25 @@
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import HTTPException
-from sqlalchemy.orm import Session
-from app.core.security.jwt import (
-    create_access_token,
-)
-from app.core.security.password import (
-    hash_password,
-    verify_password,
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    status,
 )
 
-from app.database.models.user import User
-from app.database.models.workspace import Workspace
+from fastapi.security import OAuth2PasswordRequestForm
+
+from sqlalchemy.orm import Session
 
 from app.database.session import get_db
-
-from app.database.repositories.user_repository import (
-    UserRepository,
-)
-from app.database.repositories.workspace_repository import (
-    WorkspaceRepository,
-)
 
 from app.schemas.auth import (
     LoginRequest,
     RegisterRequest,
 )
-from app.schemas.token import (
-    TokenResponse,
-)
+
+from app.schemas.token import TokenResponse
+
+from app.services.auth.auth_service import AuthService
+
 
 router = APIRouter(
     prefix="/auth",
@@ -36,52 +27,55 @@ router = APIRouter(
 )
 
 
+# ==========================
+# Register
+# ==========================
+
 @router.post(
     "/register",
     response_model=TokenResponse,
+    status_code=status.HTTP_201_CREATED,
 )
 def register(
     request: RegisterRequest,
     db: Session = Depends(get_db),
 ):
 
-    users = UserRepository(db)
+    service = AuthService(db)
 
-    if users.exists(request.email):
+    try:
+
+        user = service.register(
+            email=request.email,
+            password=request.password,
+            name=request.name,
+        )
+
+        tokens = service.login(
+            email=user.email,
+            password=request.password,
+        )
+
+
+        return TokenResponse(
+            access_token=tokens["access_token"],
+            refresh_token=tokens["refresh_token"],
+            token_type="bearer",
+        )
+
+
+    except ValueError as exc:
 
         raise HTTPException(
             status_code=400,
-            detail="Email already registered.",
+            detail=str(exc),
         )
 
-    user = User(
-        name=request.name,
-        email=request.email,
-        password=hash_password(
-            request.password
-        ),
-        provider="email",
-    )
 
-    user = users.create(user)
 
-    workspace = Workspace(
-        user_id=user.id,
-        name=f"{user.name}'s Workspace",
-    )
-
-    WorkspaceRepository(
-        db
-    ).create(workspace)
-
-    token = create_access_token(
-        user.id
-    )
-
-    return TokenResponse(
-        access_token=token,
-    )
-
+# ==========================
+# Normal Login JSON
+# ==========================
 
 @router.post(
     "/login",
@@ -92,37 +86,65 @@ def login(
     db: Session = Depends(get_db),
 ):
 
-    users = UserRepository(db)
+    service = AuthService(db)
 
-    user = users.get_by_email(
-        request.email
-    )
+    try:
 
-    if user is None:
+        result = service.login(
+            email=request.email,
+            password=request.password,
+        )
+
+
+        return TokenResponse(
+            access_token=result["access_token"],
+            refresh_token=result["refresh_token"],
+            token_type="bearer",
+        )
+
+
+    except ValueError as exc:
 
         raise HTTPException(
             status_code=401,
-            detail="Invalid email or password.",
+            detail=str(exc),
         )
 
-    if not verify_password(
-        request.password,
-        user.password,
-    ):
+
+
+# ==========================
+# Swagger OAuth2 Login
+# ==========================
+
+@router.post(
+    "/token",
+    response_model=TokenResponse,
+)
+def token_login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
+):
+
+    service = AuthService(db)
+
+    try:
+
+        result = service.login(
+            email=form_data.username,
+            password=form_data.password,
+        )
+
+
+        return TokenResponse(
+            access_token=result["access_token"],
+            refresh_token=result["refresh_token"],
+            token_type="bearer",
+        )
+
+
+    except ValueError as exc:
 
         raise HTTPException(
             status_code=401,
-            detail="Invalid email or password.",
+            detail=str(exc),
         )
-
-    token = create_access_token(
-        user.id
-    )
-
-    return TokenResponse(
-        access_token=token,
-    )
-
-
-
-

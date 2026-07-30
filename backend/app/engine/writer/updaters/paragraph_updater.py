@@ -1,37 +1,143 @@
 from __future__ import annotations
 
-from app.engine.models.document.paragraph import (
-    Paragraph,
+import logging
+
+from app.engine.writer.models.write_context import (
+    WriteContext,
 )
-from app.engine.models.optimizer.rewrite_result import (
-    RewriteResult,
-)
+
+
+logger = logging.getLogger(__name__)
 
 
 class ParagraphUpdater:
     """
-    Updates paragraph content while preserving
-    paragraph-level formatting.
-    """
+    Connects optimization rewrites
+    with document paragraph mappings.
 
-    # --------------------------------------------------
+    Flow:
+
+    OptimizationResult
+            |
+            v
+    ParagraphUpdater
+            |
+            v
+    ParagraphMapping
+            |
+            v
+    RunUpdater
+
+
+    Responsibilities:
+        - Find matching paragraph.
+        - Attach rewrite object.
+        - Mark editable state.
+
+    Does NOT:
+        - Change paragraph text.
+        - Change runs.
+        - Handle DOCX writing.
+    """
 
     def update(
         self,
-        paragraph: Paragraph,
-        rewrite: RewriteResult,
-    ) -> Paragraph:
+        context: WriteContext,
+    ) -> None:
+        """
+        Attach rewrite instructions
+        to paragraph mappings.
+        """
 
-        if not paragraph.runs:
 
-            return paragraph
-
-        paragraph.runs[0].text = (
-            rewrite.optimized_text
+        rewrites = (
+            context.optimization.rewrites
         )
 
-        for run in paragraph.runs[1:]:
 
-            run.text = ""
+        if not rewrites:
 
-        return paragraph
+            logger.info(
+                "[ParagraphUpdater] "
+                "No rewrites available."
+            )
+
+            return
+
+
+
+        # ----------------------------------
+        # Build rewrite lookup
+        # ----------------------------------
+
+        rewrite_map = {
+
+            rewrite.paragraph_id: rewrite
+
+            for rewrite in rewrites
+
+        }
+
+
+
+        # ----------------------------------
+        # Match paragraphs
+        # ----------------------------------
+
+        for mapping in context.paragraph_mappings:
+
+
+            paragraph_id = (
+                mapping.model_paragraph.id
+            )
+
+
+            rewrite = (
+                rewrite_map.get(
+                    paragraph_id
+                )
+            )
+
+
+
+            if rewrite is None:
+
+
+                mapping.editable = False
+
+
+                logger.debug(
+
+                    "[ParagraphUpdater] "
+                    "Paragraph=%s ID=%s Rewrite=NO",
+
+                    mapping.paragraph_index,
+
+                    paragraph_id,
+
+                )
+
+
+                continue
+
+
+
+            # Attach rewrite
+
+            mapping.rewrite = rewrite
+
+
+            mapping.editable = True
+
+
+
+            logger.info(
+
+                "[ParagraphUpdater] "
+                "Paragraph=%s ID=%s Rewrite=YES",
+
+                mapping.paragraph_index,
+
+                paragraph_id,
+
+            )

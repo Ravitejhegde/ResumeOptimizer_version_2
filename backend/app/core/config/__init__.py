@@ -1,11 +1,9 @@
-from app.core.config.settings import (
-    settings,
-)
+"""
+ResumeOptimizer configuration package.
+"""
+
+from .settings import settings
 
 __all__ = [
     "settings",
 ]
-
-
-
-

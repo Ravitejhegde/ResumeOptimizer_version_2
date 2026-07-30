@@ -1,23 +1,22 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Plan(Base):
     """
-    Subscription plan.
+    Represents a subscription plan.
 
-    Pricing is stored separately so one
-    plan can have different prices in
-    different countries.
+    A plan defines the available features offered to users.
+    Actual pricing is stored separately in the Pricing model,
+    allowing different currencies, regions, and billing cycles
+    without duplicating plans.
     """
 
     __tablename__ = "plans"
@@ -31,8 +30,8 @@ class Plan(Base):
     code: Mapped[str] = mapped_column(
         String(50),
         unique=True,
-        nullable=False,
         index=True,
+        nullable=False,
     )
 
     name: Mapped[str] = mapped_column(
@@ -52,15 +51,15 @@ class Plan(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -76,8 +75,17 @@ class Plan(Base):
         cascade="all, delete-orphan",
     )
 
-    
+    @property
+    def is_active(self) -> bool:
+        """Returns whether this plan is currently available."""
+        return self.active
 
-
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Plan("
+            f"id={self.id}, "
+            f"code={self.code}, "
+            f"name={self.name}, "
+            f"active={self.active}"
+            f")>"
+        )

@@ -1,16 +1,30 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import HTTPException
-from pydantic import BaseModel
+import logging
+
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+)
+
+from pydantic import BaseModel, Field
+
 from sqlalchemy.orm import Session
-import traceback
+
 from app.database.session import get_db
 
 from app.services.optimization.optimization_service import (
     OptimizationService,
 )
+
+from app.engine.orchestrator import (
+    ResumeOptimizationEngine,
+)
+
+
+logger = logging.getLogger(__name__)
+
 
 router = APIRouter(
     prefix="/optimization",
@@ -18,44 +32,139 @@ router = APIRouter(
 )
 
 
-class OptimizeRequest(BaseModel):
-    resume_id: str
-    job_description: str
-    selected_skills: list[str] = []
 
+# --------------------------------------------------
+# Engine instance
+# --------------------------------------------------
+
+engine = ResumeOptimizationEngine()
+
+
+
+# --------------------------------------------------
+# Request Model
+# --------------------------------------------------
+
+class OptimizeRequest(BaseModel):
+    """
+    Resume optimization request.
+    """
+
+    resume_id: str
+
+    job_description: str
+
+    selected_skills: list[str] = Field(
+        default_factory=list,
+    )
+
+
+
+# --------------------------------------------------
+# API
+# --------------------------------------------------
 
 @router.post("/optimize")
-def optimize_resume(
+async def optimize_resume(
     request: OptimizeRequest,
     db: Session = Depends(get_db),
 ):
+    """
+    Optimize existing resume.
 
-    service = OptimizationService(db)
+    Async pipeline:
+
+        API
+         |
+         v
+        Service
+         |
+         v
+        ResumeOptimizationEngine
+         |
+         v
+        OptimizerEngine
+         |
+         v
+        AI/OpenRouter
+         |
+         v
+        Writer
+    """
+
+
+
+    service = OptimizationService(
+        db=db,
+        engine=engine,
+    )
+
+
 
     try:
 
-        output_file = service.optimize(
+        generated_resume = await service.optimize(
+
             resume_id=request.resume_id,
+
             job_description=request.job_description,
+
             selected_skills=request.selected_skills,
+
         )
+
+
 
         return {
+
             "success": True,
-            "output_file": output_file,
+
+            "resume_id": generated_resume.id,
+
+            "filename": generated_resume.filename,
+
+            "file_path": generated_resume.file_path,
+
         }
 
-    except FileNotFoundError as e:
+
+
+    except FileNotFoundError as exc:
+
+
+        logger.warning(
+
+            "Resume file not found: %s",
+
+            exc,
+
+        )
+
 
         raise HTTPException(
+
             status_code=404,
-            detail=str(e),
+
+            detail=str(exc),
+
         )
 
-    except Exception as e:
 
-        traceback.print_exc()
+
+    except Exception as exc:
+
+
+        logger.exception(
+
+            "Resume optimization failed."
+
+        )
+
+
         raise HTTPException(
+
             status_code=500,
-            detail=str(e),
-        )
+
+            detail="Resume optimization failed.",
+
+        ) from exc

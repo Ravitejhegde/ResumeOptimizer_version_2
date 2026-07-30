@@ -1,61 +1,154 @@
 from __future__ import annotations
 
-from copy import deepcopy
+import logging
+
 from pathlib import Path
 
-from docx import Document as DocxDocument
-
-from app.engine.models.document.document import (
-    Document,
+from app.engine.writer.models.write_context import (
+    WriteContext,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class DocxWriter:
     """
-    Writes optimized text back into the
-    original DOCX while preserving layout.
+    Final stage of Writer pipeline.
 
-    This class never changes formatting.
+    Responsibilities:
+
+        - Validate writer state.
+        - Save optimized DOCX.
+        - Confirm output creation.
+
+
+    Does NOT:
+
+        - Modify document content.
+        - Generate text.
+        - Apply optimization logic.
     """
 
-    # --------------------------------------------------
+
 
     @staticmethod
     def write(
-        document: Document,
-        source_file: str,
+        context: WriteContext,
         output_file: str,
     ) -> None:
+        """
+        Save final DOCX document.
+        """
 
-        doc = DocxDocument(
-            source_file,
+
+        logger.info(
+            "[DocxWriter] Starting document save..."
         )
 
-        paragraphs = list(
-            doc.paragraphs,
+
+        # ----------------------------------
+        # Validate path
+        # ----------------------------------
+
+        if not output_file:
+
+            context.add_error(
+                "Output file path is empty."
+            )
+
+            raise ValueError(
+                "Output file path is empty."
+            )
+
+
+
+        # ----------------------------------
+        # Validate writer state
+        # ----------------------------------
+
+        if not context.valid:
+
+            raise ValueError(
+
+                "Cannot write invalid document:\n"
+                +
+                "\n".join(
+                    context.errors
+                )
+
+            )
+
+
+
+        output_path = Path(
+            output_file
         )
 
-        for model, paragraph in zip(
-            document.paragraphs,
-            paragraphs,
-        ):
 
-            if not paragraph.runs:
-                continue
 
-            paragraph.runs[0].text = model.text
+        # ----------------------------------
+        # Create directory
+        # ----------------------------------
 
-            for run in paragraph.runs[1:]:
-
-                run.text = ""
-
-        Path(
-            output_file,
-        ).parent.mkdir(
+        output_path.parent.mkdir(
             parents=True,
             exist_ok=True,
         )
 
-        doc.save(
-            output_file,
+
+
+        try:
+
+            # ----------------------------------
+            # Save DOCX
+            # ----------------------------------
+
+            context.working_doc.save(
+                str(output_path)
+            )
+
+
+        except Exception as exc:
+
+
+            context.add_error(
+
+                f"DOCX save failed: {exc}"
+
+            )
+
+
+            raise
+
+
+
+        # ----------------------------------
+        # Verify output
+        # ----------------------------------
+
+        if not output_path.exists():
+
+            context.add_error(
+
+                "DOCX file was not created."
+
+            )
+
+
+            raise RuntimeError(
+
+                "DOCX output missing after save."
+
+            )
+
+
+
+        logger.info(
+
+            "[DocxWriter] "
+            "Saved successfully: %s",
+
+            output_path,
+
         )

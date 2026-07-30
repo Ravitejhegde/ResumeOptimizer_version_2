@@ -1,11 +1,19 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from __future__ import annotations
 
-from app.core.security.dependencies import (
+from fastapi import APIRouter, Depends
+
+from app.api.dependencies.current_user import (
     get_current_user,
 )
-from app.database.models.user import User
-from app.schemas.token import UserResponse
+
+from app.database.models.user import (
+    User,
+)
+
+from app.schemas.token import (
+    UserResponse,
+)
+
 
 router = APIRouter(
     prefix="/users",
@@ -21,7 +29,10 @@ def get_me(
     current_user: User = Depends(
         get_current_user,
     ),
-):
+) -> UserResponse:
+    """
+    Returns current authenticated user.
+    """
 
     return UserResponse(
         id=current_user.id,
@@ -31,7 +42,3 @@ def get_me(
         verified=current_user.verified,
         active=current_user.active,
     )
-
-
-
-

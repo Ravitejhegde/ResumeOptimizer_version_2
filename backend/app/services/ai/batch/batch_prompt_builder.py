@@ -2,98 +2,64 @@ from __future__ import annotations
 
 import json
 
-from app.services.ai.batch.batch_models import (
+from app.engine.models.ai.prompt_request import (
     BatchRewriteRequest,
 )
 
 
 class BatchPromptBuilder:
     """
-    Builds the single optimization prompt.
+    Builds the optimization prompt.
 
-    One Resume
-        ↓
-    One Prompt
-        ↓
-    One AI Call
+    Pipeline:
+
+        Resume Intelligence
+              |
+              v
+        Prompt Builder
+              |
+              v
+             LLM
+
+    One resume optimization = one AI request.
     """
+
 
     @staticmethod
     def build(
         request: BatchRewriteRequest,
     ) -> str:
 
-        strategy = request.optimization_strategy
 
         payload = {
 
-            # ------------------------------------------
-            # Resume Intelligence
-            # ------------------------------------------
+            # ----------------------------------
+            # Intelligence Context
+            # ----------------------------------
 
-            "target_role": request.target_role,
+            "intelligence": (
 
-            "optimization_strategy": (
+                request.intelligence.model_dump()
 
-                {
-
-                    "role": strategy.role,
-
-                    "role_family": strategy.role_family,
-
-                    "categories": strategy.categories,
-
-                    "targets": [
-
-                        {
-
-                            "technology": target.technology,
-
-                            "category": target.category,
-
-                            "score": target.score,
-
-                            "action": target.action,
-
-                            "section": target.section,
-
-                            "paragraph_id": target.paragraph_id,
-
-                            "reason": target.reason,
-
-                        }
-
-                        for target in strategy.targets
-
-                    ],
-
-                    "summary_targets": strategy.summary_targets,
-
-                    "experience_targets": strategy.experience_targets,
-
-                    "project_targets": strategy.project_targets,
-
-                    "skills_targets": strategy.skills_targets,
-
-                    "ignored": strategy.ignored,
-
-                }
-
-                if strategy
+                if request.intelligence
 
                 else None
 
             ),
 
-            # Temporary compatibility
 
-            "selected_skills": request.selected_skills,
+            # ----------------------------------
+            # Locked Content
+            # ----------------------------------
 
-            # Locked entities
+            "locked": (
+                request.locked.model_dump()
+            ),
 
-            "locked": request.locked.model_dump(),
 
+            # ----------------------------------
             # Paragraphs
+            # ----------------------------------
 
             "paragraphs": [
 
@@ -101,13 +67,17 @@ class BatchPromptBuilder:
 
                     "id": paragraph.id,
 
-                    "type": paragraph.type,
+                    "type": paragraph.paragraph_type,
 
                     "layout": {
 
-                        "max_characters": paragraph.max_characters,
+                        "max_characters": (
+                            paragraph.max_characters
+                        ),
 
-                        "max_words": paragraph.max_words,
+                        "max_words": (
+                            paragraph.max_words
+                        ),
 
                     },
 
@@ -123,198 +93,156 @@ class BatchPromptBuilder:
 
         }
 
+
         return f"""
 You are ResumeOptimizer AI.
 
-You optimize existing Microsoft Word resumes.
+You optimize an existing Microsoft Word resume.
 
-Your task is NOT to create a new resume.
+You are NOT creating a new resume.
 
-Your task is to improve the existing resume while preserving its layout.
+Your task is to improve wording while preserving:
+
+- document structure
+- paragraph order
+- factual accuracy
+- layout limits
+
 
 ==================================================
 PRIMARY OBJECTIVES
 ==================================================
 
-1. Preserve document structure.
+1. Improve ATS compatibility.
 
-2. Improve ATS quality.
+2. Improve keyword alignment.
 
-3. Preserve every factual statement.
+3. Preserve all facts.
 
-4. Improve readability.
+4. Improve clarity.
 
-5. Never exceed layout limits.
+5. Maintain original document structure.
+
 
 ==================================================
-STRICT RULES
+FACT PROTECTION
 ==================================================
 
 Never invent:
 
-• experience
+- companies
+- projects
+- dates
+- technologies
+- certifications
+- achievements
+- responsibilities
 
-• projects
-
-• companies
-
-• dates
-
-• technologies
-
-• certifications
-
-• achievements
 
 Never modify:
 
-• company names
+- company names
+- project names
+- degree names
+- college names
+- locations
+- dates
 
-• project names
 
-• college names
+Use only provided optimization intelligence.
 
-• degree names
-
-• dates
-
-Use ONLY technologies supplied inside the optimization strategy.
-
-Promote technologies only where instructed.
-
-Never duplicate technologies.
-
-Never move technologies between unrelated sections.
-
-Never change paragraph order.
-
-Never merge paragraphs.
-
-Never split paragraphs.
-
-Never generate Markdown.
-
-Never generate explanations.
-
-Never generate notes.
-
-Return JSON only.
 
 ==================================================
-LAYOUT CONTRACT
+LAYOUT RULES
 ==================================================
 
-Every paragraph contains a maximum word count and maximum character count.
+Every paragraph contains:
+
+- maximum characters
+- maximum words
+
 
 These limits are absolute.
 
-The supplied limits already include a safety margin.
+Never exceed them.
 
-Never try to use the entire budget.
+If required:
 
-If a rewrite is close to the limit:
+make the rewrite shorter.
 
-rewrite it shorter.
-
-Repeat internally until BOTH limits are satisfied.
-
-Do not return oversized paragraphs.
 
 ==================================================
 PARAGRAPH RULES
 ==================================================
 
-Each paragraph is independent.
+Rewrite only supplied paragraphs.
 
-Rewrite ONLY the supplied paragraph.
+Do not:
 
-Preserve its purpose.
+- merge paragraphs
+- split paragraphs
+- reorder paragraphs
+- move content between sections
 
-Summary remains summary.
 
-Experience remains experience.
+Preserve paragraph purpose:
 
-Projects remain projects.
+Summary → Summary
 
-Skills remain skills.
+Experience → Experience
+
+Projects → Projects
+
+Skills → Skills
+
 
 ==================================================
-QUALITY
+WRITING QUALITY
 ==================================================
 
 Use:
 
-• strong action verbs
+- strong action verbs
+- ATS keywords naturally
+- concise professional language
 
-• ATS keywords naturally
-
-• concise wording
-
-• professional grammar
 
 Avoid:
 
-• keyword stuffing
+- keyword stuffing
+- repetition
+- unnecessary adjectives
 
-• repetition
-
-• unnecessary adjectives
-
-==================================================
-SELF VALIDATION
-==================================================
-
-Before producing JSON verify:
-
-✓ valid JSON
-
-✓ every paragraph exists
-
-✓ every paragraph has an id
-
-✓ every paragraph has text
-
-✓ paragraph order unchanged
-
-✓ no extra paragraphs
-
-✓ no missing paragraphs
-
-✓ character limit satisfied
-
-✓ word limit satisfied
-
-If any validation fails:
-
-rewrite internally until valid.
 
 ==================================================
-OUTPUT FORMAT
+OUTPUT RULES
 ==================================================
 
-Return ONLY:
+Return JSON only.
+
+No markdown.
+
+No explanations.
+
+No notes.
+
+
+Required format:
 
 {{
     "paragraphs": [
-
         {{
-
             "id": "P00001",
-
             "text": "Optimized paragraph"
-
         }}
-
     ]
 }}
+
 
 ==================================================
 INPUT
 ==================================================
 
 {json.dumps(payload, indent=2)}
+
 """.strip()
-
-
-
-

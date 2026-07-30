@@ -3,9 +3,6 @@ from sqlalchemy.orm import Session
 from app.database.models.feature import Feature
 from app.database.models.plan_feature import PlanFeature
 from app.database.models.subscription import Subscription
-from app.database.models.order import Order
-from app.database.models.pricing import Pricing
-from app.database.models.plan import Plan
 
 
 class EntitlementService:

@@ -1,23 +1,24 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class GuestSession(Base):
     """
-    Anonymous visitor session.
+    Represents a single anonymous browsing session.
 
-    A guest session may later become
-    a registered user.
+    A Guest may create multiple GuestSessions over time.
+    A session may later become associated with a registered user
+    after authentication.
+
+    Every user action during the session is recorded through
+    UsageEvent records.
     """
 
     __tablename__ = "guest_sessions"
@@ -28,6 +29,15 @@ class GuestSession(Base):
         default=lambda: str(uuid.uuid4()),
     )
 
+    guest_id: Mapped[str] = mapped_column(
+        ForeignKey(
+            "guests.id",
+            ondelete="CASCADE",
+        ),
+        index=True,
+        nullable=False,
+    )
+
     session_token: Mapped[str] = mapped_column(
         String(255),
         unique=True,
@@ -36,7 +46,11 @@ class GuestSession(Base):
     )
 
     user_id: Mapped[str | None] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey(
+            "users.id",
+            ondelete="SET NULL",
+        ),
+        index=True,
         nullable=True,
     )
 
@@ -69,16 +83,21 @@ class GuestSession(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     last_activity_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
+    )
+
+    guest: Mapped["Guest"] = relationship(
+        "Guest",
+        back_populates="sessions",
     )
 
     user: Mapped["User | None"] = relationship(
@@ -86,11 +105,26 @@ class GuestSession(Base):
     )
 
     usage_events: Mapped[list["UsageEvent"]] = relationship(
-    "UsageEvent",
-    back_populates="guest_session",
-    cascade="all, delete-orphan",
-)
+        "UsageEvent",
+        back_populates="guest_session",
+        cascade="all, delete-orphan",
+    )
 
+    @property
+    def is_authenticated(self) -> bool:
+        """Returns True if this guest session has been linked to a user."""
+        return self.user_id is not None
 
+    @property
+    def is_active(self) -> bool:
+        """Returns whether the session is currently active."""
+        return self.active
 
-
+    def __repr__(self) -> str:
+        return (
+            f"<GuestSession("
+            f"id={self.id}, "
+            f"guest_id={self.guest_id}, "
+            f"active={self.active}"
+            f")>"
+        )

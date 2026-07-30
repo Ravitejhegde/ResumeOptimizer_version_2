@@ -1,21 +1,20 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Subscription(Base):
     """
-    User subscription created after a
-    successful payment.
+    Represents an active or historical subscription for a user.
+
+    A subscription is created after a successful order/payment and
+    determines the user's access to premium ResumeOptimizer features.
     """
 
     __tablename__ = "subscriptions"
@@ -27,16 +26,22 @@ class Subscription(Base):
     )
 
     user_id: Mapped[str] = mapped_column(
-        ForeignKey("users.id"),
-        nullable=False,
+        ForeignKey(
+            "users.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id"),
-        nullable=False,
+        ForeignKey(
+            "orders.id",
+            ondelete="CASCADE",
+        ),
         unique=True,
         index=True,
+        nullable=False,
     )
 
     status: Mapped[str] = mapped_column(
@@ -52,30 +57,30 @@ class Subscription(Base):
     )
 
     starts_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
     )
 
     expires_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
     )
 
     cancelled_at: Mapped[datetime | None] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -89,6 +94,21 @@ class Subscription(Base):
         back_populates="subscription",
     )
 
+    @property
+    def is_active(self) -> bool:
+        """
+        Returns True if the subscription is currently active.
+        """
+        return (
+            self.status == "active"
+            and self.expires_at > datetime.now(timezone.utc)
+        )
 
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Subscription("
+            f"id={self.id}, "
+            f"status={self.status}, "
+            f"expires_at={self.expires_at}"
+            f")>"
+        )

@@ -1,52 +1,112 @@
+"""
+knowledge_builder.models.category
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Domain model representing a technology category.
+
+A Category is the highest-level grouping within the ResumeOptimizer
+Knowledge Platform.
+
+Examples:
+    - Programming Languages
+    - Frameworks
+    - Databases
+    - Cloud Platforms
+    - DevOps
+    - AI / Machine Learning
+
+Categories are immutable identifiers referenced throughout the
+Knowledge Builder pipeline.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-
-from knowledge_builder.models.technology import (
-    Technology,
-)
+from typing import Tuple
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=True)
 class Category:
     """
-    Represents a technology category.
+    Represents a single technology category.
 
-    Example:
-        Programming Languages
-        Frameworks
-        Databases
-        Cloud
+    Attributes
+    ----------
+    id:
+        Unique identifier.
+        Example:
+            programming_languages
+
+    name:
+        Human-readable name.
+        Example:
+            Programming Languages
+
+    description:
+        Short explanation of the category.
+
+    aliases:
+        Alternative names used during normalization.
     """
 
     id: str
-
     name: str
-
     description: str = ""
+    aliases: Tuple[str, ...] = field(default_factory=tuple)
 
-    technologies: list[Technology] = field(
-        default_factory=list,
-    )
+    def matches(self, value: str) -> bool:
+        """
+        Returns True if the given value refers to this category.
 
-    tags: list[str] = field(
-        default_factory=list,
-    )
+        Matching is case-insensitive.
 
-    def add(
-        self,
-        technology: Technology,
-    ) -> None:
+        Parameters
+        ----------
+        value:
+            Category name or alias.
 
-        self.technologies.append(
-            technology,
+        Returns
+        -------
+        bool
+        """
+        normalized = value.strip().casefold()
+
+        if normalized == self.name.casefold():
+            return True
+
+        return normalized in (
+            alias.casefold()
+            for alias in self.aliases
         )
 
-    @property
-    def count(
-        self,
-    ) -> int:
+    def to_dict(self) -> dict:
+        """
+        Serialize the category.
 
-        return len(
-            self.technologies,
+        Returns
+        -------
+        dict
+        """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "aliases": list(self.aliases),
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Category":
+        """
+        Create Category from dictionary.
+
+        Raises
+        ------
+        KeyError
+            If required keys are missing.
+        """
+        return cls(
+            id=data["id"],
+            name=data["name"],
+            description=data.get("description", ""),
+            aliases=tuple(data.get("aliases", [])),
         )

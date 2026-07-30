@@ -6,7 +6,6 @@ class ResumeOptimizerError(Exception):
     Base exception for the application.
     """
 
-    pass
 
 
 # ======================================================

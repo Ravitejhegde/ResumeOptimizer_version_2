@@ -1,17 +1,33 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any
 
 
 class BasePaymentProvider(ABC):
     """
-    Base interface for all payment providers.
+    Abstract interface for payment providers.
 
-    StripeProvider
-    RazorpayProvider
-    PayPalProvider
+    Implementations:
+        - StripeProvider
+        - RazorpayProvider
+        - PayPalProvider
 
-    must implement this interface.
+    The application should never depend
+    directly on a payment provider.
     """
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        """
+        Returns provider name.
+        """
+        raise NotImplementedError
+
+    # ==========================================================
+    # Customer
+    # ==========================================================
 
     @abstractmethod
     async def create_customer(
@@ -21,11 +37,16 @@ class BasePaymentProvider(ABC):
         name: str,
     ) -> str:
         """
-        Create a customer.
+        Creates a customer.
 
-        Returns provider customer id.
+        Returns:
+            Provider customer ID.
         """
         raise NotImplementedError
+
+    # ==========================================================
+    # Checkout
+    # ==========================================================
 
     @abstractmethod
     async def create_checkout_session(
@@ -37,9 +58,16 @@ class BasePaymentProvider(ABC):
         cancel_url: str,
     ) -> dict[str, Any]:
         """
-        Returns checkout session.
+        Creates a checkout session.
+
+        Returns:
+            Provider checkout information.
         """
         raise NotImplementedError
+
+    # ==========================================================
+    # Billing Portal
+    # ==========================================================
 
     @abstractmethod
     async def create_billing_portal(
@@ -49,7 +77,25 @@ class BasePaymentProvider(ABC):
         return_url: str,
     ) -> str:
         """
-        Returns billing portal URL.
+        Creates customer billing portal.
+
+        Returns:
+            Portal URL.
+        """
+        raise NotImplementedError
+
+    # ==========================================================
+    # Subscription
+    # ==========================================================
+
+    @abstractmethod
+    async def get_subscription(
+        self,
+        *,
+        subscription_id: str,
+    ) -> dict[str, Any]:
+        """
+        Retrieves subscription information.
         """
         raise NotImplementedError
 
@@ -60,20 +106,13 @@ class BasePaymentProvider(ABC):
         subscription_id: str,
     ) -> None:
         """
-        Cancel subscription.
+        Cancels subscription.
         """
         raise NotImplementedError
 
-    @abstractmethod
-    async def get_subscription(
-        self,
-        *,
-        subscription_id: str,
-    ) -> dict[str, Any]:
-        """
-        Returns subscription details.
-        """
-        raise NotImplementedError
+    # ==========================================================
+    # Webhooks
+    # ==========================================================
 
     @abstractmethod
     async def verify_webhook(
@@ -83,11 +122,16 @@ class BasePaymentProvider(ABC):
         signature: str,
     ) -> dict[str, Any]:
         """
-        Verify webhook signature.
+        Verifies webhook signature.
 
-        Returns webhook event.
+        Returns:
+            Parsed webhook event.
         """
         raise NotImplementedError
+
+    # ==========================================================
+    # Refunds
+    # ==========================================================
 
     @abstractmethod
     async def create_refund(
@@ -96,10 +140,9 @@ class BasePaymentProvider(ABC):
         payment_id: str,
     ) -> dict[str, Any]:
         """
-        Refund payment.
+        Creates payment refund.
+
+        Returns:
+            Refund information.
         """
         raise NotImplementedError
-
-
-
-

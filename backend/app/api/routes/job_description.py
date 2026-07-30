@@ -1,7 +1,23 @@
-from fastapi import APIRouter
+from __future__ import annotations
 
-from app.schemas.job_description import JobDescriptionRequest
-from app.services.job_description.analyzer import JobDescriptionAnalyzer
+import logging
+
+from fastapi import (
+    APIRouter,
+    HTTPException,
+)
+
+from app.schemas.job_description import (
+    JobDescriptionRequest,
+)
+
+from app.services.job_description.job_description_service import (
+    JobDescriptionService,
+)
+
+
+logger = logging.getLogger(__name__)
+
 
 router = APIRouter(
     prefix="/job-description",
@@ -10,14 +26,28 @@ router = APIRouter(
 
 
 @router.post("/analyze")
-async def analyze(
+def analyze(
     request: JobDescriptionRequest,
 ):
+    """
+    Analyze a job description.
+    """
 
-    return JobDescriptionAnalyzer.analyze(
-        request.job_description
-    )
+    service = JobDescriptionService()
 
+    try:
 
+        return service.analyze(
+            request.job_description
+        )
 
+    except Exception:
 
+        logger.exception(
+            "Job description analysis failed"
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="Job description analysis failed.",
+        )

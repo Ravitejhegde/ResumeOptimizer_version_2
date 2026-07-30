@@ -1,27 +1,27 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import Float
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy import Text
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class OptimizationJob(Base):
     """
-    Represents one AI optimization request.
+    Represents a single resume optimization request.
 
-    Each job:
-    - Uses one original resume
-    - Uses one job description
-    - Produces one generated resume
+    Workflow:
+        Resume
+            ↓
+        OptimizationJob
+            ↓
+        GeneratedResume
+
+    Stores optimization metadata, ATS improvements,
+    AI provider information, and processing statistics.
     """
 
     __tablename__ = "optimization_jobs"
@@ -33,9 +33,12 @@ class OptimizationJob(Base):
     )
 
     resume_id: Mapped[str] = mapped_column(
-        ForeignKey("resumes.id"),
-        nullable=False,
+        ForeignKey(
+            "resumes.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     status: Mapped[str] = mapped_column(
@@ -100,8 +103,8 @@ class OptimizationJob(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -117,6 +120,11 @@ class OptimizationJob(Base):
         cascade="all, delete-orphan",
     )
 
-
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<OptimizationJob("
+            f"id={self.id}, "
+            f"status={self.status}, "
+            f"ats={self.ats_before}->{self.ats_after}"
+            f")>"
+        )

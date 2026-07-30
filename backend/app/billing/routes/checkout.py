@@ -4,28 +4,23 @@ from fastapi import (
     HTTPException,
     status,
 )
-
 from sqlalchemy.orm import Session
-
-from app.core.security.dependencies import (
-    get_current_user,
-)
-
-from app.database.models.user import (
-    User,
-)
-
-from app.database.session import (
-    get_db,
-)
-
-from app.billing.services.checkout_service import (
-    CheckoutService,
-)
 
 from app.billing.schemas.checkout import (
     CheckoutRequest,
     CheckoutResponse,
+)
+from app.billing.services.checkout_service import (
+    CheckoutService,
+)
+from app.core.security.dependencies import (
+    get_current_user,
+)
+from app.database.models.user import (
+    User,
+)
+from app.database.session import (
+    get_db,
 )
 
 router = APIRouter(

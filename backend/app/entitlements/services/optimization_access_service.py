@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from app.entitlements.services.entitlement_service import (
     EntitlementService,
 )
-
 from app.entitlements.services.usage_service import (
     UsageService,
 )

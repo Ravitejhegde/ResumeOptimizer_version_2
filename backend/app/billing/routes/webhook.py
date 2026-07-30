@@ -4,18 +4,15 @@ from fastapi import (
     HTTPException,
     Request,
 )
-
 from sqlalchemy.orm import Session
-
-from app.database.session import get_db
 
 from app.billing.providers.stripe_provider import (
     StripeProvider,
 )
-
 from app.billing.services.stripe_webhook_service import (
     StripeWebhookService,
 )
+from app.database.session import get_db
 
 router = APIRouter(
     prefix="/billing",

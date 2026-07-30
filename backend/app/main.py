@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -12,7 +11,6 @@ from app.api.routes.optimization import (
 )
 from app.api.routes.resume import router as resume_router
 from app.api.routes.user import router as user_router
-
 from app.billing.routes.checkout import (
     router as billing_checkout_router,
 )
@@ -25,7 +23,6 @@ from app.billing.routes.pricing import (
 from app.billing.routes.webhook import (
     router as billing_webhook_router,
 )
-
 from app.core.config import settings
 from app.database.init_db import initialize_database
 

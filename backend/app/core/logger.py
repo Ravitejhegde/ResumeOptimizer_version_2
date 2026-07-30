@@ -5,7 +5,6 @@ from logging.handlers import RotatingFileHandler
 
 from app.core.config.settings import settings
 
-
 LOG_FORMAT = (
     "%(asctime)s | "
     "%(levelname)-8s | "

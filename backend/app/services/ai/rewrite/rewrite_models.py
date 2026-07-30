@@ -6,23 +6,38 @@ from dataclasses import dataclass
 @dataclass(slots=True)
 class RewriteRequest:
     """
-    Represents one paragraph rewrite request.
+    Legacy single paragraph rewrite request.
+
+    Deprecated:
+        Use BatchRewriteRequest from
+        app.engine.models.ai instead.
     """
+
+    paragraph_id: str
 
     paragraph: str
 
-    target_role: str
+    section: str = ""
 
-    selected_skills: list[str]
+    target_role: str = ""
 
-    max_words: int
+    selected_skills: list[str] | None = None
+
+    max_words: int = 0
+
+    max_characters: int = 0
 
 
 @dataclass(slots=True)
 class RewriteResult:
     """
-    Result returned by an AI provider.
+    Legacy single rewrite result.
+
+    Deprecated:
+        Use BatchRewriteResult instead.
     """
+
+    paragraph_id: str
 
     optimized_text: str
 
@@ -32,6 +47,4 @@ class RewriteResult:
 
     tokens_used: int = 0
 
-
-
-
+    error: str | None = None

@@ -1,11 +1,13 @@
-from sqlalchemy.orm import Session
+from __future__ import annotations
 
-from app.billing.providers.stripe.customer import (
-    StripeCustomer,
-)
+from sqlalchemy.orm import Session
 
 from app.billing.providers.stripe.checkout import (
     StripeCheckout,
+)
+
+from app.billing.providers.stripe.customer import (
+    StripeCustomer,
 )
 
 from app.billing.repository.database_order_repository import (
@@ -19,12 +21,31 @@ from app.billing.repository.database_pricing_repository import (
 from app.database.models.order import Order
 
 
+
 class CheckoutService:
+    """
+    Handles checkout creation workflow.
+
+    Flow:
+
+    User
+      ↓
+    Pricing lookup
+      ↓
+    Stripe customer
+      ↓
+    Create order
+      ↓
+    Create Stripe checkout session
+      ↓
+    Return checkout URL
+    """
+
 
     def __init__(
         self,
         db: Session,
-    ):
+    ) -> None:
 
         self.db = db
 
@@ -32,57 +53,57 @@ class CheckoutService:
 
         self.checkout = StripeCheckout()
 
-        self.orders = DatabaseOrderRepository(db)
+        self.orders = DatabaseOrderRepository(
+            db
+        )
 
-        self.pricing = DatabasePricingRepository(db)
+        self.pricing = DatabasePricingRepository(
+            db
+        )
+
+
 
     def create_checkout(
-
         self,
-
         user_id: str,
-
         email: str,
-
         plan_code: str,
-
         country: str,
-
         interval: str,
-
         success_url: str,
-
         cancel_url: str,
+    ) -> dict:
+        """
+        Create Stripe checkout session.
+        """
 
-    ):
 
         # -------------------------------------
         # Pricing
         # -------------------------------------
 
         pricing = self.pricing.get(
-
             plan_code,
-
             country,
-
         )
+
 
         if pricing is None:
 
             raise ValueError(
-
                 "Pricing not found."
-
             )
 
+
+
         # -------------------------------------
-        # Customer
+        # Stripe Customer
         # -------------------------------------
 
         customer = self.customers.search(
             email
         )
+
 
         if customer is None:
 
@@ -94,8 +115,10 @@ class CheckoutService:
 
             )
 
+
+
         # -------------------------------------
-        # Price
+        # Price selection
         # -------------------------------------
 
         if interval == "yearly":
@@ -118,8 +141,10 @@ class CheckoutService:
                 pricing.stripe_monthly_price_id
             )
 
+
+
         # -------------------------------------
-        # Order
+        # Create order
         # -------------------------------------
 
         order = Order(
@@ -138,12 +163,15 @@ class CheckoutService:
 
         )
 
+
         order = self.orders.create(
             order
         )
 
+
+
         # -------------------------------------
-        # Stripe Checkout
+        # Stripe checkout
         # -------------------------------------
 
         session = self.checkout.create(
@@ -168,11 +196,17 @@ class CheckoutService:
 
         )
 
+
+
         order.provider_order_id = (
             session.id
         )
 
-        self.orders.update(order)
+
+        self.orders.update(
+            order
+        )
+
 
         return {
 
@@ -183,7 +217,3 @@ class CheckoutService:
             "session_id": session.id,
 
         }
-
-
-
-

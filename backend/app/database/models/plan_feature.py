@@ -1,31 +1,33 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy import Text
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, String, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class PlanFeature(Base):
     """
-    Connects a subscription plan with a feature.
+    Associates a subscription plan with a feature and its value.
 
-    Example:
+    Examples:
+        Free Plan
+            monthly_optimizations = "10"
 
-    Plan: Free
-    Feature: monthly_optimizations
-    Value: 3
+        Pro Plan
+            monthly_optimizations = "500"
 
-    Plan: Pro
-    Feature: pdf_download
-    Value: true
+        Free Plan
+            pdf_download = "false"
+
+        Pro Plan
+            pdf_download = "true"
+
+    The feature's data type is defined by Feature.value_type,
+    while the actual configured value is stored here.
     """
 
     __tablename__ = "plan_features"
@@ -37,15 +39,21 @@ class PlanFeature(Base):
     )
 
     plan_id: Mapped[str] = mapped_column(
-        ForeignKey("plans.id"),
-        nullable=False,
+        ForeignKey(
+            "plans.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     feature_id: Mapped[str] = mapped_column(
-        ForeignKey("features.id"),
-        nullable=False,
+        ForeignKey(
+            "features.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     value: Mapped[str] = mapped_column(
@@ -60,15 +68,15 @@ class PlanFeature(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -82,6 +90,18 @@ class PlanFeature(Base):
         back_populates="plan_features",
     )
 
+    @property
+    def is_active(self) -> bool:
+        """Returns whether this feature assignment is enabled."""
+        return self.active
 
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<PlanFeature("
+            f"id={self.id}, "
+            f"plan_id={self.plan_id}, "
+            f"feature_id={self.feature_id}, "
+            f"value={self.value}, "
+            f"active={self.active}"
+            f")>"
+        )

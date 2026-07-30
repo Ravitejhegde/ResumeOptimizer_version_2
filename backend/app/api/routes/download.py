@@ -1,10 +1,21 @@
-from pathlib import Path
+from __future__ import annotations
 
-from fastapi import APIRouter
-from fastapi import HTTPException
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+)
+
 from fastapi.responses import FileResponse
 
-from app.core.config import settings
+from sqlalchemy.orm import Session
+
+from app.database.session import get_db
+
+from app.services.download.download_service import (
+    DownloadService,
+)
+
 
 router = APIRouter(
     prefix="/download",
@@ -12,28 +23,32 @@ router = APIRouter(
 )
 
 
-@router.get("/{filename}")
-def download_resume(filename: str):
+@router.get("/{resume_output_id}")
+def download_resume(
+    resume_output_id: str,
+    db: Session = Depends(get_db),
+):
 
-    file_path = settings.EXPORT_DIR / filename
+    service = DownloadService(db)
 
-    if not Path(file_path).exists():
+    try:
+
+        file_path = service.get_file(
+            resume_output_id
+        )
+
+        return FileResponse(
+            path=file_path,
+            filename=file_path.name,
+            media_type=(
+                "application/vnd.openxmlformats-officedocument."
+                "wordprocessingml.document"
+            ),
+        )
+
+    except FileNotFoundError as exc:
 
         raise HTTPException(
             status_code=404,
-            detail="File not found."
+            detail=str(exc),
         )
-
-    return FileResponse(
-
-        path=file_path,
-
-        filename=filename,
-
-        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-
-    )
-
-
-
-

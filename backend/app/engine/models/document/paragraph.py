@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 
 from app.engine.models.document.layout_budget import (
     LayoutBudget,
@@ -11,20 +10,42 @@ from app.engine.models.document.run import (
     Run,
 )
 
+from app.engine.models.document.numbering import (
+    Numbering,
+)
+
 
 @dataclass(slots=True)
 class Paragraph:
     """
     Represents a single paragraph in the document.
 
-    A paragraph owns runs and paragraph-level formatting.
+    A paragraph owns:
+        - runs
+        - formatting
+        - numbering
+        - layout information
+
+    Shared by:
+
+        Reader
+          ↓
+        Analyzer
+          ↓
+        Planner
+          ↓
+        Optimizer
+          ↓
+        Writer
     """
+
 
     # ---------------------------------------------------------
     # Identity
     # ---------------------------------------------------------
 
     id: str
+
 
     # ---------------------------------------------------------
     # Content
@@ -34,11 +55,13 @@ class Paragraph:
         default_factory=list,
     )
 
+
     # ---------------------------------------------------------
     # Style
     # ---------------------------------------------------------
 
     style_name: str = "Normal"
+
 
     # ---------------------------------------------------------
     # Formatting
@@ -48,7 +71,7 @@ class Paragraph:
 
     left_indent: float | None = None
 
-    right_indent: float |None = None
+    right_indent: float | None = None
 
     first_line_indent: float | None = None
 
@@ -58,17 +81,27 @@ class Paragraph:
 
     line_spacing: float | None = None
 
+
     keep_together: bool = False
 
     keep_with_next: bool = False
 
     page_break_before: bool = False
 
+
+    # ---------------------------------------------------------
+    # Numbering / Bullets
+    # ---------------------------------------------------------
+
+    numbering: Numbering | None = None
+
+
     # ---------------------------------------------------------
     # Layout
     # ---------------------------------------------------------
 
     layout_budget: LayoutBudget | None = None
+
 
     # ---------------------------------------------------------
     # Metadata
@@ -77,6 +110,7 @@ class Paragraph:
     editable: bool = True
 
     section: str | None = None
+
 
     # ---------------------------------------------------------
     # Computed
@@ -87,13 +121,14 @@ class Paragraph:
         self,
     ) -> str:
         """
-        Returns paragraph text.
+        Returns paragraph visible text.
         """
 
         return "".join(
             run.text
             for run in self.runs
         )
+
 
     @property
     def is_empty(
@@ -106,6 +141,7 @@ class Paragraph:
 
         return not self.text.strip()
 
+
     @property
     def run_count(
         self,
@@ -117,7 +153,3 @@ class Paragraph:
         return len(
             self.runs
         )
-
-
-
-

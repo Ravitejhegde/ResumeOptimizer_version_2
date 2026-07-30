@@ -1,66 +1,92 @@
-from fastapi import Depends
-from fastapi import HTTPException
-from fastapi.security import HTTPAuthorizationCredentials
-from fastapi.security import HTTPBearer
-from sqlalchemy.orm import Session
+"""
+FastAPI authentication dependencies.
+"""
+
+from __future__ import annotations
+
+
+from fastapi import (
+    Depends,
+    HTTPException,
+    status,
+)
+
+from fastapi.security import OAuth2PasswordBearer
+
 
 from app.core.security.jwt import (
-    get_user_id,
+    jwt_service,
 )
 
-from app.database.models.user import User
 
-from app.database.repositories.user_repository import (
-    UserRepository,
+
+# ==========================================================
+# OAuth2 Scheme
+# ==========================================================
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/auth/token"
 )
 
-from app.database.session import (
-    get_db,
-)
 
-security = HTTPBearer()
 
+# ==========================================================
+# Current User Token
+# ==========================================================
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(
-        security,
-    ),
-    db: Session = Depends(
-        get_db,
-    ),
-) -> User:
+    token: str = Depends(oauth2_scheme),
+) -> dict:
     """
-    Returns the authenticated user.
+    Validate access token.
+
+    Returns:
+        JWT payload
     """
+
 
     try:
 
-        user_id = get_user_id(
-            credentials.credentials,
+        payload = jwt_service.decode_access_token(
+            token
         )
 
-    except Exception:
+
+        return payload
+
+
+
+    except Exception as exc:
 
         raise HTTPException(
-            status_code=401,
-            detail="Invalid authentication token.",
-        )
-
-    user = UserRepository(
-        db,
-    ).get(
-        user_id,
-    )
-
-    if user is None:
-
-        raise HTTPException(
-            status_code=401,
-            detail="User not found.",
-        )
-
-    return user
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired authentication token.",
+            headers={
+                "WWW-Authenticate": "Bearer"
+            },
+        ) from exc
 
 
 
 
+# ==========================================================
+# Active User
+# ==========================================================
+
+def get_current_active_user(
+    current_user: dict = Depends(
+        get_current_user
+    ),
+) -> dict:
+    """
+    Future user validation layer.
+
+    Future checks:
+        - User exists
+        - Account active
+        - Subscription access
+        - Workspace permission
+    """
+
+
+    return current_user

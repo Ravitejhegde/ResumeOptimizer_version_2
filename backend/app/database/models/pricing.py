@@ -1,21 +1,23 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import Numeric
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Numeric, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Pricing(Base):
     """
-    Country-specific pricing for a subscription plan.
+    Represents the pricing configuration for a subscription plan
+    in a specific country and currency.
+
+    Keeping pricing separate from Plan allows the same subscription
+    plan to have different prices, currencies, billing periods,
+    and payment providers for different regions.
     """
 
     __tablename__ = "pricing"
@@ -27,15 +29,18 @@ class Pricing(Base):
     )
 
     plan_id: Mapped[str] = mapped_column(
-        ForeignKey("plans.id"),
-        nullable=False,
+        ForeignKey(
+            "plans.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     country_code: Mapped[str] = mapped_column(
         String(2),
-        nullable=False,
         index=True,
+        nullable=False,
     )
 
     currency_code: Mapped[str] = mapped_column(
@@ -43,12 +48,12 @@ class Pricing(Base):
         nullable=False,
     )
 
-    monthly_price: Mapped[float] = mapped_column(
+    monthly_price: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
         nullable=False,
     )
 
-    yearly_price: Mapped[float | None] = mapped_column(
+    yearly_price: Mapped[Decimal | None] = mapped_column(
         Numeric(10, 2),
         nullable=True,
     )
@@ -65,15 +70,15 @@ class Pricing(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -94,6 +99,18 @@ class Pricing(Base):
         viewonly=True,
     )
 
+    @property
+    def is_active(self) -> bool:
+        """Returns whether this pricing is currently available."""
+        return self.active
 
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Pricing("
+            f"id={self.id}, "
+            f"country={self.country_code}, "
+            f"currency={self.currency_code}, "
+            f"monthly={self.monthly_price}, "
+            f"active={self.active}"
+            f")>"
+        )

@@ -1,21 +1,30 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy import Text
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import DateTime, ForeignKey, String, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class UsageEvent(Base):
     """
-    Records every significant action performed
-    by a guest or registered user.
+    Records significant actions performed by either a guest
+    or an authenticated user.
+
+    Examples:
+        - resume_uploaded
+        - optimization_started
+        - optimization_completed
+        - resume_downloaded
+        - subscription_purchased
+        - login
+        - signup
+
+    These events support analytics, auditing, usage reporting,
+    subscription enforcement, and future product insights.
     """
 
     __tablename__ = "usage_events"
@@ -27,21 +36,27 @@ class UsageEvent(Base):
     )
 
     guest_session_id: Mapped[str | None] = mapped_column(
-        ForeignKey("guest_sessions.id"),
-        nullable=True,
+        ForeignKey(
+            "guest_sessions.id",
+            ondelete="SET NULL",
+        ),
         index=True,
+        nullable=True,
     )
 
     user_id: Mapped[str | None] = mapped_column(
-        ForeignKey("users.id"),
-        nullable=True,
+        ForeignKey(
+            "users.id",
+            ondelete="SET NULL",
+        ),
         index=True,
+        nullable=True,
     )
 
     event_type: Mapped[str] = mapped_column(
         String(50),
-        nullable=False,
         index=True,
+        nullable=False,
     )
 
     resource_type: Mapped[str | None] = mapped_column(
@@ -61,8 +76,8 @@ class UsageEvent(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -76,6 +91,21 @@ class UsageEvent(Base):
         back_populates="usage_events",
     )
 
+    @property
+    def is_guest_event(self) -> bool:
+        """Returns True if this event belongs to a guest session."""
+        return self.guest_session_id is not None
 
+    @property
+    def is_user_event(self) -> bool:
+        """Returns True if this event belongs to a registered user."""
+        return self.user_id is not None
 
-
+    def __repr__(self) -> str:
+        return (
+            f"<UsageEvent("
+            f"id={self.id}, "
+            f"event_type={self.event_type}, "
+            f"resource_type={self.resource_type}"
+            f")>"
+        )

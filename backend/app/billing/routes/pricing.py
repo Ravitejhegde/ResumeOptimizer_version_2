@@ -1,16 +1,13 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
-from app.database.session import get_db
 
 from app.billing.schemas.pricing import (
     PricingResponse,
 )
-
 from app.billing.services.pricing_service import (
     PricingService,
 )
+from app.database.session import get_db
 
 router = APIRouter(
     prefix="/billing",

@@ -1,25 +1,21 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import DateTime, ForeignKey, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Workspace(Base):
     """
-    Every user owns one workspace.
+    A workspace belongs to a single user.
 
-    Future:
-    - Multiple resumes
-    - Cover letters
-    - Portfolio
-    - LinkedIn
+    A workspace is the root container for all user-owned resources,
+    including resumes and future assets such as cover letters,
+    portfolios, and LinkedIn profiles.
     """
 
     __tablename__ = "workspaces"
@@ -31,10 +27,13 @@ class Workspace(Base):
     )
 
     user_id: Mapped[str] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey(
+            "users.id",
+            ondelete="CASCADE",
+        ),
         unique=True,
-        nullable=False,
         index=True,
+        nullable=False,
     )
 
     name: Mapped[str] = mapped_column(
@@ -44,29 +43,32 @@ class Workspace(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
-    user = relationship(
+    user: Mapped["User"] = relationship(
         "User",
         back_populates="workspace",
     )
 
-    resumes = relationship(
+    resumes: Mapped[list["Resume"]] = relationship(
         "Resume",
         back_populates="workspace",
         cascade="all, delete-orphan",
     )
 
-
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Workspace(id={self.id}, "
+            f"user_id={self.user_id}, "
+            f"name={self.name})>"
+        )

@@ -1,23 +1,26 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import Numeric
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
+
+from sqlalchemy import DateTime, ForeignKey, Numeric, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class PaymentTransaction(Base):
     """
-    One payment attempt.
+    Represents a single payment attempt for an order.
 
-    An order may have multiple payment attempts
-    until one succeeds.
+    An order may have multiple payment attempts until one
+    completes successfully.
+
+    Examples:
+        Attempt #1 -> Failed
+        Attempt #2 -> Failed
+        Attempt #3 -> Paid
     """
 
     __tablename__ = "payment_transactions"
@@ -29,9 +32,12 @@ class PaymentTransaction(Base):
     )
 
     order_id: Mapped[str] = mapped_column(
-        ForeignKey("orders.id"),
-        nullable=False,
+        ForeignKey(
+            "orders.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     provider: Mapped[str] = mapped_column(
@@ -41,11 +47,11 @@ class PaymentTransaction(Base):
 
     provider_transaction_id: Mapped[str | None] = mapped_column(
         String(255),
-        nullable=True,
         unique=True,
+        nullable=True,
     )
 
-    amount: Mapped[float] = mapped_column(
+    amount: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
         nullable=False,
     )
@@ -67,15 +73,15 @@ class PaymentTransaction(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -83,8 +89,28 @@ class PaymentTransaction(Base):
         "Order",
         back_populates="payment_transactions",
     )
-    
 
+    @property
+    def is_successful(self) -> bool:
+        """Returns True if the payment was successful."""
+        return self.status == "paid"
 
+    @property
+    def is_failed(self) -> bool:
+        """Returns True if the payment failed."""
+        return self.status == "failed"
 
+    @property
+    def is_pending(self) -> bool:
+        """Returns True if the payment is awaiting completion."""
+        return self.status == "pending"
 
+    def __repr__(self) -> str:
+        return (
+            f"<PaymentTransaction("
+            f"id={self.id}, "
+            f"provider={self.provider}, "
+            f"amount={self.amount} {self.currency}, "
+            f"status={self.status}"
+            f")>"
+        )

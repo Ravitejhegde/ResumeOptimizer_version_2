@@ -1,26 +1,29 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import Boolean, DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Feature(Base):
     """
-    A capability that can be enabled
-    for one or more subscription plans.
+    Represents a capability that can be assigned to one or more
+    subscription plans.
 
     Examples:
-    - Unlimited Optimizations
-    - Resume History
-    - PDF Download
-    - Priority Queue
+        - Unlimited Optimizations
+        - Resume History
+        - PDF Download
+        - Priority Queue
+        - AI Resume Rewrite
+        - Cover Letter Generation
+
+    The actual value of a feature for a specific plan is stored
+    in the PlanFeature model.
     """
 
     __tablename__ = "features"
@@ -34,8 +37,8 @@ class Feature(Base):
     code: Mapped[str] = mapped_column(
         String(100),
         unique=True,
-        nullable=False,
         index=True,
+        nullable=False,
     )
 
     name: Mapped[str] = mapped_column(
@@ -43,13 +46,16 @@ class Feature(Base):
         nullable=False,
     )
 
-    description: Mapped[str | None]
+    description: Mapped[str | None] = mapped_column(
+        String(500),
+        nullable=True,
+    )
 
     value_type: Mapped[str] = mapped_column(
-    String(20),
-    default="boolean",
-    nullable=False,
-)
+        String(20),
+        default="boolean",
+        nullable=False,
+    )
 
     active: Mapped[bool] = mapped_column(
         Boolean,
@@ -58,15 +64,15 @@ class Feature(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -76,6 +82,18 @@ class Feature(Base):
         cascade="all, delete-orphan",
     )
 
+    @property
+    def is_active(self) -> bool:
+        """Returns whether this feature is currently enabled."""
+        return self.active
 
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Feature("
+            f"id={self.id}, "
+            f"code={self.code}, "
+            f"name={self.name}, "
+            f"value_type={self.value_type}, "
+            f"active={self.active}"
+            f")>"
+        )

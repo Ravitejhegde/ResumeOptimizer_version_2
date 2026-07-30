@@ -1,8 +1,8 @@
 import stripe
 
-from .client import StripeClient
-
 from app.core.config import settings
+
+from .client import StripeClient
 
 
 class StripeWebhook:

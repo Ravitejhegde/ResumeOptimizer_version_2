@@ -1,13 +1,10 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+
+from sqlalchemy import DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
@@ -16,10 +13,9 @@ class Resume(Base):
     """
     Original uploaded resume.
 
-    This file is NEVER modified.
-
-    Every optimization creates a new
-    GeneratedResume.
+    The uploaded resume is immutable and is never modified after upload.
+    Every optimization produces a separate GeneratedResume linked through
+    an OptimizationJob.
     """
 
     __tablename__ = "resumes"
@@ -31,9 +27,12 @@ class Resume(Base):
     )
 
     workspace_id: Mapped[str] = mapped_column(
-        ForeignKey("workspaces.id"),
-        nullable=False,
+        ForeignKey(
+            "workspaces.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     original_filename: Mapped[str] = mapped_column(
@@ -54,8 +53,8 @@ class Resume(Base):
 
     file_size: Mapped[int] = mapped_column(
         Integer,
-        nullable=False,
         default=0,
+        nullable=False,
     )
 
     status: Mapped[str] = mapped_column(
@@ -65,15 +64,15 @@ class Resume(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -88,6 +87,9 @@ class Resume(Base):
         cascade="all, delete-orphan",
     )
 
-
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Resume(id={self.id}, "
+            f"original_filename={self.original_filename}, "
+            f"status={self.status})>"
+        )

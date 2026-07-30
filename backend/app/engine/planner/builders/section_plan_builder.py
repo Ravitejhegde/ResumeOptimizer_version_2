@@ -1,66 +1,199 @@
 from __future__ import annotations
 
-from app.engine.models.planner.optimization_plan import (
-    OptimizationPlan,
+import logging
+
+from app.engine.models.document.document import (
+    Document,
 )
+
+from app.engine.models.intelligence.promotion_plan import (
+    PromotionPlan,
+)
+
 from app.engine.models.planner.section_plan import (
     SectionPlan,
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 class SectionPlanBuilder:
     """
-    Groups optimization work by section.
-    """
+    Creates section-level optimization plans.
 
-    # --------------------------------------------------
+    Flow:
+
+        PromotionPlan
+              +
+        Document Snapshot
+
+              |
+              v
+
+        SectionPlan
+
+
+    Responsibilities:
+
+        - Group technologies by section.
+        - Attach paragraph IDs.
+        - Avoid duplicate sections.
+        - Preserve document structure.
+
+
+    Does NOT:
+
+        - Rewrite content.
+        - Generate text.
+        - Modify DOCX.
+    """
 
     def build(
         self,
-        plan: OptimizationPlan,
-    ) -> OptimizationPlan:
+        promotion_plan: PromotionPlan,
+        document: Document,
+    ) -> list[SectionPlan]:
 
-        merged: dict[
-            str,
-            SectionPlan,
-        ] = {}
+        grouped: dict[str, SectionPlan] = {}
 
-        for section in plan.sections:
 
-            if section.section not in merged:
+        for decision in promotion_plan.decisions:
 
-                merged[
-                    section.section
-                ] = SectionPlan(
 
-                    section=section.section,
+            section_name = self._normalize(
+                decision.section
+            )
 
-                    editable=section.editable,
 
-                    priority=section.priority,
+            if not section_name:
+                continue
+
+
+            # -----------------------------
+            # Find paragraphs only once
+            # -----------------------------
+
+            paragraph_ids = [
+
+                paragraph.id
+
+                for paragraph in document.paragraphs
+
+                if self._normalize(
+                    paragraph.section
+                )
+                == section_name
+
+            ]
+
+
+            # -----------------------------
+            # Create section bucket
+            # -----------------------------
+
+            if section_name not in grouped:
+
+
+                grouped[section_name] = SectionPlan(
+
+                    section=section_name,
+
+                    editable=True,
+
+                    selected=True,
+
+                    priority=decision.priority,
+
+                    confidence=decision.confidence,
+
+                    technologies=[],
+
+                    paragraphs=paragraph_ids,
+
+                    preserve_formatting=True,
+
+                    notes=[
+                        "Generated from promotion plan"
+                    ],
+
+                    warnings=[],
 
                 )
 
-            merged[
-                section.section
-            ].technologies.extend(
-                section.technologies,
+
+            section_plan = grouped[
+                section_name
+            ]
+
+
+            # -----------------------------
+            # Merge technologies
+            # -----------------------------
+
+            if decision.technology not in section_plan.technologies:
+
+                section_plan.technologies.append(
+                    decision.technology
+                )
+
+
+            # Keep highest priority
+
+            section_plan.priority = max(
+                section_plan.priority,
+                decision.priority,
             )
 
-            merged[
-                section.section
-            ].paragraphs.extend(
-                section.paragraphs,
+
+            logger.info(
+
+                "[SectionPlanBuilder] "
+                "Section=%s "
+                "Technology=%s "
+                "Paragraphs=%s",
+
+                section_name,
+
+                decision.technology,
+
+                len(section_plan.paragraphs),
+
             )
 
-            merged[
-                section.section
-            ].notes.extend(
-                section.notes,
-            )
 
-        plan.sections = list(
-            merged.values(),
+        return list(
+            grouped.values()
         )
 
-        return plan
+
+
+    # --------------------------------------------------
+
+    @staticmethod
+    def _normalize(
+        value,
+    ) -> str:
+        """
+        Normalize section values.
+        """
+
+        if value is None:
+            return ""
+
+
+        text = str(value)
+
+
+        if "." in text:
+
+            text = text.split(
+                "."
+            )[-1]
+
+
+        return (
+            text
+            .lower()
+            .strip()
+        )

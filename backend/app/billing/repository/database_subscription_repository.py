@@ -1,20 +1,35 @@
-from datetime import datetime
+from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
-from app.database.models.subscription import (
-    Subscription,
-)
+from app.database.models.subscription import Subscription
 
 
 class DatabaseSubscriptionRepository:
+    """
+    Subscription database repository.
+
+    Responsibilities:
+        - Create subscriptions
+        - Update subscriptions
+        - Retrieve subscriptions
+
+    Does not:
+        - Handle Stripe logic
+        - Handle billing rules
+    """
 
     def __init__(
         self,
         db: Session,
-    ):
+    ) -> None:
 
         self.db = db
+
+
+    # ==========================================================
+    # Create
+    # ==========================================================
 
     def create(
         self,
@@ -23,22 +38,30 @@ class DatabaseSubscriptionRepository:
 
         self.db.add(subscription)
 
-        self.db.commit()
-
-        self.db.refresh(subscription)
+        self.db.flush()
 
         return subscription
+
+
+    # ==========================================================
+    # Update
+    # ==========================================================
 
     def update(
         self,
         subscription: Subscription,
     ) -> Subscription:
 
-        self.db.commit()
+        self.db.add(subscription)
 
-        self.db.refresh(subscription)
+        self.db.flush()
 
         return subscription
+
+
+    # ==========================================================
+    # Queries
+    # ==========================================================
 
     def get(
         self,
@@ -46,132 +69,38 @@ class DatabaseSubscriptionRepository:
     ) -> Subscription | None:
 
         return (
-
-            self.db.query(
-                Subscription
-            )
-
+            self.db.query(Subscription)
             .filter(
-
-                Subscription.id
-                == subscription_id
-
+                Subscription.id == subscription_id
             )
-
             .first()
-
         )
 
-    def by_user(
+
+    def get_by_provider_subscription_id(
         self,
-        user_id: str,
-    ) -> list[Subscription]:
+        provider_subscription_id: str,
+    ) -> Subscription | None:
 
         return (
-
-            self.db.query(
-                Subscription
-            )
-
+            self.db.query(Subscription)
             .filter(
-
-                Subscription.user_id
-                == user_id
-
+                Subscription.provider_subscription_id
+                == provider_subscription_id
             )
-
-            .order_by(
-
-                Subscription.created_at.desc()
-
-            )
-
-            .all()
-
+            .first()
         )
 
-    def active(
+
+    def get_by_user_id(
         self,
         user_id: str,
     ) -> Subscription | None:
 
         return (
-
-            self.db.query(
-                Subscription
-            )
-
+            self.db.query(Subscription)
             .filter(
-
-                Subscription.user_id
-                == user_id,
-
-                Subscription.status
-                == "active",
-
-                Subscription.expires_at
-                > datetime.utcnow(),
-
+                Subscription.user_id == user_id
             )
-
             .first()
-
         )
-
-    def expired(
-        self,
-    ) -> list[Subscription]:
-
-        return (
-
-            self.db.query(
-                Subscription
-            )
-
-            .filter(
-
-                Subscription.expires_at
-                <= datetime.utcnow(),
-
-                Subscription.status
-                == "active",
-
-            )
-
-            .all()
-
-        )
-
-    def cancel(
-        self,
-        subscription: Subscription,
-    ) -> Subscription:
-
-        subscription.status = "cancelled"
-
-        subscription.cancelled_at = (
-            datetime.utcnow()
-        )
-
-        self.db.commit()
-
-        self.db.refresh(
-            subscription
-        )
-
-        return subscription
-
-    def delete(
-        self,
-        subscription: Subscription,
-    ) -> None:
-
-        self.db.delete(
-            subscription
-        )
-
-        self.db.commit()
-
-
-
-

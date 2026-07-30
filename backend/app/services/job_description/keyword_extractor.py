@@ -17,7 +17,3 @@ class KeywordExtractor:
                 found.append(skill)
 
         return sorted(set(found))
-
-
-
-

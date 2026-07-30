@@ -1,26 +1,44 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 
 class AIProvider(ABC):
     """
-    Base interface for AI providers.
+    Base interface for all AI providers.
 
-    Providers are responsible only for
-    sending prompts to an LLM and
-    returning the raw response.
+    Responsibilities:
+        - Send prompts to LLM.
+        - Return raw generated response.
+
+    Does not:
+        - Build prompts.
+        - Parse responses.
+        - Validate resume content.
     """
 
+
     @abstractmethod
-    def generate(
+    async def generate(
         self,
         prompt: str,
     ) -> str:
         """
-        Send a prompt to the model and
-        return the raw response.
+        Send prompt to AI model.
+
+        Returns:
+            Raw model response.
         """
+
         raise NotImplementedError
 
 
+    @abstractmethod
+    def name(
+        self,
+    ) -> str:
+        """
+        Human readable provider name.
+        """
 
-
+        raise NotImplementedError

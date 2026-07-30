@@ -1,41 +1,111 @@
+"""
+knowledge_builder.exporters.json_exporter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Exports KnowledgeArtifacts to a JSON file.
+
+This exporter produces a portable JSON representation of the optimized
+knowledge artifacts. It is intended for debugging, inspection, and
+future runtime loading.
+
+The exporter never modifies the artifacts.
+"""
+
 from __future__ import annotations
 
 import json
+from dataclasses import asdict, is_dataclass
 from pathlib import Path
+from typing import Any
+
+from knowledge_builder.builders import KnowledgeArtifacts
+from knowledge_builder.exporters.base_exporter import BaseExporter
 
 
-class JsonExporter:
+class JsonExporter(BaseExporter[KnowledgeArtifacts]):
+    """
+    Export KnowledgeArtifacts as JSON.
+    """
+
+    DEFAULT_FILENAME = "knowledge.json"
+
+    def __init__(
+        self,
+        output_directory: Path | str,
+        filename: str = DEFAULT_FILENAME,
+    ) -> None:
+        super().__init__(output_directory)
+        self._filename = filename
+
+    @property
+    def filename(self) -> str:
+        """
+        Output filename.
+        """
+        return self._filename
 
     def export(
         self,
-        data: dict,
-        output_directory: str,
-    ) -> None:
+        artifact: KnowledgeArtifacts,
+    ) -> Path:
+        """
+        Export KnowledgeArtifacts into a JSON file.
 
-        output = Path(output_directory)
+        Parameters
+        ----------
+        artifact:
+            Optimized knowledge artifacts.
 
-        output.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
+        Returns
+        -------
+        Path
+            Path to the generated JSON file.
+        """
+        output_path = self.output_directory / self.filename
 
-        for filename, content in data.items():
+        payload = self._serialize(artifact)
 
-            file = output / f"{filename}.json"
+        with output_path.open(
+            "w",
+            encoding="utf-8",
+        ) as file:
+            json.dump(
+                payload,
+                file,
+                indent=2,
+                ensure_ascii=False,
+                sort_keys=True,
+            )
 
-            with file.open(
-                "w",
-                encoding="utf-8",
-            ) as stream:
+        return output_path
 
-                json.dump(
+    def _serialize(self, value: Any) -> Any:
+        """
+        Convert Python objects into JSON-serializable values.
+        """
 
-                    content,
+        if is_dataclass(value):
+            return self._serialize(asdict(value))
 
-                    stream,
+        if isinstance(value, dict):
+            return {
+                str(key): self._serialize(item)
+                for key, item in value.items()
+            }
 
-                    indent=4,
+        if isinstance(value, (list, tuple)):
+            return [
+                self._serialize(item)
+                for item in value
+            ]
 
-                    ensure_ascii=False,
+        if isinstance(value, set):
+            return sorted(
+                self._serialize(item)
+                for item in value
+            )
 
-                )
+        if isinstance(value, Path):
+            return str(value)
+
+        return value

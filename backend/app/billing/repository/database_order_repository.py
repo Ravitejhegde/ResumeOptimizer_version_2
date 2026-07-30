@@ -1,16 +1,23 @@
+from __future__ import annotations
+
 from sqlalchemy.orm import Session
 
 from app.database.models.order import Order
 
 
 class DatabaseOrderRepository:
+    """
+    Billing order database repository.
+    """
+
 
     def __init__(
         self,
         db: Session,
-    ):
+    ) -> None:
 
         self.db = db
+
 
     def create(
         self,
@@ -19,22 +26,22 @@ class DatabaseOrderRepository:
 
         self.db.add(order)
 
-        self.db.commit()
-
-        self.db.refresh(order)
+        self.db.flush()
 
         return order
+
 
     def update(
         self,
         order: Order,
     ) -> Order:
 
-        self.db.commit()
+        self.db.add(order)
 
-        self.db.refresh(order)
+        self.db.flush()
 
         return order
+
 
     def get(
         self,
@@ -42,107 +49,23 @@ class DatabaseOrderRepository:
     ) -> Order | None:
 
         return (
-
             self.db.query(Order)
-
             .filter(
-
                 Order.id == order_id
-
             )
-
             .first()
-
         )
 
-    def by_user(
+
+    def get_by_provider_order_id(
         self,
-        user_id: str,
-    ) -> list[Order]:
+        provider_order_id: str,
+    ) -> Order | None:
 
         return (
-
             self.db.query(Order)
-
             .filter(
-
-                Order.user_id == user_id
-
+                Order.provider_order_id == provider_order_id
             )
-
-            .order_by(
-
-                Order.created_at.desc()
-
-            )
-
-            .all()
-
+            .first()
         )
-
-    def pending(
-        self,
-        user_id: str,
-    ) -> list[Order]:
-
-        return (
-
-            self.db.query(Order)
-
-            .filter(
-
-                Order.user_id == user_id,
-
-                Order.status == "pending",
-
-            )
-
-            .order_by(
-
-                Order.created_at.desc()
-
-            )
-
-            .all()
-
-        )
-
-    def successful(
-        self,
-        user_id: str,
-    ) -> list[Order]:
-
-        return (
-
-            self.db.query(Order)
-
-            .filter(
-
-                Order.user_id == user_id,
-
-                Order.status == "paid",
-
-            )
-
-            .order_by(
-
-                Order.created_at.desc()
-
-            )
-
-            .all()
-
-        )
-
-    def delete(
-        self,
-        order: Order,
-    ) -> None:
-
-        self.db.delete(order)
-
-        self.db.commit()
-
-
-
-

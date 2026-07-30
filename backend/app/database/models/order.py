@@ -1,23 +1,30 @@
-import uuid
-from datetime import datetime
+from __future__ import annotations
 
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import Numeric
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
+
+from sqlalchemy import DateTime, ForeignKey, Numeric, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 
 
 class Order(Base):
     """
-    Purchase order.
+    Represents a purchase made by a user.
 
-    A successful payment creates
-    a subscription.
+    An order records the selected pricing option and payment amount.
+    Once payment succeeds, a Subscription is created for the user.
+
+    Workflow:
+        User
+          ↓
+        Order
+          ↓
+        PaymentTransaction(s)
+          ↓
+        Subscription
     """
 
     __tablename__ = "orders"
@@ -29,18 +36,24 @@ class Order(Base):
     )
 
     user_id: Mapped[str] = mapped_column(
-        ForeignKey("users.id"),
-        nullable=False,
+        ForeignKey(
+            "users.id",
+            ondelete="CASCADE",
+        ),
         index=True,
+        nullable=False,
     )
 
     pricing_id: Mapped[str] = mapped_column(
-        ForeignKey("pricing.id"),
-        nullable=False,
+        ForeignKey(
+            "pricing.id",
+            ondelete="RESTRICT",
+        ),
         index=True,
+        nullable=False,
     )
 
-    amount: Mapped[float] = mapped_column(
+    amount: Mapped[Decimal] = mapped_column(
         Numeric(10, 2),
         nullable=False,
     )
@@ -57,15 +70,15 @@ class Order(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
 
@@ -92,6 +105,17 @@ class Order(Base):
         cascade="all, delete-orphan",
     )
 
+    @property
+    def is_paid(self) -> bool:
+        """Returns True if the order has been successfully paid."""
+        return self.status == "paid"
 
-
-
+    def __repr__(self) -> str:
+        return (
+            f"<Order("
+            f"id={self.id}, "
+            f"user_id={self.user_id}, "
+            f"amount={self.amount} {self.currency}, "
+            f"status={self.status}"
+            f")>"
+        )

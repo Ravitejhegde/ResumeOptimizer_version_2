@@ -1,10 +1,9 @@
 from sqlalchemy.orm import Session
 
-from app.database.models.order import Order
-
 from app.billing.repository.database_order_repository import (
     DatabaseOrderRepository,
 )
+from app.database.models.order import Order
 
 
 class CheckoutOrchestrator:

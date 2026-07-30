@@ -1,31 +1,52 @@
 from __future__ import annotations
 
-from app.services.ai.ai_provider import AIProvider
-from app.services.ai.batch.batch_models import (
+import logging
+
+from app.services.ai.ai_provider import (
+    AIProvider,
+)
+
+from app.engine.models.ai.prompt_request import (
     BatchRewriteRequest,
+)
+
+from app.engine.models.ai.prompt_response import (
     BatchRewriteResult,
 )
+
 from app.services.ai.batch.batch_prompt_builder import (
     BatchPromptBuilder,
 )
+
 from app.services.ai.batch.batch_response_parser import (
     BatchResponseParser,
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 class BatchRewriteService:
     """
-    Performs a single AI request for the
-    entire resume.
+    Executes resume batch rewriting.
 
-    One Resume
-        ↓
-    One Prompt
-        ↓
-    One AI Call
-        ↓
-    One JSON Response
+    Pipeline:
+
+        BatchRewriteRequest
+                |
+                v
+        Prompt Builder
+                |
+                v
+        AI Provider
+                |
+                v
+        Response Parser
+                |
+                v
+        BatchRewriteResult
     """
+
 
     def __init__(
         self,
@@ -34,29 +55,42 @@ class BatchRewriteService:
 
         self._provider = provider
 
+
     def rewrite(
         self,
         request: BatchRewriteRequest,
     ) -> BatchRewriteResult:
 
+
         prompt = BatchPromptBuilder.build(
             request
         )
 
+
+        logger.info(
+            "Sending batch rewrite request using %s",
+            self._provider.__class__.__name__,
+        )
+
+
         response = self._provider.generate(
             prompt
         )
-        print("\n" + "=" * 80)
-        print("RAW AI RESPONSE")
-        print("=" * 80)
-        print(response)
-        print("=" * 80 + "\n")
 
-        return BatchResponseParser.parse(
-            response=response,
-            provider=self._provider.__class__.__name__,
+
+        logger.info(
+            "Received AI response"
         )
 
 
+        return BatchResponseParser.parse(
 
+            response=response,
 
+            provider=(
+                self._provider
+                .__class__
+                .__name__
+            ),
+
+        )

@@ -1,22 +1,38 @@
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import HTTPException
+from __future__ import annotations
 
-import traceback
+import logging
+
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+)
 
 from sqlalchemy.orm import Session
+
 
 from app.database.session import (
     get_db,
 )
 
+
 from app.schemas.analysis import (
     ResumeAnalysisRequest,
 )
 
+
 from app.services.analysis.analysis_service import (
     ResumeAnalysisService,
 )
+
+
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
+)
+
+
+logger = logging.getLogger(__name__)
+
 
 router = APIRouter(
     prefix="/analysis",
@@ -25,33 +41,81 @@ router = APIRouter(
 
 
 @router.post("/match")
-async def match_resume(
+def match_resume(
     request: ResumeAnalysisRequest,
     db: Session = Depends(get_db),
 ):
+    """
+    Analyze uploaded resume against job description.
 
-    service = ResumeAnalysisService(db)
+    Flow:
+
+        API
+          |
+          v
+        ResumeAnalysisService
+          |
+          v
+        DocumentParser
+          |
+          v
+        DocumentAnalyzer
+          |
+          v
+        SkillComparator
+    """
+
 
     try:
 
-        return service.analyze(
-            resume_id=request.resume_id,
-            job_description=request.job_description,
+        # ----------------------------------
+        # Knowledge dependency
+        # ----------------------------------
+
+        knowledge = KnowledgeManager()
+
+        knowledge.initialize()
+
+
+        # ----------------------------------
+        # Service
+        # ----------------------------------
+
+        service = ResumeAnalysisService(
+            db=db,
+            knowledge=knowledge,
         )
 
-    except FileNotFoundError as e:
+
+        # ----------------------------------
+        # Execute analysis
+        # ----------------------------------
+
+        return service.analyze(
+
+            resume_id=request.resume_id,
+
+            job_description=request.job_description,
+
+        )
+
+
+    except FileNotFoundError as exc:
 
         raise HTTPException(
             status_code=404,
-            detail=str(e),
+            detail=str(exc),
         )
 
-    except Exception as e:
 
-        # Print the complete traceback in the terminal
-        traceback.print_exc()
+    except Exception:
+
+        logger.exception(
+            "Resume analysis failed"
+        )
+
 
         raise HTTPException(
             status_code=500,
-            detail=str(e),
+            detail="Resume analysis failed.",
         )

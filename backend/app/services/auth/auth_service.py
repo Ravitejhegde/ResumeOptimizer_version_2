@@ -1,114 +1,149 @@
+from __future__ import annotations
+
+import logging
+import uuid
+from datetime import datetime
+
 from sqlalchemy.orm import Session
 
-from app.core.security.jwt import (
-    jwt_service,
-)
-
+from app.core.security.jwt import jwt_service
 from app.core.security.password import (
-    password_hasher,
+    hash_password,
+    verify_password,
 )
 
-from app.database.models.user import (
-    User,
+from app.database.models.user import User
+
+from app.database.repositories.user_repository import (
+    UserRepository,
 )
+
+from app.services.workspace.workspace_service import (
+    WorkspaceService,
+)
+
+
+logger = logging.getLogger(__name__)
 
 
 class AuthService:
+    """
+    Authentication business logic.
+
+    Handles:
+        - User registration
+        - User login
+        - Token refresh
+    """
+
 
     def __init__(
         self,
         db: Session,
-    ):
+    ) -> None:
 
-        self.db = db
+        self.users = UserRepository(db)
 
-    # ---------------------------------------------------------
+        self.workspace = WorkspaceService(
+            db
+        )
+
+
+    # ==========================================================
     # Register
-    # ---------------------------------------------------------
+    # ==========================================================
 
     def register(
-
         self,
-
         email: str,
-
         password: str,
-
-        full_name: str,
-
+        name: str,
     ) -> User:
+        """
+        Create new user account.
+        """
 
-        existing = (
 
-            self.db.query(User)
-
-            .filter(
-
-                User.email == email,
-
-            )
-
-            .first()
-
+        existing = self.users.get_by_email(
+            email
         )
 
         if existing:
-
             raise ValueError(
                 "Email already registered."
             )
 
+
+        hashed_password = hash_password(
+            password
+        )
+
+
         user = User(
+
+            id=str(
+                uuid.uuid4()
+            ),
 
             email=email,
 
-            full_name=full_name,
+            password_hash=hashed_password,
 
-            password_hash=password_hasher.hash(
-                password
-            ),
+            name=name,
+
+            provider="email",
+
+            country="IN",
+
+            language="en",
+
+            active=True,
+
+            verified=False,
 
         )
 
-        self.db.add(
+
+        user = self.users.create(
             user
         )
 
-        self.db.commit()
 
-        self.db.refresh(
-            user
+        # Create default workspace
+
+        self.workspace.create_workspace(
+            user_id=user.id
         )
+
+
+        logger.info(
+            "User registered: %s",
+            user.email,
+        )
+
 
         return user
 
-    # ---------------------------------------------------------
+
+
+    # ==========================================================
     # Login
-    # ---------------------------------------------------------
+    # ==========================================================
 
     def login(
-
         self,
-
         email: str,
-
         password: str,
-
     ) -> dict:
+        """
+        Authenticate user.
+        """
 
-        user = (
 
-            self.db.query(User)
-
-            .filter(
-
-                User.email == email,
-
-            )
-
-            .first()
-
+        user = self.users.get_by_email(
+            email
         )
+
 
         if user is None:
 
@@ -116,33 +151,45 @@ class AuthService:
                 "Invalid email or password."
             )
 
-        if not password_hasher.verify(
 
+        if not user.active:
+
+            raise ValueError(
+                "Account inactive."
+            )
+
+
+        if not verify_password(
             password,
-
             user.password_hash,
-
         ):
 
             raise ValueError(
                 "Invalid email or password."
             )
 
-        access_token = (
 
-            jwt_service.create_access_token(
-                str(user.id)
-            )
+        user.last_login = datetime.utcnow()
 
+
+        self.users.update(
+            user
         )
+
+
+        access_token = (
+            jwt_service.create_access_token(
+                subject=str(user.id)
+            )
+        )
+
 
         refresh_token = (
-
             jwt_service.create_refresh_token(
-                str(user.id)
+                subject=str(user.id)
             )
-
         )
+
 
         return {
 
@@ -156,43 +203,44 @@ class AuthService:
 
         }
 
-    # ---------------------------------------------------------
+
+
+    # ==========================================================
     # Refresh Token
-    # ---------------------------------------------------------
+    # ==========================================================
 
     def refresh(
-
         self,
-
         refresh_token: str,
-
     ) -> dict:
+        """
+        Generate new access token.
+        """
 
-        payload = jwt_service.decode(
-            refresh_token
+
+        payload = (
+            jwt_service.decode_token(
+                refresh_token
+            )
         )
 
-        if payload.get(
-            "type"
-        ) != "refresh":
+
+        if payload.get("type") != "refresh":
 
             raise ValueError(
                 "Invalid refresh token."
             )
 
-        user = (
 
-            self.db.query(User)
-
-            .filter(
-
-                User.id == payload["sub"],
-
-            )
-
-            .first()
-
+        user_id = payload.get(
+            "sub"
         )
+
+
+        user = self.users.get(
+            user_id
+        )
+
 
         if user is None:
 
@@ -200,13 +248,13 @@ class AuthService:
                 "User not found."
             )
 
+
         access_token = (
-
             jwt_service.create_access_token(
-                str(user.id)
+                subject=str(user.id)
             )
-
         )
+
 
         return {
 
@@ -215,7 +263,3 @@ class AuthService:
             "token_type": "bearer",
 
         }
-
-
-
-

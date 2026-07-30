@@ -1,6 +1,7 @@
 import re
 
 from app.models.job_profile import JobProfile
+
 from .keyword_extractor import KeywordExtractor
 
 

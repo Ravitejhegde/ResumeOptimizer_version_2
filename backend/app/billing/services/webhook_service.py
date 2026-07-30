@@ -1,26 +1,12 @@
-from datetime import datetime
-from datetime import timedelta
+from __future__ import annotations
+
+import logging
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
 from app.billing.providers.stripe.webhook import (
     StripeWebhook,
-)
-
-from app.billing.repository.database_order_repository import (
-    DatabaseOrderRepository,
-)
-
-from app.billing.repository.database_subscription_repository import (
-    DatabaseSubscriptionRepository,
-)
-
-from app.billing.repository.database_transaction_repository import (
-    DatabaseTransactionRepository,
-)
-
-from app.billing.repository.webhook_event_repository import (
-    WebhookEventRepository,
 )
 
 from app.database.models.payment_transaction import (
@@ -31,43 +17,73 @@ from app.database.models.subscription import (
     Subscription,
 )
 
+from app.database.repositories.order_repository import (
+    OrderRepository,
+)
+
+from app.database.repositories.payment_transaction_repository import (
+    PaymentTransactionRepository,
+)
+
+from app.database.repositories.subscription_repository import (
+    SubscriptionRepository,
+)
+
+from app.database.repositories.webhook_event_repository import (
+    WebhookEventRepository,
+)
+
+
+logger = logging.getLogger(__name__)
+
 
 class WebhookService:
+    """
+    Handles payment provider webhook events.
+
+    Flow:
+
+    Stripe Event
+        ↓
+    Verify
+        ↓
+    Duplicate Check
+        ↓
+    Update Database
+    """
 
     def __init__(
         self,
         db: Session,
-    ):
-
-        self.db = db
+    ) -> None:
 
         self.webhook = StripeWebhook()
 
-        self.orders = DatabaseOrderRepository(
+        self.orders = OrderRepository(
             db
         )
 
         self.transactions = (
-            DatabaseTransactionRepository(
-                db
-            )
+            PaymentTransactionRepository(db)
         )
 
         self.subscriptions = (
-            DatabaseSubscriptionRepository(
-                db
-            )
+            SubscriptionRepository(db)
         )
 
-        self.events = WebhookEventRepository(
-            db
+        self.events = (
+            WebhookEventRepository(db)
         )
+
+    # ==========================================================
+    # Main Handler
+    # ==========================================================
 
     def process(
         self,
         payload: bytes,
         signature: str,
-    ):
+    ) -> dict:
 
         event = self.webhook.verify(
             payload,
@@ -75,18 +91,16 @@ class WebhookService:
         )
 
         event_id = event["id"]
-
         event_type = event["type"]
 
-        # ---------------------------------------
-        # Prevent duplicate webhook processing
-        # ---------------------------------------
+        # ----------------------------------
+        # Duplicate protection
+        # ----------------------------------
 
         if self.events.exists(
             "stripe",
             event_id,
         ):
-
             return {
                 "duplicate": True,
                 "event_id": event_id,
@@ -98,49 +112,39 @@ class WebhookService:
             event_type=event_type,
         )
 
-        # ---------------------------------------
-        # Route Event
-        # ---------------------------------------
+        # ----------------------------------
+        # Event routing
+        # ----------------------------------
 
         if self.webhook.is_checkout_completed(
             event
         ):
-
-            self._checkout_completed(
-                event
-            )
+            self._checkout_completed(event)
 
         elif self.webhook.is_invoice_paid(
             event
         ):
-
-            self._invoice_paid(
-                event
-            )
+            self._invoice_paid(event)
 
         elif self.webhook.is_invoice_failed(
             event
         ):
-
-            self._invoice_failed(
-                event
-            )
+            self._invoice_failed(event)
 
         elif self.webhook.is_subscription_updated(
             event
         ):
-
-            self._subscription_updated(
-                event
-            )
+            self._subscription_updated(event)
 
         elif self.webhook.is_subscription_deleted(
             event
         ):
+            self._subscription_deleted(event)
 
-            self._subscription_deleted(
-                event
-            )
+        logger.info(
+            "Webhook processed: %s",
+            event_type,
+        )
 
         return {
             "processed": True,
@@ -148,10 +152,14 @@ class WebhookService:
             "event_id": event_id,
         }
 
+    # ==========================================================
+    # Checkout Completed
+    # ==========================================================
+
     def _checkout_completed(
         self,
-        event,
-    ):
+        event: dict,
+    ) -> None:
 
         data = self.webhook.data(
             event
@@ -164,28 +172,21 @@ class WebhookService:
         if order is None:
             return
 
-        order.status = "paid"
+        order.status = "completed"
 
         self.orders.update(
             order
         )
 
         transaction = PaymentTransaction(
-
             order_id=order.id,
-
             provider="stripe",
-
             provider_transaction_id=data.get(
                 "payment_intent"
             ),
-
             amount=order.amount,
-
             currency=order.currency,
-
-            status="succeeded",
-
+            status="success",
         )
 
         self.transactions.create(
@@ -193,54 +194,69 @@ class WebhookService:
         )
 
         subscription = Subscription(
-
             user_id=order.user_id,
-
             order_id=order.id,
-
             status="active",
-
-            starts_at=datetime.utcnow(),
-
-            expires_at=(
-                datetime.utcnow()
-                + timedelta(days=30)
+            starts_at=datetime.now(
+                timezone.utc
             ),
-
+            expires_at=datetime.now(
+                timezone.utc
+            ),
         )
 
         self.subscriptions.create(
             subscription
         )
 
+    # ==========================================================
+    # Invoice Paid
+    # ==========================================================
+
     def _invoice_paid(
         self,
-        event,
-    ):
+        event: dict,
+    ) -> None:
 
-        pass
+        logger.info(
+            "Invoice paid"
+        )
+
+    # ==========================================================
+    # Invoice Failed
+    # ==========================================================
 
     def _invoice_failed(
         self,
-        event,
-    ):
+        event: dict,
+    ) -> None:
 
-        pass
+        logger.warning(
+            "Invoice payment failed"
+        )
+
+    # ==========================================================
+    # Subscription Updated
+    # ==========================================================
 
     def _subscription_updated(
         self,
-        event,
-    ):
+        event: dict,
+    ) -> None:
 
-        pass
+        logger.info(
+            "Subscription updated"
+        )
+
+    # ==========================================================
+    # Subscription Deleted
+    # ==========================================================
 
     def _subscription_deleted(
         self,
-        event,
-    ):
+        event: dict,
+    ) -> None:
 
-        pass
-
-
-
-
+        logger.info(
+            "Subscription deleted"
+        )
