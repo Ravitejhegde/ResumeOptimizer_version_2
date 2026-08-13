@@ -52,12 +52,18 @@ class ExportPipeline:
         self._output_directory = Path(output_directory)
 
     @property
-    def output_directory(self) -> Path:
-        return self._output_directory
+    def store(self) -> KnowledgeStore:
+        """
+        Return the validated knowledge store.
+        """
+        return self._store
 
     @property
-    def store(self) -> KnowledgeStore:
-        return self._store
+    def output_directory(self) -> Path:
+        """
+        Return the export output directory.
+        """
+        return self._output_directory
 
     def build_artifacts(self) -> KnowledgeArtifacts:
         """
@@ -74,11 +80,15 @@ class ExportPipeline:
         manager = ExportManager()
 
         manager.register(
-            JsonExporter(self.output_directory)
+            JsonExporter(
+                self.output_directory,
+            )
         )
 
         manager.register(
-            CacheExporter(self.output_directory)
+            CacheExporter(
+                self.output_directory,
+            )
         )
 
         return manager
@@ -90,7 +100,7 @@ class ExportPipeline:
         Returns
         -------
         list[Path]
-            Generated artifact files.
+            Paths of generated export files.
         """
         artifacts = self.build_artifacts()
 

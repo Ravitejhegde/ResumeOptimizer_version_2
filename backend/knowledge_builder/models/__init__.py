@@ -8,9 +8,10 @@ These models represent the normalized knowledge graph that powers
 ResumeOptimizer.
 """
 
-from .ats_rule import ATSRule, ATSRuleSeverity
+from .ats_rule import ATSRule, ATSRulePriority
 from .category import Category
 from .keyword import Keyword
+
 from .knowledge_store import KnowledgeStore
 from .metadata import BuildMetadata
 from .relationship import Relationship, RelationshipType
@@ -22,7 +23,7 @@ from .technology import Technology
 
 __all__ = [
     "ATSRule",
-    "ATSRuleSeverity",
+    "ATSRulePriority",
     "BuildMetadata",
     "Category",
     "Keyword",

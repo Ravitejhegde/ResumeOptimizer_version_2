@@ -20,8 +20,6 @@ Skill:
     - Database Design
     - Machine Learning
     - Problem Solving
-
-Multiple technologies may contribute to a single skill.
 """
 
 from __future__ import annotations
@@ -34,35 +32,10 @@ from typing import Tuple
 class Skill:
     """
     Represents a normalized skill.
-
-    Parameters
-    ----------
-    id
-        Unique identifier.
-
-    name
-        Display name.
-
-    description
-        Human readable description.
-
-    technology_ids
-        Technologies associated with this skill.
-
-    aliases
-        Alternative names.
-
-    keywords
-        ATS keywords.
-
-    importance
-        Relative importance (1-10).
-
-    deprecated
-        Indicates whether this skill should be ignored in future datasets.
     """
 
     id: str
+
     name: str
 
     description: str = ""
@@ -76,6 +49,20 @@ class Skill:
     importance: int = 5
 
     deprecated: bool = False
+
+    @property
+    def ats_keywords(self) -> Tuple[str, ...]:
+        """
+        Backward-compatible alias expected by builders.
+        """
+        return self.keywords
+
+    @property
+    def alias_names(self) -> Tuple[str, ...]:
+        """
+        Backward-compatible alias expected by builders.
+        """
+        return self.aliases
 
     def matches(self, value: str) -> bool:
         """
@@ -91,13 +78,19 @@ class Skill:
             for alias in self.aliases
         )
 
-    def has_technology(self, technology_id: str) -> bool:
+    def has_technology(
+        self,
+        technology_id: str,
+    ) -> bool:
         """
         Returns True if the technology belongs to this skill.
         """
         return technology_id in self.technology_ids
 
-    def has_keyword(self, keyword: str) -> bool:
+    def has_keyword(
+        self,
+        keyword: str,
+    ) -> bool:
         """
         Returns True if keyword belongs to this skill.
         """
@@ -124,17 +117,33 @@ class Skill:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Skill":
+    def from_dict(
+        cls,
+        data: dict,
+    ) -> "Skill":
         """
         Deserialize Skill.
         """
         return cls(
             id=data["id"],
             name=data["name"],
-            description=data.get("description", ""),
-            technology_ids=tuple(data.get("technology_ids", [])),
-            aliases=tuple(data.get("aliases", [])),
-            keywords=tuple(data.get("keywords", [])),
-            importance=int(data.get("importance", 5)),
-            deprecated=bool(data.get("deprecated", False)),
+            description=data.get(
+                "description",
+                "",
+            ),
+            technology_ids=tuple(
+                data.get("technology_ids", [])
+            ),
+            aliases=tuple(
+                data.get("aliases", [])
+            ),
+            keywords=tuple(
+                data.get("keywords", [])
+            ),
+            importance=int(
+                data.get("importance", 5)
+            ),
+            deprecated=bool(
+                data.get("deprecated", False)
+            ),
         )

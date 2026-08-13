@@ -50,18 +50,13 @@ class JsonExporter(BaseExporter[KnowledgeArtifacts]):
     ) -> Path:
         """
         Export KnowledgeArtifacts into a JSON file.
-
-        Parameters
-        ----------
-        artifact:
-            Optimized knowledge artifacts.
-
-        Returns
-        -------
-        Path
-            Path to the generated JSON file.
         """
         output_path = self.output_directory / self.filename
+
+        output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
 
         payload = self._serialize(artifact)
 
@@ -79,13 +74,18 @@ class JsonExporter(BaseExporter[KnowledgeArtifacts]):
 
         return output_path
 
-    def _serialize(self, value: Any) -> Any:
+    def _serialize(
+        self,
+        value: Any,
+    ) -> Any:
         """
         Convert Python objects into JSON-serializable values.
         """
 
         if is_dataclass(value):
-            return self._serialize(asdict(value))
+            return self._serialize(
+                asdict(value)
+            )
 
         if isinstance(value, dict):
             return {
@@ -100,10 +100,13 @@ class JsonExporter(BaseExporter[KnowledgeArtifacts]):
             ]
 
         if isinstance(value, set):
-            return sorted(
+            return [
                 self._serialize(item)
-                for item in value
-            )
+                for item in sorted(
+                    value,
+                    key=lambda item: repr(item),
+                )
+            ]
 
         if isinstance(value, Path):
             return str(value)

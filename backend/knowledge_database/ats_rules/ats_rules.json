@@ -1,0 +1,66 @@
+[
+  {
+    "id": "professional_summary",
+    "name": "Professional Summary",
+    "category": "content",
+    "priority": "critical",
+    "description": "Resume should contain a concise professional summary tailored to the target role.",
+    "score": 10
+  },
+  {
+    "id": "keyword_match",
+    "name": "Keyword Match",
+    "category": "keywords",
+    "priority": "critical",
+    "description": "Resume should include important keywords from the job description.",
+    "score": 20
+  },
+  {
+    "id": "technical_skills",
+    "name": "Technical Skills",
+    "category": "skills",
+    "priority": "critical",
+    "description": "Technical skills section should contain role-relevant technologies.",
+    "score": 15
+  },
+  {
+    "id": "work_experience",
+    "name": "Work Experience",
+    "category": "experience",
+    "priority": "critical",
+    "description": "Experience should include quantified achievements and impact.",
+    "score": 20
+  },
+  {
+    "id": "education",
+    "name": "Education",
+    "category": "education",
+    "priority": "medium",
+    "description": "Education section should be complete and properly formatted.",
+    "score": 5
+  },
+  {
+    "id": "projects",
+    "name": "Projects",
+    "category": "projects",
+    "priority": "high",
+    "description": "Relevant projects should demonstrate practical experience.",
+    "score": 10
+  },
+  {
+    "id": "certifications",
+    "name": "Certifications",
+    "category": "certifications",
+    "priority": "low",
+    "description": "Relevant certifications improve resume credibility.",
+    "score": 5
+  },
+  {
+    "id": "ats_formatting",
+    "name": "ATS Formatting",
+    "category": "formatting",
+    "priority": "critical",
+    "description": "Resume should use ATS-friendly formatting with standard headings.",
+    "score": 15
+  }
+]

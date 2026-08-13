@@ -5,7 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.analysis import router as analysis_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.download import router as download_router
-from app.api.routes.job_description import router as job_router
 from app.api.routes.optimization import (
     router as optimization_router,
 )
@@ -17,6 +16,7 @@ from app.billing.routes.checkout import (
 from app.billing.routes.plans import (
     router as billing_plans_router,
 )
+from app.guest.routes.guest import router as guest_router
 from app.billing.routes.pricing import (
     router as billing_pricing_router,
 )
@@ -60,13 +60,12 @@ async def startup() -> None:
 # --------------------------------------------------
 
 app.include_router(resume_router)
-app.include_router(job_router)
 app.include_router(analysis_router)
 app.include_router(optimization_router)
 app.include_router(download_router)
 app.include_router(auth_router)
 app.include_router(user_router)
-
+app.include_router(guest_router)
 # --------------------------------------------------
 # Billing Routes
 # --------------------------------------------------

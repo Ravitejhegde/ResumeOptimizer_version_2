@@ -1,11 +1,28 @@
-from app.services.ai.provider.openrouter_provider import (
-    OpenRouterProvider,
+"""
+OpenRouter integration test.
+"""
+
+from app.ai.provider.provider_factory import (
+    ProviderFactory,
 )
 
-provider = OpenRouterProvider()
 
-response = provider.generate(
-    "Reply with exactly: OpenRouter OK"
-)
+def main() -> None:
+    """
+    Verify the configured AI provider works.
+    """
 
-print(response)
+    client = ProviderFactory.create()
+
+    response = client.generate(
+        "Reply with exactly: OpenRouter OK"
+    )
+
+    print("=" * 60)
+    print("AI RESPONSE")
+    print("=" * 60)
+    print(response)
+
+
+if __name__ == "__main__":
+    main()

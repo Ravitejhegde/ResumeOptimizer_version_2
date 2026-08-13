@@ -1,0 +1,95 @@
+[
+  {
+    "id": "professional_summary",
+    "name": "Professional Summary",
+    "required": true,
+    "priority": 1,
+    "aliases": [
+      "summary",
+      "profile",
+      "career summary",
+      "professional profile"
+    ],
+    "description": "Short overview of the candidate tailored to the target role."
+  },
+  {
+    "id": "technical_skills",
+    "name": "Technical Skills",
+    "required": true,
+    "priority": 2,
+    "aliases": [
+      "skills",
+      "core skills",
+      "technical expertise",
+      "competencies"
+    ],
+    "description": "Technical skills relevant to the target role."
+  },
+  {
+    "id": "work_experience",
+    "name": "Work Experience",
+    "required": true,
+    "priority": 3,
+    "aliases": [
+      "experience",
+      "professional experience",
+      "employment history"
+    ],
+    "description": "Professional work history and achievements."
+  },
+  {
+    "id": "projects",
+    "name": "Projects",
+    "required": true,
+    "priority": 4,
+    "aliases": [
+      "project experience",
+      "academic projects",
+      "personal projects"
+    ],
+    "description": "Relevant projects demonstrating technical skills."
+  },
+  {
+    "id": "education",
+    "name": "Education",
+    "required": true,
+    "priority": 5,
+    "aliases": [
+      "academic background",
+      "qualification"
+    ],
+    "description": "Educational qualifications."
+  },
+  {
+    "id": "certifications",
+    "name": "Certifications",
+    "required": false,
+    "priority": 6,
+    "aliases": [
+      "licenses",
+      "professional certifications"
+    ],
+    "description": "Industry-recognized certifications."
+  },
+  {
+    "id": "achievements",
+    "name": "Achievements",
+    "required": false,
+    "priority": 7,
+    "aliases": [
+      "awards",
+      "honors"
+    ],
+    "description": "Awards and notable accomplishments."
+  },
+  {
+    "id": "languages",
+    "name": "Languages",
+    "required": false,
+    "priority": 8,
+    "aliases": [
+      "spoken languages"
+    ],
+    "description": "Languages known by the candidate."
+  }
+]

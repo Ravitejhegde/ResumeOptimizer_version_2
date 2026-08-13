@@ -21,17 +21,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict
 
-from knowledge_builder.models import (
-    ATSRule,
-    Category,
-    Keyword,
-    Relationship,
-    Role,
-    Section,
-    Skill,
-    Synonym,
-    Technology,
-)
+from .ats_rule import ATSRule
+from .category import Category
+from .keyword import Keyword
+from .relationship import Relationship
+from .role import Role
+from .section import Section
+from .skill import Skill
+from .synonym import Synonym
+from .technology import Technology
 
 
 @dataclass(slots=True)

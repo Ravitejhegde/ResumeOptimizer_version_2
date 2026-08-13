@@ -1,0 +1,98 @@
+[
+  {
+    "source_id": "fastapi",
+    "relationship": "requires",
+    "target_id": "python",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "FastAPI applications require Python."
+  },
+  {
+    "source_id": "django",
+    "relationship": "requires",
+    "target_id": "python",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Django applications require Python."
+  },
+  {
+    "source_id": "flask",
+    "relationship": "requires",
+    "target_id": "python",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Flask applications require Python."
+  },
+  {
+    "source_id": "express",
+    "relationship": "requires",
+    "target_id": "nodejs",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Express requires Node.js."
+  },
+  {
+    "source_id": "nodejs",
+    "relationship": "requires",
+    "target_id": "javascript",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Node.js executes JavaScript."
+  },
+  {
+    "source_id": "react",
+    "relationship": "requires",
+    "target_id": "javascript",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "React requires JavaScript."
+  },
+  {
+    "source_id": "angular",
+    "relationship": "requires",
+    "target_id": "typescript",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Angular primarily uses TypeScript."
+  },
+  {
+    "source_id": "spring_boot",
+    "relationship": "requires",
+    "target_id": "java",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Spring Boot applications require Java."
+  },
+  {
+    "source_id": "backend_developer",
+    "relationship": "uses",
+    "target_id": "fastapi",
+    "weight": 0.9,
+    "bidirectional": false,
+    "description": "Backend developers commonly use FastAPI."
+  },
+  {
+    "source_id": "frontend_developer",
+    "relationship": "uses",
+    "target_id": "react",
+    "weight": 0.9,
+    "bidirectional": false,
+    "description": "Frontend developers commonly use React."
+  },
+  {
+    "source_id": "full_stack_developer",
+    "relationship": "uses",
+    "target_id": "nodejs",
+    "weight": 0.9,
+    "bidirectional": false,
+    "description": "Full stack developers commonly use Node.js."
+  },
+  {
+    "source_id": "machine_learning_engineer",
+    "relationship": "uses",
+    "target_id": "python",
+    "weight": 1.0,
+    "bidirectional": false,
+    "description": "Machine learning engineers primarily use Python."
+  }
+]

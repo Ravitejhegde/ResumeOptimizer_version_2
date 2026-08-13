@@ -2,47 +2,23 @@
 knowledge_builder.models.ats_rule
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Represents ATS optimization rules used by ResumeOptimizer.
-
-Unlike technologies or skills, ATS rules define HOW a resume
-should be optimized for Applicant Tracking Systems.
-
-Examples
---------
-Rule:
-    Include required keywords naturally.
-
-Rule:
-    Do not stuff keywords.
-
-Rule:
-    Keep section headings standard.
-
-Rule:
-    Preserve chronological order.
-
-Rule:
-    Avoid tables for ATS compatibility.
+Represents an ATS optimization rule.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import StrEnum
-from typing import Tuple
 
 
-class ATSRuleSeverity(StrEnum):
+class ATSRulePriority(StrEnum):
     """
-    Rule importance.
+    ATS rule priority.
     """
 
     LOW = "low"
-
     MEDIUM = "medium"
-
     HIGH = "high"
-
     CRITICAL = "critical"
 
 
@@ -50,62 +26,25 @@ class ATSRuleSeverity(StrEnum):
 class ATSRule:
     """
     Represents a single ATS optimization rule.
-
-    Parameters
-    ----------
-    id
-        Unique identifier.
-
-    title
-        Short rule name.
-
-    description
-        Explanation of the rule.
-
-    severity
-        Rule priority.
-
-    category
-        Rule category.
-
-    applies_to_sections
-        Resume sections affected.
-
-    related_keyword_ids
-        Keywords associated with the rule.
-
-    enabled
-        Whether the rule is active.
     """
 
     id: str
 
-    title: str
-
-    description: str
-
-    severity: ATSRuleSeverity
+    name: str
 
     category: str
 
-    applies_to_sections: Tuple[str, ...] = field(default_factory=tuple)
+    priority: ATSRulePriority
 
-    related_keyword_ids: Tuple[str, ...] = field(default_factory=tuple)
+    description: str
 
-    enabled: bool = True
-
-    def applies_to(self, section_id: str) -> bool:
-        """
-        Returns True if this rule applies to
-        the supplied resume section.
-        """
-        return section_id in self.applies_to_sections
+    score: int = 0
 
     def is_critical(self) -> bool:
         """
-        Returns True if the rule is critical.
+        Returns True if this is a critical rule.
         """
-        return self.severity == ATSRuleSeverity.CRITICAL
+        return self.priority == ATSRulePriority.CRITICAL
 
     def to_dict(self) -> dict:
         """
@@ -113,31 +52,33 @@ class ATSRule:
         """
         return {
             "id": self.id,
-            "title": self.title,
-            "description": self.description,
-            "severity": self.severity.value,
+            "name": self.name,
             "category": self.category,
-            "applies_to_sections": list(self.applies_to_sections),
-            "related_keyword_ids": list(self.related_keyword_ids),
-            "enabled": self.enabled,
+            "priority": self.priority.value,
+            "description": self.description,
+            "score": self.score,
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "ATSRule":
+    def from_dict(
+        cls,
+        data: dict,
+    ) -> "ATSRule":
         """
         Deserialize ATSRule.
         """
         return cls(
             id=data["id"],
-            title=data["title"],
-            description=data["description"],
-            severity=ATSRuleSeverity(data["severity"]),
+            name=data["name"],
             category=data["category"],
-            applies_to_sections=tuple(
-                data.get("applies_to_sections", [])
+            priority=ATSRulePriority(
+                data["priority"]
             ),
-            related_keyword_ids=tuple(
-                data.get("related_keyword_ids", [])
+            description=data.get(
+                "description",
+                "",
             ),
-            enabled=bool(data.get("enabled", True)),
+            score=int(
+                data.get("score", 0)
+            ),
         )

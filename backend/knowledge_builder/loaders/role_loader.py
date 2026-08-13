@@ -2,26 +2,26 @@
 knowledge_builder.loaders.role_loader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loads normalized job roles from the knowledge source directory.
+Loads role definitions from the Knowledge Database.
 
 Responsibilities
 ----------------
-- Read JSON files
+- Read role JSON files
 - Convert dictionaries into Role models
 - Return strongly typed objects
 
 This loader intentionally does NOT:
 - Validate roles
-- Match technologies
-- Match skills
+- Build indexes
 - Build relationships
 - Store data
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
+from knowledge_builder.config import (
+    ROLES_DIRECTORY,
+)
 from knowledge_builder.loaders.base_loader import BaseLoader
 from knowledge_builder.models import Role
 
@@ -33,7 +33,7 @@ class RoleLoader(BaseLoader):
 
     def load(self) -> list[Role]:
         """
-        Load every role from the configured source directory.
+        Load every role from the configured directory.
 
         Returns
         -------
@@ -67,14 +67,10 @@ class RoleLoader(BaseLoader):
         return roles
 
     @classmethod
-    def from_default_location(cls) -> "RoleLoader":
+    def from_default_location(
+        cls,
+    ) -> "RoleLoader":
         """
-        Create a loader using the default source directory.
+        Create a loader using the default Knowledge Database location.
         """
-        source_directory = (
-            Path(__file__).resolve().parent.parent
-            / "sources"
-            / "roles"
-        )
-
-        return cls(source_directory)
+        return cls(ROLES_DIRECTORY)

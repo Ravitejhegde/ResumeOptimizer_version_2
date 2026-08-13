@@ -1,0 +1,167 @@
+[
+  {
+    "id": "python",
+    "name": "Python",
+    "aliases": ["python3", "py"],
+    "category_id": "programming_languages",
+    "description": "General-purpose programming language.",
+    "official_url": "https://python.org",
+    "tags": ["backend", "ai", "automation"],
+    "related": [
+      "fastapi",
+      "django",
+      "flask"
+    ]
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "aliases": [],
+    "category_id": "programming_languages",
+    "description": "Object-oriented programming language.",
+    "official_url": "https://www.oracle.com/java/",
+    "tags": ["backend"],
+    "related": [
+      "spring_boot"
+    ]
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "aliases": ["js"],
+    "category_id": "programming_languages",
+    "description": "Programming language for web development.",
+    "official_url": "https://developer.mozilla.org/docs/Web/JavaScript",
+    "tags": ["frontend", "backend"],
+    "related": [
+      "nodejs",
+      "react",
+      "vue",
+      "angular"
+    ]
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "aliases": ["ts"],
+    "category_id": "programming_languages",
+    "description": "Typed superset of JavaScript.",
+    "official_url": "https://www.typescriptlang.org/",
+    "tags": ["frontend", "backend"],
+    "related": [
+      "angular",
+      "react",
+      "nodejs"
+    ]
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "aliases": ["reactjs"],
+    "category_id": "frameworks",
+    "description": "Frontend JavaScript library.",
+    "official_url": "https://react.dev",
+    "tags": ["frontend"],
+    "related": [
+      "typescript",
+      "javascript"
+    ]
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Frontend framework.",
+    "official_url": "https://angular.dev",
+    "tags": ["frontend"],
+    "related": [
+      "typescript"
+    ]
+  },
+  {
+    "id": "vue",
+    "name": "Vue",
+    "aliases": ["vuejs"],
+    "category_id": "frameworks",
+    "description": "Frontend framework.",
+    "official_url": "https://vuejs.org",
+    "tags": ["frontend"],
+    "related": [
+      "javascript"
+    ]
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "aliases": ["node"],
+    "category_id": "frameworks",
+    "description": "JavaScript runtime.",
+    "official_url": "https://nodejs.org",
+    "tags": ["backend"],
+    "related": [
+      "javascript",
+      "express"
+    ]
+  },
+  {
+    "id": "express",
+    "name": "Express",
+    "aliases": ["expressjs"],
+    "category_id": "frameworks",
+    "description": "Node.js web framework.",
+    "official_url": "https://expressjs.com",
+    "tags": ["backend"],
+    "related": [
+      "nodejs"
+    ]
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Modern Python API framework.",
+    "official_url": "https://fastapi.tiangolo.com",
+    "tags": ["backend", "api"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "django",
+    "name": "Django",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Python web framework.",
+    "official_url": "https://djangoproject.com",
+    "tags": ["backend"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "flask",
+    "name": "Flask",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Lightweight Python web framework.",
+    "official_url": "https://flask.palletsprojects.com",
+    "tags": ["backend"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "spring_boot",
+    "name": "Spring Boot",
+    "aliases": ["springboot"],
+    "category_id": "frameworks",
+    "description": "Java backend framework.",
+    "official_url": "https://spring.io/projects/spring-boot",
+    "tags": ["backend"],
+    "related": [
+      "java"
+    ]
+  }
+]

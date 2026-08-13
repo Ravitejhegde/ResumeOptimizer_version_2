@@ -1,0 +1,133 @@
+[
+  {
+    "id": "python",
+    "name": "Python",
+    "technology_id": "python",
+    "category_id": "programming_languages",
+    "roles": [
+      "backend_developer",
+      "python_developer",
+      "data_scientist",
+      "machine_learning_engineer",
+      "ai_engineer"
+    ]
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "technology_id": "java",
+    "category_id": "programming_languages",
+    "roles": [
+      "java_developer",
+      "backend_developer"
+    ]
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "technology_id": "javascript",
+    "category_id": "programming_languages",
+    "roles": [
+      "frontend_developer",
+      "full_stack_developer"
+    ]
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "technology_id": "typescript",
+    "category_id": "programming_languages",
+    "roles": [
+      "frontend_developer",
+      "full_stack_developer"
+    ]
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "technology_id": "react",
+    "category_id": "frameworks",
+    "roles": [
+      "frontend_developer",
+      "full_stack_developer"
+    ]
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "technology_id": "angular",
+    "category_id": "frameworks",
+    "roles": [
+      "frontend_developer"
+    ]
+  },
+  {
+    "id": "vue",
+    "name": "Vue",
+    "technology_id": "vue",
+    "category_id": "frameworks",
+    "roles": [
+      "frontend_developer"
+    ]
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "technology_id": "nodejs",
+    "category_id": "frameworks",
+    "roles": [
+      "backend_developer",
+      "full_stack_developer"
+    ]
+  },
+  {
+    "id": "express",
+    "name": "Express",
+    "technology_id": "express",
+    "category_id": "frameworks",
+    "roles": [
+      "backend_developer",
+      "full_stack_developer"
+    ]
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "technology_id": "fastapi",
+    "category_id": "frameworks",
+    "roles": [
+      "backend_developer",
+      "python_developer"
+    ]
+  },
+  {
+    "id": "django",
+    "name": "Django",
+    "technology_id": "django",
+    "category_id": "frameworks",
+    "roles": [
+      "backend_developer",
+      "python_developer"
+    ]
+  },
+  {
+    "id": "flask",
+    "name": "Flask",
+    "technology_id": "flask",
+    "category_id": "frameworks",
+    "roles": [
+      "backend_developer",
+      "python_developer"
+    ]
+  },
+  {
+    "id": "spring_boot",
+    "name": "Spring Boot",
+    "technology_id": "spring_boot",
+    "category_id": "frameworks",
+    "roles": [
+      "java_developer",
+      "backend_developer"
+    ]
+  }
+]

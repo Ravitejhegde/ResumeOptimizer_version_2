@@ -13,10 +13,6 @@ FastAPI ---REQUIRES--> Python
 Docker ----RELATED---> Kubernetes
 TensorFlow-CHILD_OF--> Machine Learning
 React -----ALIAS_OF--> ReactJS
-
-The Knowledge Builder generates these relationships and later the
-Analyzer, Planner and Prompt Engine use them to understand how
-technologies are connected.
 """
 
 from __future__ import annotations
@@ -68,22 +64,27 @@ class Relationship:
     """
 
     source_id: str
-
     relationship: RelationshipType
-
     target_id: str
 
     weight: float = 1.0
-
     bidirectional: bool = False
-
     description: str = ""
+
+    @property
+    def id(self) -> str:
+        """
+        Unique identifier for this relationship.
+        """
+        return (
+            f"{self.source_id}:"
+            f"{self.relationship.value}:"
+            f"{self.target_id}"
+        )
 
     def reverse(self) -> "Relationship":
         """
         Create the reverse relationship.
-
-        Useful when building graph indexes.
         """
         return Relationship(
             source_id=self.target_id,
@@ -96,10 +97,13 @@ class Relationship:
 
     def connects(self, entity_id: str) -> bool:
         """
-        Returns True if the entity participates
+        Returns True if the given entity participates
         in this relationship.
         """
-        return entity_id in (self.source_id, self.target_id)
+        return entity_id in (
+            self.source_id,
+            self.target_id,
+        )
 
     def to_dict(self) -> dict:
         """
@@ -115,15 +119,27 @@ class Relationship:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Relationship":
+    def from_dict(
+        cls,
+        data: dict,
+    ) -> "Relationship":
         """
         Deserialize relationship.
         """
         return cls(
             source_id=data["source_id"],
-            relationship=RelationshipType(data["relationship"]),
+            relationship=RelationshipType(
+                data["relationship"]
+            ),
             target_id=data["target_id"],
-            weight=float(data.get("weight", 1.0)),
-            bidirectional=bool(data.get("bidirectional", False)),
-            description=data.get("description", ""),
+            weight=float(
+                data.get("weight", 1.0)
+            ),
+            bidirectional=bool(
+                data.get("bidirectional", False)
+            ),
+            description=data.get(
+                "description",
+                "",
+            ),
         )

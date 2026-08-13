@@ -1,5 +1,5 @@
 from app.services.ai.prompt_builder import PromptBuilder
-from app.services.ai.gemini_provider import GeminiProvider
+from backend.app._legacy.services.ai.gemini_provider import GeminiProvider
 
 paragraph = (
     "Developed REST APIs using Spring Boot."

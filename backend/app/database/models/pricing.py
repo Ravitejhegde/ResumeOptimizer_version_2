@@ -12,12 +12,9 @@ from app.database.base import Base
 
 class Pricing(Base):
     """
-    Represents the pricing configuration for a subscription plan
-    in a specific country and currency.
+    Pricing configuration for a plan in a specific country/currency.
 
-    Keeping pricing separate from Plan allows the same subscription
-    plan to have different prices, currencies, billing periods,
-    and payment providers for different regions.
+    Stripe price IDs are stored here when Stripe is the payment provider.
     """
 
     __tablename__ = "pricing"
@@ -63,6 +60,16 @@ class Pricing(Base):
         nullable=False,
     )
 
+    stripe_monthly_price_id: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
+
+    stripe_yearly_price_id: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
+
     active: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
@@ -101,7 +108,6 @@ class Pricing(Base):
 
     @property
     def is_active(self) -> bool:
-        """Returns whether this pricing is currently available."""
         return self.active
 
     def __repr__(self) -> str:

@@ -1,4 +1,4 @@
-from app.services.ai.gemini_provider import GeminiProvider
+from backend.app._legacy.services.ai.gemini_provider import GeminiProvider
 
 
 provider = GeminiProvider()

@@ -8,19 +8,6 @@ This validator operates on strongly typed models after all loaders
 have completed. It verifies the integrity of cross-references between
 entities before the store is used by analyzers, planners, or AI
 components.
-
-Responsibilities
-----------------
-- Validate cross references
-- Detect orphan references
-- Detect missing IDs
-- Report all validation errors
-
-This validator intentionally does NOT:
-- Modify the KnowledgeStore
-- Load JSON files
-- Build relationships
-- Export knowledge
 """
 
 from __future__ import annotations
@@ -35,7 +22,10 @@ class StoreValidator:
     Performs integrity validation on a populated KnowledgeStore.
     """
 
-    def __init__(self, store: KnowledgeStore) -> None:
+    def __init__(
+        self,
+        store: KnowledgeStore,
+    ) -> None:
         self._store = store
         self._errors: list[str] = []
 
@@ -46,14 +36,16 @@ class StoreValidator:
         """
         return list(self._errors)
 
+    @property
+    def is_valid(self) -> bool:
+        """
+        True if the store has no validation errors.
+        """
+        return not self._errors
+
     def validate(self) -> List[str]:
         """
-        Validate the entire KnowledgeStore.
-
-        Returns
-        -------
-        list[str]
-            List of validation errors. Empty if valid.
+        Validate the complete KnowledgeStore.
         """
         self._errors.clear()
 
@@ -66,19 +58,13 @@ class StoreValidator:
 
         return self.errors
 
-    @property
-    def is_valid(self) -> bool:
-        """
-        True if the store has no validation errors.
-        """
-        return not self._errors
-
     # ------------------------------------------------------------------
     # Technology Validation
     # ------------------------------------------------------------------
 
     def _validate_technologies(self) -> None:
         for technology in self._store.technologies.values():
+
             if technology.category_id not in self._store.categories:
                 self._errors.append(
                     f"Technology '{technology.id}' references "
@@ -91,7 +77,9 @@ class StoreValidator:
 
     def _validate_skills(self) -> None:
         for skill in self._store.skills.values():
+
             for technology_id in skill.technology_ids:
+
                 if technology_id not in self._store.technologies:
                     self._errors.append(
                         f"Skill '{skill.id}' references "
@@ -103,35 +91,47 @@ class StoreValidator:
     # ------------------------------------------------------------------
 
     def _validate_roles(self) -> None:
+        """
+        Validate role definitions.
+        """
+
         for role in self._store.roles.values():
 
-            for technology_id in role.technology_ids:
-                if technology_id not in self._store.technologies:
-                    self._errors.append(
-                        f"Role '{role.id}' references "
-                        f"unknown technology '{technology_id}'."
-                    )
+            # Validate required skills
 
-            for skill_id in role.skill_ids:
+            for skill_id in role.required_skill_ids:
+
                 if skill_id not in self._store.skills:
                     self._errors.append(
                         f"Role '{role.id}' references "
                         f"unknown skill '{skill_id}'."
                     )
 
-            for section_id in role.section_ids:
-                if section_id not in self._store.sections:
-                    self._errors.append(
-                        f"Role '{role.id}' references "
-                        f"unknown section '{section_id}'."
-                    )
+            # Duplicate required skills
 
-            for keyword_id in role.keyword_ids:
-                if keyword_id not in self._store.keywords:
-                    self._errors.append(
-                        f"Role '{role.id}' references "
-                        f"unknown keyword '{keyword_id}'."
-                    )
+            if len(role.required_skill_ids) != len(
+                set(role.required_skill_ids)
+            ):
+                self._errors.append(
+                    f"Role '{role.id}' contains duplicate required skills."
+                )
+
+            # Basic validation
+
+            if not role.id.strip():
+                self._errors.append(
+                    "Role has an empty id."
+                )
+
+            if not role.name.strip():
+                self._errors.append(
+                    f"Role '{role.id}' has an empty name."
+                )
+
+            if role.importance < 0:
+                self._errors.append(
+                    f"Role '{role.id}' has a negative importance."
+                )
 
     # ------------------------------------------------------------------
     # Keyword Validation
@@ -141,6 +141,7 @@ class StoreValidator:
         for keyword in self._store.keywords.values():
 
             for technology_id in keyword.technology_ids:
+
                 if technology_id not in self._store.technologies:
                     self._errors.append(
                         f"Keyword '{keyword.id}' references "
@@ -148,6 +149,7 @@ class StoreValidator:
                     )
 
             for skill_id in keyword.skill_ids:
+
                 if skill_id not in self._store.skills:
                     self._errors.append(
                         f"Keyword '{keyword.id}' references "
@@ -155,6 +157,7 @@ class StoreValidator:
                     )
 
             for role_id in keyword.role_ids:
+
                 if role_id not in self._store.roles:
                     self._errors.append(
                         f"Keyword '{keyword.id}' references "
@@ -179,18 +182,28 @@ class StoreValidator:
     # ------------------------------------------------------------------
 
     def _validate_ats_rules(self) -> None:
+        """
+        Validate ATS rule metadata.
+        """
+
         for rule in self._store.ats_rules.values():
 
-            for section_id in rule.section_ids:
-                if section_id not in self._store.sections:
-                    self._errors.append(
-                        f"ATS rule '{rule.id}' references "
-                        f"unknown section '{section_id}'."
-                    )
+            if not rule.id.strip():
+                self._errors.append(
+                    "ATS rule has an empty id."
+                )
 
-            for keyword_id in rule.keyword_ids:
-                if keyword_id not in self._store.keywords:
-                    self._errors.append(
-                        f"ATS rule '{rule.id}' references "
-                        f"unknown keyword '{keyword_id}'."
-                    )
+            if not rule.name.strip():
+                self._errors.append(
+                    f"ATS rule '{rule.id}' has an empty name."
+                )
+
+            if not rule.category.strip():
+                self._errors.append(
+                    f"ATS rule '{rule.id}' has an empty category."
+                )
+
+            if rule.score < 0:
+                self._errors.append(
+                    f"ATS rule '{rule.id}' has a negative score."
+                )

@@ -6,6 +6,7 @@ SQLAlchemy before Base.metadata.create_all() is executed.
 """
 
 from .download import Download
+from .email_verification_token import EmailVerificationToken
 from .feature import Feature
 from .generated_resume import GeneratedResume
 from .guest import Guest
@@ -23,8 +24,10 @@ from .user import User
 from .webhook_event import WebhookEvent
 from .workspace import Workspace
 
+
 __all__ = [
     "Download",
+    "EmailVerificationToken",
     "Feature",
     "GeneratedResume",
     "Guest",

@@ -2,37 +2,38 @@
 knowledge_builder.loaders.skill_loader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loads normalized skills from the knowledge source directory.
+Loads skill definitions from the Knowledge Database.
 
 Responsibilities
 ----------------
-- Read JSON files
+- Read skill JSON files
 - Convert dictionaries into Skill models
 - Return strongly typed objects
 
 This loader intentionally does NOT:
-- Validate duplicate skills
-- Resolve technology relationships
-- Store skills
+- Validate skills
 - Build indexes
+- Build relationships
+- Store data
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
+from knowledge_builder.config import (
+    SKILLS_DIRECTORY,
+)
 from knowledge_builder.loaders.base_loader import BaseLoader
 from knowledge_builder.models import Skill
 
 
 class SkillLoader(BaseLoader):
     """
-    Loads all normalized skills.
+    Loads normalized skills.
     """
 
     def load(self) -> list[Skill]:
         """
-        Load every skill from the configured source directory.
+        Load every skill from the configured directory.
 
         Returns
         -------
@@ -66,14 +67,10 @@ class SkillLoader(BaseLoader):
         return skills
 
     @classmethod
-    def from_default_location(cls) -> "SkillLoader":
+    def from_default_location(
+        cls,
+    ) -> "SkillLoader":
         """
-        Create a loader using the default knowledge source directory.
+        Create a loader using the default Knowledge Database location.
         """
-        source_directory = (
-            Path(__file__).resolve().parent.parent
-            / "sources"
-            / "skills"
-        )
-
-        return cls(source_directory)
+        return cls(SKILLS_DIRECTORY)

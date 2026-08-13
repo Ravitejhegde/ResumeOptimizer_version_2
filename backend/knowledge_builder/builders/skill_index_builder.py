@@ -131,7 +131,7 @@ class SkillIndexBuilder(BaseBuilder[SkillIndex]):
             # ATS Keywords
             # -------------------------------------------------
 
-            for keyword in skill.ats_keywords:
+            for keyword in skill.keywords:
 
                 normalized_keyword = keyword.casefold()
 

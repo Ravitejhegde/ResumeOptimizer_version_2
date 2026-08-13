@@ -1,29 +1,23 @@
 import api from "../api/client";
 
 export interface UploadResponse {
-    resume_id: string;
-    filename: string;
-    stored_filename: string;
-    status: string;
+  resume_id: string;
+  filename: string;
+  stored_filename: string;
+  status: string;
 }
 
 export const uploadResume = async (
-    file: File
+  file: File,
 ): Promise<UploadResponse> => {
+  const form = new FormData();
 
-    const form = new FormData();
+  form.append("file", file);
 
-    form.append("file", file);
+  const response = await api.post<UploadResponse>(
+    "/resume/upload",
+    form,
+  );
 
-    const response = await api.post<UploadResponse>(
-        "/resume/upload",
-        form,
-        {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        }
-    );
-
-    return response.data;
+  return response.data;
 };

@@ -1,51 +1,104 @@
+import type {
+  Dispatch,
+  SetStateAction,
+} from "react";
+
 export type WorkspaceStep =
-    | "analysis"
-    | "optimization";
+  | "analysis"
+  | "optimization";
+
+/* =========================================================
+   Resume
+   ========================================================= */
 
 export interface ResumeInfo {
+  id: string;
 
-    id: string;
+  filename: string;
 
-    filename: string;
-
-    storedFilename: string;
-
+  storedFilename: string;
 }
+
+/* =========================================================
+   Authenticated User
+   ========================================================= */
+
+export interface CurrentUser {
+  id: string;
+
+  name: string;
+
+  email: string;
+
+  verified: boolean;
+}
+
+/* =========================================================
+   Workspace State
+   ========================================================= */
 
 export interface WorkspaceState {
+  /* -----------------------------------------
+     Workflow
+  ----------------------------------------- */
 
-    step: WorkspaceStep;
+  step: WorkspaceStep;
 
-    resume: ResumeInfo | null;
+  /* -----------------------------------------
+     Resume
+  ----------------------------------------- */
 
-    jobDescription: string;
+  resume: ResumeInfo | null;
 
-    atsScore: number;
+  /* -----------------------------------------
+     Job Description
+  ----------------------------------------- */
 
-    role: string;
+  jobDescription: string;
 
-    experience: number;
+  /* -----------------------------------------
+     Analysis
+  ----------------------------------------- */
 
-    matchedSkills: string[];
+  atsScore: number;
 
-    missingSkills: string[];
+  role: string;
 
-    selectedSkills: string[];
+  experience: number;
 
-    optimizedFilename: string;
+  matchedSkills: string[];
 
-    previewBlocks: any[];
+  missingSkills: string[];
 
-    previewLayout: any;
+  selectedSkills: string[];
 
+  /* -----------------------------------------
+     Optimization
+  ----------------------------------------- */
+
+  optimizedFilename: string;
+
+  previewBlocks: any[];
+
+  previewLayout: any;
+
+  /* -----------------------------------------
+     Authentication
+  ----------------------------------------- */
+
+  user: CurrentUser | null;
+
+  isAuthenticated: boolean;
 }
 
+/* =========================================================
+   Workspace Context
+   ========================================================= */
+
 export interface WorkspaceContextType {
+  state: WorkspaceState;
 
-    state: WorkspaceState;
-
-    setState: React.Dispatch<
-        React.SetStateAction<WorkspaceState>
-    >;
-
+  setState: Dispatch<
+    SetStateAction<WorkspaceState>
+  >;
 }

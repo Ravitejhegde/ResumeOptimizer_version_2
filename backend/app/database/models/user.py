@@ -1,3 +1,9 @@
+"""
+app.database.models.user
+
+Registered application user.
+"""
+
 from __future__ import annotations
 
 import uuid
@@ -16,7 +22,6 @@ class User(Base):
 
     __tablename__ = "users"
 
-
     # ==========================================================
     # Primary Key
     # ==========================================================
@@ -26,7 +31,6 @@ class User(Base):
         primary_key=True,
         default=lambda: str(uuid.uuid4()),
     )
-
 
     # ==========================================================
     # Authentication
@@ -39,12 +43,10 @@ class User(Base):
         nullable=False,
     )
 
-
     password_hash: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
     )
-
 
     # ==========================================================
     # Profile
@@ -55,13 +57,11 @@ class User(Base):
         nullable=False,
     )
 
-
     provider: Mapped[str] = mapped_column(
         String(30),
         default="email",
         nullable=False,
     )
-
 
     country: Mapped[str] = mapped_column(
         String(5),
@@ -69,13 +69,11 @@ class User(Base):
         nullable=False,
     )
 
-
     language: Mapped[str] = mapped_column(
         String(10),
         default="en",
         nullable=False,
     )
-
 
     # ==========================================================
     # Account Status
@@ -87,13 +85,11 @@ class User(Base):
         nullable=False,
     )
 
-
     verified: Mapped[bool] = mapped_column(
         Boolean,
         default=False,
         nullable=False,
     )
-
 
     # ==========================================================
     # Timestamps
@@ -105,7 +101,6 @@ class User(Base):
         nullable=False,
     )
 
-
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
@@ -113,12 +108,10 @@ class User(Base):
         nullable=False,
     )
 
-
     last_login: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
         nullable=True,
     )
-
 
     # ==========================================================
     # Relationships
@@ -131,13 +124,11 @@ class User(Base):
         cascade="all, delete-orphan",
     )
 
-
     orders: Mapped[list["Order"]] = relationship(
         "Order",
         back_populates="user",
         cascade="all, delete-orphan",
     )
-
 
     subscriptions: Mapped[list["Subscription"]] = relationship(
         "Subscription",
@@ -145,13 +136,19 @@ class User(Base):
         cascade="all, delete-orphan",
     )
 
-
     usage_events: Mapped[list["UsageEvent"]] = relationship(
         "UsageEvent",
         back_populates="user",
         cascade="all, delete-orphan",
     )
 
+    email_verification_tokens: Mapped[
+        list["EmailVerificationToken"]
+    ] = relationship(
+        "EmailVerificationToken",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
     # ==========================================================
     # Debug

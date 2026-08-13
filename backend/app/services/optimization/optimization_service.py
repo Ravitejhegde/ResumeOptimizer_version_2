@@ -221,44 +221,42 @@ class OptimizationService:
 
                 document=document,
 
-                plan=document.optimization_plan
-                if hasattr(
-                    document,
-                    "optimization_plan",
-                )
-                else None,
+                plan=None,
 
-
-                request_id=str(
-                    job.id
-                ),
-
+                request_id=str(job.id),
 
                 preserve_formatting=True,
 
 
+    # IMPORTANT
+                job_context={
+                "job_description": job_description,
+                "selected_skills": selected_skills,
+            },
+
+
+                knowledge_context={
+        "selected_skills": selected_skills,
+    },
+
+
                 metadata={
 
-                    "job_description":
-                        job_description,
+                "job_description":
+                    job_description,
 
+                "selected_skills":
+                    selected_skills,
 
-                    "selected_skills":
-                        ",".join(
-                            selected_skills
-                        ),
+                "source_file":
+                    str(source),
 
+                "output_file":
+                    str(output_file),
 
-                    "source_file":
-                        str(source),
+            },
 
-
-                    "output_file":
-                        str(output_file),
-
-                },
-
-            )
+        )
 
 
 

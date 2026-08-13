@@ -1,0 +1,143 @@
+[
+  {
+    "id": "programming_languages",
+    "name": "Programming Languages",
+    "description": "Programming languages used for software development.",
+    "aliases": [
+      "languages",
+      "coding languages"
+    ]
+  },
+  {
+    "id": "frameworks",
+    "name": "Frameworks",
+    "description": "Application development frameworks.",
+    "aliases": [
+      "framework"
+    ]
+  },
+  {
+    "id": "libraries",
+    "name": "Libraries",
+    "description": "Reusable software libraries.",
+    "aliases": [
+      "packages"
+    ]
+  },
+  {
+    "id": "databases",
+    "name": "Databases",
+    "description": "Database technologies.",
+    "aliases": [
+      "database",
+      "db"
+    ]
+  },
+  {
+    "id": "cloud_platforms",
+    "name": "Cloud Platforms",
+    "description": "Cloud computing providers.",
+    "aliases": [
+      "cloud"
+    ]
+  },
+  {
+    "id": "devops",
+    "name": "DevOps",
+    "description": "DevOps tools and platforms.",
+    "aliases": [
+      "ci/cd"
+    ]
+  },
+  {
+    "id": "operating_systems",
+    "name": "Operating Systems",
+    "description": "Operating systems.",
+    "aliases": [
+      "os"
+    ]
+  },
+  {
+    "id": "testing",
+    "name": "Testing",
+    "description": "Testing tools and frameworks.",
+    "aliases": [
+      "qa"
+    ]
+  },
+  {
+    "id": "mobile",
+    "name": "Mobile Development",
+    "description": "Mobile application technologies.",
+    "aliases": [
+      "android",
+      "ios"
+    ]
+  },
+  {
+    "id": "web",
+    "name": "Web Development",
+    "description": "Frontend and backend web technologies.",
+    "aliases": [
+      "web technologies"
+    ]
+  },
+  {
+    "id": "artificial_intelligence",
+    "name": "Artificial Intelligence",
+    "description": "AI and Machine Learning technologies.",
+    "aliases": [
+      "ai",
+      "machine learning",
+      "ml"
+    ]
+  },
+  {
+    "id": "security",
+    "name": "Security",
+    "description": "Cybersecurity technologies.",
+    "aliases": [
+      "cyber security"
+    ]
+  },
+  {
+    "id": "architecture",
+    "name": "Software Architecture",
+    "description": "Architecture principles and patterns.",
+    "aliases": [
+      "architecture"
+    ]
+  },
+  {
+    "id": "project_management",
+    "name": "Project Management",
+    "description": "Project management methodologies and tools.",
+    "aliases": [
+      "pm"
+    ]
+  },
+  {
+    "id": "messaging",
+    "name": "Messaging",
+    "description": "Messaging and event streaming systems.",
+    "aliases": [
+      "message brokers"
+    ]
+  },
+  {
+    "id": "build_tools",
+    "name": "Build Tools",
+    "description": "Build automation tools.",
+    "aliases": [
+      "build"
+    ]
+  },
+  {
+    "id": "ides",
+    "name": "IDEs",
+    "description": "Development environments.",
+    "aliases": [
+      "editors"
+    ]
+  }
+]

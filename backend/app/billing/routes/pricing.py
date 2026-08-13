@@ -1,13 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
-from app.billing.schemas.pricing import (
-    PricingResponse,
-)
-from app.billing.services.pricing_service import (
-    PricingService,
-)
+from app.billing.schemas.pricing import PricingResponse
+from app.billing.services.pricing_service import PricingService
 from app.database.session import get_db
+
 
 router = APIRouter(
     prefix="/billing",
@@ -20,28 +17,17 @@ router = APIRouter(
     response_model=list[PricingResponse],
 )
 def get_pricing(
-    country: str,
+    country: str = Query(
+        ...,
+        min_length=2,
+        max_length=2,
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Return active paid pricing for a country.
+    """
 
-    service = PricingService(
-        db,
-    )
+    service = PricingService(db)
 
-    pricing = service.by_country(
-        country,
-    )
-
-    return [
-
-        PricingResponse.model_validate(
-            item,
-        )
-
-        for item in pricing
-
-    ]
-
-
-
-
+    return service.by_country(country.upper())

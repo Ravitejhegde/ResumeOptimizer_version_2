@@ -4,6 +4,7 @@ FastAPI authentication dependencies.
 
 from __future__ import annotations
 
+import jwt
 
 from fastapi import (
     Depends,
@@ -13,11 +14,7 @@ from fastapi import (
 
 from fastapi.security import OAuth2PasswordBearer
 
-
-from app.core.security.jwt import (
-    jwt_service,
-)
-
+from app.core.security.jwt import jwt_service
 
 
 # ==========================================================
@@ -29,35 +26,26 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 
 
-
 # ==========================================================
-# Current User Token
+# Current User
 # ==========================================================
 
 def get_current_user(
     token: str = Depends(oauth2_scheme),
 ) -> dict:
     """
-    Validate access token.
+    Validate the JWT access token.
 
     Returns:
-        JWT payload
+        JWT payload.
     """
 
-
     try:
-
-        payload = jwt_service.decode_access_token(
+        return jwt_service.decode_access_token(
             token
         )
 
-
-        return payload
-
-
-
-    except Exception as exc:
-
+    except jwt.InvalidTokenError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired authentication token.",
@@ -65,8 +53,6 @@ def get_current_user(
                 "WWW-Authenticate": "Bearer"
             },
         ) from exc
-
-
 
 
 # ==========================================================
@@ -79,14 +65,13 @@ def get_current_active_user(
     ),
 ) -> dict:
     """
-    Future user validation layer.
+    Return the authenticated user payload.
 
-    Future checks:
-        - User exists
-        - Account active
-        - Subscription access
-        - Workspace permission
+    Future responsibilities:
+        - Verify user exists
+        - Verify account is active
+        - Verify subscription access
+        - Verify workspace permissions
     """
-
 
     return current_user

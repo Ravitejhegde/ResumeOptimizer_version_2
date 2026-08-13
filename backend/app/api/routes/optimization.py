@@ -1,25 +1,32 @@
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 
 from fastapi import (
     APIRouter,
     Depends,
     HTTPException,
+    status,
 )
-
-from pydantic import BaseModel, Field
-
 from sqlalchemy.orm import Session
 
-from app.database.session import get_db
-
-from app.services.optimization.optimization_service import (
-    OptimizationService,
+from app.api.dependencies.current_user import (
+    get_current_user,
 )
-
-from app.engine.orchestrator import (
-    ResumeOptimizationEngine,
+from app.application.models.optimization_request import (
+    OptimizationRequest,
+)
+from app.application.services.resume_optimization_service import (
+    ResumeOptimizationService,
+)
+from app.database.models.user import User
+from app.database.repositories.resume_repository import (
+    ResumeRepository,
+)
+from app.database.session import get_db
+from app.schemas.optimize_request import (
+    OptimizeRequest,
 )
 
 
@@ -32,139 +39,138 @@ router = APIRouter(
 )
 
 
-
-# --------------------------------------------------
-# Engine instance
-# --------------------------------------------------
-
-engine = ResumeOptimizationEngine()
-
-
-
-# --------------------------------------------------
-# Request Model
-# --------------------------------------------------
-
-class OptimizeRequest(BaseModel):
-    """
-    Resume optimization request.
-    """
-
-    resume_id: str
-
-    job_description: str
-
-    selected_skills: list[str] = Field(
-        default_factory=list,
-    )
-
-
-
-# --------------------------------------------------
-# API
-# --------------------------------------------------
-
-@router.post("/optimize")
-async def optimize_resume(
+@router.post(
+    "/optimize",
+    status_code=status.HTTP_200_OK,
+)
+def optimize_resume(
     request: OptimizeRequest,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     """
-    Optimize existing resume.
+    Optimize an uploaded resume for a target job description.
 
-    Async pipeline:
+    The client provides a resume ID rather than a filesystem path.
 
-        API
-         |
-         v
-        Service
-         |
-         v
-        ResumeOptimizationEngine
-         |
-         v
-        OptimizerEngine
-         |
-         v
-        AI/OpenRouter
-         |
-         v
-        Writer
+    The server:
+        1. Finds the resume.
+        2. Verifies ownership.
+        3. Resolves the stored file path.
+        4. Executes the optimization workflow.
     """
 
+    # ======================================================
+    # Find Resume
+    # ======================================================
 
+    resumes = ResumeRepository(db)
 
-    service = OptimizationService(
-        db=db,
-        engine=engine,
+    resume = resumes.get(
+        request.resume_id,
     )
 
+    if resume is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Resume not found.",
+        )
 
+    # ======================================================
+    # Ownership
+    # ======================================================
+
+    if resume.workspace.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have access to this resume.",
+        )
+
+    # ======================================================
+    # Verify Physical File
+    # ======================================================
+
+    resume_path = Path(
+        resume.file_path,
+    )
+
+    if not resume_path.exists():
+        logger.error(
+            "Resume file missing: resume_id=%s path=%s",
+            resume.id,
+            resume_path,
+        )
+
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Resume file is no longer available.",
+        )
+
+    # ======================================================
+    # Output Path
+    # ======================================================
+
+    output_path = (
+        resume_path.parent
+        / f"{resume_path.stem}_optimized.docx"
+    )
+
+    # ======================================================
+    # Application Request
+    # ======================================================
+
+    optimization_request = OptimizationRequest(
+        resume_path=str(resume_path),
+        job_description=request.job_description,
+        output_path=str(output_path),
+    )
+
+    # ======================================================
+    # Execute Workflow
+    # ======================================================
 
     try:
 
-        generated_resume = await service.optimize(
+        service = ResumeOptimizationService()
 
-            resume_id=request.resume_id,
-
-            job_description=request.job_description,
-
-            selected_skills=request.selected_skills,
-
+        response = service.optimize(
+            optimization_request,
         )
 
-
-
-        return {
-
-            "success": True,
-
-            "resume_id": generated_resume.id,
-
-            "filename": generated_resume.filename,
-
-            "file_path": generated_resume.file_path,
-
-        }
-
-
+        return response
 
     except FileNotFoundError as exc:
 
-
-        logger.warning(
-
-            "Resume file not found: %s",
-
-            exc,
-
+        logger.exception(
+            "Resume file not found during optimization: %s",
+            resume.id,
         )
-
 
         raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Resume file could not be found.",
+        ) from exc
 
-            status_code=404,
+    except ValueError as exc:
 
-            detail=str(exc),
-
+        logger.exception(
+            "Invalid optimization request: resume_id=%s",
+            resume.id,
         )
 
-
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
     except Exception as exc:
 
-
         logger.exception(
-
-            "Resume optimization failed."
-
+            "Resume optimization failed: resume_id=%s",
+            resume.id,
         )
 
-
         raise HTTPException(
-
-            status_code=500,
-
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Resume optimization failed.",
-
         ) from exc

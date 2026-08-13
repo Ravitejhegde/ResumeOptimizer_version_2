@@ -1,0 +1,80 @@
+[
+  {
+    "id": "backend_developer",
+    "name": "Backend Developer",
+    "description": "Develops scalable server-side applications and APIs.",
+    "required_skill_ids": [
+      "backend_development",
+      "rest_api_development",
+      "api_design",
+      "authentication",
+      "authorization",
+      "server_side_programming"
+    ],
+    "aliases": [
+      "backend engineer",
+      "api developer"
+    ],
+    "keywords": [
+      "backend",
+      "server-side",
+      "api"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "python_backend_developer",
+    "name": "Python Backend Developer",
+    "description": "Builds backend systems using Python frameworks.",
+    "required_skill_ids": [
+      "backend_development",
+      "server_side_programming",
+      "rest_api_development"
+    ],
+    "aliases": [
+      "python developer"
+    ],
+    "keywords": [
+      "python",
+      "fastapi",
+      "django",
+      "flask"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "java_backend_developer",
+    "name": "Java Backend Developer",
+    "description": "Develops enterprise backend systems using Java.",
+    "required_skill_ids": [
+      "backend_development",
+      "server_side_programming",
+      "api_design"
+    ],
+    "aliases": [
+      "java developer"
+    ],
+    "keywords": [
+      "java",
+      "spring boot"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "api_developer",
+    "name": "API Developer",
+    "description": "Designs and develops RESTful APIs.",
+    "required_skill_ids": [
+      "rest_api_development",
+      "api_design",
+      "authentication",
+      "authorization"
+    ],
+    "aliases": [],
+    "keywords": [
+      "rest api",
+      "http"
+    ],
+    "importance": 8
+  }
+]

@@ -1,0 +1,141 @@
+[
+  {
+    "id": "python",
+    "value": "Python",
+    "aliases": [
+      "python3",
+      "py"
+    ],
+    "technology_id": "python",
+    "skill_id": "python",
+    "role_ids": [
+      "backend_developer",
+      "python_developer",
+      "data_scientist",
+      "machine_learning_engineer",
+      "ai_engineer"
+    ],
+    "weight": 1.0
+  },
+  {
+    "id": "java",
+    "value": "Java",
+    "aliases": [],
+    "technology_id": "java",
+    "skill_id": "java",
+    "role_ids": [
+      "java_developer",
+      "backend_developer"
+    ],
+    "weight": 1.0
+  },
+  {
+    "id": "javascript",
+    "value": "JavaScript",
+    "aliases": [
+      "js"
+    ],
+    "technology_id": "javascript",
+    "skill_id": "javascript",
+    "role_ids": [
+      "frontend_developer",
+      "full_stack_developer"
+    ],
+    "weight": 1.0
+  },
+  {
+    "id": "typescript",
+    "value": "TypeScript",
+    "aliases": [
+      "ts"
+    ],
+    "technology_id": "typescript",
+    "skill_id": "typescript",
+    "role_ids": [
+      "frontend_developer",
+      "full_stack_developer"
+    ],
+    "weight": 0.95
+  },
+  {
+    "id": "react",
+    "value": "React",
+    "aliases": [
+      "reactjs"
+    ],
+    "technology_id": "react",
+    "skill_id": "react",
+    "role_ids": [
+      "frontend_developer",
+      "full_stack_developer"
+    ],
+    "weight": 0.95
+  },
+  {
+    "id": "fastapi",
+    "value": "FastAPI",
+    "aliases": [],
+    "technology_id": "fastapi",
+    "skill_id": "fastapi",
+    "role_ids": [
+      "backend_developer",
+      "python_developer"
+    ],
+    "weight": 0.95
+  },
+  {
+    "id": "django",
+    "value": "Django",
+    "aliases": [],
+    "technology_id": "django",
+    "skill_id": "django",
+    "role_ids": [
+      "backend_developer",
+      "python_developer"
+    ],
+    "weight": 0.9
+  },
+  {
+    "id": "spring_boot",
+    "value": "Spring Boot",
+    "aliases": [
+      "springboot"
+    ],
+    "technology_id": "spring_boot",
+    "skill_id": "spring_boot",
+    "role_ids": [
+      "java_developer",
+      "backend_developer"
+    ],
+    "weight": 0.9
+  },
+  {
+    "id": "nodejs",
+    "value": "Node.js",
+    "aliases": [
+      "node",
+      "node js"
+    ],
+    "technology_id": "nodejs",
+    "skill_id": "nodejs",
+    "role_ids": [
+      "backend_developer",
+      "full_stack_developer"
+    ],
+    "weight": 0.9
+  },
+  {
+    "id": "sql",
+    "value": "SQL",
+    "aliases": [
+      "structured query language"
+    ],
+    "technology_id": "sql",
+    "skill_id": "sql",
+    "role_ids": [
+      "backend_developer",
+      "data_scientist"
+    ],
+    "weight": 0.9
+  }
+]

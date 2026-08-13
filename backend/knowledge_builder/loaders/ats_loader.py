@@ -2,37 +2,38 @@
 knowledge_builder.loaders.ats_loader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loads ATS optimization rules from the knowledge source directory.
+Loads ATS rule definitions from the Knowledge Database.
 
 Responsibilities
 ----------------
-- Read JSON files.
-- Convert dictionaries into ATSRule models.
-- Return strongly typed objects.
+- Read ATS rule JSON files
+- Convert dictionaries into ATSRule models
+- Return strongly typed objects
 
 This loader intentionally does NOT:
-- Validate ATS rules.
-- Evaluate resumes.
-- Score resumes.
-- Store knowledge.
+- Validate ATS rules
+- Build indexes
+- Score resumes
+- Store data
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
+from knowledge_builder.config import (
+    ATS_RULES_DIRECTORY,
+)
 from knowledge_builder.loaders.base_loader import BaseLoader
 from knowledge_builder.models import ATSRule
 
 
 class ATSLoader(BaseLoader):
     """
-    Loads ATS optimization rules.
+    Loads normalized ATS rules.
     """
 
     def load(self) -> list[ATSRule]:
         """
-        Load every ATS rule from the configured source directory.
+        Load every ATS rule from the configured directory.
 
         Returns
         -------
@@ -60,23 +61,16 @@ class ATSLoader(BaseLoader):
                 )
 
         rules.sort(
-            key=lambda rule: (
-                rule.severity.value,
-                rule.title.casefold(),
-            )
+            key=lambda rule: rule.id.casefold()
         )
 
         return rules
 
     @classmethod
-    def from_default_location(cls) -> "ATSLoader":
+    def from_default_location(
+        cls,
+    ) -> "ATSLoader":
         """
-        Create a loader using the default knowledge source directory.
+        Create a loader using the default Knowledge Database location.
         """
-        source_directory = (
-            Path(__file__).resolve().parent.parent
-            / "sources"
-            / "ats"
-        )
-
-        return cls(source_directory)
+        return cls(ATS_RULES_DIRECTORY)

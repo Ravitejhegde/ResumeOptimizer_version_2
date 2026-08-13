@@ -1,0 +1,144 @@
+[
+  {
+    "id": "backend_developer",
+    "name": "Backend Developer",
+    "description": "Develops scalable server-side applications and APIs.",
+    "required_skill_ids": [
+      "backend_development",
+      "rest_api_development",
+      "api_design",
+      "authentication",
+      "authorization",
+      "server_side_programming"
+    ],
+    "aliases": [
+      "backend engineer",
+      "api developer"
+    ],
+    "keywords": [
+      "backend",
+      "server-side",
+      "api"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "python_developer",
+    "name": "Python Backend Developer",
+    "description": "Builds backend systems using Python frameworks.",
+    "required_skill_ids": [
+      "backend_development",
+      "server_side_programming",
+      "rest_api_development"
+    ],
+    "aliases": [
+      "python developer"
+    ],
+    "keywords": [
+      "python",
+      "fastapi",
+      "django",
+      "flask"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "java_developer",
+    "name": "Java Backend Developer",
+    "description": "Develops enterprise backend systems using Java.",
+    "required_skill_ids": [
+      "backend_development",
+      "server_side_programming",
+      "api_design"
+    ],
+    "aliases": [
+      "java developer"
+    ],
+    "keywords": [
+      "java",
+      "spring boot"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "frontend_developer",
+    "name": "Frontend Developer",
+    "description": "Develops modern web user interfaces.",
+    "required_skill_ids": [],
+    "aliases": [
+      "frontend engineer",
+      "ui developer",
+      "react developer"
+    ],
+    "keywords": [
+      "frontend",
+      "react",
+      "typescript",
+      "javascript"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "full_stack_developer",
+    "name": "Full Stack Developer",
+    "description": "Develops both frontend and backend applications.",
+    "required_skill_ids": [
+      "backend_development",
+      "rest_api_development"
+    ],
+    "aliases": [
+      "full stack engineer",
+      "fullstack developer"
+    ],
+    "keywords": [
+      "full stack",
+      "frontend",
+      "backend"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "data_scientist",
+    "name": "Data Scientist",
+    "description": "Builds analytical and predictive models.",
+    "required_skill_ids": [],
+    "aliases": [],
+    "keywords": [
+      "data science",
+      "machine learning",
+      "python"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "machine_learning_engineer",
+    "name": "Machine Learning Engineer",
+    "description": "Builds and deploys machine learning systems.",
+    "required_skill_ids": [],
+    "aliases": [
+      "ml engineer"
+    ],
+    "keywords": [
+      "machine learning",
+      "python",
+      "ai"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "ai_engineer",
+    "name": "AI Engineer",
+    "description": "Develops AI-powered applications and LLM systems.",
+    "required_skill_ids": [],
+    "aliases": [
+      "artificial intelligence engineer",
+      "llm engineer"
+    ],
+    "keywords": [
+      "ai",
+      "llm",
+      "generative ai"
+    ],
+    "importance": 9
+  }
+]

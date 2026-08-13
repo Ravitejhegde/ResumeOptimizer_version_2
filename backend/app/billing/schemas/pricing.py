@@ -1,16 +1,18 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 
 class PricingResponse(BaseModel):
     """
-    Country-specific pricing.
+    Pricing information exposed to the frontend.
     """
 
-    model_config = ConfigDict(
-        from_attributes=True,
-    )
-
     id: str
+
+    plan_code: str
+
+    plan_name: str
+
+    description: str | None = None
 
     country_code: str
 
@@ -18,12 +20,10 @@ class PricingResponse(BaseModel):
 
     monthly_price: float
 
-    yearly_price: float | None
+    yearly_price: float | None = None
+
+    monthly_optimizations: int
 
     payment_provider: str
 
     active: bool
-
-
-
-

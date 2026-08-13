@@ -2,37 +2,38 @@
 knowledge_builder.loaders.synonym_loader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loads synonym definitions from the knowledge source directory.
+Loads synonym definitions from the Knowledge Database.
 
 Responsibilities
 ----------------
-- Read JSON files
+- Read synonym JSON files
 - Convert dictionaries into Synonym models
 - Return strongly typed objects
 
 This loader intentionally does NOT:
-- Normalize values
-- Validate duplicates
-- Resolve technologies
-- Store knowledge
+- Validate synonyms
+- Build indexes
+- Normalize text
+- Store data
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
+from knowledge_builder.config import (
+    SYNONYMS_DIRECTORY,
+)
 from knowledge_builder.loaders.base_loader import BaseLoader
 from knowledge_builder.models import Synonym
 
 
 class SynonymLoader(BaseLoader):
     """
-    Loads normalized synonym definitions.
+    Loads normalized synonyms.
     """
 
     def load(self) -> list[Synonym]:
         """
-        Load every synonym from the configured source directory.
+        Load every synonym from the configured directory.
 
         Returns
         -------
@@ -60,20 +61,16 @@ class SynonymLoader(BaseLoader):
                 )
 
         synonyms.sort(
-            key=lambda synonym: synonym.canonical.casefold()
+            key=lambda synonym: synonym.id.casefold()
         )
 
         return synonyms
 
     @classmethod
-    def from_default_location(cls) -> "SynonymLoader":
+    def from_default_location(
+        cls,
+    ) -> "SynonymLoader":
         """
-        Create a loader using the default knowledge source directory.
+        Create a loader using the default Knowledge Database location.
         """
-        source_directory = (
-            Path(__file__).resolve().parent.parent
-            / "sources"
-            / "synonyms"
-        )
-
-        return cls(source_directory)
+        return cls(SYNONYMS_DIRECTORY)

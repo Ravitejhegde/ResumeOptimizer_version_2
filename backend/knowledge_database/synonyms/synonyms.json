@@ -1,0 +1,103 @@
+[
+  {
+    "id": "javascript",
+    "canonical": "JavaScript",
+    "aliases": [
+      "js"
+    ]
+  },
+  {
+    "id": "typescript",
+    "canonical": "TypeScript",
+    "aliases": [
+      "ts"
+    ]
+  },
+  {
+    "id": "nodejs",
+    "canonical": "Node.js",
+    "aliases": [
+      "node",
+      "node js"
+    ]
+  },
+  {
+    "id": "react",
+    "canonical": "React",
+    "aliases": [
+      "reactjs",
+      "react js"
+    ]
+  },
+  {
+    "id": "vue",
+    "canonical": "Vue",
+    "aliases": [
+      "vuejs",
+      "vue js"
+    ]
+  },
+  {
+    "id": "spring_boot",
+    "canonical": "Spring Boot",
+    "aliases": [
+      "springboot"
+    ]
+  },
+  {
+    "id": "machine_learning",
+    "canonical": "Machine Learning",
+    "aliases": [
+      "ml"
+    ]
+  },
+  {
+    "id": "artificial_intelligence",
+    "canonical": "Artificial Intelligence",
+    "aliases": [
+      "ai"
+    ]
+  },
+  {
+    "id": "continuous_integration",
+    "canonical": "Continuous Integration",
+    "aliases": [
+      "ci"
+    ]
+  },
+  {
+    "id": "continuous_deployment",
+    "canonical": "Continuous Deployment",
+    "aliases": [
+      "cd"
+    ]
+  },
+  {
+    "id": "amazon_web_services",
+    "canonical": "Amazon Web Services",
+    "aliases": [
+      "aws"
+    ]
+  },
+  {
+    "id": "google_cloud_platform",
+    "canonical": "Google Cloud Platform",
+    "aliases": [
+      "gcp"
+    ]
+  },
+  {
+    "id": "microsoft_azure",
+    "canonical": "Microsoft Azure",
+    "aliases": [
+      "azure"
+    ]
+  },
+  {
+    "id": "structured_query_language",
+    "canonical": "SQL",
+    "aliases": [
+      "structured query language"
+    ]
+  }
+]

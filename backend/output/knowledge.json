@@ -1,0 +1,5268 @@
+{
+  "category_index": {
+    "by_alias": {
+      "ai": {
+        "aliases": [
+          "ai",
+          "machine learning",
+          "ml"
+        ],
+        "description": "AI and Machine Learning technologies.",
+        "id": "artificial_intelligence",
+        "name": "Artificial Intelligence"
+      },
+      "android": {
+        "aliases": [
+          "android",
+          "ios"
+        ],
+        "description": "Mobile application technologies.",
+        "id": "mobile",
+        "name": "Mobile Development"
+      },
+      "architecture": {
+        "aliases": [
+          "architecture"
+        ],
+        "description": "Architecture principles and patterns.",
+        "id": "architecture",
+        "name": "Software Architecture"
+      },
+      "build": {
+        "aliases": [
+          "build"
+        ],
+        "description": "Build automation tools.",
+        "id": "build_tools",
+        "name": "Build Tools"
+      },
+      "ci/cd": {
+        "aliases": [
+          "ci/cd"
+        ],
+        "description": "DevOps tools and platforms.",
+        "id": "devops",
+        "name": "DevOps"
+      },
+      "cloud": {
+        "aliases": [
+          "cloud"
+        ],
+        "description": "Cloud computing providers.",
+        "id": "cloud_platforms",
+        "name": "Cloud Platforms"
+      },
+      "coding languages": {
+        "aliases": [
+          "languages",
+          "coding languages"
+        ],
+        "description": "Programming languages used for software development.",
+        "id": "programming_languages",
+        "name": "Programming Languages"
+      },
+      "cyber security": {
+        "aliases": [
+          "cyber security"
+        ],
+        "description": "Cybersecurity technologies.",
+        "id": "security",
+        "name": "Security"
+      },
+      "database": {
+        "aliases": [
+          "database",
+          "db"
+        ],
+        "description": "Database technologies.",
+        "id": "databases",
+        "name": "Databases"
+      },
+      "db": {
+        "aliases": [
+          "database",
+          "db"
+        ],
+        "description": "Database technologies.",
+        "id": "databases",
+        "name": "Databases"
+      },
+      "editors": {
+        "aliases": [
+          "editors"
+        ],
+        "description": "Development environments.",
+        "id": "ides",
+        "name": "IDEs"
+      },
+      "framework": {
+        "aliases": [
+          "framework"
+        ],
+        "description": "Application development frameworks.",
+        "id": "frameworks",
+        "name": "Frameworks"
+      },
+      "ios": {
+        "aliases": [
+          "android",
+          "ios"
+        ],
+        "description": "Mobile application technologies.",
+        "id": "mobile",
+        "name": "Mobile Development"
+      },
+      "languages": {
+        "aliases": [
+          "languages",
+          "coding languages"
+        ],
+        "description": "Programming languages used for software development.",
+        "id": "programming_languages",
+        "name": "Programming Languages"
+      },
+      "machine learning": {
+        "aliases": [
+          "ai",
+          "machine learning",
+          "ml"
+        ],
+        "description": "AI and Machine Learning technologies.",
+        "id": "artificial_intelligence",
+        "name": "Artificial Intelligence"
+      },
+      "message brokers": {
+        "aliases": [
+          "message brokers"
+        ],
+        "description": "Messaging and event streaming systems.",
+        "id": "messaging",
+        "name": "Messaging"
+      },
+      "ml": {
+        "aliases": [
+          "ai",
+          "machine learning",
+          "ml"
+        ],
+        "description": "AI and Machine Learning technologies.",
+        "id": "artificial_intelligence",
+        "name": "Artificial Intelligence"
+      },
+      "os": {
+        "aliases": [
+          "os"
+        ],
+        "description": "Operating systems.",
+        "id": "operating_systems",
+        "name": "Operating Systems"
+      },
+      "packages": {
+        "aliases": [
+          "packages"
+        ],
+        "description": "Reusable software libraries.",
+        "id": "libraries",
+        "name": "Libraries"
+      },
+      "pm": {
+        "aliases": [
+          "pm"
+        ],
+        "description": "Project management methodologies and tools.",
+        "id": "project_management",
+        "name": "Project Management"
+      },
+      "qa": {
+        "aliases": [
+          "qa"
+        ],
+        "description": "Testing tools and frameworks.",
+        "id": "testing",
+        "name": "Testing"
+      },
+      "web technologies": {
+        "aliases": [
+          "web technologies"
+        ],
+        "description": "Frontend and backend web technologies.",
+        "id": "web",
+        "name": "Web Development"
+      }
+    },
+    "by_id": {
+      "architecture": {
+        "aliases": [
+          "architecture"
+        ],
+        "description": "Architecture principles and patterns.",
+        "id": "architecture",
+        "name": "Software Architecture"
+      },
+      "artificial_intelligence": {
+        "aliases": [
+          "ai",
+          "machine learning",
+          "ml"
+        ],
+        "description": "AI and Machine Learning technologies.",
+        "id": "artificial_intelligence",
+        "name": "Artificial Intelligence"
+      },
+      "build_tools": {
+        "aliases": [
+          "build"
+        ],
+        "description": "Build automation tools.",
+        "id": "build_tools",
+        "name": "Build Tools"
+      },
+      "cloud_platforms": {
+        "aliases": [
+          "cloud"
+        ],
+        "description": "Cloud computing providers.",
+        "id": "cloud_platforms",
+        "name": "Cloud Platforms"
+      },
+      "databases": {
+        "aliases": [
+          "database",
+          "db"
+        ],
+        "description": "Database technologies.",
+        "id": "databases",
+        "name": "Databases"
+      },
+      "devops": {
+        "aliases": [
+          "ci/cd"
+        ],
+        "description": "DevOps tools and platforms.",
+        "id": "devops",
+        "name": "DevOps"
+      },
+      "frameworks": {
+        "aliases": [
+          "framework"
+        ],
+        "description": "Application development frameworks.",
+        "id": "frameworks",
+        "name": "Frameworks"
+      },
+      "ides": {
+        "aliases": [
+          "editors"
+        ],
+        "description": "Development environments.",
+        "id": "ides",
+        "name": "IDEs"
+      },
+      "libraries": {
+        "aliases": [
+          "packages"
+        ],
+        "description": "Reusable software libraries.",
+        "id": "libraries",
+        "name": "Libraries"
+      },
+      "messaging": {
+        "aliases": [
+          "message brokers"
+        ],
+        "description": "Messaging and event streaming systems.",
+        "id": "messaging",
+        "name": "Messaging"
+      },
+      "mobile": {
+        "aliases": [
+          "android",
+          "ios"
+        ],
+        "description": "Mobile application technologies.",
+        "id": "mobile",
+        "name": "Mobile Development"
+      },
+      "operating_systems": {
+        "aliases": [
+          "os"
+        ],
+        "description": "Operating systems.",
+        "id": "operating_systems",
+        "name": "Operating Systems"
+      },
+      "programming_languages": {
+        "aliases": [
+          "languages",
+          "coding languages"
+        ],
+        "description": "Programming languages used for software development.",
+        "id": "programming_languages",
+        "name": "Programming Languages"
+      },
+      "project_management": {
+        "aliases": [
+          "pm"
+        ],
+        "description": "Project management methodologies and tools.",
+        "id": "project_management",
+        "name": "Project Management"
+      },
+      "security": {
+        "aliases": [
+          "cyber security"
+        ],
+        "description": "Cybersecurity technologies.",
+        "id": "security",
+        "name": "Security"
+      },
+      "testing": {
+        "aliases": [
+          "qa"
+        ],
+        "description": "Testing tools and frameworks.",
+        "id": "testing",
+        "name": "Testing"
+      },
+      "web": {
+        "aliases": [
+          "web technologies"
+        ],
+        "description": "Frontend and backend web technologies.",
+        "id": "web",
+        "name": "Web Development"
+      }
+    },
+    "by_name": {
+      "artificial intelligence": {
+        "aliases": [
+          "ai",
+          "machine learning",
+          "ml"
+        ],
+        "description": "AI and Machine Learning technologies.",
+        "id": "artificial_intelligence",
+        "name": "Artificial Intelligence"
+      },
+      "build tools": {
+        "aliases": [
+          "build"
+        ],
+        "description": "Build automation tools.",
+        "id": "build_tools",
+        "name": "Build Tools"
+      },
+      "cloud platforms": {
+        "aliases": [
+          "cloud"
+        ],
+        "description": "Cloud computing providers.",
+        "id": "cloud_platforms",
+        "name": "Cloud Platforms"
+      },
+      "databases": {
+        "aliases": [
+          "database",
+          "db"
+        ],
+        "description": "Database technologies.",
+        "id": "databases",
+        "name": "Databases"
+      },
+      "devops": {
+        "aliases": [
+          "ci/cd"
+        ],
+        "description": "DevOps tools and platforms.",
+        "id": "devops",
+        "name": "DevOps"
+      },
+      "frameworks": {
+        "aliases": [
+          "framework"
+        ],
+        "description": "Application development frameworks.",
+        "id": "frameworks",
+        "name": "Frameworks"
+      },
+      "ides": {
+        "aliases": [
+          "editors"
+        ],
+        "description": "Development environments.",
+        "id": "ides",
+        "name": "IDEs"
+      },
+      "libraries": {
+        "aliases": [
+          "packages"
+        ],
+        "description": "Reusable software libraries.",
+        "id": "libraries",
+        "name": "Libraries"
+      },
+      "messaging": {
+        "aliases": [
+          "message brokers"
+        ],
+        "description": "Messaging and event streaming systems.",
+        "id": "messaging",
+        "name": "Messaging"
+      },
+      "mobile development": {
+        "aliases": [
+          "android",
+          "ios"
+        ],
+        "description": "Mobile application technologies.",
+        "id": "mobile",
+        "name": "Mobile Development"
+      },
+      "operating systems": {
+        "aliases": [
+          "os"
+        ],
+        "description": "Operating systems.",
+        "id": "operating_systems",
+        "name": "Operating Systems"
+      },
+      "programming languages": {
+        "aliases": [
+          "languages",
+          "coding languages"
+        ],
+        "description": "Programming languages used for software development.",
+        "id": "programming_languages",
+        "name": "Programming Languages"
+      },
+      "project management": {
+        "aliases": [
+          "pm"
+        ],
+        "description": "Project management methodologies and tools.",
+        "id": "project_management",
+        "name": "Project Management"
+      },
+      "security": {
+        "aliases": [
+          "cyber security"
+        ],
+        "description": "Cybersecurity technologies.",
+        "id": "security",
+        "name": "Security"
+      },
+      "software architecture": {
+        "aliases": [
+          "architecture"
+        ],
+        "description": "Architecture principles and patterns.",
+        "id": "architecture",
+        "name": "Software Architecture"
+      },
+      "testing": {
+        "aliases": [
+          "qa"
+        ],
+        "description": "Testing tools and frameworks.",
+        "id": "testing",
+        "name": "Testing"
+      },
+      "web development": {
+        "aliases": [
+          "web technologies"
+        ],
+        "description": "Frontend and backend web technologies.",
+        "id": "web",
+        "name": "Web Development"
+      }
+    }
+  },
+  "keyword_index": {
+    "by_alias": {
+      "js": {
+        "aliases": [
+          "js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "javascript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "JavaScript"
+      },
+      "node": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Node.js"
+      },
+      "node js": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Node.js"
+      },
+      "py": {
+        "aliases": [
+          "python3",
+          "py"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer",
+          "data_scientist",
+          "machine_learning_engineer",
+          "ai_engineer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Python"
+      },
+      "python3": {
+        "aliases": [
+          "python3",
+          "py"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer",
+          "data_scientist",
+          "machine_learning_engineer",
+          "ai_engineer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Python"
+      },
+      "reactjs": {
+        "aliases": [
+          "reactjs"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "react",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "React"
+      },
+      "springboot": {
+        "aliases": [
+          "springboot"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "spring_boot",
+        "importance": 5,
+        "role_ids": [
+          "java_developer",
+          "backend_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Spring Boot"
+      },
+      "structured query language": {
+        "aliases": [
+          "structured query language"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "sql",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "data_scientist"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "SQL"
+      },
+      "ts": {
+        "aliases": [
+          "ts"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "typescript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "TypeScript"
+      }
+    },
+    "by_id": {
+      "django": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "django",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Django"
+      },
+      "fastapi": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "fastapi",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "FastAPI"
+      },
+      "java": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "java",
+        "importance": 5,
+        "role_ids": [
+          "java_developer",
+          "backend_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Java"
+      },
+      "javascript": {
+        "aliases": [
+          "js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "javascript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "JavaScript"
+      },
+      "nodejs": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Node.js"
+      },
+      "python": {
+        "aliases": [
+          "python3",
+          "py"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer",
+          "data_scientist",
+          "machine_learning_engineer",
+          "ai_engineer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Python"
+      },
+      "react": {
+        "aliases": [
+          "reactjs"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "react",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "React"
+      },
+      "spring_boot": {
+        "aliases": [
+          "springboot"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "spring_boot",
+        "importance": 5,
+        "role_ids": [
+          "java_developer",
+          "backend_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Spring Boot"
+      },
+      "sql": {
+        "aliases": [
+          "structured query language"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "sql",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "data_scientist"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "SQL"
+      },
+      "typescript": {
+        "aliases": [
+          "ts"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "typescript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "TypeScript"
+      }
+    },
+    "by_role": {
+      "ai_engineer": [
+        {
+          "aliases": [
+            "python3",
+            "py"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer",
+            "data_scientist",
+            "machine_learning_engineer",
+            "ai_engineer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Python"
+        }
+      ],
+      "backend_developer": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "django",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Django"
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "fastapi",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "FastAPI"
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "java",
+          "importance": 5,
+          "role_ids": [
+            "java_developer",
+            "backend_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Java"
+        },
+        {
+          "aliases": [
+            "node",
+            "node js"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "nodejs",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Node.js"
+        },
+        {
+          "aliases": [
+            "python3",
+            "py"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer",
+            "data_scientist",
+            "machine_learning_engineer",
+            "ai_engineer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Python"
+        },
+        {
+          "aliases": [
+            "springboot"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "spring_boot",
+          "importance": 5,
+          "role_ids": [
+            "java_developer",
+            "backend_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Spring Boot"
+        },
+        {
+          "aliases": [
+            "structured query language"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "sql",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "data_scientist"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "SQL"
+        }
+      ],
+      "data_scientist": [
+        {
+          "aliases": [
+            "python3",
+            "py"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer",
+            "data_scientist",
+            "machine_learning_engineer",
+            "ai_engineer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Python"
+        },
+        {
+          "aliases": [
+            "structured query language"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "sql",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "data_scientist"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "SQL"
+        }
+      ],
+      "frontend_developer": [
+        {
+          "aliases": [
+            "js"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "javascript",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "JavaScript"
+        },
+        {
+          "aliases": [
+            "reactjs"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "react",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "React"
+        },
+        {
+          "aliases": [
+            "ts"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "typescript",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "TypeScript"
+        }
+      ],
+      "full_stack_developer": [
+        {
+          "aliases": [
+            "js"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "javascript",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "JavaScript"
+        },
+        {
+          "aliases": [
+            "node",
+            "node js"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "nodejs",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Node.js"
+        },
+        {
+          "aliases": [
+            "reactjs"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "react",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "React"
+        },
+        {
+          "aliases": [
+            "ts"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "typescript",
+          "importance": 5,
+          "role_ids": [
+            "frontend_developer",
+            "full_stack_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "TypeScript"
+        }
+      ],
+      "java_developer": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "java",
+          "importance": 5,
+          "role_ids": [
+            "java_developer",
+            "backend_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Java"
+        },
+        {
+          "aliases": [
+            "springboot"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "spring_boot",
+          "importance": 5,
+          "role_ids": [
+            "java_developer",
+            "backend_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Spring Boot"
+        }
+      ],
+      "machine_learning_engineer": [
+        {
+          "aliases": [
+            "python3",
+            "py"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer",
+            "data_scientist",
+            "machine_learning_engineer",
+            "ai_engineer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Python"
+        }
+      ],
+      "python_developer": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "django",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Django"
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "fastapi",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "FastAPI"
+        },
+        {
+          "aliases": [
+            "python3",
+            "py"
+          ],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "role_ids": [
+            "backend_developer",
+            "python_developer",
+            "data_scientist",
+            "machine_learning_engineer",
+            "ai_engineer"
+          ],
+          "skill_ids": [],
+          "technology_ids": [],
+          "value": "Python"
+        }
+      ]
+    },
+    "by_skill": {},
+    "by_technology": {},
+    "by_value": {
+      "django": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "django",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Django"
+      },
+      "fastapi": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "fastapi",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "FastAPI"
+      },
+      "java": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "java",
+        "importance": 5,
+        "role_ids": [
+          "java_developer",
+          "backend_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Java"
+      },
+      "javascript": {
+        "aliases": [
+          "js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "javascript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "JavaScript"
+      },
+      "node.js": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Node.js"
+      },
+      "python": {
+        "aliases": [
+          "python3",
+          "py"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "python_developer",
+          "data_scientist",
+          "machine_learning_engineer",
+          "ai_engineer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Python"
+      },
+      "react": {
+        "aliases": [
+          "reactjs"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "react",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "React"
+      },
+      "spring boot": {
+        "aliases": [
+          "springboot"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "spring_boot",
+        "importance": 5,
+        "role_ids": [
+          "java_developer",
+          "backend_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "Spring Boot"
+      },
+      "sql": {
+        "aliases": [
+          "structured query language"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "sql",
+        "importance": 5,
+        "role_ids": [
+          "backend_developer",
+          "data_scientist"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "SQL"
+      },
+      "typescript": {
+        "aliases": [
+          "ts"
+        ],
+        "deprecated": false,
+        "description": "",
+        "id": "typescript",
+        "importance": 5,
+        "role_ids": [
+          "frontend_developer",
+          "full_stack_developer"
+        ],
+        "skill_ids": [],
+        "technology_ids": [],
+        "value": "TypeScript"
+      }
+    }
+  },
+  "role_index": {
+    "by_alias": {
+      "api developer": {
+        "aliases": [
+          "backend engineer",
+          "api developer"
+        ],
+        "deprecated": false,
+        "description": "Develops scalable server-side applications and APIs.",
+        "id": "backend_developer",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development",
+          "api_design",
+          "authentication",
+          "authorization",
+          "server_side_programming"
+        ]
+      },
+      "artificial intelligence engineer": {
+        "aliases": [
+          "artificial intelligence engineer",
+          "llm engineer"
+        ],
+        "deprecated": false,
+        "description": "Develops AI-powered applications and LLM systems.",
+        "id": "ai_engineer",
+        "importance": 9,
+        "keywords": [
+          "ai",
+          "llm",
+          "generative ai"
+        ],
+        "name": "AI Engineer",
+        "required_skill_ids": []
+      },
+      "backend engineer": {
+        "aliases": [
+          "backend engineer",
+          "api developer"
+        ],
+        "deprecated": false,
+        "description": "Develops scalable server-side applications and APIs.",
+        "id": "backend_developer",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development",
+          "api_design",
+          "authentication",
+          "authorization",
+          "server_side_programming"
+        ]
+      },
+      "frontend engineer": {
+        "aliases": [
+          "frontend engineer",
+          "ui developer",
+          "react developer"
+        ],
+        "deprecated": false,
+        "description": "Develops modern web user interfaces.",
+        "id": "frontend_developer",
+        "importance": 8,
+        "keywords": [
+          "frontend",
+          "react",
+          "typescript",
+          "javascript"
+        ],
+        "name": "Frontend Developer",
+        "required_skill_ids": []
+      },
+      "full stack engineer": {
+        "aliases": [
+          "full stack engineer",
+          "fullstack developer"
+        ],
+        "deprecated": false,
+        "description": "Develops both frontend and backend applications.",
+        "id": "full_stack_developer",
+        "importance": 9,
+        "keywords": [
+          "full stack",
+          "frontend",
+          "backend"
+        ],
+        "name": "Full Stack Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development"
+        ]
+      },
+      "fullstack developer": {
+        "aliases": [
+          "full stack engineer",
+          "fullstack developer"
+        ],
+        "deprecated": false,
+        "description": "Develops both frontend and backend applications.",
+        "id": "full_stack_developer",
+        "importance": 9,
+        "keywords": [
+          "full stack",
+          "frontend",
+          "backend"
+        ],
+        "name": "Full Stack Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development"
+        ]
+      },
+      "java developer": {
+        "aliases": [
+          "java developer"
+        ],
+        "deprecated": false,
+        "description": "Develops enterprise backend systems using Java.",
+        "id": "java_developer",
+        "importance": 9,
+        "keywords": [
+          "java",
+          "spring boot"
+        ],
+        "name": "Java Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "api_design"
+        ]
+      },
+      "llm engineer": {
+        "aliases": [
+          "artificial intelligence engineer",
+          "llm engineer"
+        ],
+        "deprecated": false,
+        "description": "Develops AI-powered applications and LLM systems.",
+        "id": "ai_engineer",
+        "importance": 9,
+        "keywords": [
+          "ai",
+          "llm",
+          "generative ai"
+        ],
+        "name": "AI Engineer",
+        "required_skill_ids": []
+      },
+      "ml engineer": {
+        "aliases": [
+          "ml engineer"
+        ],
+        "deprecated": false,
+        "description": "Builds and deploys machine learning systems.",
+        "id": "machine_learning_engineer",
+        "importance": 9,
+        "keywords": [
+          "machine learning",
+          "python",
+          "ai"
+        ],
+        "name": "Machine Learning Engineer",
+        "required_skill_ids": []
+      },
+      "python developer": {
+        "aliases": [
+          "python developer"
+        ],
+        "deprecated": false,
+        "description": "Builds backend systems using Python frameworks.",
+        "id": "python_developer",
+        "importance": 9,
+        "keywords": [
+          "python",
+          "fastapi",
+          "django",
+          "flask"
+        ],
+        "name": "Python Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "rest_api_development"
+        ]
+      },
+      "react developer": {
+        "aliases": [
+          "frontend engineer",
+          "ui developer",
+          "react developer"
+        ],
+        "deprecated": false,
+        "description": "Develops modern web user interfaces.",
+        "id": "frontend_developer",
+        "importance": 8,
+        "keywords": [
+          "frontend",
+          "react",
+          "typescript",
+          "javascript"
+        ],
+        "name": "Frontend Developer",
+        "required_skill_ids": []
+      },
+      "ui developer": {
+        "aliases": [
+          "frontend engineer",
+          "ui developer",
+          "react developer"
+        ],
+        "deprecated": false,
+        "description": "Develops modern web user interfaces.",
+        "id": "frontend_developer",
+        "importance": 8,
+        "keywords": [
+          "frontend",
+          "react",
+          "typescript",
+          "javascript"
+        ],
+        "name": "Frontend Developer",
+        "required_skill_ids": []
+      }
+    },
+    "by_id": {
+      "ai_engineer": {
+        "aliases": [
+          "artificial intelligence engineer",
+          "llm engineer"
+        ],
+        "deprecated": false,
+        "description": "Develops AI-powered applications and LLM systems.",
+        "id": "ai_engineer",
+        "importance": 9,
+        "keywords": [
+          "ai",
+          "llm",
+          "generative ai"
+        ],
+        "name": "AI Engineer",
+        "required_skill_ids": []
+      },
+      "backend_developer": {
+        "aliases": [
+          "backend engineer",
+          "api developer"
+        ],
+        "deprecated": false,
+        "description": "Develops scalable server-side applications and APIs.",
+        "id": "backend_developer",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development",
+          "api_design",
+          "authentication",
+          "authorization",
+          "server_side_programming"
+        ]
+      },
+      "data_scientist": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Builds analytical and predictive models.",
+        "id": "data_scientist",
+        "importance": 8,
+        "keywords": [
+          "data science",
+          "machine learning",
+          "python"
+        ],
+        "name": "Data Scientist",
+        "required_skill_ids": []
+      },
+      "frontend_developer": {
+        "aliases": [
+          "frontend engineer",
+          "ui developer",
+          "react developer"
+        ],
+        "deprecated": false,
+        "description": "Develops modern web user interfaces.",
+        "id": "frontend_developer",
+        "importance": 8,
+        "keywords": [
+          "frontend",
+          "react",
+          "typescript",
+          "javascript"
+        ],
+        "name": "Frontend Developer",
+        "required_skill_ids": []
+      },
+      "full_stack_developer": {
+        "aliases": [
+          "full stack engineer",
+          "fullstack developer"
+        ],
+        "deprecated": false,
+        "description": "Develops both frontend and backend applications.",
+        "id": "full_stack_developer",
+        "importance": 9,
+        "keywords": [
+          "full stack",
+          "frontend",
+          "backend"
+        ],
+        "name": "Full Stack Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development"
+        ]
+      },
+      "java_developer": {
+        "aliases": [
+          "java developer"
+        ],
+        "deprecated": false,
+        "description": "Develops enterprise backend systems using Java.",
+        "id": "java_developer",
+        "importance": 9,
+        "keywords": [
+          "java",
+          "spring boot"
+        ],
+        "name": "Java Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "api_design"
+        ]
+      },
+      "machine_learning_engineer": {
+        "aliases": [
+          "ml engineer"
+        ],
+        "deprecated": false,
+        "description": "Builds and deploys machine learning systems.",
+        "id": "machine_learning_engineer",
+        "importance": 9,
+        "keywords": [
+          "machine learning",
+          "python",
+          "ai"
+        ],
+        "name": "Machine Learning Engineer",
+        "required_skill_ids": []
+      },
+      "python_developer": {
+        "aliases": [
+          "python developer"
+        ],
+        "deprecated": false,
+        "description": "Builds backend systems using Python frameworks.",
+        "id": "python_developer",
+        "importance": 9,
+        "keywords": [
+          "python",
+          "fastapi",
+          "django",
+          "flask"
+        ],
+        "name": "Python Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "rest_api_development"
+        ]
+      }
+    },
+    "by_keyword": {
+      "ai": [
+        {
+          "aliases": [
+            "artificial intelligence engineer",
+            "llm engineer"
+          ],
+          "deprecated": false,
+          "description": "Develops AI-powered applications and LLM systems.",
+          "id": "ai_engineer",
+          "importance": 9,
+          "keywords": [
+            "ai",
+            "llm",
+            "generative ai"
+          ],
+          "name": "AI Engineer",
+          "required_skill_ids": []
+        },
+        {
+          "aliases": [
+            "ml engineer"
+          ],
+          "deprecated": false,
+          "description": "Builds and deploys machine learning systems.",
+          "id": "machine_learning_engineer",
+          "importance": 9,
+          "keywords": [
+            "machine learning",
+            "python",
+            "ai"
+          ],
+          "name": "Machine Learning Engineer",
+          "required_skill_ids": []
+        }
+      ],
+      "api": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        }
+      ],
+      "backend": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        },
+        {
+          "aliases": [
+            "full stack engineer",
+            "fullstack developer"
+          ],
+          "deprecated": false,
+          "description": "Develops both frontend and backend applications.",
+          "id": "full_stack_developer",
+          "importance": 9,
+          "keywords": [
+            "full stack",
+            "frontend",
+            "backend"
+          ],
+          "name": "Full Stack Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "data science": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Builds analytical and predictive models.",
+          "id": "data_scientist",
+          "importance": 8,
+          "keywords": [
+            "data science",
+            "machine learning",
+            "python"
+          ],
+          "name": "Data Scientist",
+          "required_skill_ids": []
+        }
+      ],
+      "django": [
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "fastapi": [
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "flask": [
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "frontend": [
+        {
+          "aliases": [
+            "frontend engineer",
+            "ui developer",
+            "react developer"
+          ],
+          "deprecated": false,
+          "description": "Develops modern web user interfaces.",
+          "id": "frontend_developer",
+          "importance": 8,
+          "keywords": [
+            "frontend",
+            "react",
+            "typescript",
+            "javascript"
+          ],
+          "name": "Frontend Developer",
+          "required_skill_ids": []
+        },
+        {
+          "aliases": [
+            "full stack engineer",
+            "fullstack developer"
+          ],
+          "deprecated": false,
+          "description": "Develops both frontend and backend applications.",
+          "id": "full_stack_developer",
+          "importance": 9,
+          "keywords": [
+            "full stack",
+            "frontend",
+            "backend"
+          ],
+          "name": "Full Stack Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "full stack": [
+        {
+          "aliases": [
+            "full stack engineer",
+            "fullstack developer"
+          ],
+          "deprecated": false,
+          "description": "Develops both frontend and backend applications.",
+          "id": "full_stack_developer",
+          "importance": 9,
+          "keywords": [
+            "full stack",
+            "frontend",
+            "backend"
+          ],
+          "name": "Full Stack Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "generative ai": [
+        {
+          "aliases": [
+            "artificial intelligence engineer",
+            "llm engineer"
+          ],
+          "deprecated": false,
+          "description": "Develops AI-powered applications and LLM systems.",
+          "id": "ai_engineer",
+          "importance": 9,
+          "keywords": [
+            "ai",
+            "llm",
+            "generative ai"
+          ],
+          "name": "AI Engineer",
+          "required_skill_ids": []
+        }
+      ],
+      "java": [
+        {
+          "aliases": [
+            "java developer"
+          ],
+          "deprecated": false,
+          "description": "Develops enterprise backend systems using Java.",
+          "id": "java_developer",
+          "importance": 9,
+          "keywords": [
+            "java",
+            "spring boot"
+          ],
+          "name": "Java Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "api_design"
+          ]
+        }
+      ],
+      "javascript": [
+        {
+          "aliases": [
+            "frontend engineer",
+            "ui developer",
+            "react developer"
+          ],
+          "deprecated": false,
+          "description": "Develops modern web user interfaces.",
+          "id": "frontend_developer",
+          "importance": 8,
+          "keywords": [
+            "frontend",
+            "react",
+            "typescript",
+            "javascript"
+          ],
+          "name": "Frontend Developer",
+          "required_skill_ids": []
+        }
+      ],
+      "llm": [
+        {
+          "aliases": [
+            "artificial intelligence engineer",
+            "llm engineer"
+          ],
+          "deprecated": false,
+          "description": "Develops AI-powered applications and LLM systems.",
+          "id": "ai_engineer",
+          "importance": 9,
+          "keywords": [
+            "ai",
+            "llm",
+            "generative ai"
+          ],
+          "name": "AI Engineer",
+          "required_skill_ids": []
+        }
+      ],
+      "machine learning": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Builds analytical and predictive models.",
+          "id": "data_scientist",
+          "importance": 8,
+          "keywords": [
+            "data science",
+            "machine learning",
+            "python"
+          ],
+          "name": "Data Scientist",
+          "required_skill_ids": []
+        },
+        {
+          "aliases": [
+            "ml engineer"
+          ],
+          "deprecated": false,
+          "description": "Builds and deploys machine learning systems.",
+          "id": "machine_learning_engineer",
+          "importance": 9,
+          "keywords": [
+            "machine learning",
+            "python",
+            "ai"
+          ],
+          "name": "Machine Learning Engineer",
+          "required_skill_ids": []
+        }
+      ],
+      "python": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Builds analytical and predictive models.",
+          "id": "data_scientist",
+          "importance": 8,
+          "keywords": [
+            "data science",
+            "machine learning",
+            "python"
+          ],
+          "name": "Data Scientist",
+          "required_skill_ids": []
+        },
+        {
+          "aliases": [
+            "ml engineer"
+          ],
+          "deprecated": false,
+          "description": "Builds and deploys machine learning systems.",
+          "id": "machine_learning_engineer",
+          "importance": 9,
+          "keywords": [
+            "machine learning",
+            "python",
+            "ai"
+          ],
+          "name": "Machine Learning Engineer",
+          "required_skill_ids": []
+        },
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "react": [
+        {
+          "aliases": [
+            "frontend engineer",
+            "ui developer",
+            "react developer"
+          ],
+          "deprecated": false,
+          "description": "Develops modern web user interfaces.",
+          "id": "frontend_developer",
+          "importance": 8,
+          "keywords": [
+            "frontend",
+            "react",
+            "typescript",
+            "javascript"
+          ],
+          "name": "Frontend Developer",
+          "required_skill_ids": []
+        }
+      ],
+      "server-side": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        }
+      ],
+      "spring boot": [
+        {
+          "aliases": [
+            "java developer"
+          ],
+          "deprecated": false,
+          "description": "Develops enterprise backend systems using Java.",
+          "id": "java_developer",
+          "importance": 9,
+          "keywords": [
+            "java",
+            "spring boot"
+          ],
+          "name": "Java Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "api_design"
+          ]
+        }
+      ],
+      "typescript": [
+        {
+          "aliases": [
+            "frontend engineer",
+            "ui developer",
+            "react developer"
+          ],
+          "deprecated": false,
+          "description": "Develops modern web user interfaces.",
+          "id": "frontend_developer",
+          "importance": 8,
+          "keywords": [
+            "frontend",
+            "react",
+            "typescript",
+            "javascript"
+          ],
+          "name": "Frontend Developer",
+          "required_skill_ids": []
+        }
+      ]
+    },
+    "by_name": {
+      "ai engineer": {
+        "aliases": [
+          "artificial intelligence engineer",
+          "llm engineer"
+        ],
+        "deprecated": false,
+        "description": "Develops AI-powered applications and LLM systems.",
+        "id": "ai_engineer",
+        "importance": 9,
+        "keywords": [
+          "ai",
+          "llm",
+          "generative ai"
+        ],
+        "name": "AI Engineer",
+        "required_skill_ids": []
+      },
+      "backend developer": {
+        "aliases": [
+          "backend engineer",
+          "api developer"
+        ],
+        "deprecated": false,
+        "description": "Develops scalable server-side applications and APIs.",
+        "id": "backend_developer",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development",
+          "api_design",
+          "authentication",
+          "authorization",
+          "server_side_programming"
+        ]
+      },
+      "data scientist": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Builds analytical and predictive models.",
+        "id": "data_scientist",
+        "importance": 8,
+        "keywords": [
+          "data science",
+          "machine learning",
+          "python"
+        ],
+        "name": "Data Scientist",
+        "required_skill_ids": []
+      },
+      "frontend developer": {
+        "aliases": [
+          "frontend engineer",
+          "ui developer",
+          "react developer"
+        ],
+        "deprecated": false,
+        "description": "Develops modern web user interfaces.",
+        "id": "frontend_developer",
+        "importance": 8,
+        "keywords": [
+          "frontend",
+          "react",
+          "typescript",
+          "javascript"
+        ],
+        "name": "Frontend Developer",
+        "required_skill_ids": []
+      },
+      "full stack developer": {
+        "aliases": [
+          "full stack engineer",
+          "fullstack developer"
+        ],
+        "deprecated": false,
+        "description": "Develops both frontend and backend applications.",
+        "id": "full_stack_developer",
+        "importance": 9,
+        "keywords": [
+          "full stack",
+          "frontend",
+          "backend"
+        ],
+        "name": "Full Stack Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "rest_api_development"
+        ]
+      },
+      "java backend developer": {
+        "aliases": [
+          "java developer"
+        ],
+        "deprecated": false,
+        "description": "Develops enterprise backend systems using Java.",
+        "id": "java_developer",
+        "importance": 9,
+        "keywords": [
+          "java",
+          "spring boot"
+        ],
+        "name": "Java Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "api_design"
+        ]
+      },
+      "machine learning engineer": {
+        "aliases": [
+          "ml engineer"
+        ],
+        "deprecated": false,
+        "description": "Builds and deploys machine learning systems.",
+        "id": "machine_learning_engineer",
+        "importance": 9,
+        "keywords": [
+          "machine learning",
+          "python",
+          "ai"
+        ],
+        "name": "Machine Learning Engineer",
+        "required_skill_ids": []
+      },
+      "python backend developer": {
+        "aliases": [
+          "python developer"
+        ],
+        "deprecated": false,
+        "description": "Builds backend systems using Python frameworks.",
+        "id": "python_developer",
+        "importance": 9,
+        "keywords": [
+          "python",
+          "fastapi",
+          "django",
+          "flask"
+        ],
+        "name": "Python Backend Developer",
+        "required_skill_ids": [
+          "backend_development",
+          "server_side_programming",
+          "rest_api_development"
+        ]
+      }
+    },
+    "by_skill": {
+      "api_design": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        },
+        {
+          "aliases": [
+            "java developer"
+          ],
+          "deprecated": false,
+          "description": "Develops enterprise backend systems using Java.",
+          "id": "java_developer",
+          "importance": 9,
+          "keywords": [
+            "java",
+            "spring boot"
+          ],
+          "name": "Java Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "api_design"
+          ]
+        }
+      ],
+      "authentication": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        }
+      ],
+      "authorization": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        }
+      ],
+      "backend_development": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        },
+        {
+          "aliases": [
+            "full stack engineer",
+            "fullstack developer"
+          ],
+          "deprecated": false,
+          "description": "Develops both frontend and backend applications.",
+          "id": "full_stack_developer",
+          "importance": 9,
+          "keywords": [
+            "full stack",
+            "frontend",
+            "backend"
+          ],
+          "name": "Full Stack Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development"
+          ]
+        },
+        {
+          "aliases": [
+            "java developer"
+          ],
+          "deprecated": false,
+          "description": "Develops enterprise backend systems using Java.",
+          "id": "java_developer",
+          "importance": 9,
+          "keywords": [
+            "java",
+            "spring boot"
+          ],
+          "name": "Java Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "api_design"
+          ]
+        },
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "rest_api_development": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        },
+        {
+          "aliases": [
+            "full stack engineer",
+            "fullstack developer"
+          ],
+          "deprecated": false,
+          "description": "Develops both frontend and backend applications.",
+          "id": "full_stack_developer",
+          "importance": 9,
+          "keywords": [
+            "full stack",
+            "frontend",
+            "backend"
+          ],
+          "name": "Full Stack Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development"
+          ]
+        },
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ],
+      "server_side_programming": [
+        {
+          "aliases": [
+            "backend engineer",
+            "api developer"
+          ],
+          "deprecated": false,
+          "description": "Develops scalable server-side applications and APIs.",
+          "id": "backend_developer",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "rest_api_development",
+            "api_design",
+            "authentication",
+            "authorization",
+            "server_side_programming"
+          ]
+        },
+        {
+          "aliases": [
+            "java developer"
+          ],
+          "deprecated": false,
+          "description": "Develops enterprise backend systems using Java.",
+          "id": "java_developer",
+          "importance": 9,
+          "keywords": [
+            "java",
+            "spring boot"
+          ],
+          "name": "Java Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "api_design"
+          ]
+        },
+        {
+          "aliases": [
+            "python developer"
+          ],
+          "deprecated": false,
+          "description": "Builds backend systems using Python frameworks.",
+          "id": "python_developer",
+          "importance": 9,
+          "keywords": [
+            "python",
+            "fastapi",
+            "django",
+            "flask"
+          ],
+          "name": "Python Backend Developer",
+          "required_skill_ids": [
+            "backend_development",
+            "server_side_programming",
+            "rest_api_development"
+          ]
+        }
+      ]
+    }
+  },
+  "skill_index": {
+    "by_alias": {
+      "backend engineering": {
+        "aliases": [
+          "backend engineering",
+          "server side development"
+        ],
+        "deprecated": false,
+        "description": "Develop server-side applications and business logic.",
+        "id": "backend_development",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Development",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "rest api": {
+        "aliases": [
+          "rest api",
+          "restful api"
+        ],
+        "deprecated": false,
+        "description": "Design and build RESTful APIs.",
+        "id": "rest_api_development",
+        "importance": 10,
+        "keywords": [
+          "rest",
+          "api",
+          "http"
+        ],
+        "name": "REST API Development",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "restful api": {
+        "aliases": [
+          "rest api",
+          "restful api"
+        ],
+        "deprecated": false,
+        "description": "Design and build RESTful APIs.",
+        "id": "rest_api_development",
+        "importance": 10,
+        "keywords": [
+          "rest",
+          "api",
+          "http"
+        ],
+        "name": "REST API Development",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "server side": {
+        "aliases": [
+          "server side"
+        ],
+        "deprecated": false,
+        "description": "Develop business logic executed on servers.",
+        "id": "server_side_programming",
+        "importance": 8,
+        "keywords": [
+          "backend"
+        ],
+        "name": "Server-side Programming",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs"
+        ]
+      },
+      "server side development": {
+        "aliases": [
+          "backend engineering",
+          "server side development"
+        ],
+        "deprecated": false,
+        "description": "Develop server-side applications and business logic.",
+        "id": "backend_development",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Development",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      }
+    },
+    "by_id": {
+      "api_design": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Design scalable and maintainable APIs.",
+        "id": "api_design",
+        "importance": 9,
+        "keywords": [
+          "api design"
+        ],
+        "name": "API Design",
+        "technology_ids": [
+          "fastapi",
+          "spring_boot",
+          "express",
+          "django",
+          "flask"
+        ]
+      },
+      "authentication": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement user authentication systems.",
+        "id": "authentication",
+        "importance": 9,
+        "keywords": [
+          "login",
+          "jwt",
+          "oauth"
+        ],
+        "name": "Authentication",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "authorization": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement access control and permissions.",
+        "id": "authorization",
+        "importance": 9,
+        "keywords": [
+          "roles",
+          "permissions",
+          "access control"
+        ],
+        "name": "Authorization",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "backend_architecture": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Design scalable backend systems.",
+        "id": "backend_architecture",
+        "importance": 10,
+        "keywords": [
+          "architecture"
+        ],
+        "name": "Backend Architecture",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "spring_boot",
+          "fastapi"
+        ]
+      },
+      "backend_development": {
+        "aliases": [
+          "backend engineering",
+          "server side development"
+        ],
+        "deprecated": false,
+        "description": "Develop server-side applications and business logic.",
+        "id": "backend_development",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Development",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "microservices": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Develop distributed backend services.",
+        "id": "microservices",
+        "importance": 8,
+        "keywords": [
+          "microservice"
+        ],
+        "name": "Microservices",
+        "technology_ids": [
+          "spring_boot",
+          "fastapi",
+          "nodejs"
+        ]
+      },
+      "middleware_development": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement middleware components.",
+        "id": "middleware_development",
+        "importance": 7,
+        "keywords": [
+          "middleware"
+        ],
+        "name": "Middleware Development",
+        "technology_ids": [
+          "fastapi",
+          "express",
+          "django"
+        ]
+      },
+      "rest_api_development": {
+        "aliases": [
+          "rest api",
+          "restful api"
+        ],
+        "deprecated": false,
+        "description": "Design and build RESTful APIs.",
+        "id": "rest_api_development",
+        "importance": 10,
+        "keywords": [
+          "rest",
+          "api",
+          "http"
+        ],
+        "name": "REST API Development",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "server_side_programming": {
+        "aliases": [
+          "server side"
+        ],
+        "deprecated": false,
+        "description": "Develop business logic executed on servers.",
+        "id": "server_side_programming",
+        "importance": 8,
+        "keywords": [
+          "backend"
+        ],
+        "name": "Server-side Programming",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs"
+        ]
+      },
+      "web_services": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Develop HTTP-based services.",
+        "id": "web_services",
+        "importance": 8,
+        "keywords": [
+          "web service"
+        ],
+        "name": "Web Services",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      }
+    },
+    "by_keyword": {
+      "access control": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "api": [
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "api design": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        }
+      ],
+      "architecture": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        }
+      ],
+      "backend": [
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "server side"
+          ],
+          "deprecated": false,
+          "description": "Develop business logic executed on servers.",
+          "id": "server_side_programming",
+          "importance": 8,
+          "keywords": [
+            "backend"
+          ],
+          "name": "Server-side Programming",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs"
+          ]
+        }
+      ],
+      "http": [
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "jwt": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "login": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "microservice": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop distributed backend services.",
+          "id": "microservices",
+          "importance": 8,
+          "keywords": [
+            "microservice"
+          ],
+          "name": "Microservices",
+          "technology_ids": [
+            "spring_boot",
+            "fastapi",
+            "nodejs"
+          ]
+        }
+      ],
+      "middleware": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement middleware components.",
+          "id": "middleware_development",
+          "importance": 7,
+          "keywords": [
+            "middleware"
+          ],
+          "name": "Middleware Development",
+          "technology_ids": [
+            "fastapi",
+            "express",
+            "django"
+          ]
+        }
+      ],
+      "oauth": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "permissions": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "rest": [
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "roles": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "server-side": [
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "web service": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ]
+    },
+    "by_name": {
+      "api design": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Design scalable and maintainable APIs.",
+        "id": "api_design",
+        "importance": 9,
+        "keywords": [
+          "api design"
+        ],
+        "name": "API Design",
+        "technology_ids": [
+          "fastapi",
+          "spring_boot",
+          "express",
+          "django",
+          "flask"
+        ]
+      },
+      "authentication": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement user authentication systems.",
+        "id": "authentication",
+        "importance": 9,
+        "keywords": [
+          "login",
+          "jwt",
+          "oauth"
+        ],
+        "name": "Authentication",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "authorization": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement access control and permissions.",
+        "id": "authorization",
+        "importance": 9,
+        "keywords": [
+          "roles",
+          "permissions",
+          "access control"
+        ],
+        "name": "Authorization",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "backend architecture": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Design scalable backend systems.",
+        "id": "backend_architecture",
+        "importance": 10,
+        "keywords": [
+          "architecture"
+        ],
+        "name": "Backend Architecture",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "spring_boot",
+          "fastapi"
+        ]
+      },
+      "backend development": {
+        "aliases": [
+          "backend engineering",
+          "server side development"
+        ],
+        "deprecated": false,
+        "description": "Develop server-side applications and business logic.",
+        "id": "backend_development",
+        "importance": 10,
+        "keywords": [
+          "backend",
+          "server-side",
+          "api"
+        ],
+        "name": "Backend Development",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs",
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "microservices": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Develop distributed backend services.",
+        "id": "microservices",
+        "importance": 8,
+        "keywords": [
+          "microservice"
+        ],
+        "name": "Microservices",
+        "technology_ids": [
+          "spring_boot",
+          "fastapi",
+          "nodejs"
+        ]
+      },
+      "middleware development": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Implement middleware components.",
+        "id": "middleware_development",
+        "importance": 7,
+        "keywords": [
+          "middleware"
+        ],
+        "name": "Middleware Development",
+        "technology_ids": [
+          "fastapi",
+          "express",
+          "django"
+        ]
+      },
+      "rest api development": {
+        "aliases": [
+          "rest api",
+          "restful api"
+        ],
+        "deprecated": false,
+        "description": "Design and build RESTful APIs.",
+        "id": "rest_api_development",
+        "importance": 10,
+        "keywords": [
+          "rest",
+          "api",
+          "http"
+        ],
+        "name": "REST API Development",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      },
+      "server-side programming": {
+        "aliases": [
+          "server side"
+        ],
+        "deprecated": false,
+        "description": "Develop business logic executed on servers.",
+        "id": "server_side_programming",
+        "importance": 8,
+        "keywords": [
+          "backend"
+        ],
+        "name": "Server-side Programming",
+        "technology_ids": [
+          "python",
+          "java",
+          "nodejs"
+        ]
+      },
+      "web services": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "Develop HTTP-based services.",
+        "id": "web_services",
+        "importance": 8,
+        "keywords": [
+          "web service"
+        ],
+        "name": "Web Services",
+        "technology_ids": [
+          "fastapi",
+          "django",
+          "flask",
+          "spring_boot",
+          "express"
+        ]
+      }
+    },
+    "by_technology": {
+      "django": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement middleware components.",
+          "id": "middleware_development",
+          "importance": 7,
+          "keywords": [
+            "middleware"
+          ],
+          "name": "Middleware Development",
+          "technology_ids": [
+            "fastapi",
+            "express",
+            "django"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "express": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement middleware components.",
+          "id": "middleware_development",
+          "importance": 7,
+          "keywords": [
+            "middleware"
+          ],
+          "name": "Middleware Development",
+          "technology_ids": [
+            "fastapi",
+            "express",
+            "django"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "fastapi": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop distributed backend services.",
+          "id": "microservices",
+          "importance": 8,
+          "keywords": [
+            "microservice"
+          ],
+          "name": "Microservices",
+          "technology_ids": [
+            "spring_boot",
+            "fastapi",
+            "nodejs"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement middleware components.",
+          "id": "middleware_development",
+          "importance": 7,
+          "keywords": [
+            "middleware"
+          ],
+          "name": "Middleware Development",
+          "technology_ids": [
+            "fastapi",
+            "express",
+            "django"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "flask": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ],
+      "java": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "server side"
+          ],
+          "deprecated": false,
+          "description": "Develop business logic executed on servers.",
+          "id": "server_side_programming",
+          "importance": 8,
+          "keywords": [
+            "backend"
+          ],
+          "name": "Server-side Programming",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs"
+          ]
+        }
+      ],
+      "nodejs": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop distributed backend services.",
+          "id": "microservices",
+          "importance": 8,
+          "keywords": [
+            "microservice"
+          ],
+          "name": "Microservices",
+          "technology_ids": [
+            "spring_boot",
+            "fastapi",
+            "nodejs"
+          ]
+        },
+        {
+          "aliases": [
+            "server side"
+          ],
+          "deprecated": false,
+          "description": "Develop business logic executed on servers.",
+          "id": "server_side_programming",
+          "importance": 8,
+          "keywords": [
+            "backend"
+          ],
+          "name": "Server-side Programming",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs"
+          ]
+        }
+      ],
+      "python": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [
+            "server side"
+          ],
+          "deprecated": false,
+          "description": "Develop business logic executed on servers.",
+          "id": "server_side_programming",
+          "importance": 8,
+          "keywords": [
+            "backend"
+          ],
+          "name": "Server-side Programming",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs"
+          ]
+        }
+      ],
+      "spring_boot": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable and maintainable APIs.",
+          "id": "api_design",
+          "importance": 9,
+          "keywords": [
+            "api design"
+          ],
+          "name": "API Design",
+          "technology_ids": [
+            "fastapi",
+            "spring_boot",
+            "express",
+            "django",
+            "flask"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement user authentication systems.",
+          "id": "authentication",
+          "importance": 9,
+          "keywords": [
+            "login",
+            "jwt",
+            "oauth"
+          ],
+          "name": "Authentication",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Implement access control and permissions.",
+          "id": "authorization",
+          "importance": 9,
+          "keywords": [
+            "roles",
+            "permissions",
+            "access control"
+          ],
+          "name": "Authorization",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Design scalable backend systems.",
+          "id": "backend_architecture",
+          "importance": 10,
+          "keywords": [
+            "architecture"
+          ],
+          "name": "Backend Architecture",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "spring_boot",
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [
+            "backend engineering",
+            "server side development"
+          ],
+          "deprecated": false,
+          "description": "Develop server-side applications and business logic.",
+          "id": "backend_development",
+          "importance": 10,
+          "keywords": [
+            "backend",
+            "server-side",
+            "api"
+          ],
+          "name": "Backend Development",
+          "technology_ids": [
+            "python",
+            "java",
+            "nodejs",
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop distributed backend services.",
+          "id": "microservices",
+          "importance": 8,
+          "keywords": [
+            "microservice"
+          ],
+          "name": "Microservices",
+          "technology_ids": [
+            "spring_boot",
+            "fastapi",
+            "nodejs"
+          ]
+        },
+        {
+          "aliases": [
+            "rest api",
+            "restful api"
+          ],
+          "deprecated": false,
+          "description": "Design and build RESTful APIs.",
+          "id": "rest_api_development",
+          "importance": 10,
+          "keywords": [
+            "rest",
+            "api",
+            "http"
+          ],
+          "name": "REST API Development",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "Develop HTTP-based services.",
+          "id": "web_services",
+          "importance": 8,
+          "keywords": [
+            "web service"
+          ],
+          "name": "Web Services",
+          "technology_ids": [
+            "fastapi",
+            "django",
+            "flask",
+            "spring_boot",
+            "express"
+          ]
+        }
+      ]
+    }
+  },
+  "synonym_index": {
+    "by_alias": {
+      "ai": {
+        "aliases": [
+          "ai"
+        ],
+        "canonical": "Artificial Intelligence",
+        "case_sensitive": false,
+        "description": "",
+        "id": "artificial_intelligence"
+      },
+      "aws": {
+        "aliases": [
+          "aws"
+        ],
+        "canonical": "Amazon Web Services",
+        "case_sensitive": false,
+        "description": "",
+        "id": "amazon_web_services"
+      },
+      "azure": {
+        "aliases": [
+          "azure"
+        ],
+        "canonical": "Microsoft Azure",
+        "case_sensitive": false,
+        "description": "",
+        "id": "microsoft_azure"
+      },
+      "cd": {
+        "aliases": [
+          "cd"
+        ],
+        "canonical": "Continuous Deployment",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_deployment"
+      },
+      "ci": {
+        "aliases": [
+          "ci"
+        ],
+        "canonical": "Continuous Integration",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_integration"
+      },
+      "gcp": {
+        "aliases": [
+          "gcp"
+        ],
+        "canonical": "Google Cloud Platform",
+        "case_sensitive": false,
+        "description": "",
+        "id": "google_cloud_platform"
+      },
+      "js": {
+        "aliases": [
+          "js"
+        ],
+        "canonical": "JavaScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "javascript"
+      },
+      "ml": {
+        "aliases": [
+          "ml"
+        ],
+        "canonical": "Machine Learning",
+        "case_sensitive": false,
+        "description": "",
+        "id": "machine_learning"
+      },
+      "node": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "canonical": "Node.js",
+        "case_sensitive": false,
+        "description": "",
+        "id": "nodejs"
+      },
+      "node js": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "canonical": "Node.js",
+        "case_sensitive": false,
+        "description": "",
+        "id": "nodejs"
+      },
+      "react js": {
+        "aliases": [
+          "reactjs",
+          "react js"
+        ],
+        "canonical": "React",
+        "case_sensitive": false,
+        "description": "",
+        "id": "react"
+      },
+      "reactjs": {
+        "aliases": [
+          "reactjs",
+          "react js"
+        ],
+        "canonical": "React",
+        "case_sensitive": false,
+        "description": "",
+        "id": "react"
+      },
+      "springboot": {
+        "aliases": [
+          "springboot"
+        ],
+        "canonical": "Spring Boot",
+        "case_sensitive": false,
+        "description": "",
+        "id": "spring_boot"
+      },
+      "structured query language": {
+        "aliases": [
+          "structured query language"
+        ],
+        "canonical": "SQL",
+        "case_sensitive": false,
+        "description": "",
+        "id": "structured_query_language"
+      },
+      "ts": {
+        "aliases": [
+          "ts"
+        ],
+        "canonical": "TypeScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "typescript"
+      },
+      "vue js": {
+        "aliases": [
+          "vuejs",
+          "vue js"
+        ],
+        "canonical": "Vue",
+        "case_sensitive": false,
+        "description": "",
+        "id": "vue"
+      },
+      "vuejs": {
+        "aliases": [
+          "vuejs",
+          "vue js"
+        ],
+        "canonical": "Vue",
+        "case_sensitive": false,
+        "description": "",
+        "id": "vue"
+      }
+    },
+    "by_canonical": {
+      "amazon web services": {
+        "aliases": [
+          "aws"
+        ],
+        "canonical": "Amazon Web Services",
+        "case_sensitive": false,
+        "description": "",
+        "id": "amazon_web_services"
+      },
+      "artificial intelligence": {
+        "aliases": [
+          "ai"
+        ],
+        "canonical": "Artificial Intelligence",
+        "case_sensitive": false,
+        "description": "",
+        "id": "artificial_intelligence"
+      },
+      "continuous deployment": {
+        "aliases": [
+          "cd"
+        ],
+        "canonical": "Continuous Deployment",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_deployment"
+      },
+      "continuous integration": {
+        "aliases": [
+          "ci"
+        ],
+        "canonical": "Continuous Integration",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_integration"
+      },
+      "google cloud platform": {
+        "aliases": [
+          "gcp"
+        ],
+        "canonical": "Google Cloud Platform",
+        "case_sensitive": false,
+        "description": "",
+        "id": "google_cloud_platform"
+      },
+      "javascript": {
+        "aliases": [
+          "js"
+        ],
+        "canonical": "JavaScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "javascript"
+      },
+      "machine learning": {
+        "aliases": [
+          "ml"
+        ],
+        "canonical": "Machine Learning",
+        "case_sensitive": false,
+        "description": "",
+        "id": "machine_learning"
+      },
+      "microsoft azure": {
+        "aliases": [
+          "azure"
+        ],
+        "canonical": "Microsoft Azure",
+        "case_sensitive": false,
+        "description": "",
+        "id": "microsoft_azure"
+      },
+      "node.js": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "canonical": "Node.js",
+        "case_sensitive": false,
+        "description": "",
+        "id": "nodejs"
+      },
+      "react": {
+        "aliases": [
+          "reactjs",
+          "react js"
+        ],
+        "canonical": "React",
+        "case_sensitive": false,
+        "description": "",
+        "id": "react"
+      },
+      "spring boot": {
+        "aliases": [
+          "springboot"
+        ],
+        "canonical": "Spring Boot",
+        "case_sensitive": false,
+        "description": "",
+        "id": "spring_boot"
+      },
+      "sql": {
+        "aliases": [
+          "structured query language"
+        ],
+        "canonical": "SQL",
+        "case_sensitive": false,
+        "description": "",
+        "id": "structured_query_language"
+      },
+      "typescript": {
+        "aliases": [
+          "ts"
+        ],
+        "canonical": "TypeScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "typescript"
+      },
+      "vue": {
+        "aliases": [
+          "vuejs",
+          "vue js"
+        ],
+        "canonical": "Vue",
+        "case_sensitive": false,
+        "description": "",
+        "id": "vue"
+      }
+    },
+    "by_id": {
+      "amazon_web_services": {
+        "aliases": [
+          "aws"
+        ],
+        "canonical": "Amazon Web Services",
+        "case_sensitive": false,
+        "description": "",
+        "id": "amazon_web_services"
+      },
+      "artificial_intelligence": {
+        "aliases": [
+          "ai"
+        ],
+        "canonical": "Artificial Intelligence",
+        "case_sensitive": false,
+        "description": "",
+        "id": "artificial_intelligence"
+      },
+      "continuous_deployment": {
+        "aliases": [
+          "cd"
+        ],
+        "canonical": "Continuous Deployment",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_deployment"
+      },
+      "continuous_integration": {
+        "aliases": [
+          "ci"
+        ],
+        "canonical": "Continuous Integration",
+        "case_sensitive": false,
+        "description": "",
+        "id": "continuous_integration"
+      },
+      "google_cloud_platform": {
+        "aliases": [
+          "gcp"
+        ],
+        "canonical": "Google Cloud Platform",
+        "case_sensitive": false,
+        "description": "",
+        "id": "google_cloud_platform"
+      },
+      "javascript": {
+        "aliases": [
+          "js"
+        ],
+        "canonical": "JavaScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "javascript"
+      },
+      "machine_learning": {
+        "aliases": [
+          "ml"
+        ],
+        "canonical": "Machine Learning",
+        "case_sensitive": false,
+        "description": "",
+        "id": "machine_learning"
+      },
+      "microsoft_azure": {
+        "aliases": [
+          "azure"
+        ],
+        "canonical": "Microsoft Azure",
+        "case_sensitive": false,
+        "description": "",
+        "id": "microsoft_azure"
+      },
+      "nodejs": {
+        "aliases": [
+          "node",
+          "node js"
+        ],
+        "canonical": "Node.js",
+        "case_sensitive": false,
+        "description": "",
+        "id": "nodejs"
+      },
+      "react": {
+        "aliases": [
+          "reactjs",
+          "react js"
+        ],
+        "canonical": "React",
+        "case_sensitive": false,
+        "description": "",
+        "id": "react"
+      },
+      "spring_boot": {
+        "aliases": [
+          "springboot"
+        ],
+        "canonical": "Spring Boot",
+        "case_sensitive": false,
+        "description": "",
+        "id": "spring_boot"
+      },
+      "structured_query_language": {
+        "aliases": [
+          "structured query language"
+        ],
+        "canonical": "SQL",
+        "case_sensitive": false,
+        "description": "",
+        "id": "structured_query_language"
+      },
+      "typescript": {
+        "aliases": [
+          "ts"
+        ],
+        "canonical": "TypeScript",
+        "case_sensitive": false,
+        "description": "",
+        "id": "typescript"
+      },
+      "vue": {
+        "aliases": [
+          "vuejs",
+          "vue js"
+        ],
+        "canonical": "Vue",
+        "case_sensitive": false,
+        "description": "",
+        "id": "vue"
+      }
+    }
+  },
+  "technology_graph": {
+    "adjacency": {
+      "angular": [
+        "javascript",
+        "typescript"
+      ],
+      "django": [
+        "python"
+      ],
+      "express": [
+        "nodejs"
+      ],
+      "fastapi": [
+        "python"
+      ],
+      "flask": [
+        "python"
+      ],
+      "java": [
+        "spring_boot"
+      ],
+      "javascript": [
+        "angular",
+        "nodejs",
+        "react",
+        "vue"
+      ],
+      "nodejs": [
+        "express",
+        "javascript",
+        "typescript"
+      ],
+      "python": [
+        "django",
+        "fastapi",
+        "flask"
+      ],
+      "react": [
+        "javascript",
+        "typescript"
+      ],
+      "spring_boot": [
+        "java"
+      ],
+      "typescript": [
+        "angular",
+        "nodejs",
+        "react"
+      ],
+      "vue": [
+        "javascript"
+      ]
+    },
+    "nodes": {
+      "angular": {
+        "aliases": [],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Frontend framework.",
+        "id": "angular",
+        "keywords": [],
+        "name": "Angular",
+        "official_url": "https://angular.dev",
+        "related": [
+          "typescript"
+        ],
+        "tags": [
+          "frontend"
+        ]
+      },
+      "django": {
+        "aliases": [],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Python web framework.",
+        "id": "django",
+        "keywords": [],
+        "name": "Django",
+        "official_url": "https://djangoproject.com",
+        "related": [
+          "python"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "express": {
+        "aliases": [
+          "expressjs"
+        ],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Node.js web framework.",
+        "id": "express",
+        "keywords": [],
+        "name": "Express",
+        "official_url": "https://expressjs.com",
+        "related": [
+          "nodejs"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "fastapi": {
+        "aliases": [],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Modern Python API framework.",
+        "id": "fastapi",
+        "keywords": [],
+        "name": "FastAPI",
+        "official_url": "https://fastapi.tiangolo.com",
+        "related": [
+          "python"
+        ],
+        "tags": [
+          "backend",
+          "api"
+        ]
+      },
+      "flask": {
+        "aliases": [],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Lightweight Python web framework.",
+        "id": "flask",
+        "keywords": [],
+        "name": "Flask",
+        "official_url": "https://flask.palletsprojects.com",
+        "related": [
+          "python"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "java": {
+        "aliases": [],
+        "category_id": "programming_languages",
+        "deprecated": false,
+        "description": "Object-oriented programming language.",
+        "id": "java",
+        "keywords": [],
+        "name": "Java",
+        "official_url": "https://www.oracle.com/java/",
+        "related": [
+          "spring_boot"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "javascript": {
+        "aliases": [
+          "js"
+        ],
+        "category_id": "programming_languages",
+        "deprecated": false,
+        "description": "Programming language for web development.",
+        "id": "javascript",
+        "keywords": [],
+        "name": "JavaScript",
+        "official_url": "https://developer.mozilla.org/docs/Web/JavaScript",
+        "related": [
+          "nodejs",
+          "react",
+          "vue",
+          "angular"
+        ],
+        "tags": [
+          "frontend",
+          "backend"
+        ]
+      },
+      "nodejs": {
+        "aliases": [
+          "node"
+        ],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "JavaScript runtime.",
+        "id": "nodejs",
+        "keywords": [],
+        "name": "Node.js",
+        "official_url": "https://nodejs.org",
+        "related": [
+          "javascript",
+          "express"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "python": {
+        "aliases": [
+          "python3",
+          "py"
+        ],
+        "category_id": "programming_languages",
+        "deprecated": false,
+        "description": "General-purpose programming language.",
+        "id": "python",
+        "keywords": [],
+        "name": "Python",
+        "official_url": "https://python.org",
+        "related": [
+          "fastapi",
+          "django",
+          "flask"
+        ],
+        "tags": [
+          "backend",
+          "ai",
+          "automation"
+        ]
+      },
+      "react": {
+        "aliases": [
+          "reactjs"
+        ],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Frontend JavaScript library.",
+        "id": "react",
+        "keywords": [],
+        "name": "React",
+        "official_url": "https://react.dev",
+        "related": [
+          "typescript",
+          "javascript"
+        ],
+        "tags": [
+          "frontend"
+        ]
+      },
+      "spring_boot": {
+        "aliases": [
+          "springboot"
+        ],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Java backend framework.",
+        "id": "spring_boot",
+        "keywords": [],
+        "name": "Spring Boot",
+        "official_url": "https://spring.io/projects/spring-boot",
+        "related": [
+          "java"
+        ],
+        "tags": [
+          "backend"
+        ]
+      },
+      "typescript": {
+        "aliases": [
+          "ts"
+        ],
+        "category_id": "programming_languages",
+        "deprecated": false,
+        "description": "Typed superset of JavaScript.",
+        "id": "typescript",
+        "keywords": [],
+        "name": "TypeScript",
+        "official_url": "https://www.typescriptlang.org/",
+        "related": [
+          "angular",
+          "react",
+          "nodejs"
+        ],
+        "tags": [
+          "frontend",
+          "backend"
+        ]
+      },
+      "vue": {
+        "aliases": [
+          "vuejs"
+        ],
+        "category_id": "frameworks",
+        "deprecated": false,
+        "description": "Frontend framework.",
+        "id": "vue",
+        "keywords": [],
+        "name": "Vue",
+        "official_url": "https://vuejs.org",
+        "related": [
+          "javascript"
+        ],
+        "tags": [
+          "frontend"
+        ]
+      }
+    }
+  }
+}

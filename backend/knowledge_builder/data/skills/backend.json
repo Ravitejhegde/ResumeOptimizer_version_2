@@ -1,0 +1,183 @@
+[
+  {
+    "id": "backend_development",
+    "name": "Backend Development",
+    "description": "Develop server-side applications and business logic.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs",
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [
+      "backend engineering",
+      "server side development"
+    ],
+    "keywords": [
+      "backend",
+      "server-side",
+      "api"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "rest_api_development",
+    "name": "REST API Development",
+    "description": "Design and build RESTful APIs.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [
+      "rest api",
+      "restful api"
+    ],
+    "keywords": [
+      "rest",
+      "api",
+      "http"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "api_design",
+    "name": "API Design",
+    "description": "Design scalable and maintainable APIs.",
+    "technology_ids": [
+      "fastapi",
+      "spring_boot",
+      "express",
+      "django",
+      "flask"
+    ],
+    "aliases": [],
+    "keywords": [
+      "api design"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "server_side_programming",
+    "name": "Server-side Programming",
+    "description": "Develop business logic executed on servers.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs"
+    ],
+    "aliases": [
+      "server side"
+    ],
+    "keywords": [
+      "backend"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "authentication",
+    "name": "Authentication",
+    "description": "Implement user authentication systems.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "login",
+      "jwt",
+      "oauth"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "authorization",
+    "name": "Authorization",
+    "description": "Implement access control and permissions.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "roles",
+      "permissions",
+      "access control"
+    ],
+    "importance": 9
+  },
+  {
+    "id": "microservices",
+    "name": "Microservices",
+    "description": "Develop distributed backend services.",
+    "technology_ids": [
+      "spring_boot",
+      "fastapi",
+      "nodejs"
+    ],
+    "aliases": [],
+    "keywords": [
+      "microservice"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "web_services",
+    "name": "Web Services",
+    "description": "Develop HTTP-based services.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "web service"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "middleware_development",
+    "name": "Middleware Development",
+    "description": "Implement middleware components.",
+    "technology_ids": [
+      "fastapi",
+      "express",
+      "django"
+    ],
+    "aliases": [],
+    "keywords": [
+      "middleware"
+    ],
+    "importance": 7
+  },
+  {
+    "id": "backend_architecture",
+    "name": "Backend Architecture",
+    "description": "Design scalable backend systems.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs",
+      "spring_boot",
+      "fastapi"
+    ],
+    "aliases": [],
+    "keywords": [
+      "architecture"
+    ],
+    "importance": 10
+  }
+]

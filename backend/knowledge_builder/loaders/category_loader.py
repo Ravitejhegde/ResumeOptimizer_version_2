@@ -2,39 +2,38 @@
 knowledge_builder.loaders.category_loader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loads category definitions from JSON files and converts them into
-Category domain models.
+Loads category definitions from the Knowledge Database.
 
-Source Directory
+Responsibilities
 ----------------
-knowledge_builder/sources/categories/
+- Read category JSON files
+- Convert dictionaries into Category models
+- Return strongly typed objects
 
-Each JSON file may contain:
-
-1. A single category object
-2. A list of category objects
-
-The loader performs only parsing and model creation.
-Validation belongs to Validators.
-Storage belongs to KnowledgeStore.
+This loader intentionally does NOT:
+- Validate categories
+- Build indexes
+- Build relationships
+- Store data
 """
 
 from __future__ import annotations
 
-from pathlib import Path
-
+from knowledge_builder.config import (
+    CATEGORIES_DIRECTORY,
+)
 from knowledge_builder.loaders.base_loader import BaseLoader
 from knowledge_builder.models import Category
 
 
 class CategoryLoader(BaseLoader):
     """
-    Loads all knowledge categories.
+    Loads normalized categories.
     """
 
     def load(self) -> list[Category]:
         """
-        Load every category from the source directory.
+        Load every category from the configured directory.
 
         Returns
         -------
@@ -58,8 +57,7 @@ class CategoryLoader(BaseLoader):
 
             else:
                 raise TypeError(
-                    f"Unsupported JSON structure in "
-                    f"{file_path}"
+                    f"Unsupported JSON structure in {file_path}"
                 )
 
         categories.sort(
@@ -69,15 +67,10 @@ class CategoryLoader(BaseLoader):
         return categories
 
     @classmethod
-    def from_default_location(cls) -> "CategoryLoader":
+    def from_default_location(
+        cls,
+    ) -> "CategoryLoader":
         """
-        Create loader using the standard
-        Knowledge Builder directory structure.
+        Create a loader using the default Knowledge Database location.
         """
-        source_directory = (
-            Path(__file__).resolve().parent.parent
-            / "sources"
-            / "categories"
-        )
-
-        return cls(source_directory)
+        return cls(CATEGORIES_DIRECTORY)

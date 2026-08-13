@@ -5,7 +5,8 @@ knowledge_builder.builders
 Builders package for the Knowledge Builder.
 
 Builders transform a validated KnowledgeStore into optimized runtime
-artifacts such as indexes, graphs, and lookup tables.
+artifacts such as indexes, graphs, lookup tables, and the final
+KnowledgePackage.
 
 Architecture
 
@@ -19,10 +20,13 @@ KnowledgeBuilder
       ├── SkillIndexBuilder
       ├── RoleIndexBuilder
       ├── KeywordIndexBuilder
-      └── SynonymIndexBuilder
+      ├── SynonymIndexBuilder
       │
       ▼
 KnowledgeArtifacts
+      │
+      ▼
+KnowledgePackage
 
 Builders never:
 - Read raw source files
@@ -40,6 +44,7 @@ from .knowledge_builder import (
     KnowledgeArtifacts,
     KnowledgeBuilder,
 )
+from .knowledge_package import KnowledgePackage
 from .keyword_index_builder import (
     KeywordIndex,
     KeywordIndexBuilder,
@@ -84,4 +89,5 @@ __all__ = [
 
     "KnowledgeArtifacts",
     "KnowledgeBuilder",
+    "KnowledgePackage",
 ]

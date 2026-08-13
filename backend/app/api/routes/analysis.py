@@ -7,32 +7,25 @@ from fastapi import (
     Depends,
     HTTPException,
 )
-
 from sqlalchemy.orm import Session
-
 
 from app.database.session import (
     get_db,
 )
 
-
 from app.schemas.analysis import (
     ResumeAnalysisRequest,
 )
 
-
-from app.services.analysis.analysis_service import (
-    ResumeAnalysisService,
+from app.application.models.optimization_request import (
+    OptimizationRequest,
 )
 
-
-from app.knowledge.knowledge_manager import (
-    KnowledgeManager,
+from app.application.services.resume_optimization_service import (
+    ResumeOptimizationService,
 )
-
 
 logger = logging.getLogger(__name__)
-
 
 router = APIRouter(
     prefix="/analysis",
@@ -46,59 +39,34 @@ def match_resume(
     db: Session = Depends(get_db),
 ):
     """
-    Analyze uploaded resume against job description.
+    Analyze a resume using the new optimization workflow.
 
-    Flow:
-
-        API
-          |
-          v
-        ResumeAnalysisService
-          |
-          v
-        DocumentParser
-          |
-          v
-        DocumentAnalyzer
-          |
-          v
-        SkillComparator
+    NOTE:
+    This endpoint is temporarily adapted during the
+    migration from the old engine to the new engine.
     """
-
 
     try:
 
-        # ----------------------------------
-        # Knowledge dependency
-        # ----------------------------------
+        # -------------------------------------------------
+        # TODO:
+        # Replace this with ResumeRepository once the
+        # repository layer is migrated.
+        # -------------------------------------------------
 
-        knowledge = KnowledgeManager()
+        resume_path = ""
 
-        knowledge.initialize()
-
-
-        # ----------------------------------
-        # Service
-        # ----------------------------------
-
-        service = ResumeAnalysisService(
-            db=db,
-            knowledge=knowledge,
-        )
-
-
-        # ----------------------------------
-        # Execute analysis
-        # ----------------------------------
-
-        return service.analyze(
-
-            resume_id=request.resume_id,
-
+        optimization_request = OptimizationRequest(
+            resume_path=resume_path,
             job_description=request.job_description,
-
+            output_path="",
         )
 
+        service = ResumeOptimizationService()
+
+        return service.optimize(
+            optimization_request
+        )
 
     except FileNotFoundError as exc:
 
@@ -107,13 +75,11 @@ def match_resume(
             detail=str(exc),
         )
 
-
     except Exception:
 
         logger.exception(
-            "Resume analysis failed"
+            "Resume analysis failed."
         )
-
 
         raise HTTPException(
             status_code=500,
