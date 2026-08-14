@@ -113,6 +113,26 @@ class GuestRepository:
             .first()
         )
 
+    def get_session_with_guest(
+        self,
+        session_token: str,
+    ) -> GuestSession | None:
+        """
+        Return an active guest session by token.
+
+        The returned session belongs to a Guest through
+        GuestSession.guest.
+        """
+
+        return (
+            self.db.query(GuestSession)
+            .filter(
+                GuestSession.session_token == session_token,
+                GuestSession.active.is_(True),
+            )
+            .first()
+        )   
+
     def touch_guest(
         self,
         guest: Guest,

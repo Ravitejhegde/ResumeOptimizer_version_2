@@ -23,7 +23,7 @@ from .usage_event import UsageEvent
 from .user import User
 from .webhook_event import WebhookEvent
 from .workspace import Workspace
-
+from .referral import Referral
 
 __all__ = [
     "Download",
@@ -43,5 +43,6 @@ __all__ = [
     "UsageEvent",
     "User",
     "WebhookEvent",
+    "Referral",
     "Workspace",
 ]

@@ -74,3 +74,5 @@ def db() -> Session:
         session.rollback()
     finally:
         session.close()
+
+        

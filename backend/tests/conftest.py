@@ -1,130 +1,70 @@
-"""
-Shared pytest fixtures for Knowledge Builder tests.
-"""
-
 from __future__ import annotations
 
-from pathlib import Path
+from collections.abc import Generator
 
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.pool import StaticPool
 
-from knowledge_builder.builders import (
-    KnowledgeArtifacts,
-    KnowledgeBuilder,
-)
-from knowledge_builder.main import (
-    build_knowledge_store,
-)
-from knowledge_builder.models import (
-    KnowledgeStore,
-)
-
-
-@pytest.fixture(scope="session")
-def knowledge_store() -> KnowledgeStore:
-    """
-    Build a validated KnowledgeStore once for the entire test session.
-    """
-    return build_knowledge_store()
-
-
-@pytest.fixture(scope="session")
-def knowledge_artifacts(
-    knowledge_store: KnowledgeStore,
-) -> KnowledgeArtifacts:
-    """
-    Build runtime artifacts once for the test session.
-    """
-    return KnowledgeBuilder(
-        knowledge_store,
-    ).build()
+from app.database import models  # noqa: F401
+from app.database.base import Base
 
 
 @pytest.fixture
-def output_directory(
-    tmp_path: Path,
-) -> Path:
+def test_engine():
     """
-    Temporary output directory used by exporter tests.
+    Create a fresh in-memory SQLite database engine
+    for each test.
     """
-    output = tmp_path / "knowledge_output"
-    output.mkdir(
-        parents=True,
-        exist_ok=True,
+
+    engine = create_engine(
+        "sqlite:///:memory:",
+        echo=False,
+        connect_args={
+            "check_same_thread": False,
+        },
+        poolclass=StaticPool,
     )
-    return output
+
+    Base.metadata.create_all(bind=engine)
+
+    try:
+        yield engine
+    finally:
+        Base.metadata.drop_all(bind=engine)
+        engine.dispose()
 
 
 @pytest.fixture
-def empty_directory(
-    tmp_path: Path,
-) -> Path:
+def db_session(
+    test_engine,
+) -> Generator[Session, None, None]:
     """
-    Empty directory for filesystem-related tests.
+    Provide an isolated SQLAlchemy session for each test.
     """
-    directory = tmp_path / "empty"
-    directory.mkdir(
-        parents=True,
-        exist_ok=True,
+
+    TestingSessionLocal = sessionmaker(
+        autocommit=False,
+        autoflush=False,
+        expire_on_commit=False,
+        bind=test_engine,
     )
-    return directory
+
+    db = TestingSessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 @pytest.fixture
-def category_index(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
+def db(
+    db_session: Session,
+) -> Session:
     """
-    Reusable CategoryIndex fixture.
+    Backward-compatible alias for db_session.
     """
-    return knowledge_artifacts.category_index
 
-
-@pytest.fixture
-def technology_graph(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
-    """
-    Reusable TechnologyGraph fixture.
-    """
-    return knowledge_artifacts.technology_graph
-
-
-@pytest.fixture
-def skill_index(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
-    """
-    Reusable SkillIndex fixture.
-    """
-    return knowledge_artifacts.skill_index
-
-
-@pytest.fixture
-def role_index(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
-    """
-    Reusable RoleIndex fixture.
-    """
-    return knowledge_artifacts.role_index
-
-
-@pytest.fixture
-def keyword_index(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
-    """
-    Reusable KeywordIndex fixture.
-    """
-    return knowledge_artifacts.keyword_index
-
-
-@pytest.fixture
-def synonym_index(
-    knowledge_artifacts: KnowledgeArtifacts,
-):
-    """
-    Reusable SynonymIndex fixture.
-    """
-    return knowledge_artifacts.synonym_index
+    return db_session

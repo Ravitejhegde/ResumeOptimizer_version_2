@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class GuestUsageResponse(BaseModel):
@@ -21,3 +21,26 @@ class GuestUsageResponse(BaseModel):
     share_rewards: int
 
     max_share_rewards: int
+
+
+class GuestShareRewardRequest(BaseModel):
+    """
+    Request to claim a guest sharing reward.
+    """
+
+    session_token: str = Field(
+        min_length=1,
+        max_length=255,
+    )
+
+
+class GuestShareRewardResponse(BaseModel):
+    """
+    Result of a successfully claimed sharing reward.
+    """
+
+    message: str
+
+    reward_samples: int
+
+    usage: GuestUsageResponse
