@@ -2,6 +2,10 @@ from pydantic import BaseModel, Field
 
 
 class GuestSessionRequest(BaseModel):
+    """
+    Request to create a guest session.
+    """
+
     browser_id: str = Field(
         min_length=1,
         max_length=120,
@@ -21,7 +25,14 @@ class GuestSessionRequest(BaseModel):
 
 
 class GuestSessionResponse(BaseModel):
+    """
+    Guest session returned to the client.
+    """
+
     guest_id: str
+
     session_token: str
+
     country: str
+
     language: str

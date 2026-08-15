@@ -21,11 +21,6 @@ router = APIRouter(
 )
 
 
-# ==========================================================
-# Create Referral
-# ==========================================================
-
-
 @router.post(
     "/create",
     response_model=ReferralCreateResponse,
@@ -34,14 +29,14 @@ def create_referral(
     payload: ReferralCreateRequest,
     session_token: str,
     db: Session = Depends(get_db),
-):
+) -> ReferralCreateResponse:
     """
-    Create a referral when a guest enters through
-    another guest's referral code.
+    Create a referral relationship for the guest
+    represented by the supplied session.
     """
 
     # ------------------------------------------------------
-    # Find referred guest from current session
+    # 1. Find active guest session
     # ------------------------------------------------------
 
     session = (
@@ -59,6 +54,10 @@ def create_referral(
             detail="Guest session not found.",
         )
 
+    # ------------------------------------------------------
+    # 2. Find referred guest
+    # ------------------------------------------------------
+
     referred_guest = (
         db.query(Guest)
         .filter(
@@ -74,10 +73,10 @@ def create_referral(
         )
 
     # ------------------------------------------------------
-    # Find referrer using referral code
+    # 3. Find referrer by referral code
     # ------------------------------------------------------
 
-    referrer = (
+    referrer_guest = (
         db.query(Guest)
         .filter(
             Guest.referral_code == payload.referral_code,
@@ -85,21 +84,21 @@ def create_referral(
         .first()
     )
 
-    if referrer is None:
+    if referrer_guest is None:
         raise HTTPException(
             status_code=404,
             detail="Referral code not found.",
         )
 
     # ------------------------------------------------------
-    # Create referral
+    # 4. Create referral
     # ------------------------------------------------------
 
     service = ReferralService(db)
 
     try:
         service.create_referral(
-            referrer=referrer,
+            referrer=referrer_guest,
             referred=referred_guest,
         )
 
@@ -108,6 +107,10 @@ def create_referral(
             status_code=400,
             detail=str(exc),
         ) from exc
+
+    # ------------------------------------------------------
+    # 5. Success
+    # ------------------------------------------------------
 
     return ReferralCreateResponse(
         success=True,

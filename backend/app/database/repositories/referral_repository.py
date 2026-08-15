@@ -7,10 +7,7 @@ from app.database.models.referral import Referral
 
 class ReferralRepository:
     """
-    Database access layer for referral records.
-
-    This class contains database queries only.
-    Referral business rules belong in ReferralService.
+    Database access for referral records.
     """
 
     def __init__(
@@ -19,18 +16,16 @@ class ReferralRepository:
     ) -> None:
         self.db = db
 
-    # ============================================================
+    # ==========================================================
     # Create
-    # ============================================================
+    # ==========================================================
 
     def create(
         self,
         referral: Referral,
     ) -> Referral:
         """
-        Add a referral to the current transaction.
-
-        Commit is intentionally handled by the service.
+        Persist a new referral.
         """
 
         self.db.add(referral)
@@ -38,14 +33,18 @@ class ReferralRepository:
 
         return referral
 
-    # ============================================================
-    # Get by ID
-    # ============================================================
+    # ==========================================================
+    # Queries
+    # ==========================================================
 
     def get_by_id(
         self,
         referral_id: str,
     ) -> Referral | None:
+        """
+        Return a referral by ID.
+        """
+
         return (
             self.db.query(Referral)
             .filter(
@@ -54,51 +53,14 @@ class ReferralRepository:
             .first()
         )
 
-    # ============================================================
-    # Get referral between two guests
-    # ============================================================
-
-    def get_by_referrer_and_referred(
-        self,
-        referrer_guest_id: str,
-        referred_guest_id: str,
-    ) -> Referral | None:
-        return (
-            self.db.query(Referral)
-            .filter(
-                Referral.referrer_guest_id
-                == referrer_guest_id,
-                Referral.referred_guest_id
-                == referred_guest_id,
-            )
-            .first()
-        )
-
-    # ============================================================
-    # Get referral that brought a guest
-    # ============================================================
-
-    def get_by_referred_guest(
-        self,
-        referred_guest_id: str,
-    ) -> Referral | None:
-        return (
-            self.db.query(Referral)
-            .filter(
-                Referral.referred_guest_id
-                == referred_guest_id,
-            )
-            .first()
-        )
-
-    # ============================================================
-    # Get referrals created by guest
-    # ============================================================
-
     def get_by_referrer(
         self,
         referrer_guest_id: str,
     ) -> list[Referral]:
+        """
+        Return all referrals created by a guest.
+        """
+
         return (
             self.db.query(Referral)
             .filter(
@@ -106,20 +68,62 @@ class ReferralRepository:
                 == referrer_guest_id,
             )
             .order_by(
-                Referral.created_at.desc(),
+                Referral.created_at.desc()
             )
             .all()
         )
 
-    # ============================================================
-    # Check relationship
-    # ============================================================
+    def get_by_referred(
+        self,
+        referred_guest_id: str,
+    ) -> Referral | None:
+        """
+        Return the referral that brought a guest
+        into the application.
+        """
+
+        return (
+            self.db.query(Referral)
+            .filter(
+                Referral.referred_guest_id
+                == referred_guest_id,
+            )
+            .first()
+        )
+
+    def get_by_referrer_and_referred(
+        self,
+        referrer_guest_id: str,
+        referred_guest_id: str,
+    ) -> Referral | None:
+        """
+        Return a specific referral relationship.
+        """
+
+        return (
+            self.db.query(Referral)
+            .filter(
+                Referral.referrer_guest_id
+                == referrer_guest_id,
+                Referral.referred_guest_id
+                == referred_guest_id,
+            )
+            .first()
+        )
+
+    # ==========================================================
+    # Existence
+    # ==========================================================
 
     def exists_between(
         self,
         referrer_guest_id: str,
         referred_guest_id: str,
     ) -> bool:
+        """
+        Return True when a referral relationship already exists.
+        """
+
         return (
             self.db.query(Referral.id)
             .filter(
@@ -132,14 +136,18 @@ class ReferralRepository:
             is not None
         )
 
-    # ============================================================
-    # Count referrals
-    # ============================================================
+    # ==========================================================
+    # Counts
+    # ==========================================================
 
     def count_by_referrer(
         self,
         referrer_guest_id: str,
     ) -> int:
+        """
+        Count referrals created by a guest.
+        """
+
         return (
             self.db.query(Referral)
             .filter(
@@ -149,36 +157,14 @@ class ReferralRepository:
             .count()
         )
 
-    # ============================================================
-    # Unrewarded referrals
-    # ============================================================
-
-    def get_unrewarded_by_referrer(
-        self,
-        referrer_guest_id: str,
-    ) -> list[Referral]:
-        return (
-            self.db.query(Referral)
-            .filter(
-                Referral.referrer_guest_id
-                == referrer_guest_id,
-                Referral.status == "completed",
-                Referral.reward_granted.is_(False),
-            )
-            .order_by(
-                Referral.created_at.asc(),
-            )
-            .all()
-        )
-
-    # ============================================================
-    # Rewarded referrals
-    # ============================================================
-
     def count_rewarded_by_referrer(
         self,
         referrer_guest_id: str,
     ) -> int:
+        """
+        Count referrals whose reward was granted.
+        """
+
         return (
             self.db.query(Referral)
             .filter(
@@ -189,18 +175,63 @@ class ReferralRepository:
             .count()
         )
 
-    # ============================================================
+    def count_pending_by_referrer(
+        self,
+        referrer_guest_id: str,
+    ) -> int:
+        """
+        Count completed referrals whose reward
+        has not yet been granted.
+        """
+
+        return (
+            self.db.query(Referral)
+            .filter(
+                Referral.referrer_guest_id
+                == referrer_guest_id,
+                Referral.status == "completed",
+                Referral.reward_granted.is_(False),
+            )
+            .count()
+        )
+
+    # ==========================================================
+    # Reward Queries
+    # ==========================================================
+
+    def get_unrewarded_by_referrer(
+        self,
+        referrer_guest_id: str,
+    ) -> list[Referral]:
+        """
+        Return completed referrals that have not
+        received their reward yet.
+        """
+
+        return (
+            self.db.query(Referral)
+            .filter(
+                Referral.referrer_guest_id
+                == referrer_guest_id,
+                Referral.status == "completed",
+                Referral.reward_granted.is_(False),
+            )
+            .order_by(
+                Referral.created_at.asc()
+            )
+            .all()
+        )
+
+    # ==========================================================
     # Update
-    # ============================================================
+    # ==========================================================
 
     def update(
         self,
         referral: Referral,
     ) -> Referral:
         """
-        Flush changes without committing.
-
-        Transaction ownership remains with the service.
+        Flush changes to an existing referral.
         """
 
         self.db.flush()

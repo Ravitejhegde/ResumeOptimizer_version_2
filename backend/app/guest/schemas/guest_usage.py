@@ -44,3 +44,24 @@ class GuestShareRewardResponse(BaseModel):
     reward_samples: int
 
     usage: GuestUsageResponse
+
+
+class GuestOptimizationRequest(BaseModel):
+    """
+    Request to optimize a guest resume.
+    """
+
+    session_token: str = Field(
+        min_length=1,
+        max_length=255,
+    )
+
+    resume_id: str = Field(
+        min_length=1,
+        max_length=36,
+    )
+
+    job_description: str = Field(
+        min_length=10,
+        max_length=20000,
+    )
