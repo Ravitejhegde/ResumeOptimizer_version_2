@@ -29,6 +29,22 @@ class GuestRepository:
             .first()
         )
 
+    def get_by_referral_code(
+        self,
+        referral_code: str,
+    ) -> Guest | None:
+        """
+        Return the guest who owns the supplied referral code.
+        """
+
+        return (
+            self.db.query(Guest)
+            .filter(
+                Guest.referral_code == referral_code,
+            )
+            .first()
+        )
+
     def create_guest(
         self,
         browser_id: str,
@@ -119,9 +135,6 @@ class GuestRepository:
     ) -> GuestSession | None:
         """
         Return an active guest session by token.
-
-        The returned session belongs to a Guest through
-        GuestSession.guest.
         """
 
         return (
@@ -131,7 +144,7 @@ class GuestRepository:
                 GuestSession.active.is_(True),
             )
             .first()
-        )   
+        )
 
     def touch_guest(
         self,

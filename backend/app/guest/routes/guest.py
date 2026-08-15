@@ -58,15 +58,26 @@ def create_guest_session(
 ):
     """
     Create or retrieve an anonymous guest session.
+
+    If a referral code is supplied, associate the
+    new guest with the referrer.
     """
 
     service = GuestService(db)
 
-    guest, session = service.create_or_get_session(
-        browser_id=payload.browser_id,
-        country=payload.country,
-        language=payload.language,
-    )
+    try:
+        guest, session = service.create_or_get_session(
+            browser_id=payload.browser_id,
+            country=payload.country,
+            language=payload.language,
+            referral_code=payload.referral_code,
+        )
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        ) from exc
 
     return GuestSessionResponse(
         guest_id=guest.id,
@@ -74,8 +85,6 @@ def create_guest_session(
         country=session.country,
         language=session.language,
     )
-
-
 # ==========================================================
 # Guest Usage
 # ==========================================================

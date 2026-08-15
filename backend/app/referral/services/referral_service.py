@@ -1,22 +1,43 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
 from app.database.models.guest import Guest
 from app.database.models.referral import Referral
+from app.database.models.guest_session import GuestSession
+from app.database.models.usage_event import UsageEvent
 from app.database.repositories.referral_repository import (
     ReferralRepository,
 )
 
 
+REFERRAL_REWARD_SAMPLES = 2
+REFERRAL_REWARD_EVENT = "share_reward_earned"
+
+
 class ReferralService:
     """
     Business logic for guest referrals.
+
+    Referral lifecycle:
+
+        pending
+            ↓
+        completed
+            ↓
+        reward granted
+
+    A completed referral grants exactly two samples
+    to the referrer guest.
     """
 
-    def __init__(self, db: Session) -> None:
+    def __init__(
+        self,
+        db: Session,
+    ) -> None:
         self.db = db
         self.repository = ReferralRepository(db)
 
@@ -39,7 +60,7 @@ class ReferralService:
             )
 
         existing = self.repository.get_by_referred(
-            referred.id
+            referred.id,
         )
 
         if existing is not None:
@@ -66,6 +87,9 @@ class ReferralService:
     ) -> Referral:
         """
         Mark a pending referral as completed.
+
+        Completion alone does not grant the reward.
+        Call grant_reward() after completion.
         """
 
         if referral.status != "pending":
@@ -86,20 +110,96 @@ class ReferralService:
         referral: Referral,
     ) -> Referral:
         """
-        Grant the reward for a completed referral.
+        Grant two samples to the referrer.
+
+        The reward is represented by a UsageEvent belonging
+        to the referrer's guest session.
+
+        Reward is granted exactly once.
         """
+
+        # ------------------------------------------------------
+        # Referral must be completed
+        # ------------------------------------------------------
 
         if referral.status != "completed":
             raise ValueError(
                 "Referral is not eligible for reward."
             )
 
+        # ------------------------------------------------------
+        # Prevent duplicate reward
+        # ------------------------------------------------------
+
         if referral.reward_granted:
             raise ValueError(
                 "Referral reward has already been granted."
             )
 
-        referral.reward_granted = True
-        referral.rewarded_at = datetime.now(timezone.utc)
+        # ------------------------------------------------------
+        # Find referrer session
+        #
+        # We intentionally do NOT require active=True.
+        #
+        # A referral reward belongs to the referrer guest,
+        # not necessarily the referrer's current browser session.
+        # ------------------------------------------------------
 
-        return self.repository.update(referral)
+        referrer_session = (
+            self.db.query(
+                GuestSession
+            )
+            .filter(
+                GuestSession.guest_id
+                == referral.referrer_guest_id,
+            )
+            .order_by(
+                GuestSession.created_at.desc(),
+            )
+            .first()
+        )
+
+        if referrer_session is None:
+            raise ValueError(
+                "Referrer has no guest session."
+            )
+
+        # ------------------------------------------------------
+        # Create reward event
+        # ------------------------------------------------------
+
+        reward_event = UsageEvent(
+            guest_session_id=referrer_session.id,
+            event_type=REFERRAL_REWARD_EVENT,
+            resource_type="referral",
+            resource_id=referral.id,
+            event_metadata=json.dumps(
+                {
+                    "samples": REFERRAL_REWARD_SAMPLES,
+                    "referral_id": referral.id,
+                    "referred_guest_id": (
+                        referral.referred_guest_id
+                    ),
+                }
+            ),
+        )
+
+        self.db.add(reward_event)
+
+        # ------------------------------------------------------
+        # Mark referral rewarded
+        # ------------------------------------------------------
+
+        referral.reward_granted = True
+        referral.rewarded_at = datetime.now(
+            timezone.utc,
+        )
+
+        updated = self.repository.update(
+            referral,
+        )
+
+        self.db.commit()
+        self.db.refresh(updated)
+
+        return updated

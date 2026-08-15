@@ -4,6 +4,9 @@ from pydantic import BaseModel, Field
 class GuestSessionRequest(BaseModel):
     """
     Request to create a guest session.
+
+    referral_code is optional because a normal visitor
+    may enter the application without a referral.
     """
 
     browser_id: str = Field(
@@ -21,6 +24,12 @@ class GuestSessionRequest(BaseModel):
         default="en",
         min_length=2,
         max_length=10,
+    )
+
+    referral_code: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=64,
     )
 
 

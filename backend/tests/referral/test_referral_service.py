@@ -1,10 +1,19 @@
 from __future__ import annotations
 
+import uuid
+
 import pytest
 from sqlalchemy.orm import Session
 
 from app.database.models.guest import Guest
+from app.database.models.guest_session import GuestSession
 from app.referral.services.referral_service import ReferralService
+from app.database.models.guest_session import GuestSession
+from app.database.models.usage_event import UsageEvent
+
+# ============================================================
+# Test Helpers
+# ============================================================
 
 
 def create_guest(
@@ -22,6 +31,25 @@ def create_guest(
     db.refresh(guest)
 
     return guest
+
+
+def create_session(
+    db: Session,
+    guest: Guest,
+) -> GuestSession:
+    session = GuestSession(
+        guest_id=guest.id,
+        session_token=f"session-{uuid.uuid4()}",
+        country="IN",
+        language="en",
+        active=True,
+    )
+
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+
+    return session
 
 
 # ============================================================
@@ -174,6 +202,14 @@ def test_completed_referral_can_be_rewarded(
         "browser-2",
     )
 
+    # Referrer must have a session because the current
+    # reward implementation records the reward event
+    # against a guest session.
+    create_session(
+        db_session,
+        referrer,
+    )
+
     service = ReferralService(db_session)
 
     referral = service.create_referral(
@@ -246,6 +282,14 @@ def test_referral_cannot_be_rewarded_twice(
         "browser-2",
     )
 
+    # Referrer must have a session because the current
+    # reward implementation records the reward event
+    # against a guest session.
+    create_session(
+        db_session,
+        referrer,
+    )
+
     service = ReferralService(db_session)
 
     referral = service.create_referral(
@@ -268,3 +312,57 @@ def test_referral_cannot_be_rewarded_twice(
         service.grant_reward(
             referral,
         )
+
+def test_referral_reward_creates_usage_event(
+    db_session: Session,
+) -> None:
+    referrer = create_guest(
+        db_session,
+        "browser-1",
+    )
+
+    referred = create_guest(
+        db_session,
+        "browser-2",
+    )
+
+    referrer_session = GuestSession(
+        guest_id=referrer.id,
+        session_token="referrer-session",
+        country="IN",
+        language="en",
+        active=True,
+    )
+
+    db_session.add(referrer_session)
+    db_session.commit()
+
+    service = ReferralService(db_session)
+
+    referral = service.create_referral(
+        referrer=referrer,
+        referred=referred,
+    )
+
+    service.complete_referral(
+        referral,
+    )
+
+    service.grant_reward(
+        referral,
+    )
+
+    event = (
+        db_session.query(UsageEvent)
+        .filter(
+            UsageEvent.guest_session_id
+            == referrer_session.id,
+            UsageEvent.event_type
+            == "share_reward_earned",
+        )
+        .first()
+    )
+
+    assert event is not None
+    assert event.resource_type == "referral"
+    assert event.resource_id == referral.id

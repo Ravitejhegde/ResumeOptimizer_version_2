@@ -11,8 +11,12 @@ from app.application.services.resume_optimization_service import (
 )
 from app.database.models.guest import Guest
 from app.database.models.guest_resume import GuestResume
+from app.database.models.referral import Referral
 from app.guest.services.guest_usage_service import (
     GuestUsageService,
+)
+from app.referral.services.referral_service import (
+    ReferralService,
 )
 
 
@@ -26,12 +30,18 @@ class GuestOptimizationService:
     Guest-specific rules live here.
     The actual resume optimization is delegated to the
     existing ResumeOptimizationService.
+
+    A successful first optimization by a referred guest
+    completes the referral and grants the referrer
+    two additional samples.
     """
 
     def __init__(self, db) -> None:
         self.db = db
 
         self.usage_service = GuestUsageService(db)
+
+        self.referral_service = ReferralService(db)
 
         self.optimization_service = (
             ResumeOptimizationService()
@@ -48,6 +58,10 @@ class GuestOptimizationService:
         Optimize a guest resume.
 
         Usage is consumed only after successful optimization.
+
+        If this guest was referred and this is their first
+        successful optimization, the referral is completed
+        and the referrer receives two samples.
         """
 
         # --------------------------------------------------
@@ -117,7 +131,7 @@ class GuestOptimizationService:
             )
 
             # --------------------------------------------------
-            # Consume usage ONLY after success
+            # Optimization must succeed
             # --------------------------------------------------
 
             if not result.success:
@@ -125,9 +139,24 @@ class GuestOptimizationService:
                     result.message
                 )
 
+            # --------------------------------------------------
+            # Consume B's optimization
+            # --------------------------------------------------
+
             self.usage_service.consume_optimization(
                 guest=guest,
                 guest_session_id=guest_session_id,
+            )
+
+            # --------------------------------------------------
+            # Complete referral
+            #
+            # IMPORTANT:
+            # This happens only after successful optimization.
+            # --------------------------------------------------
+
+            self._complete_referral_if_eligible(
+                referred_guest=guest,
             )
 
             return result
@@ -140,3 +169,61 @@ class GuestOptimizationService:
             )
 
             raise
+
+    # ==========================================================
+    # Referral
+    # ==========================================================
+
+    def _complete_referral_if_eligible(
+        self,
+        referred_guest: Guest,
+    ) -> None:
+        """
+        Complete and reward the referral belonging to this guest.
+
+        Only a pending referral is eligible.
+
+        If the guest was not referred, nothing happens.
+
+        If the referral was already completed/rewarded,
+        nothing happens.
+        """
+
+        referral = (
+            self.db.query(Referral)
+            .filter(
+                Referral.referred_guest_id
+                == referred_guest.id,
+                Referral.status == "pending",
+                Referral.reward_granted.is_(False),
+            )
+            .first()
+        )
+
+        if referral is None:
+            return
+
+        # ------------------------------------------------------
+        # Complete referral
+        # ------------------------------------------------------
+
+        self.referral_service.complete_referral(
+            referral,
+        )
+
+        # ------------------------------------------------------
+        # Grant A's reward
+        # ------------------------------------------------------
+
+        self.referral_service.grant_reward(
+            referral,
+        )
+
+        logger.info(
+            "Referral completed and reward granted: "
+            "referral_id=%s referred_guest_id=%s "
+            "referrer_guest_id=%s",
+            referral.id,
+            referral.referred_guest_id,
+            referral.referrer_guest_id,
+        )
