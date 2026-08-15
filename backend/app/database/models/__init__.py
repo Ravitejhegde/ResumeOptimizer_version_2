@@ -24,6 +24,8 @@ from .user import User
 from .webhook_event import WebhookEvent
 from .workspace import Workspace
 from .referral import Referral
+from .guest_resume import GuestResume
+
 
 __all__ = [
     "Download",
@@ -44,5 +46,6 @@ __all__ = [
     "User",
     "WebhookEvent",
     "Referral",
+    "GuestResume",
     "Workspace",
 ]
