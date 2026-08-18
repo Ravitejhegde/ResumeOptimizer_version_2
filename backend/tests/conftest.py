@@ -14,7 +14,7 @@ from app.database.base import Base
 @pytest.fixture
 def test_engine():
     """
-    Create a fresh in-memory SQLite database engine
+    Create a fresh in-memory SQLite database
     for each test.
     """
 

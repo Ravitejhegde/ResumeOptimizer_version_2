@@ -132,6 +132,7 @@ def test_guest_optimization_success(
             "output_path": str(output_path),
         },
     )()
+    output_path.write_bytes(b"fake optimized docx")
 
     with patch(
         "app.guest.services.guest_optimization_service."

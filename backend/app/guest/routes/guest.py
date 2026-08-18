@@ -312,7 +312,11 @@ def optimize_guest_resume(
         ) from exc
 
     except Exception as exc:
+        import traceback
+
+        traceback.print_exc()
+
         raise HTTPException(
             status_code=500,
-            detail="Guest resume optimization failed.",
+            detail=str(exc),
         ) from exc

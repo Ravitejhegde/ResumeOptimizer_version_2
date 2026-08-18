@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from uuid import uuid4
 
 from app.application.models.optimization_request import (
     OptimizationRequest,
@@ -28,12 +29,22 @@ class GuestOptimizationService:
     Coordinates guest resume optimization.
 
     Guest-specific rules live here.
+
     The actual resume optimization is delegated to the
     existing ResumeOptimizationService.
 
-    A successful first optimization by a referred guest
-    completes the referral and grants the referrer
-    two additional samples.
+    Responsibilities:
+
+        1. Validate guest resume ownership.
+        2. Validate guest session.
+        3. Validate guest usage.
+        4. Validate the source DOCX.
+        5. Execute resume optimization.
+        6. Verify optimization success.
+        7. Verify the generated output artifact.
+        8. Consume one guest optimization sample.
+        9. Complete an eligible referral.
+       10. Grant the referrer's reward.
     """
 
     def __init__(self, db) -> None:
@@ -47,6 +58,10 @@ class GuestOptimizationService:
             ResumeOptimizationService()
         )
 
+    # ==========================================================
+    # Optimization
+    # ==========================================================
+
     def optimize(
         self,
         guest: Guest,
@@ -59,44 +74,45 @@ class GuestOptimizationService:
 
         Usage is consumed only after successful optimization.
 
-        If this guest was referred and this is their first
-        successful optimization, the referral is completed
-        and the referrer receives two samples.
+        A referral is completed only after the referred guest
+        successfully completes an optimization.
         """
 
-        # --------------------------------------------------
-        # Validate ownership
-        # --------------------------------------------------
+        # ------------------------------------------------------
+        # 1. Validate resume ownership
+        # ------------------------------------------------------
 
-        if guest_resume.guest_id != guest.id:
-            raise ValueError(
-                "Guest resume does not belong to this guest."
-            )
+        self._validate_resume_ownership(
+            guest=guest,
+            guest_resume=guest_resume,
+        )
 
-        # --------------------------------------------------
-        # Validate session
-        # --------------------------------------------------
+        # ------------------------------------------------------
+        # 2. Validate guest session
+        # ------------------------------------------------------
 
         self.usage_service._get_valid_session(
             guest=guest,
             guest_session_id=guest_session_id,
         )
 
-        # --------------------------------------------------
-        # Check usage
-        # --------------------------------------------------
+        # ------------------------------------------------------
+        # 3. Check guest usage
+        # ------------------------------------------------------
 
-        if not self.usage_service.can_optimize(guest):
+        if not self.usage_service.can_optimize(
+            guest,
+        ):
             raise ValueError(
                 "Guest optimization limit reached."
             )
 
-        # --------------------------------------------------
-        # Validate source file
-        # --------------------------------------------------
+        # ------------------------------------------------------
+        # 4. Validate source resume
+        # ------------------------------------------------------
 
         resume_path = Path(
-            guest_resume.file_path
+            guest_resume.file_path,
         )
 
         if not resume_path.exists():
@@ -104,43 +120,87 @@ class GuestOptimizationService:
                 "Guest resume file is no longer available."
             )
 
-        # --------------------------------------------------
-        # Output file
-        # --------------------------------------------------
+        if not resume_path.is_file():
+            raise FileNotFoundError(
+                "Guest resume file is invalid."
+            )
 
-        output_path = (
-            resume_path.parent
-            / f"{resume_path.stem}_optimized.docx"
+        # ------------------------------------------------------
+        # 5. Create requested output path
+        # ------------------------------------------------------
+
+        requested_output_path = self._build_output_path(
+            resume_path,
         )
 
-        # --------------------------------------------------
-        # Existing optimization engine
-        # --------------------------------------------------
+        # ------------------------------------------------------
+        # 6. Build optimization request
+        # ------------------------------------------------------
 
         request = OptimizationRequest(
             resume_path=str(resume_path),
             job_description=job_description,
-            output_path=str(output_path),
+            output_path=str(requested_output_path),
         )
 
+        # Track the artifact actually generated by the
+        # optimization engine.
+        generated_output_path: Path | None = None
+
         try:
+            # --------------------------------------------------
+            # 7. Execute existing optimization engine
+            # --------------------------------------------------
+
             result = (
                 self.optimization_service.optimize(
-                    request
+                    request,
                 )
             )
 
             # --------------------------------------------------
-            # Optimization must succeed
+            # 8. Verify optimization result
             # --------------------------------------------------
 
             if not result.success:
                 raise ValueError(
-                    result.message
+                    result.message,
                 )
 
             # --------------------------------------------------
-            # Consume B's optimization
+            # 9. Validate returned output path
+            #
+            # The optimization service is authoritative about
+            # the artifact it actually generated.
+            # --------------------------------------------------
+
+            if not result.output_path:
+                raise FileNotFoundError(
+                    "Optimization completed but no "
+                    "output path was returned."
+                )
+
+            generated_output_path = Path(
+                result.output_path,
+            )
+
+            # --------------------------------------------------
+            # 10. Verify generated output exists
+            # --------------------------------------------------
+
+            if not generated_output_path.exists():
+                raise FileNotFoundError(
+                    "Optimization completed but the "
+                    "optimized resume was not generated."
+                )
+
+            if not generated_output_path.is_file():
+                raise FileNotFoundError(
+                    "Optimization output is invalid."
+                )
+
+            # --------------------------------------------------
+            # 11. Consume guest usage
             # --------------------------------------------------
 
             self.usage_service.consume_optimization(
@@ -149,14 +209,24 @@ class GuestOptimizationService:
             )
 
             # --------------------------------------------------
-            # Complete referral
-            #
-            # IMPORTANT:
-            # This happens only after successful optimization.
+            # 12. Complete eligible referral
             # --------------------------------------------------
 
             self._complete_referral_if_eligible(
                 referred_guest=guest,
+            )
+
+            # --------------------------------------------------
+            # 13. Success
+            # --------------------------------------------------
+
+            logger.info(
+                "Guest resume optimization completed: "
+                "guest_id=%s guest_resume_id=%s "
+                "output_path=%s",
+                guest.id,
+                guest_resume.id,
+                generated_output_path,
             )
 
             return result
@@ -164,11 +234,78 @@ class GuestOptimizationService:
         except Exception:
             logger.exception(
                 "Guest resume optimization failed: "
-                "guest_resume_id=%s",
+                "guest_id=%s guest_resume_id=%s",
+                guest.id,
                 guest_resume.id,
             )
 
+            # --------------------------------------------------
+            # Remove generated output if optimization failed.
+            #
+            # IMPORTANT:
+            # Delete the artifact returned by the optimizer,
+            # not merely the requested path.
+            # --------------------------------------------------
+
+            if (
+                generated_output_path is not None
+                and generated_output_path.exists()
+            ):
+                try:
+                    generated_output_path.unlink()
+
+                except OSError:
+                    logger.exception(
+                        "Failed to remove partial optimization "
+                        "output: %s",
+                        generated_output_path,
+                    )
+
             raise
+
+    # ==========================================================
+    # Validation
+    # ==========================================================
+
+    @staticmethod
+    def _validate_resume_ownership(
+        guest: Guest,
+        guest_resume: GuestResume,
+    ) -> None:
+        """
+        Ensure the resume belongs to the supplied guest.
+        """
+
+        if guest_resume.guest_id != guest.id:
+            raise ValueError(
+                "Guest resume does not belong to this guest."
+            )
+
+    # ==========================================================
+    # Output
+    # ==========================================================
+
+    @staticmethod
+    def _build_output_path(
+        resume_path: Path,
+    ) -> Path:
+        """
+        Build a unique output filename.
+
+        This prevents repeated optimizations from overwriting
+        an earlier generated DOCX.
+        """
+
+        unique_id = uuid4().hex[:12]
+
+        return (
+            resume_path.parent
+            / (
+                f"{resume_path.stem}"
+                f"_optimized_{unique_id}"
+                f".docx"
+            )
+        )
 
     # ==========================================================
     # Referral
@@ -179,13 +316,14 @@ class GuestOptimizationService:
         referred_guest: Guest,
     ) -> None:
         """
-        Complete and reward the referral belonging to this guest.
+        Complete and reward the referral belonging to the
+        supplied guest.
 
-        Only a pending referral is eligible.
+        Only a pending, unrewarded referral is eligible.
 
         If the guest was not referred, nothing happens.
 
-        If the referral was already completed/rewarded,
+        If the referral was already completed or rewarded,
         nothing happens.
         """
 
@@ -212,7 +350,7 @@ class GuestOptimizationService:
         )
 
         # ------------------------------------------------------
-        # Grant A's reward
+        # Grant referrer's reward
         # ------------------------------------------------------
 
         self.referral_service.grant_reward(
@@ -221,7 +359,8 @@ class GuestOptimizationService:
 
         logger.info(
             "Referral completed and reward granted: "
-            "referral_id=%s referred_guest_id=%s "
+            "referral_id=%s "
+            "referred_guest_id=%s "
             "referrer_guest_id=%s",
             referral.id,
             referral.referred_guest_id,
