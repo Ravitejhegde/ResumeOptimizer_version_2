@@ -5,31 +5,30 @@ from sqlalchemy.orm import Session
 from app.database.models.payment_transaction import (
     PaymentTransaction,
 )
-
+from app.database.models.payment_transaction import (
+    PaymentTransaction,
+)
 
 class DatabaseTransactionRepository:
     """
-    Payment transaction database repository.
+    Billing payment transaction database repository.
 
     Responsibilities:
-        - Create transactions
-        - Update transactions
-        - Retrieve transactions
+        - Create payment transactions
+        - Update payment transactions
+        - Retrieve payment transactions
 
     Does not:
         - Handle Stripe logic
         - Handle webhook processing
-        - Handle payment rules
+        - Handle payment business rules
     """
-
 
     def __init__(
         self,
         db: Session,
     ) -> None:
-
         self.db = db
-
 
     # ==========================================================
     # Create
@@ -40,15 +39,14 @@ class DatabaseTransactionRepository:
         transaction: PaymentTransaction,
     ) -> PaymentTransaction:
         """
-        Create payment transaction.
+        Add a payment transaction to the current transaction.
+
+        The database transaction is not committed here.
         """
-
         self.db.add(transaction)
-
         self.db.flush()
 
         return transaction
-
 
     # ==========================================================
     # Update
@@ -59,15 +57,14 @@ class DatabaseTransactionRepository:
         transaction: PaymentTransaction,
     ) -> PaymentTransaction:
         """
-        Update payment transaction.
+        Update a payment transaction within the current transaction.
+
+        The database transaction is not committed here.
         """
-
         self.db.add(transaction)
-
         self.db.flush()
 
         return transaction
-
 
     # ==========================================================
     # Queries
@@ -78,48 +75,43 @@ class DatabaseTransactionRepository:
         transaction_id: str,
     ) -> PaymentTransaction | None:
         """
-        Get transaction by id.
+        Return a payment transaction by its primary key.
         """
-
         return (
             self.db.query(PaymentTransaction)
             .filter(
-                PaymentTransaction.id == transaction_id
+                PaymentTransaction.id == transaction_id,
             )
             .first()
         )
-
 
     def get_by_provider_transaction_id(
         self,
         provider_transaction_id: str,
     ) -> PaymentTransaction | None:
         """
-        Find transaction using Stripe payment id.
+        Return a payment transaction by its provider transaction ID.
         """
-
         return (
             self.db.query(PaymentTransaction)
             .filter(
                 PaymentTransaction.provider_transaction_id
-                == provider_transaction_id
+                == provider_transaction_id,
             )
             .first()
         )
-
 
     def get_by_order_id(
         self,
         order_id: str,
     ) -> PaymentTransaction | None:
         """
-        Find transaction by order.
+        Return a payment transaction belonging to an order.
         """
-
         return (
             self.db.query(PaymentTransaction)
             .filter(
-                PaymentTransaction.order_id == order_id
+                PaymentTransaction.order_id == order_id,
             )
             .first()
         )

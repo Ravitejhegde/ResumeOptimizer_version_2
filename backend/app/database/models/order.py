@@ -18,6 +18,7 @@ class Order(Base):
     Once payment succeeds, a Subscription is created for the user.
 
     Workflow:
+
         User
           ↓
         Order
@@ -148,8 +149,10 @@ class Order(Base):
 
     @property
     def is_paid(self) -> bool:
-        """Return True when the order has been successfully paid."""
-        return self.status == "paid"
+        """
+        Return True when the order has been successfully paid.
+        """
+        return self.status == "completed"
 
     # ==========================================================
     # Debugging

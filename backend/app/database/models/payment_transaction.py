@@ -100,6 +100,7 @@ class PaymentTransaction(Base):
         """Returns True if the payment failed."""
         return self.status == "failed"
 
+
     @property
     def is_pending(self) -> bool:
         """Returns True if the payment is awaiting completion."""

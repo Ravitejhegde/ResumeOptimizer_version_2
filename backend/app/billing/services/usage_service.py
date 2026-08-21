@@ -1,183 +1,178 @@
-from app.billing.services.pricing_service import (
-    PricingService,
+from __future__ import annotations
+
+from sqlalchemy.orm import Session
+
+from app.billing.services.entitlement_service import (
+    EntitlementService,
 )
 
 
 class UsageService:
     """
-    Handles feature usage and limits.
+    Handles feature usage and entitlement limits.
 
-    This service never hardcodes limits.
-    Limits are always loaded from pricing.json.
+    Usage limits are resolved from the user's active
+    subscription through EntitlementService.
+
+    This service does not hardcode plan limits.
     """
 
-    def __init__(self):
-
-        self.pricing = PricingService()
-
-    def limits(
+    def __init__(
         self,
-        *,
-        country: str,
-        plan: str,
-    ) -> dict:
-
-        return self.pricing.limits(
-
-            country=country,
-
-            plan=plan,
-
+        db: Session,
+    ) -> None:
+        self.entitlements = EntitlementService(
+            db,
         )
+
+    # ==========================================================
+    # Limit
+    # ==========================================================
 
     def limit(
         self,
         *,
-        country: str,
-        plan: str,
+        user_id: str,
         feature: str,
-    ) -> int:
+    ) -> int | None:
+        """
+        Return the user's limit for a feature.
 
-        limits = self.limits(
+        Returns:
+            Integer limit for the feature.
+            None means unlimited or no configured limit.
+        """
 
-            country=country,
-
-            plan=plan,
-
-        )
-
-        return limits.get(
-
+        return self.entitlements.integer_limit(
+            user_id,
             feature,
-
-            0,
-
         )
+
+    # ==========================================================
+    # Unlimited
+    # ==========================================================
 
     def unlimited(
         self,
         *,
-        country: str,
-        plan: str,
+        user_id: str,
         feature: str,
     ) -> bool:
+        """
+        Return True when the user's feature is unlimited.
+        """
 
-        return self.limit(
+        return (
+            self.limit(
+                user_id=user_id,
+                feature=feature,
+            )
+            is None
+        )
 
-            country=country,
-
-            plan=plan,
-
-            feature=feature,
-
-        ) == -1
+    # ==========================================================
+    # Can Use
+    # ==========================================================
 
     def can_use(
         self,
         *,
-        country: str,
-        plan: str,
+        user_id: str,
         feature: str,
         current_usage: int,
     ) -> bool:
+        """
+        Return True when the user can consume another unit
+        of the requested feature.
+        """
 
         limit = self.limit(
-
-            country=country,
-
-            plan=plan,
-
+            user_id=user_id,
             feature=feature,
-
         )
 
-        if limit == -1:
-
+        # None represents unlimited.
+        if limit is None:
             return True
 
         return current_usage < limit
 
+    # ==========================================================
+    # Remaining
+    # ==========================================================
+
     def remaining(
         self,
         *,
-        country: str,
-        plan: str,
+        user_id: str,
         feature: str,
         current_usage: int,
-    ) -> int:
+    ) -> int | None:
+        """
+        Return remaining feature usage.
+
+        Returns:
+            Remaining count.
+            None means unlimited.
+        """
 
         limit = self.limit(
-
-            country=country,
-
-            plan=plan,
-
+            user_id=user_id,
             feature=feature,
-
         )
 
-        if limit == -1:
-
-            return -1
-
-        remaining = limit - current_usage
+        if limit is None:
+            return None
 
         return max(
-
-            remaining,
-
+            limit - current_usage,
             0,
-
         )
+
+    # ==========================================================
+    # Usage Summary
+    # ==========================================================
 
     def usage_summary(
         self,
         *,
-        country: str,
-        plan: str,
-        current_usage: dict,
+        user_id: str,
+        usage: dict[str, int],
     ) -> dict:
+        """
+        Build a usage summary for the user's features.
 
-        limits = self.limits(
-
-            country=country,
-
-            plan=plan,
-
-        )
+        The feature list comes from the supplied usage mapping.
+        """
 
         summary = {}
 
-        for feature, limit in limits.items():
+        for feature, current_usage in usage.items():
 
-            used = current_usage.get(
-
-                feature,
-
-                0,
-
+            limit = self.limit(
+                user_id=user_id,
+                feature=feature,
             )
 
+            unlimited = limit is None
+
             summary[feature] = {
-
-                "used": used,
-
+                "used": current_usage,
                 "limit": limit,
-
-                "remaining": -1
-                if limit == -1
-                else max(limit - used, 0),
-
-                "unlimited": limit == -1,
-
-                "allowed": True
-                if limit == -1
-                else used < limit,
-
+                "remaining": (
+                    None
+                    if unlimited
+                    else max(
+                        limit - current_usage,
+                        0,
+                    )
+                ),
+                "unlimited": unlimited,
+                "allowed": (
+                    True
+                    if unlimited
+                    else current_usage < limit
+                ),
             }
 
         return summary
-
-
-
-

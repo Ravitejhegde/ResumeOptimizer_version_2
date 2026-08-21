@@ -13,15 +13,19 @@ class BasePaymentProvider(ABC):
         - RazorpayProvider
         - PayPalProvider
 
-    The application should never depend
-    directly on a payment provider.
+    Application/business logic must not depend directly
+    on a specific payment provider.
     """
+
+    # ==========================================================
+    # Provider Information
+    # ==========================================================
 
     @property
     @abstractmethod
     def name(self) -> str:
         """
-        Returns provider name.
+        Return the provider name.
         """
         raise NotImplementedError
 
@@ -37,7 +41,7 @@ class BasePaymentProvider(ABC):
         name: str,
     ) -> str:
         """
-        Creates a customer.
+        Create a customer with the payment provider.
 
         Returns:
             Provider customer ID.
@@ -56,12 +60,49 @@ class BasePaymentProvider(ABC):
         price_id: str,
         success_url: str,
         cancel_url: str,
+        client_reference_id: str | None = None,
+        metadata: dict[str, str] | None = None,
+        allow_promotion_codes: bool = True,
+        automatic_tax: bool = True,
     ) -> dict[str, Any]:
         """
-        Creates a checkout session.
+        Create a subscription checkout session.
+
+        Args:
+            customer_id:
+                Provider customer ID.
+
+            price_id:
+                Provider price ID.
+
+            success_url:
+                URL to redirect to after successful checkout.
+
+            cancel_url:
+                URL to redirect to if checkout is cancelled.
+
+            client_reference_id:
+                Application-side reference, normally the local
+                order ID.
+
+            metadata:
+                Metadata to attach to the checkout session.
+
+            allow_promotion_codes:
+                Whether customers can enter promotion codes.
+
+            automatic_tax:
+                Whether automatic tax calculation is enabled.
 
         Returns:
-            Provider checkout information.
+            Dictionary containing provider checkout information.
+
+            Expected structure:
+
+                {
+                    "id": "...",
+                    "url": "..."
+                }
         """
         raise NotImplementedError
 
@@ -77,10 +118,10 @@ class BasePaymentProvider(ABC):
         return_url: str,
     ) -> str:
         """
-        Creates customer billing portal.
+        Create a customer billing portal session.
 
         Returns:
-            Portal URL.
+            Billing portal URL.
         """
         raise NotImplementedError
 
@@ -95,7 +136,10 @@ class BasePaymentProvider(ABC):
         subscription_id: str,
     ) -> dict[str, Any]:
         """
-        Retrieves subscription information.
+        Retrieve subscription information.
+
+        Returns:
+            Provider subscription information.
         """
         raise NotImplementedError
 
@@ -106,7 +150,7 @@ class BasePaymentProvider(ABC):
         subscription_id: str,
     ) -> None:
         """
-        Cancels subscription.
+        Cancel a subscription.
         """
         raise NotImplementedError
 
@@ -122,7 +166,7 @@ class BasePaymentProvider(ABC):
         signature: str,
     ) -> dict[str, Any]:
         """
-        Verifies webhook signature.
+        Verify a provider webhook signature.
 
         Returns:
             Parsed webhook event.
@@ -140,9 +184,13 @@ class BasePaymentProvider(ABC):
         payment_id: str,
     ) -> dict[str, Any]:
         """
-        Creates payment refund.
+        Create a refund.
+
+        Args:
+            payment_id:
+                Provider payment/payment-intent identifier.
 
         Returns:
-            Refund information.
+            Provider refund information.
         """
         raise NotImplementedError

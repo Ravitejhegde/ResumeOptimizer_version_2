@@ -10,26 +10,32 @@ class DatabasePlanRepository:
     Billing plan database repository.
 
     Responsibilities:
-        - Retrieve plans
-    """
+        - Retrieve plans by code.
+        - Retrieve available plans.
 
+    Does not:
+        - Handle payment-provider logic.
+        - Handle checkout.
+        - Apply billing business rules.
+    """
 
     def __init__(
         self,
         db: Session,
     ) -> None:
-
         self.db = db
 
+    # ==========================================================
+    # Queries
+    # ==========================================================
 
     def get(
         self,
         plan_code: str,
     ) -> Plan | None:
         """
-        Get plan by code.
+        Return a plan by its code.
         """
-
         return (
             self.db.query(Plan)
             .filter(
@@ -38,14 +44,12 @@ class DatabasePlanRepository:
             .first()
         )
 
-
     def get_all(
         self,
     ) -> list[Plan]:
         """
         Return all available plans.
         """
-
         return (
             self.db.query(Plan)
             .all()

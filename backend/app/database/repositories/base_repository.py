@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.database.base import Base
 
+
 ModelType = TypeVar(
     "ModelType",
     bound=Base,
@@ -85,6 +86,8 @@ class BaseRepository(Generic[ModelType]):
     ) -> ModelType:
         """
         Persists a new object.
+
+        Commits the current transaction.
         """
         self.db.add(instance)
         self.db.commit()
@@ -98,6 +101,8 @@ class BaseRepository(Generic[ModelType]):
     ) -> list[ModelType]:
         """
         Persists multiple objects.
+
+        Commits the current transaction.
         """
         self.db.add_all(instances)
         self.db.commit()
@@ -106,6 +111,21 @@ class BaseRepository(Generic[ModelType]):
             self.db.refresh(instance)
 
         return instances
+
+    def create_flush(
+        self,
+        instance: ModelType,
+    ) -> ModelType:
+        """
+        Persists an object within the current transaction.
+
+        Does not commit the transaction.
+        """
+        self.db.add(instance)
+        self.db.flush()
+        self.db.refresh(instance)
+
+        return instance
 
     # ==========================================================
     # Update
@@ -123,6 +143,25 @@ class BaseRepository(Generic[ModelType]):
 
         return instance
 
+    def update_flush(
+        self,
+        instance: ModelType,
+    ) -> ModelType:
+        """
+        Flushes changes within the current transaction.
+
+        Does not commit the transaction.
+        """
+        self.db.add(instance)
+        self.db.flush()
+        self.db.refresh(instance)
+
+        return instance
+
+    # ==========================================================
+    # Refresh
+    # ==========================================================
+
     def refresh(
         self,
         instance: ModelType,
@@ -131,6 +170,7 @@ class BaseRepository(Generic[ModelType]):
         Refreshes an object from the database.
         """
         self.db.refresh(instance)
+
         return instance
 
     # ==========================================================
@@ -143,6 +183,8 @@ class BaseRepository(Generic[ModelType]):
     ) -> None:
         """
         Deletes an object.
+
+        Commits the current transaction.
         """
         self.db.delete(instance)
         self.db.commit()
@@ -160,6 +202,7 @@ class BaseRepository(Generic[ModelType]):
             return False
 
         self.delete(instance)
+
         return True
 
     def delete_all(

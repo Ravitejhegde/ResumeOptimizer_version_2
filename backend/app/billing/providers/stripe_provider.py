@@ -5,9 +5,9 @@ from typing import Any
 
 import stripe
 
+from app.billing.providers.base_provider import BasePaymentProvider
+from app.billing.providers.stripe.client import StripeClient
 from app.core.config import settings
-
-from .base_provider import BasePaymentProvider
 
 
 logger = logging.getLogger(__name__)
@@ -26,8 +26,7 @@ class StripeProvider(BasePaymentProvider):
     """
 
     def __init__(self) -> None:
-
-        stripe.api_key = settings.STRIPE_SECRET_KEY
+        self.stripe = StripeClient().client
 
     # ==========================================================
     # Provider Information
@@ -47,10 +46,8 @@ class StripeProvider(BasePaymentProvider):
         email: str,
         name: str,
     ) -> str:
-
         try:
-
-            customer = stripe.Customer.create(
+            customer = self.stripe.Customer.create(
                 email=email,
                 name=name,
             )
@@ -58,11 +55,9 @@ class StripeProvider(BasePaymentProvider):
             return customer.id
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe customer creation failed"
             )
-
             raise
 
     # ==========================================================
@@ -76,11 +71,13 @@ class StripeProvider(BasePaymentProvider):
         price_id: str,
         success_url: str,
         cancel_url: str,
+        client_reference_id: str | None = None,
+        metadata: dict[str, str] | None = None,
+        allow_promotion_codes: bool = True,
+        automatic_tax: bool = True,
     ) -> dict[str, Any]:
-
         try:
-
-            session = stripe.checkout.Session.create(
+            session = self.stripe.checkout.Session.create(
                 customer=customer_id,
                 mode="subscription",
                 line_items=[
@@ -91,10 +88,12 @@ class StripeProvider(BasePaymentProvider):
                 ],
                 success_url=success_url,
                 cancel_url=cancel_url,
+                client_reference_id=client_reference_id,
+                metadata=metadata or {},
                 billing_address_collection="auto",
-                allow_promotion_codes=True,
+                allow_promotion_codes=allow_promotion_codes,
                 automatic_tax={
-                    "enabled": True,
+                    "enabled": automatic_tax,
                 },
             )
 
@@ -104,11 +103,9 @@ class StripeProvider(BasePaymentProvider):
             }
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe checkout creation failed"
             )
-
             raise
 
     # ==========================================================
@@ -121,24 +118,18 @@ class StripeProvider(BasePaymentProvider):
         customer_id: str,
         return_url: str,
     ) -> str:
-
         try:
-
-            session = (
-                stripe.billing_portal.Session.create(
-                    customer=customer_id,
-                    return_url=return_url,
-                )
+            session = self.stripe.billing_portal.Session.create(
+                customer=customer_id,
+                return_url=return_url,
             )
 
             return session.url
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe billing portal creation failed"
             )
-
             raise
 
     # ==========================================================
@@ -150,19 +141,15 @@ class StripeProvider(BasePaymentProvider):
         *,
         subscription_id: str,
     ) -> None:
-
         try:
-
-            stripe.Subscription.delete(
+            self.stripe.Subscription.delete(
                 subscription_id
             )
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe subscription cancellation failed"
             )
-
             raise
 
     async def get_subscription(
@@ -170,23 +157,17 @@ class StripeProvider(BasePaymentProvider):
         *,
         subscription_id: str,
     ) -> dict[str, Any]:
-
         try:
-
-            subscription = (
-                stripe.Subscription.retrieve(
-                    subscription_id
-                )
+            subscription = self.stripe.Subscription.retrieve(
+                subscription_id
             )
 
             return dict(subscription)
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe subscription retrieval failed"
             )
-
             raise
 
     # ==========================================================
@@ -199,25 +180,19 @@ class StripeProvider(BasePaymentProvider):
         payload: bytes,
         signature: str,
     ) -> dict[str, Any]:
-
         try:
-
-            event = (
-                stripe.Webhook.construct_event(
-                    payload,
-                    signature,
-                    settings.STRIPE_WEBHOOK_SECRET,
-                )
+            event = self.stripe.Webhook.construct_event(
+                payload,
+                signature,
+                settings.STRIPE_WEBHOOK_SECRET,
             )
 
             return dict(event)
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe webhook verification failed"
             )
-
             raise
 
     # ==========================================================
@@ -229,19 +204,15 @@ class StripeProvider(BasePaymentProvider):
         *,
         payment_id: str,
     ) -> dict[str, Any]:
-
         try:
-
-            refund = stripe.Refund.create(
+            refund = self.stripe.Refund.create(
                 payment_intent=payment_id,
             )
 
             return dict(refund)
 
         except stripe.StripeError:
-
             logger.exception(
                 "Stripe refund creation failed"
             )
-
             raise

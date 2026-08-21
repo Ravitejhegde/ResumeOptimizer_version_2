@@ -133,6 +133,18 @@ class StripeWebhook:
 
         )
 
+    def subscription(
+        self,
+        subscription_id: str,
+    ) -> dict:
+        """
+        Retrieve a Stripe subscription by ID.
+        """
 
+        subscription = self.stripe.Subscription.retrieve(
+            subscription_id
+        )
+
+        return dict(subscription)
 
 

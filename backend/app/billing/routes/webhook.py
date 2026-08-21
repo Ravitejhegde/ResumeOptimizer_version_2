@@ -1,18 +1,15 @@
-from fastapi import (
-    APIRouter,
-    Depends,
-    HTTPException,
-    Request,
-)
+from __future__ import annotations
+
+import logging
+
+from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from sqlalchemy.orm import Session
 
-from app.billing.providers.stripe_provider import (
-    StripeProvider,
-)
-from app.billing.services.stripe_webhook_service import (
-    StripeWebhookService,
-)
+from app.billing.services.webhook_service import WebhookService
 from app.database.session import get_db
+
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(
     prefix="/billing",
@@ -20,73 +17,85 @@ router = APIRouter(
 )
 
 
-@router.post("/webhook/stripe")
+@router.post("/webhook")
 async def stripe_webhook(
-
     request: Request,
-
     db: Session = Depends(get_db),
+    stripe_signature: str | None = Header(
+        default=None,
+        alias="Stripe-Signature",
+    ),
+) -> dict:
+    """
+    Receive a Stripe webhook.
 
-):
+    HTTP responsibilities only:
+
+        1. Read request body.
+        2. Read Stripe signature.
+        3. Pass event to WebhookService.
+        4. Convert service errors into HTTP responses.
+
+    All billing business logic lives in WebhookService.
+    """
+
+    # ----------------------------------------------------------
+    # Stripe signature
+    # ----------------------------------------------------------
+
+    if not stripe_signature:
+        raise HTTPException(
+            status_code=400,
+            detail="Missing Stripe-Signature header.",
+        )
+
+    # ----------------------------------------------------------
+    # Raw request body
+    # ----------------------------------------------------------
 
     payload = await request.body()
 
-    signature = request.headers.get(
-        "Stripe-Signature"
-    )
+    if not payload:
+        raise HTTPException(
+            status_code=400,
+            detail="Empty webhook payload.",
+        )
 
-    provider = StripeProvider()
+    # ----------------------------------------------------------
+    # Business processing
+    # ----------------------------------------------------------
+
+    service = WebhookService(db)
 
     try:
-
-        event = provider.verify_webhook(
-
-            payload,
-
-            signature,
-
+        result = service.process(
+            payload=payload,
+            signature=stripe_signature,
         )
 
-    except Exception as e:
+        return result
+
+    except ValueError as exc:
+        db.rollback()
+
+        logger.warning(
+            "Stripe webhook rejected: %s",
+            exc,
+        )
 
         raise HTTPException(
-
             status_code=400,
+            detail=str(exc),
+        ) from exc
 
-            detail=str(e),
+    except Exception:
+        db.rollback()
 
+        logger.exception(
+            "Stripe webhook processing failed.",
         )
 
-    # -------------------------------------
-    # Payment Success
-    # -------------------------------------
-
-    if event["type"] == "checkout.session.completed":
-
-        session = event["data"]["object"]
-
-        service = StripeWebhookService(
-            db
+        raise HTTPException(
+            status_code=500,
+            detail="Webhook processing failed.",
         )
-
-        service.payment_success(
-
-            order_id=session["client_reference_id"],
-
-            transaction_id=session["payment_intent"],
-
-            amount=session["amount_total"] / 100,
-
-            currency=session["currency"].upper(),
-
-        )
-
-    return {
-
-        "received": True,
-
-    }
-
-
-
-

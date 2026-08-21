@@ -8,12 +8,17 @@ from app.database.models.pricing import Pricing
 
 class DatabasePricingRepository:
     """
-    Database repository for pricing configuration.
+    Billing pricing database repository.
 
     Responsibilities:
         - Retrieve pricing by plan and country.
-        - Retrieve all active pricing for a country.
+        - Retrieve active pricing for a country.
         - Keep database access separate from billing business logic.
+
+    Does not:
+        - Handle payment-provider logic.
+        - Create checkout sessions.
+        - Apply billing business rules.
     """
 
     def __init__(
@@ -22,19 +27,18 @@ class DatabasePricingRepository:
     ) -> None:
         self.db = db
 
+    # ==========================================================
+    # Queries
+    # ==========================================================
+
     def get(
         self,
         plan_code: str,
         country: str,
     ) -> Pricing | None:
         """
-        Get active pricing for a specific plan and country.
-
-        Example:
-            plan_code = "bronze"
-            country = "IN"
+        Return active pricing for a plan and country.
         """
-
         return (
             self.db.query(Pricing)
             .join(
@@ -57,17 +61,8 @@ class DatabasePricingRepository:
         """
         Return all active pricing options for a country.
 
-        The returned pricing belongs only to active plans.
-
-        Example:
-            GET /billing/pricing?country=IN
-
-        Returns:
-            Bronze
-            Silver
-            Gold
+        Only pricing belonging to active plans is returned.
         """
-
         return (
             self.db.query(Pricing)
             .join(
@@ -90,11 +85,7 @@ class DatabasePricingRepository:
     ) -> list[Pricing]:
         """
         Return all active pricing configurations.
-
-        Useful for administration, testing, and future
-        pricing-management functionality.
         """
-
         return (
             self.db.query(Pricing)
             .join(
