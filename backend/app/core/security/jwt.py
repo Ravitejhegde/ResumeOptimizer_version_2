@@ -110,8 +110,8 @@ class JWTService:
             (
                 expires_delta
                 or timedelta(
-                    days=30
-                )
+    days=settings.REFRESH_TOKEN_EXPIRE_DAYS
+)
             )
         )
 

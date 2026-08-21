@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import Session, sessionmaker
@@ -8,6 +9,8 @@ from sqlalchemy.orm import Session, sessionmaker
 from app.core.config import settings
 from app.database.base import Base
 from app.database.models import *  # noqa: F401,F403
+from app.database.session import get_db
+from app.main import app
 
 
 # ==========================================================
@@ -75,4 +78,24 @@ def db() -> Session:
     finally:
         session.close()
 
-        
+
+# ==========================================================
+# FastAPI Test Client
+# ==========================================================
+
+@pytest.fixture
+def client(db: Session):
+    """
+    Provide a FastAPI TestClient using the isolated
+    test database.
+    """
+
+    def override_get_db():
+        yield db
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    with TestClient(app) as test_client:
+        yield test_client
+
+    app.dependency_overrides.clear()
