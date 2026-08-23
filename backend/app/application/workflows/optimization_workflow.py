@@ -26,9 +26,7 @@ from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
 
-from app.evidence.services.evidence_service import (
-    EvidenceService,
-)
+
 
 from app.planner.services.planner import (
     Planner,
@@ -68,7 +66,7 @@ class OptimizationWorkflow:
         resume_understanding: ResumeUnderstandingService,
         job_understanding: JobUnderstandingService,
         gap_analysis: GapAnalysisService,
-        evidence: EvidenceService,
+        
         planner: Planner,
         optimizer: Optimizer,
         writer: Writer,
@@ -88,9 +86,7 @@ class OptimizationWorkflow:
             gap_analysis
         )
 
-        self._evidence = (
-            evidence
-        )
+        
 
         self._planner = (
             planner

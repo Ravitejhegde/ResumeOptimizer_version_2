@@ -50,8 +50,9 @@ class PromptBuilder:
             SYSTEM_PROMPT,
 
             build_resume_prompt(
-                request.resume
-            ),
+                request.document,
+                request.resume,
+            ),  
 
             build_job_prompt(
                 request.job

@@ -16,9 +16,7 @@ from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
 
-from app.evidence.services.evidence_service import (
-    EvidenceService,
-)
+
 
 from app.planner.services.planner import (
     Planner,
@@ -62,7 +60,7 @@ class ResumeOptimizationService:
 
             gap_analysis=GapAnalysisService(),
 
-            evidence=EvidenceService(),
+            
 
             planner=Planner(),
 
