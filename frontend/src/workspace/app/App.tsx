@@ -1,45 +1,84 @@
 import AppLayout from "../layout/AppLayout/AppLayout";
 
 import WorkspaceProvider from "../store/WorkspaceProvider";
+
 import { useWorkspace } from "../store/useWorkspace";
 
 import AnalysisWorkspace from "../screens/AnalysisWorkspace";
-import OptimizationWorkspace from "../screens/OptimizationWorkspace";
+
+import OptimizationWorkspace from
+  "../screens/OptimizationWorkspace";
+import PricingPage from
+  "../../features/billing/components/PricingPage";
+
+/* =========================================================
+   Workspace Router
+========================================================= */
 
 const WorkspaceRouter = () => {
 
-    const { state } = useWorkspace();
+  const {
+    state,
+  } = useWorkspace();
 
-    switch (state.step) {
+  switch (state.step) {
 
-        case "optimization":
+    case "optimization":
 
-            return <OptimizationWorkspace />;
+      return (
+        <OptimizationWorkspace />
+      );
 
-        default:
+    case "register":
 
-            return <AnalysisWorkspace />;
+      return (
+        <div>
+          Register screen coming next.
+        </div>
+      );
 
-    }
+    case "login":
 
+      return (
+        <div>
+          Login screen coming next.
+        </div>
+      );
+
+    case "pricing":
+
+  return (
+    <PricingPage />
+  );
+
+    case "analysis":
+
+    default:
+
+      return (
+        <AnalysisWorkspace />
+      );
+  }
 };
+
+/* =========================================================
+   App
+========================================================= */
 
 const App = () => {
 
-    return (
+  return (
 
-        <WorkspaceProvider>
+    <WorkspaceProvider>
 
-            <AppLayout>
+      <AppLayout>
 
-                <WorkspaceRouter />
+        <WorkspaceRouter />
 
-            </AppLayout>
+      </AppLayout>
 
-        </WorkspaceProvider>
-
-    );
-
+    </WorkspaceProvider>
+  );
 };
 
 export default App;

@@ -55,8 +55,6 @@ const AnalysisWorkspace = () => {
 
             });
 
-            console.log("Analysis Response:", result);
-
             setState(previous => ({
 
                 ...previous,
@@ -65,21 +63,24 @@ const AnalysisWorkspace = () => {
 
                 matchedSkills: result.matched_skills,
 
-                missingSkills: result.missing_skills
+                missingSkills: result.missing_skills,
+
+                selectedSkills: []
 
             }));
 
-        }
+        } catch (error) {
 
-        catch (error) {
+            console.error(
+                "Resume analysis failed:",
+                error
+            );
 
-            console.error(error);
+            alert(
+                "We couldn't analyze your resume. Please try again."
+            );
 
-            alert("Analysis failed.");
-
-        }
-
-        finally {
+        } finally {
 
             setLoading(false);
 
@@ -91,7 +92,7 @@ const AnalysisWorkspace = () => {
 
         if (!state.resume) {
 
-            alert("Upload resume first.");
+            alert("Please upload your resume first.");
 
             return;
 
@@ -99,7 +100,7 @@ const AnalysisWorkspace = () => {
 
         if (!state.jobDescription.trim()) {
 
-            alert("Please paste Job Description.");
+            alert("Please paste the Job Description.");
 
             return;
 
@@ -107,7 +108,9 @@ const AnalysisWorkspace = () => {
 
         if (state.selectedSkills.length === 0) {
 
-            alert("Please select at least one skill.");
+            alert(
+                "Select at least one missing skill to optimize."
+            );
 
             return;
 
@@ -127,33 +130,35 @@ const AnalysisWorkspace = () => {
 
             );
 
-            console.log("Optimization Response:", result);
-
             setState(previous => ({
 
                 ...previous,
 
-                optimizedFilename: result.optimized_filename,
+                optimizedFilename:
+                    result.optimized_filename,
 
-                previewBlocks: result.blocks,
+                previewBlocks:
+                    result.blocks,
 
-                previewLayout: result.layout,
+                previewLayout:
+                    result.layout,
 
                 step: "optimization"
 
             }));
 
-        }
+        } catch (error) {
 
-        catch (error) {
+            console.error(
+                "Resume optimization failed:",
+                error
+            );
 
-            console.error(error);
+            alert(
+                "We couldn't optimize your resume. Please try again."
+            );
 
-            alert("Optimization failed.");
-
-        }
-
-        finally {
+        } finally {
 
             setLoading(false);
 
@@ -175,21 +180,37 @@ const AnalysisWorkspace = () => {
                 {state.resume && (
 
                     <UploadedResumeCard
-                        filename={state.resume.filename}
-                        fileSize="Uploaded"
+
+                        filename={
+                            state.resume.filename
+                        }
+
+                        fileSize="Ready for analysis"
+
                         uploaded
+
                         onReplace={() => {}}
+
                         onRemove={() => {
 
                             setState(previous => ({
 
                                 ...previous,
 
-                                resume: null
+                                resume: null,
+
+                                atsScore: 0,
+
+                                matchedSkills: [],
+
+                                missingSkills: [],
+
+                                selectedSkills: []
 
                             }));
 
                         }}
+
                     />
 
                 )}
@@ -198,33 +219,53 @@ const AnalysisWorkspace = () => {
 
                 <JobDescriptionEditor
 
-                    value={state.jobDescription}
+                    value={
+                        state.jobDescription
+                    }
 
-                    analyzed={state.atsScore > 0}
+                    analyzed={
+                        state.atsScore > 0
+                    }
 
-                    onChange={(value) =>
+                    onChange={(value) => {
 
                         setState(previous => ({
 
                             ...previous,
 
-                            jobDescription: value
+                            jobDescription: value,
 
-                        }))
+                            atsScore: 0,
 
-                    }
+                            matchedSkills: [],
 
-                    onClear={() =>
+                            missingSkills: [],
+
+                            selectedSkills: []
+
+                        }));
+
+                    }}
+
+                    onClear={() => {
 
                         setState(previous => ({
 
                             ...previous,
 
-                            jobDescription: ""
+                            jobDescription: "",
 
-                        }))
+                            atsScore: 0,
 
-                    }
+                            matchedSkills: [],
+
+                            missingSkills: [],
+
+                            selectedSkills: []
+
+                        }));
+
+                    }}
 
                 />
 
@@ -232,7 +273,9 @@ const AnalysisWorkspace = () => {
 
                     loading={loading}
 
-                    onContinue={handleContinueAnalysis}
+                    onContinue={
+                        handleContinueAnalysis
+                    }
 
                 />
 
@@ -242,31 +285,51 @@ const AnalysisWorkspace = () => {
 
                 <ResumeAnalysisCard
 
-                    score={state.atsScore}
+                    score={
+                        state.atsScore
+                    }
 
-                    role={state.role}
+                    role=""
 
-                    experience={state.experience}
+                    experience={0}
 
-                    matchedSkills={state.matchedSkills}
+                    matchedSkills={
+                        state.matchedSkills
+                    }
 
-                    missingSkills={state.missingSkills}
+                    missingSkills={
+                        state.missingSkills
+                    }
 
-                    selectedSkills={state.selectedSkills}
+                    selectedSkills={
+                        state.selectedSkills
+                    }
 
                     onSkillToggle={(skill) => {
 
                         setState(previous => {
 
-                            const exists = previous.selectedSkills.includes(skill);
+                            const exists =
+                                previous.selectedSkills.includes(
+                                    skill
+                                );
 
                             return {
 
                                 ...previous,
 
-                                selectedSkills: exists
-                                    ? previous.selectedSkills.filter(item => item !== skill)
-                                    : [...previous.selectedSkills, skill]
+                                selectedSkills:
+                                    exists
+
+                                        ? previous.selectedSkills.filter(
+                                            item =>
+                                                item !== skill
+                                        )
+
+                                        : [
+                                            ...previous.selectedSkills,
+                                            skill
+                                        ]
 
                             };
 
@@ -280,7 +343,10 @@ const AnalysisWorkspace = () => {
 
                             ...previous,
 
-                            selectedSkills: [...previous.missingSkills]
+                            selectedSkills:
+                                [
+                                    ...previous.missingSkills
+                                ]
 
                         }));
 
@@ -298,7 +364,9 @@ const AnalysisWorkspace = () => {
 
                     }}
 
-                    onOptimize={handleOptimize}
+                    onOptimize={
+                        handleOptimize
+                    }
 
                     optimizing={loading}
 

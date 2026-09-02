@@ -4,7 +4,22 @@ from pydantic import (
     EmailStr,
     Field,
 )
+from typing import Literal
 
+
+# ==========================================================
+# Billing Interval
+# ==========================================================
+
+BillingInterval = Literal[
+    "monthly",
+    "yearly",
+]
+
+
+# ==========================================================
+# Checkout Request
+# ==========================================================
 
 class CheckoutRequest(BaseModel):
     """
@@ -33,9 +48,8 @@ class CheckoutRequest(BaseModel):
         max_length=50,
     )
 
-    interval: str = Field(
+    interval: BillingInterval = Field(
         default="monthly",
-        pattern="^(monthly|yearly)$",
     )
 
     provider: str = Field(
@@ -47,10 +61,16 @@ class CheckoutRequest(BaseModel):
     cancel_url: str
 
 
+# ==========================================================
+# Checkout Response
+# ==========================================================
+
 class CheckoutResponse(BaseModel):
     """
     Checkout response.
     """
+
+    order_id: str
 
     customer_id: str
 
@@ -64,16 +84,8 @@ class CheckoutResponse(BaseModel):
 
     plan: str
 
-    interval: str
+    interval: BillingInterval
 
     price: float
 
     currency: str
-
-    trial_days: int
-
-    features: list[str]
-
-
-
-

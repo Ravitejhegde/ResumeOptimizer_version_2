@@ -49,15 +49,16 @@ async def create_checkout(
         service = CheckoutService(db)
 
         result = await service.create_checkout(
-            user_id=current_user.id,
-            email=current_user.email,
-            name=current_user.name,
-            plan_code=request.plan,
-            country=request.country,
-            interval=request.interval,
-            success_url=request.success_url,
-            cancel_url=request.cancel_url,
-        )
+    user_id=current_user.id,
+    email=current_user.email,
+    name=current_user.name,
+    plan_code=request.plan,
+    country=request.country,
+    interval=request.interval,
+    success_url=request.success_url,
+    cancel_url=request.cancel_url,
+    provider=request.provider,
+)
 
         return CheckoutResponse(
             **result,

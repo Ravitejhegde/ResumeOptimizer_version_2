@@ -1,0 +1,192 @@
+.content {
+  padding: 28px 26px 24px;
+}
+
+.header {
+  position: relative;
+  padding-right: 28px;
+  margin-bottom: 28px;
+}
+
+.header h2 {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 24px;
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+}
+
+.header p {
+  margin: 8px 0 4px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.header strong {
+  color: var(--color-text-primary);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+.closeButton {
+  position: absolute;
+  top: -2px;
+  right: 0;
+
+  border: 0;
+  padding: 2px 4px;
+
+  background: transparent;
+  color: var(--color-text-secondary);
+
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: var(--color-text-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.otpLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.otpLabel span {
+  color: var(--color-text-primary);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.otpInput {
+  width: 100%;
+  box-sizing: border-box;
+
+  min-height: 54px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+
+  font: inherit;
+  font-size: 24px;
+  font-weight: 600;
+
+  letter-spacing: 0.35em;
+  text-align: center;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.otpInput:focus {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--color-primary) 12%,
+      transparent
+    );
+}
+
+.hint {
+  color: var(--color-text-secondary);
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.error {
+  padding: 11px 12px;
+
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+
+  background: #fff1f2;
+  color: #be123c;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.submitButton {
+  width: 100%;
+  min-height: 44px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: var(--color-primary);
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.submitButton:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+.backButton {
+  border: 0;
+  padding: 0;
+
+  background: transparent;
+  color: var(--color-primary);
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}
+
+.backButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

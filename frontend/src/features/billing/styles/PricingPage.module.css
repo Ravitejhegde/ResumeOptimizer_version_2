@@ -1,0 +1,173 @@
+.page {
+  width: 100%;
+  min-height: 100%;
+  padding: 64px 48px 80px;
+  box-sizing: border-box;
+}
+
+.header {
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  margin: 14px 0 28px;
+  font-size: 16px;
+  opacity: 0.65;
+}
+
+.toggle {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.toggleButton,
+.activeToggle {
+  border: 0;
+  padding: 9px 18px;
+  border-radius: 7px;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.activeToggle {
+  background: var(--surface-secondary);
+  font-weight: 600;
+}
+
+.grid {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  );
+  gap: 20px;
+}
+
+.card {
+  min-height: 280px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--surface-primary);
+  box-sizing: border-box;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.description {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.65;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.price strong {
+  font-size: 32px;
+  letter-spacing: -0.03em;
+}
+
+.price span {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.limit {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.checkoutButton {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--text-primary);
+  color: var(--surface-primary);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkoutButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.loading,
+.error,
+.inlineError {
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.error,
+.inlineError {
+  opacity: 0.75;
+}
+
+.inlineError {
+  margin: -20px auto 32px;
+}
+
+.notice {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 32px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--surface-secondary);
+}
+
+.notice strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.notice span {
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.65;
+}

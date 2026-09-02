@@ -9,9 +9,7 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
-from app.database.session import (
-    get_db,
-)
+from app.database.session import get_db
 
 from app.schemas.analysis import (
     ResumeAnalysisRequest,
@@ -23,6 +21,10 @@ from app.application.models.optimization_request import (
 
 from app.application.services.resume_optimization_service import (
     ResumeOptimizationService,
+)
+
+from app.services.resume.resume_service import (
+    ResumeService,
 )
 
 logger = logging.getLogger(__name__)
@@ -39,22 +41,38 @@ def match_resume(
     db: Session = Depends(get_db),
 ):
     """
-    Analyze a resume using the new optimization workflow.
+    Analyze an uploaded resume against a job description.
 
-    NOTE:
-    This endpoint is temporarily adapted during the
-    migration from the old engine to the new engine.
+    The client provides only the resume ID.
+    The stored resume path is resolved internally.
     """
 
     try:
-
         # -------------------------------------------------
-        # TODO:
-        # Replace this with ResumeRepository once the
-        # repository layer is migrated.
+        # Resolve uploaded resume
         # -------------------------------------------------
 
-        resume_path = ""
+        resume_service = ResumeService(db)
+
+        resume = resume_service.get_resume(
+            request.resume_id
+        )
+
+        if resume is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Resume not found.",
+            )
+
+        # -------------------------------------------------
+        # Resolve physical resume path internally
+        # -------------------------------------------------
+
+        resume_path = resume.file_path
+
+        # -------------------------------------------------
+        # Build optimization request
+        # -------------------------------------------------
 
         optimization_request = OptimizationRequest(
             resume_path=resume_path,
@@ -62,18 +80,25 @@ def match_resume(
             output_path="",
         )
 
+        # -------------------------------------------------
+        # Execute optimization workflow
+        # -------------------------------------------------
+
         service = ResumeOptimizationService()
 
         return service.optimize(
             optimization_request
         )
 
+    except HTTPException:
+        raise
+
     except FileNotFoundError as exc:
 
         raise HTTPException(
             status_code=404,
             detail=str(exc),
-        )
+        ) from exc
 
     except Exception:
 

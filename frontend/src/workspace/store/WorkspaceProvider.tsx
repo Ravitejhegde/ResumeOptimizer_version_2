@@ -3,69 +3,96 @@ import { useState } from "react";
 import { WorkspaceContext } from "./WorkspaceContext";
 
 import type {
-    WorkspaceState
+  WorkspaceState,
 } from "./types";
 
 import type {
-    ReactNode
+  ReactNode,
 } from "react";
 
 interface Props {
-
-    children: ReactNode;
-
+  children: ReactNode;
 }
+
+/* =========================================================
+   Initial Workspace State
+========================================================= */
 
 const initialState: WorkspaceState = {
 
-    step: "analysis",
+  /* Workflow */
 
-    resume: null,
+  step: "analysis",
 
-    jobDescription: "",
+  /* Resume */
 
-    atsScore: 0,
+  resume: null,
 
-    role: "",
+  /* Job Description */
 
-    experience: 0,
+  jobDescription: "",
 
-    matchedSkills: [],
+  /* Analysis */
 
-    missingSkills: [],
+  atsScore: 0,
 
-    selectedSkills: [],
+  role: "",
 
-    optimizedFilename: "",
+  experience: 0,
 
-    previewBlocks: [],
+  matchedSkills: [],
 
-    previewLayout: {}
+  missingSkills: [],
 
+  selectedSkills: [],
+
+  /* Optimization */
+
+  optimizedFilename: "",
+
+  previewBlocks: [],
+
+  previewLayout: {},
+
+  /* Authentication */
+
+  user: null,
+
+  isAuthenticated: false,
+
+  /* Free Sample */
+
+  isFreeSample: true,
+
+  sampleCompleted: false,
 };
 
+/* =========================================================
+   Provider
+========================================================= */
+
 const WorkspaceProvider = ({
-    children
+  children,
 }: Props) => {
 
-    const [state, setState] =
-        useState<WorkspaceState>(initialState);
-
-    return (
-
-        <WorkspaceContext.Provider
-            value={{
-                state,
-                setState
-            }}
-        >
-
-            {children}
-
-        </WorkspaceContext.Provider>
-
+  const [state, setState] =
+    useState<WorkspaceState>(
+      initialState,
     );
 
+  return (
+
+    <WorkspaceContext.Provider
+      value={{
+        state,
+        setState,
+      }}
+    >
+
+      {children}
+
+    </WorkspaceContext.Provider>
+  );
 };
 
 export default WorkspaceProvider;

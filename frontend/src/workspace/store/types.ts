@@ -3,13 +3,20 @@ import type {
   SetStateAction,
 } from "react";
 
+/* =========================================================
+   Workflow
+========================================================= */
+
 export type WorkspaceStep =
   | "analysis"
-  | "optimization";
+  | "optimization"
+  | "register"
+  | "login"
+  | "pricing";
 
 /* =========================================================
    Resume
-   ========================================================= */
+========================================================= */
 
 export interface ResumeInfo {
   id: string;
@@ -21,7 +28,7 @@ export interface ResumeInfo {
 
 /* =========================================================
    Authenticated User
-   ========================================================= */
+========================================================= */
 
 export interface CurrentUser {
   id: string;
@@ -35,9 +42,10 @@ export interface CurrentUser {
 
 /* =========================================================
    Workspace State
-   ========================================================= */
+========================================================= */
 
 export interface WorkspaceState {
+
   /* -----------------------------------------
      Workflow
   ----------------------------------------- */
@@ -89,13 +97,22 @@ export interface WorkspaceState {
   user: CurrentUser | null;
 
   isAuthenticated: boolean;
+
+  /* -----------------------------------------
+     Free Sample
+  ----------------------------------------- */
+
+  isFreeSample: boolean;
+
+  sampleCompleted: boolean;
 }
 
 /* =========================================================
    Workspace Context
-   ========================================================= */
+========================================================= */
 
 export interface WorkspaceContextType {
+
   state: WorkspaceState;
 
   setState: Dispatch<
