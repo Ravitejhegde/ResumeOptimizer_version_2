@@ -10,9 +10,9 @@ class OptimizeRequest(BaseModel):
     Contains:
         - Resume to optimize
         - Target job description
+        - Knowledge role
         - Selected technologies to promote
     """
-
 
     resume_id: str = Field(
         ...,
@@ -20,13 +20,17 @@ class OptimizeRequest(BaseModel):
         description="Uploaded resume ID",
     )
 
-
     job_description: str = Field(
         ...,
         min_length=20,
         description="Target job description",
     )
 
+    role_id: str = Field(
+        ...,
+        min_length=1,
+        description="Canonical knowledge role ID",
+    )
 
     selected_skills: list[str] = Field(
         default_factory=list,

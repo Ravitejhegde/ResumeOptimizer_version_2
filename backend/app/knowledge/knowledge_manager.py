@@ -159,6 +159,33 @@ class KnowledgeManager:
             )
         )
 
+        # --------------------------------------------------
+    # Profiles
+    # --------------------------------------------------
+
+    def profile(
+        self,
+        profile_id: str,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .profile(
+                profile_id,
+            )
+        )
+
+    def all_profiles(
+        self,
+    ):
+
+        return (
+            self.registry
+            .software_engineering
+            .all_profiles()
+        )
+
     # --------------------------------------------------
     # Sections
     # --------------------------------------------------

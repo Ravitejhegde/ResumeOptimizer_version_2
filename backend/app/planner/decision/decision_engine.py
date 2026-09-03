@@ -38,6 +38,10 @@ class DecisionEngine:
 
         score = gap.overall_match
 
+        # ------------------------------------
+        # Determine optimization strategy
+        # ------------------------------------
+
         if score >= 0.90:
 
             decision.should_optimize = True

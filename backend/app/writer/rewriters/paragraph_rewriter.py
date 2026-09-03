@@ -35,12 +35,8 @@ class ParagraphRewriter:
     - Preserve formatting through RunDistributor.
     """
 
-    def __init__(
-        self,
-    ) -> None:
-
+    def __init__(self) -> None:
         self._locator = ParagraphLocator()
-
         self._distributor = RunDistributor()
 
     def rewrite(
@@ -51,12 +47,14 @@ class ParagraphRewriter:
         Apply AI-generated paragraph updates.
         """
 
-        updates = (
-            context.optimization.paragraph_updates
-        )
+        updates = context.optimization.paragraph_updates
 
         if not updates:
             return
+
+        # Build the paragraph map once before resolving
+        # any paragraph IDs.
+        self._locator.locate(context)
 
         for update in updates:
 
@@ -66,22 +64,19 @@ class ParagraphRewriter:
             ):
                 continue
 
+            # Do not rewrite unchanged content.
             if not update.changed:
                 continue
 
-            paragraph = (
-                self._locator.get_paragraph(
-                    context=context,
-                    paragraph_id=update.paragraph_id,
-                )
+            paragraph = self._locator.get_paragraph(
+                context=context,
+                paragraph_id=update.paragraph_id,
             )
 
             if paragraph is None:
-
                 context.add_warning(
                     f"Paragraph '{update.paragraph_id}' not found."
                 )
-
                 continue
 
             self._distributor.distribute(

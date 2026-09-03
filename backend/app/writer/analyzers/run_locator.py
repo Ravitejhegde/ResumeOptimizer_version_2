@@ -2,7 +2,7 @@
 app.writer.analyzers.run_locator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Utilities for locating editable DOCX runs.
+Utilities for locating DOCX runs.
 """
 
 from __future__ import annotations
@@ -12,12 +12,12 @@ from docx.text.run import Run
 
 class RunLocator:
     """
-    Finds editable runs inside a DOCX paragraph.
+    Finds runs inside a DOCX paragraph.
 
     Responsibilities
     ----------------
-    - Return editable text runs.
-    - Ignore empty runs.
+    - Return all existing runs.
+    - Preserve whitespace and tab runs.
     - Never modify the document.
     """
 
@@ -26,31 +26,10 @@ class RunLocator:
         paragraph,
     ) -> list[Run]:
         """
-        Return editable runs.
+        Return all existing runs in their original order.
+
+        Whitespace-only and tab runs are intentionally retained
+        because they may carry important formatting.
         """
 
-        editable_runs: list[Run] = []
-
-        for run in paragraph.runs:
-
-            if self._is_editable(run):
-
-                editable_runs.append(run)
-
-        return editable_runs
-
-    def _is_editable(
-        self,
-        run: Run,
-    ) -> bool:
-        """
-        Decide whether a run can be rewritten.
-        """
-
-        if not run.text:
-            return False
-
-        if not run.text.strip():
-            return False
-
-        return True
+        return list(paragraph.runs)

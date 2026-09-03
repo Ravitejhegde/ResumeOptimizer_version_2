@@ -1,0 +1,84 @@
+{
+    "profile": {
+        "id": "full_stack_developer",
+        "role_id": "full_stack_developer",
+        "category_count": 5,
+        "categories": [
+            {
+                "id": "frontend_technologies",
+                "name": "Frontend Technologies",
+                "technologies": [
+                    "angular",
+                    "react",
+                    "vue",
+                    "nextjs",
+                    "html",
+                    "css",
+                    "javascript",
+                    "typescript"
+                ]
+            },
+            {
+                "id": "backend_technologies",
+                "name": "Backend Technologies",
+                "technologies": [
+                    "nodejs",
+                    "express",
+                    "nestjs",
+                    "fastapi",
+                    "django",
+                    "flask",
+                    "spring_boot",
+                    "aspnet_core"
+                ]
+            },
+            {
+                "id": "database",
+                "name": "Database",
+                "technologies": [
+                    "mysql",
+                    "postgresql",
+                    "mongodb",
+                    "sqlite",
+                    "redis",
+                    "oracle"
+                ]
+            },
+            {
+                "id": "programming_languages",
+                "name": "Programming Languages",
+                "technologies": [
+                    "javascript",
+                    "typescript",
+                    "python",
+                    "java",
+                    "c",
+                    "cpp",
+                    "csharp",
+                    "sql"
+                ]
+            },
+            {
+                "id": "tools_platforms",
+                "name": "Tools & Platforms",
+                "technologies": [
+                    "git",
+                    "github",
+                    "docker",
+                    "aws",
+                    "azure",
+                    "gcp",
+                    "firebase",
+                    "github_actions",
+                    "terraform",
+                    "kubernetes",
+                    "pytest",
+                    "junit",
+                    "selenium",
+                    "cypress",
+                    "playwright"
+                ]
+            }
+        ]
+    }
+}

@@ -1,6 +1,6 @@
 """
-app.planner.planner
-~~~~~~~~~~~~~~~~~~~
+app.planner.services.planner
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Public entry point for the Resume Optimization Planner.
 """
@@ -16,8 +16,14 @@ from app.gap_analysis.models.gap_analysis_model import (
 from app.job_understanding.models.job_understanding import (
     JobUnderstanding,
 )
+from app.knowledge.builder.optimization_knowledge import (
+    OptimizationKnowledge,
+)
 from app.planner.blueprint.optimization_blueprint import (
     OptimizationBlueprint,
+)
+from app.planner.budget.budget_maker import (
+    BudgetMaker,
 )
 from app.planner.decision.decision_engine import (
     DecisionEngine,
@@ -64,6 +70,8 @@ class Planner:
 
         self._rewrite = RewritePlanner()
 
+        self._budget = BudgetMaker()
+
         self._prompt = PromptPlanner()
 
     def build(
@@ -72,12 +80,27 @@ class Planner:
         resume: ResumeUnderstanding,
         job: JobUnderstanding,
         gap: GapAnalysisModel,
+        knowledge: OptimizationKnowledge,
     ) -> OptimizationBlueprint:
         """
         Build the complete optimization blueprint.
         """
 
         blueprint = OptimizationBlueprint()
+
+        # ---------------------------------
+        # Knowledge
+        # ---------------------------------
+
+        blueprint.knowledge = knowledge
+
+        blueprint.metadata["role_id"] = (
+            knowledge.role_id
+        )
+
+        blueprint.metadata["role_name"] = (
+            knowledge.role_name
+        )
 
         # ---------------------------------
         # Goal
@@ -106,6 +129,7 @@ class Planner:
             self._priority.build(
                 gap,
                 job,
+                knowledge,
             )
         )
 
@@ -126,6 +150,7 @@ class Planner:
 
         blueprint.section_plan = (
             self._section.build(
+                document,
                 blueprint.priorities,
                 blueprint.evidence,
             )
@@ -143,6 +168,25 @@ class Planner:
         )
 
         # ---------------------------------
+        # Budget
+        # ---------------------------------
+
+        blueprint.budget = (
+            self._budget.build(
+                blueprint.decision,
+                blueprint.priorities,
+                blueprint.section_plan,
+                blueprint.rewrite_plan,
+            )
+        )
+
+        # Keep the legacy field synchronized
+        # for existing consumers.
+        blueprint.token_budget = (
+            blueprint.budget.total_tokens
+        )
+
+        # ---------------------------------
         # Prompt Planning
         # ---------------------------------
 
@@ -150,6 +194,10 @@ class Planner:
             self._prompt.build(
                 blueprint,
             )
+        )
+
+        blueprint.prompt_count = (
+            blueprint.prompt_plan.prompt_count
         )
 
         return blueprint

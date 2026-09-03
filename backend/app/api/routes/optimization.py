@@ -120,10 +120,12 @@ def optimize_resume(
     # ======================================================
 
     optimization_request = OptimizationRequest(
-        resume_path=str(resume_path),
-        job_description=request.job_description,
-        output_path=str(output_path),
-    )
+    resume_path=str(resume_path),
+    job_description=request.job_description,
+    output_path=str(output_path),
+    role_id=request.role_id,
+    selected_skills=request.selected_skills,
+)
 
     # ======================================================
     # Execute Workflow

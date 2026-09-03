@@ -10,11 +10,11 @@ from __future__ import annotations
 from app.gap_analysis.models.gap_analysis_model import (
     GapAnalysisModel,
 )
-from app.planner.goal.optimization_goal import (
-    OptimizationGoal,
-)
 from app.job_understanding.models.job_understanding import (
     JobUnderstanding,
+)
+from app.planner.goal.optimization_goal import (
+    OptimizationGoal,
 )
 from app.understanding.models.resume_understanding import (
     ResumeUnderstanding,
@@ -34,6 +34,10 @@ class GoalEngine:
     ) -> OptimizationGoal:
 
         goal = OptimizationGoal()
+
+        # ------------------------------------
+        # Role information
+        # ------------------------------------
 
         goal.current_role = (
             resume.primary_role

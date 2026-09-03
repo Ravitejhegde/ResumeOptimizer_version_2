@@ -35,10 +35,12 @@ OUTPUT = "tests/resources/test_optimizer_v3_output.docx"
 def test_optimizer_v3_end_to_end():
 
     request = ApplicationOptimizationRequest(
-        resume_path=RESUME,
-        job_description=JOB_DESCRIPTION,
-        output_path=OUTPUT,
-    )
+    resume_path=RESUME,
+    job_description=JOB_DESCRIPTION,
+    output_path=OUTPUT,
+    role_id="backend_developer",
+    selected_skills=["Docker"],
+)
 
     result = ResumeOptimizationService().optimize(
         request

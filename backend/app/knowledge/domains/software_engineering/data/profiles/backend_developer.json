@@ -1,0 +1,66 @@
+{
+    "profile": {
+        "id": "backend_developer",
+        "role_id": "backend_developer",
+        "category_count": 5,
+        "categories": [
+            {
+                "id": "backend_technologies",
+                "name": "Backend Technologies",
+                "technologies": [
+                    "python",
+                    "fastapi",
+                    "django",
+                    "flask",
+                    "nodejs",
+                    "express"
+                ]
+            },
+            {
+                "id": "database",
+                "name": "Database",
+                "technologies": [
+                    "mysql",
+                    "postgresql",
+                    "mongodb",
+                    "redis",
+                    "sql"
+                ]
+            },
+            {
+                "id": "programming_languages",
+                "name": "Programming Languages",
+                "technologies": [
+                    "python",
+                    "java",
+                    "javascript",
+                    "typescript",
+                    "sql"
+                ]
+            },
+            {
+                "id": "api_development",
+                "name": "API Development",
+                "technologies": [
+                    "fastapi",
+                    "django",
+                    "flask",
+                    "express"
+                ]
+            },
+            {
+                "id": "tools_platforms",
+                "name": "Tools & Platforms",
+                "technologies": [
+                    "git",
+                    "github",
+                    "docker",
+                    "aws",
+                    "github_actions",
+                    "kubernetes",
+                    "terraform"
+                ]
+            }
+        ]
+    }
+}

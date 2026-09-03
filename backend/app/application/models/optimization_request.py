@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(slots=True)
@@ -15,3 +15,7 @@ class OptimizationRequest:
     job_description: str
 
     output_path: str
+
+    role_id: str
+
+    selected_skills: list[str] = field(default_factory=list)

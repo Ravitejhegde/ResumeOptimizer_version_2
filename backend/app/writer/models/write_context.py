@@ -30,8 +30,9 @@ class WriteContext:
     ----------------
     - Hold source and working DOCX.
     - Hold parsed document model.
-    - Hold optimization result.
+    - Hold optimizer output.
     - Track paragraph mappings.
+    - Track original formatting state.
     - Track warnings/errors.
     """
 
@@ -74,6 +75,12 @@ class WriteContext:
     metadata: dict[str, Any] = field(
         default_factory=dict
     )
+
+    # -------------------------------------------------
+    # Original Formatting State
+    # -------------------------------------------------
+
+    format_fingerprint: str | None = None
 
     # -------------------------------------------------
     # Validation

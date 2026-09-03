@@ -23,23 +23,36 @@ from app.analyzer.skill.skill_analyzer import (
 from app.analyzer.technology.technology_analyzer import (
     TechnologyAnalyzer,
 )
+
 from app.gap_analysis.services.gap_analyzer import (
     GapAnalyzer,
 )
+
 from app.job_description.services.job_description_parser import (
     JobDescriptionParser,
 )
 from app.job_understanding.services.job_understanding_builder import (
     JobUnderstandingBuilder,
 )
-from backend.app.planner.services.planner import (
+
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
+)
+from app.knowledge.builder.knowledge_builder import (
+    KnowledgeBuilder,
+)
+
+from app.planner.services.planner import (
     Planner,
 )
+
 from app.understanding.services.understanding_builder import (
     UnderstandingBuilder,
 )
 
+
 RESUME = r"tests\resources\sample_resume.docx"
+
 
 JOB_DESCRIPTION = """
 Backend Developer
@@ -57,7 +70,7 @@ SQL
 """
 
 
-def main() -> None:
+def test_planner_integration() -> None:
 
     # -------------------------------------------------
     # Resume Pipeline
@@ -117,6 +130,22 @@ def main() -> None:
     )
 
     # -------------------------------------------------
+    # Knowledge Builder
+    # -------------------------------------------------
+
+    knowledge_manager = KnowledgeManager()
+
+    knowledge = KnowledgeBuilder(
+        knowledge_manager,
+    ).build(
+        role_id="backend_developer",
+        matched_skills=gap.matched_skills,
+        selected_missing_skills=[
+            "Docker",
+        ],
+    )
+
+    # -------------------------------------------------
     # Planner
     # -------------------------------------------------
 
@@ -125,6 +154,7 @@ def main() -> None:
         resume=resume,
         job=job,
         gap=gap,
+        knowledge=knowledge,
     )
 
     # -------------------------------------------------
@@ -134,43 +164,36 @@ def main() -> None:
     print("=" * 60)
     print("PLANNER BLUEPRINT")
     print("=" * 60)
-
     print()
 
     print("Goal")
     print("-" * 60)
     print(blueprint.goal)
-
     print()
 
     print("Decision")
     print("-" * 60)
     print(blueprint.decision)
-
     print()
 
     print("Priorities")
     print("-" * 60)
     print(blueprint.priorities)
-
     print()
 
     print("Evidence")
     print("-" * 60)
     print(blueprint.evidence)
-
     print()
 
     print("Section Plan")
     print("-" * 60)
     print(blueprint.section_plan)
-
     print()
 
     print("Rewrite Plan")
     print("-" * 60)
     print(blueprint.rewrite_plan)
-
     print()
 
     print("Prompt Plan")
@@ -178,5 +201,3 @@ def main() -> None:
     print(blueprint.prompt_plan)
 
 
-if __name__ == "__main__":
-    main()

@@ -2,69 +2,91 @@
 app.planner.priority.scoring.priority_scorer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Scores optimization priorities.
+Scores optimization priorities using prepared
+OptimizationKnowledge.
 """
 
 from __future__ import annotations
 
-from app.knowledge.provider import (
-    get_knowledge,
+from app.knowledge.builder.optimization_knowledge import (
+    OptimizationSkill,
 )
 
 
 class PriorityScorer:
     """
-    Calculates a priority score for an optimization item.
-    """
+    Calculates a priority score for an optimization skill.
 
-    def __init__(self) -> None:
-        self._runtime = get_knowledge()
+    The scorer does not access the Knowledge Runtime.
+    All required knowledge is supplied by the Planner.
+    """
 
     def score_skill(
         self,
-        skill_id: str,
-        target_role: str,
-    ) -> tuple[int, str]:
+        skill: OptimizationSkill,
+    ) -> tuple[float, str]:
 
-        score = 0
+        score = 0.0
         reasons: list[str] = []
 
-        skill = self._runtime.skills.find_by_id(
-            skill_id
+        # --------------------------------------
+        # Role relevance
+        # --------------------------------------
+
+        relevance_scores = {
+            "required": 50.0,
+            "preferred": 30.0,
+            "nice_to_have": 15.0,
+            "not_listed": 0.0,
+        }
+
+        relevance_score = relevance_scores.get(
+            skill.role_relevance,
+            0.0,
         )
 
-        if skill is not None:
+        score += relevance_score
 
-            importance = skill.get(
-                "importance",
-                0,
-            )
-
-            score += importance * 10
-
+        if skill.role_relevance != "not_listed":
             reasons.append(
-                f"Knowledge importance {importance}"
+                f"Role relevance: {skill.role_relevance}"
             )
 
-        role = self._runtime.roles.find_by_id(
-            target_role
-        )
+        # --------------------------------------
+        # User selection
+        # --------------------------------------
 
-        if (
-            role
-            and skill_id
-            in role.get(
-                "required_skill_ids",
-                [],
-            )
-        ):
-            score += 50
-
+        if skill.user_selected:
+            score += 30.0
             reasons.append(
-                "Required by target role"
+                "Explicitly selected by the user"
             )
 
-        return (
-            score,
-            "; ".join(reasons),
+        # --------------------------------------
+        # Matched skill
+        # --------------------------------------
+
+        if skill.matched:
+            score += 10.0
+            reasons.append(
+                "Already matched in the resume"
+            )
+
+        # --------------------------------------
+        # Classification
+        # --------------------------------------
+
+        if score >= 80:
+            level = "critical"
+        elif score >= 60:
+            level = "high"
+        elif score >= 30:
+            level = "medium"
+        else:
+            level = "low"
+
+        reasons.append(
+            f"Priority level: {level}"
         )
+
+        return score, "; ".join(reasons)

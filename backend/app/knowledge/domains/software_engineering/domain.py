@@ -20,6 +20,9 @@ from app.knowledge.domains.software_engineering.loaders.synonym_loader import (
 from app.knowledge.domains.software_engineering.loaders.taxonomy_loader import (
     TaxonomyLoader,
 )
+from app.knowledge.domains.software_engineering.loaders.profile_loader import (
+    ProfileLoader,
+)
 
 
 class SoftwareEngineeringDomain:
@@ -59,6 +62,10 @@ class SoftwareEngineeringDomain:
             data / "roles",
         )
 
+        self.profiles = ProfileLoader(
+            data / "profiles",
+        )
+
         self.sections = SectionLoader(
             data / "sections",
         )
@@ -77,6 +84,7 @@ class SoftwareEngineeringDomain:
             ("synonyms", self.synonyms.load),
             ("graph", self.graph.load),
             ("roles", self.roles.load),
+            ("profiles", self.profiles.load),
             ("sections", self.sections.load),
         ]
 
@@ -200,3 +208,21 @@ class SoftwareEngineeringDomain:
     ) -> list[dict]:
 
         return self.sections.all()
+        # --------------------------------------------------
+    # Profiles
+    # --------------------------------------------------
+
+    def profile(
+        self,
+        profile_id: str,
+    ) -> dict | None:
+
+        return self.profiles.get(
+            profile_id,
+        )
+
+    def all_profiles(
+        self,
+    ) -> list[dict]:
+
+        return self.profiles.all()

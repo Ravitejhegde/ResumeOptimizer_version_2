@@ -1,0 +1,21 @@
+{
+    "id": "backend_developer",
+    "title": "Backend Developer",
+    "required": [
+        "python",
+        "fastapi",
+        "sql",
+        "git"
+    ],
+    "preferred": [
+        "docker",
+        "aws",
+        "redis",
+        "postgresql"
+    ],
+    "nice_to_have": [
+        "github_actions",
+        "kubernetes",
+        "terraform"
+    ]
+}

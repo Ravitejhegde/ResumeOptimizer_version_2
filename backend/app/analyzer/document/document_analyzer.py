@@ -63,10 +63,9 @@ class DocumentAnalyzer(DocumentAnalyzerContract):
             ) from exc
 
         paragraphs = [
-            paragraph.text.strip()
-            for paragraph in doc.paragraphs
-            if paragraph.text.strip()
-        ]
+    paragraph.text.strip()
+    for paragraph in doc.paragraphs
+]
 
         text = "\n".join(paragraphs)
 

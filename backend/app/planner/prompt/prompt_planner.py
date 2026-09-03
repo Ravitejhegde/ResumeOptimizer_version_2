@@ -2,7 +2,8 @@
 app.planner.prompt.prompt_planner
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Builds AI prompts from the optimization blueprint.
+Builds the prompt execution strategy from
+the optimization blueprint.
 """
 
 from __future__ import annotations
@@ -21,7 +22,11 @@ if TYPE_CHECKING:
 
 class PromptPlanner:
     """
-    Converts planning decisions into AI prompts.
+    Converts planning decisions into a single
+    AI prompt execution strategy.
+
+    The actual final prompt is assembled later
+    by Optimizer PromptBuilder.
     """
 
     def build(
@@ -29,32 +34,27 @@ class PromptPlanner:
         blueprint: OptimizationBlueprint,
     ) -> PromptPlan:
         """
-        Build AI prompts from the optimization blueprint.
+        Build a single-prompt execution plan.
         """
 
         plan = PromptPlan()
 
-        for (
-            section,
-            level,
-        ) in blueprint.rewrite_plan.section_levels.items():
+        sections = list(
+            blueprint.rewrite_plan.section_levels.keys()
+        )
 
-            prompt = (
-                f"Rewrite the '{section}' section.\n"
-                f"Rewrite level: {level}\n"
-                f"Goal: {blueprint.goal.objective}\n"
-                f"Target role: {blueprint.goal.target_role}\n"
-                f"Only strengthen supported evidence.\n"
-                f"Never invent experience.\n"
+        if sections:
+            plan.prompts.append(
+                "Execute the complete optimization plan "
+                "in a single AI generation."
             )
 
             plan.prompts.append(
-                prompt
+                "Target sections: "
+                + ", ".join(sections)
             )
 
-        plan.prompt_count = len(
-            plan.prompts
-        )
+        plan.prompt_count = 1 if plan.prompts else 0
 
         plan.estimated_tokens = sum(
             len(prompt.split())

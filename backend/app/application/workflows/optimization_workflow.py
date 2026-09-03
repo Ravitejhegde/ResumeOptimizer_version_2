@@ -26,7 +26,13 @@ from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
 
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
+)
 
+from app.knowledge.builder.knowledge_builder import (
+    KnowledgeBuilder,
+)
 
 from app.planner.services.planner import (
     Planner,
@@ -66,7 +72,6 @@ class OptimizationWorkflow:
         resume_understanding: ResumeUnderstandingService,
         job_understanding: JobUnderstandingService,
         gap_analysis: GapAnalysisService,
-        
         planner: Planner,
         optimizer: Optimizer,
         writer: Writer,
@@ -86,7 +91,9 @@ class OptimizationWorkflow:
             gap_analysis
         )
 
-        
+        self._knowledge_builder = KnowledgeBuilder(
+            KnowledgeManager()
+        )
 
         self._planner = (
             planner
@@ -162,7 +169,19 @@ class OptimizationWorkflow:
         )
 
         # ----------------------------------
-        # 6. Planning
+        # 6. Knowledge Builder
+        # ----------------------------------
+
+        knowledge = (
+            self._knowledge_builder.build(
+                role_id=request.role_id,
+                matched_skills=gap.matched_skills,
+                selected_missing_skills=request.selected_skills,
+            )
+        )
+
+        # ----------------------------------
+        # 7. Planning
         # ----------------------------------
 
         blueprint = (
@@ -171,11 +190,12 @@ class OptimizationWorkflow:
                 resume=resume,
                 job=job,
                 gap=gap,
+                knowledge=knowledge,
             )
         )
 
         # ----------------------------------
-        # 7. Optimizer
+        # 8. Optimizer
         # ----------------------------------
 
         optimizer_request = (
@@ -194,7 +214,7 @@ class OptimizationWorkflow:
         )
 
         # ----------------------------------
-        # 8. Writer
+        # 9. Writer
         # ----------------------------------
 
         writer_result = (
@@ -207,7 +227,7 @@ class OptimizationWorkflow:
         )
 
         # ----------------------------------
-        # 9. Response
+        # 10. Response
         # ----------------------------------
 
         return OptimizationResponse(

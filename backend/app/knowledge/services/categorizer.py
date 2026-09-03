@@ -31,6 +31,10 @@ class SkillCategorizer:
 
         for skill in skills:
 
+            canonical = self._domain.canonical(
+                skill,
+            )
+
             category = None
 
             for category_id, technologies in (
@@ -38,7 +42,7 @@ class SkillCategorizer:
             ):
 
                 if any(
-                    technology["id"] == skill
+                    technology["id"] == canonical
                     for technology in technologies
                 ):
                     category = category_id

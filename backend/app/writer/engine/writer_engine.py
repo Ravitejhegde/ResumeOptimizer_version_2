@@ -36,13 +36,9 @@ class WriterEngine:
     """
 
     def __init__(self) -> None:
-
         self._builder = DocumentBuilder()
-
         self._rewriter = ParagraphRewriter()
-
         self._validator = DocumentValidator()
-
         self._exporter = DocxExporter()
 
     def write(
@@ -63,8 +59,42 @@ class WriterEngine:
             optimization=optimization,
         )
 
+        # Capture the original document's structural
+        # and formatting fingerprint BEFORE any rewrite.
+        context.format_fingerprint = (
+            self._validator.create_format_fingerprint(
+                context.source_document,
+            )
+        )
+
         self._rewriter.rewrite(
             context,
+        )
+
+        # Temporary diagnostic.
+        print(
+            "DEBUG ORIGINAL:",
+            context.format_fingerprint,
+        )
+
+        print(
+            "DEBUG WORKING:",
+            self._validator.create_format_fingerprint(
+                context.working_document,
+            ),
+        )
+
+        print(
+            "DEBUG MATCH:",
+            self._validator.create_format_fingerprint(
+                context.working_document,
+            )
+            == context.format_fingerprint,
+        )
+
+        self._validator.debug_format_difference(
+            context.source_document,
+            context.working_document,
         )
 
         self._validator.validate(
@@ -72,7 +102,6 @@ class WriterEngine:
         )
 
         if context.has_errors:
-
             return WriterResult(
                 output_path=str(output_file),
                 success=False,

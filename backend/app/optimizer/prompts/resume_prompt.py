@@ -1,5 +1,6 @@
 """
 app.optimizer.prompts.resume_prompt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Builds the resume context prompt.
 """
@@ -82,12 +83,7 @@ Professional Summary:
 
     for index, paragraph in enumerate(
         document.paragraphs,
-        start=1,
     ):
-
-        if not paragraph.strip():
-            continue
-
         sections.append(
             f"""
 Paragraph ID: p{index}
@@ -105,19 +101,38 @@ Text:
         """
 RULES
 
-Use ONLY the information contained in the
-resume.
+Use the resume as the factual source.
+
+Matched skills may be strengthened
+when relevant to the existing resume content.
+
+User-selected missing skills are explicitly
+authorized by the user and may be incorporated
+into the resume.
+
+User-selected missing skills must NOT be used
+to invent experience, projects, achievements,
+responsibilities, certifications, employment
+history, or measurable results.
+
+Do NOT add missing skills that were not
+selected by the user.
 
 Do NOT invent experience.
 
 Do NOT invent projects.
 
-Do NOT invent technologies.
-
 Do NOT invent certifications.
 
-Only improve wording, clarity,
-ATS alignment, and keyword usage.
+Do NOT invent achievements.
+
+Do NOT invent responsibilities.
+
+Do NOT invent employment history.
+
+Only improve wording, clarity, ATS alignment,
+and keyword usage while following the
+optimization plan.
 """.strip()
     )
 
