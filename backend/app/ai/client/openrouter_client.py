@@ -105,6 +105,10 @@ class OpenRouterClient(AIClient):
 
                 data = response.json()
 
+                print("\n========== OPENROUTER RAW RESPONSE ==========")
+                print(data)
+                print("============================================\n")
+
                 return (
                     data["choices"][0]
                     ["message"]["content"]

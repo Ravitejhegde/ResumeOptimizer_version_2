@@ -23,13 +23,9 @@ from app.planner.section.section_plan import (
 
 class SectionPlanner:
     """
-    Maps optimization items to actual resume sections.
-
-    Knowledge presentation categories such as
-    "Frontend Technologies" or "Tools & Platforms"
-    are not treated as physical resume sections.
-
-    Physical sections come from DocumentModel.sections.
+    Maps optimization items to actual resume sections
+    and, where possible, to the exact paragraphs that
+    should be modified.
     """
 
     _UNTOUCHED_SECTIONS = {
@@ -60,11 +56,11 @@ class SectionPlanner:
         Skills, Experience, and Projects.
 
         User-selected missing skills are explicitly authorized
-        for incorporation, but without existing evidence they
-        are targeted only at the Skills section.
+        for incorporation in the Skills section.
 
-        This prevents unsupported skills from being presented
-        as prior professional experience.
+        For Skills optimization, the planner narrows the
+        authorization to the paragraph whose category label
+        matches the skill's presentation category.
         """
 
         plan = SectionPlan()
@@ -149,7 +145,6 @@ class SectionPlanner:
                 )
             ]
 
-            # Remove duplicates while preserving order.
             target_sections = list(
                 dict.fromkeys(
                     target_sections
@@ -161,6 +156,13 @@ class SectionPlanner:
             # ---------------------------------
 
             for section in target_sections:
+
+                section_model = document.sections.get(
+                    section
+                )
+
+                if section_model is None:
+                    continue
 
                 plan.sections.setdefault(
                     section,
@@ -176,7 +178,79 @@ class SectionPlanner:
                         priority.id
                     )
 
+                # ---------------------------------
+                # Skills paragraph targeting
+                # ---------------------------------
+
+                if section.casefold() == "skills":
+
+                    presentation_category = (
+                        priority.metadata.get(
+                            "presentation_category",
+                            "",
+                        ).strip()
+                    )
+
+                    matching_paragraph_ids = (
+                        self._find_skill_paragraphs(
+                            document,
+                            section_model,
+                            presentation_category,
+                        )
+                    )
+
+                    if matching_paragraph_ids:
+
+                        plan.paragraph_ids.setdefault(
+                            section,
+                            [],
+                        )
+
+                        for paragraph_id in (
+                            matching_paragraph_ids
+                        ):
+                            if paragraph_id not in (
+                                plan.paragraph_ids[
+                                    section
+                                ]
+                            ):
+                                plan.paragraph_ids[
+                                    section
+                                ].append(
+                                    paragraph_id
+                                )
+
+                    continue
+
+                # ---------------------------------
+                # Other content sections
+                # ---------------------------------
+
+                plan.paragraph_ids.setdefault(
+                    section,
+                    [],
+                )
+
+                for paragraph_index in (
+                    section_model.paragraph_indexes
+                ):
+                    paragraph_id = (
+                        f"p{paragraph_index}"
+                    )
+
+                    if paragraph_id not in (
+                        plan.paragraph_ids[
+                            section
+                        ]
+                    ):
+                        plan.paragraph_ids[
+                            section
+                        ].append(
+                            paragraph_id
+                        )
+
                 if supported:
+
                     plan.reasoning[
                         section
                     ] = (
@@ -184,7 +258,9 @@ class SectionPlanner:
                         "by existing resume evidence "
                         "and may be strengthened."
                     )
+
                 else:
+
                     plan.reasoning[
                         section
                     ] = (
@@ -205,3 +281,107 @@ class SectionPlanner:
         ]
 
         return plan
+
+    def _find_skill_paragraphs(
+        self,
+        document: DocumentModel,
+        section_model,
+        presentation_category: str,
+    ) -> list[str]:
+        """
+        Find Skills paragraphs whose leading category
+        label matches the Knowledge presentation category.
+
+        Uses the section's global paragraph indexes to
+        read the actual paragraphs from DocumentModel.
+
+        Example:
+
+            Tools & Platforms:
+            Git, GitHub, Docker
+
+        matches:
+
+            presentation_category =
+            "Tools & Platforms"
+        """
+
+        if not presentation_category:
+            return []
+
+        target = self._normalize_category(
+            presentation_category
+        )
+
+        matches: list[str] = []
+
+        for paragraph_index in (
+            section_model.paragraph_indexes
+        ):
+            if not (
+                0 <= paragraph_index
+                < len(document.paragraphs)
+            ):
+                continue
+
+            paragraph = document.paragraphs[
+                paragraph_index
+            ]
+
+            label = self._extract_category_label(
+                paragraph
+            )
+
+            if not label:
+                continue
+
+            if (
+                self._normalize_category(label)
+                == target
+            ):
+                matches.append(
+                    f"p{paragraph_index}"
+                )
+
+        return matches
+
+    @staticmethod
+    def _extract_category_label(
+        paragraph: str,
+    ) -> str:
+        """
+        Extract the text before the first colon.
+
+        Example:
+
+            "Tools & Platforms: Git, GitHub"
+
+        becomes:
+
+            "Tools & Platforms"
+        """
+
+        if not paragraph:
+            return ""
+
+        if ":" not in paragraph:
+            return ""
+
+        return paragraph.split(
+            ":",
+            1,
+        )[0].strip()
+
+    @staticmethod
+    def _normalize_category(
+        value: str,
+    ) -> str:
+        """
+        Normalize category labels for comparison.
+        """
+
+        return " ".join(
+            value.casefold()
+            .replace("&", "and")
+            .split()
+        )

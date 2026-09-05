@@ -25,7 +25,12 @@ from app.job_understanding.services.job_understanding_service import (
 from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
-
+from app.analyzer.document.document_analyzer import (
+    DocumentAnalyzer,
+)
+from app.analyzer.document.section_analyzer import (
+    SectionAnalyzer,
+)
 from app.knowledge.knowledge_manager import (
     KnowledgeManager,
 )
@@ -78,7 +83,7 @@ class OptimizationWorkflow:
     ) -> None:
 
         self._analyzer = analyzer
-
+        self._section_analyzer = SectionAnalyzer()
         self._resume_understanding = (
             resume_understanding
         )
@@ -126,6 +131,9 @@ class OptimizationWorkflow:
         document = self._analyzer.analyze(
             request.resume_path
         )
+        document = self._section_analyzer.analyze(
+    document
+)
 
         # ----------------------------------
         # 2. Resume Understanding

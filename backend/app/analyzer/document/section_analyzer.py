@@ -39,7 +39,9 @@ class SectionAnalyzer(SectionAnalyzerContract):
             name=current_section
         )
 
-        for paragraph in document.paragraphs:
+        for paragraph_index, paragraph in enumerate(
+    document.paragraphs
+):
 
             normalized = paragraph.strip().casefold()
 
@@ -60,9 +62,9 @@ class SectionAnalyzer(SectionAnalyzerContract):
 
                 continue
 
-            sections[current_section].paragraphs.append(
-                paragraph
-            )
+            sections[current_section].paragraph_indexes.append(
+    paragraph_index
+)
 
         document.sections = sections
 

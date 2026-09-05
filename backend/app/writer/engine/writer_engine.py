@@ -51,13 +51,24 @@ class WriterEngine:
         """
         Generate an optimized DOCX.
         """
-
+        if not optimization.success:
+            return WriterResult(
+                output_path="",
+                success=False,
+                message=(
+                    optimization.message
+                    or "Optimization failed."
+                ),
+            )
+        
         context = self._builder.build(
             source_file=source_file,
             output_file=output_file,
             document=document,
             optimization=optimization,
         )
+
+
 
         # Capture the original document's structural
         # and formatting fingerprint BEFORE any rewrite.
@@ -69,32 +80,6 @@ class WriterEngine:
 
         self._rewriter.rewrite(
             context,
-        )
-
-        # Temporary diagnostic.
-        print(
-            "DEBUG ORIGINAL:",
-            context.format_fingerprint,
-        )
-
-        print(
-            "DEBUG WORKING:",
-            self._validator.create_format_fingerprint(
-                context.working_document,
-            ),
-        )
-
-        print(
-            "DEBUG MATCH:",
-            self._validator.create_format_fingerprint(
-                context.working_document,
-            )
-            == context.format_fingerprint,
-        )
-
-        self._validator.debug_format_difference(
-            context.source_document,
-            context.working_document,
         )
 
         self._validator.validate(

@@ -19,16 +19,18 @@ from app.understanding.models.resume_understanding import (
 def build_resume_prompt(
     document: DocumentModel,
     resume: ResumeUnderstanding,
+    authorized_paragraph_ids: set[str] | None = None,
 ) -> str:
     """
     Build the resume context for AI.
 
     Includes:
     - Resume understanding
-    - Original resume paragraphs
+    - Authorized original resume paragraphs
+    - Resume safety rules
 
-    This gives the AI enough context to
-    safely rewrite individual paragraphs.
+    Empty Resume Understanding fields are omitted
+    to reduce unnecessary prompt tokens.
     """
 
     sections: list[str] = []
@@ -37,56 +39,91 @@ def build_resume_prompt(
     # Resume Understanding
     # ----------------------------------
 
+    understanding_lines: list[str] = [
+        "RESUME UNDERSTANDING"
+    ]
+
+    if resume.primary_role:
+        understanding_lines.append(
+            f"Primary Role: {resume.primary_role}"
+        )
+
+    if resume.secondary_roles:
+        understanding_lines.append(
+            "Secondary Roles: "
+            + ", ".join(resume.secondary_roles)
+        )
+
+    if resume.primary_skills:
+        understanding_lines.append(
+            "Primary Skills: "
+            + ", ".join(resume.primary_skills)
+        )
+
+    if resume.primary_technologies:
+        understanding_lines.append(
+            "Primary Technologies: "
+            + ", ".join(resume.primary_technologies)
+        )
+
+    if resume.strongest_experience:
+        understanding_lines.append(
+            f"Strongest Experience: "
+            f"{resume.strongest_experience}"
+        )
+
+    if resume.strongest_project:
+        understanding_lines.append(
+            f"Strongest Project: "
+            f"{resume.strongest_project}"
+        )
+
+    if resume.strengths:
+        understanding_lines.append(
+            "Strengths: "
+            + ", ".join(resume.strengths)
+        )
+
+    if resume.weaknesses:
+        understanding_lines.append(
+            "Weaknesses: "
+            + ", ".join(resume.weaknesses)
+        )
+
+    if resume.seniority:
+        understanding_lines.append(
+            f"Seniority: {resume.seniority}"
+        )
+
+    if resume.summary:
+        understanding_lines.append(
+            f"Professional Summary: {resume.summary}"
+        )
+
     sections.append(
-        f"""
-RESUME UNDERSTANDING
-
-Primary Role:
-{resume.primary_role}
-
-Secondary Roles:
-{", ".join(resume.secondary_roles)}
-
-Primary Skills:
-{", ".join(resume.primary_skills)}
-
-Primary Technologies:
-{", ".join(resume.primary_technologies)}
-
-Strongest Experience:
-{resume.strongest_experience}
-
-Strongest Project:
-{resume.strongest_project}
-
-Strengths:
-{", ".join(resume.strengths)}
-
-Weaknesses:
-{", ".join(resume.weaknesses)}
-
-Seniority:
-{resume.seniority}
-
-Professional Summary:
-{resume.summary}
-""".strip()
+        "\n".join(understanding_lines)
     )
 
     # ----------------------------------
     # Original Resume
     # ----------------------------------
 
-    sections.append("")
-
     sections.append("ORIGINAL RESUME")
 
     for index, paragraph in enumerate(
         document.paragraphs,
     ):
+        paragraph_id = f"p{index}"
+
+        if (
+            authorized_paragraph_ids is not None
+            and paragraph_id not in authorized_paragraph_ids
+        ):
+            continue
+
         sections.append(
             f"""
-Paragraph ID: p{index}
+Paragraph ID: {paragraph_id}
 
 Text:
 {paragraph}
@@ -136,6 +173,4 @@ optimization plan.
 """.strip()
     )
 
-    return "\n\n".join(
-        sections
-    )
+    return "\n\n".join(sections)

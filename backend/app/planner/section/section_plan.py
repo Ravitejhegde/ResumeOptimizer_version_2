@@ -17,8 +17,12 @@ class SectionPlan:
     """
 
     sections: dict[str, list[str]] = field(
-        default_factory=dict
-    )
+    default_factory=dict
+)
+
+    paragraph_ids: dict[str, list[str]] = field(
+    default_factory=dict
+)
 
     untouched_sections: list[str] = field(
         default_factory=list

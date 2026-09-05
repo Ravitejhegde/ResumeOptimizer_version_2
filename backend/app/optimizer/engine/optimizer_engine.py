@@ -24,6 +24,9 @@ from app.optimizer.parsers.ai_response_parser import (
 from app.optimizer.validators.ai_response_validator import (
     AIResponseValidator,
 )
+from app.knowledge.knowledge_manager import (
+    KnowledgeManager,
+)
 
 
 class OptimizerEngine:
@@ -41,8 +44,12 @@ class OptimizerEngine:
 
         self._parser = AIResponseParser()
 
+        knowledge_manager = KnowledgeManager()
+
         self._ai_validator = (
-            AIResponseValidator()
+            AIResponseValidator(
+                knowledge_manager,
+            )
         )
 
     def optimize(
@@ -71,9 +78,6 @@ class OptimizerEngine:
             request
         )
 
-        print("\n========== PROMPT ==========\n")
-        print(prompt)
-
         # ----------------------------------
         # AI Call
         # ----------------------------------
@@ -81,9 +85,6 @@ class OptimizerEngine:
         response = self._client.optimize(
             prompt
         )
-
-        print("\n========== AI RESPONSE ==========\n")
-        print(response)
 
         # ----------------------------------
         # Parse
@@ -99,7 +100,8 @@ class OptimizerEngine:
 
         ai_errors = (
             self._ai_validator.validate(
-                updates
+                updates,
+                request,
             )
         )
 

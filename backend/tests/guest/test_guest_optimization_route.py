@@ -6,11 +6,12 @@ from unittest.mock import patch
 
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from app.database.session import get_db
+
 from app.database.models.guest import Guest
 from app.database.models.guest_resume import GuestResume
 from app.database.models.guest_session import GuestSession
 from app.database.models.usage_event import UsageEvent
+from app.database.session import get_db
 from app.guest.routes.guest import router
 
 
@@ -116,8 +117,8 @@ def test_guest_optimization_success(
     )
 
     client = TestClient(
-    create_app(db)
-)
+        create_app(db)
+    )
 
     output_path = (
         tmp_path / "resume_optimized.docx"
@@ -132,7 +133,10 @@ def test_guest_optimization_success(
             "output_path": str(output_path),
         },
     )()
-    output_path.write_bytes(b"fake optimized docx")
+
+    output_path.write_bytes(
+        b"fake optimized docx"
+    )
 
     with patch(
         "app.guest.services.guest_optimization_service."
@@ -148,6 +152,8 @@ def test_guest_optimization_success(
                 "job_description": (
                     "Python developer with FastAPI experience."
                 ),
+                "role_id": "backend_developer",
+                "selected_skills": [],
             },
         )
 
@@ -218,8 +224,8 @@ def test_guest_cannot_optimize_another_guest_resume(
     )
 
     client = TestClient(
-    create_app(db)
-)
+        create_app(db)
+    )
 
     response = client.post(
         "/guest/optimize",
@@ -227,6 +233,8 @@ def test_guest_cannot_optimize_another_guest_resume(
             "session_token": session.session_token,
             "resume_id": guest_two_resume.id,
             "job_description": "Python developer.",
+            "role_id": "backend_developer",
+            "selected_skills": [],
         },
     )
 
@@ -282,8 +290,8 @@ def test_guest_optimization_rejected_when_usage_is_exhausted(
     db.commit()
 
     client = TestClient(
-    create_app(db)
-)
+        create_app(db)
+    )
 
     response = client.post(
         "/guest/optimize",
@@ -291,6 +299,8 @@ def test_guest_optimization_rejected_when_usage_is_exhausted(
             "session_token": session.session_token,
             "resume_id": guest_resume.id,
             "job_description": "Python developer.",
+            "role_id": "backend_developer",
+            "selected_skills": [],
         },
     )
 
@@ -331,8 +341,8 @@ def test_failed_guest_optimization_does_not_consume_usage(
     )
 
     client = TestClient(
-    create_app(db)
-)
+        create_app(db)
+    )
 
     with patch(
         "app.guest.services.guest_optimization_service."
@@ -348,6 +358,8 @@ def test_failed_guest_optimization_does_not_consume_usage(
                 "session_token": session.session_token,
                 "resume_id": guest_resume.id,
                 "job_description": "Python developer.",
+                "role_id": "backend_developer",
+                "selected_skills": [],
             },
         )
 

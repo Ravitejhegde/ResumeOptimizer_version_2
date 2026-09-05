@@ -17,8 +17,11 @@ from app.guest.schemas.guest import (
     GuestSessionResponse,
 )
 
-from app.guest.schemas.guest_usage import (
+from app.guest.schemas.guest_optimization import (
     GuestOptimizationRequest,
+)
+
+from app.guest.schemas.guest_usage import (
     GuestShareRewardRequest,
     GuestShareRewardResponse,
     GuestUsageResponse,
@@ -288,11 +291,13 @@ def optimize_guest_resume(
 
     try:
         result = service.optimize(
-            guest=guest,
-            guest_resume=guest_resume,
-            guest_session_id=session.id,
-            job_description=payload.job_description,
-        )
+    guest=guest,
+    guest_resume=guest_resume,
+    guest_session_id=session.id,
+    job_description=payload.job_description,
+    role_id=payload.role_id,
+    selected_skills=payload.selected_skills,
+)
         return {
             "success": result.success,
             "message": result.message,

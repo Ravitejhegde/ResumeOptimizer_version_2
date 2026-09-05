@@ -229,6 +229,20 @@ def build_planner_prompt(
             )
         )
 
+    if blueprint.section_plan.paragraph_ids:
+        lines.append("")
+        lines.append("AUTHORIZED PARAGRAPHS")
+
+        for (
+            section,
+            paragraph_ids,
+        ) in blueprint.section_plan.paragraph_ids.items():
+
+            lines.append(
+                f"- {section}: "
+                + ", ".join(paragraph_ids)
+            )
+
     # ----------------------------------
     # Rewrite Plan
     # ----------------------------------
@@ -317,7 +331,7 @@ def build_planner_prompt(
                     f"- {constraint}"
                 )
 
-    # ----------------------------------
+        # ----------------------------------
     # Execution Rules
     # ----------------------------------
 
@@ -326,6 +340,83 @@ def build_planner_prompt(
 
     lines.append(
         "1. Rewrite only existing resume paragraphs."
+    )
+
+    lines.append(
+        "2. Preserve every paragraph ID exactly."
+    )
+
+    lines.append(
+        "3. Return only paragraphs that actually "
+        "require optimization."
+    )
+
+    lines.append(
+        "4. Strengthen matched skills only when "
+        "supported by the existing resume."
+    )
+
+    lines.append(
+        "5. Incorporate user-selected missing skills "
+        "only when the Planner targets them."
+    )
+
+    lines.append(
+        "6. User-selected skills authorize keyword "
+        "incorporation, but do not authorize invented "
+        "experience, projects, achievements, "
+        "responsibilities, certifications, employment "
+        "history, or measurable results."
+    )
+
+    lines.append(
+        "7. Do not add missing skills that were not "
+        "matched or explicitly selected by the user."
+    )
+
+    lines.append(
+        "8. Do not modify protected or untouched sections."
+    )
+
+    lines.append(
+        "9. Preserve the factual meaning of the "
+        "original resume."
+    )
+
+    lines.append(
+        "10. Improve wording, clarity, ATS alignment, "
+        "and keyword usage without fabricating facts."
+    )
+
+    lines.append(
+        "11. Follow the section plan, rewrite plan, "
+        "optimization knowledge, evidence, and budget."
+    )
+
+    lines.append(
+        "12. Keep optimized text concise, truthful, "
+        "ATS-friendly, and professionally written."
+    )
+    lines.append("")
+    lines.append("EXECUTION RULES")
+
+    lines.append(
+        "1. Rewrite only existing resume paragraphs."
+    )
+
+    lines.append(
+        "11. Return only paragraphs that actually "
+        "require optimization."
+    )
+
+    lines.append(
+        "12. Keep optimized text truthful, concise, "
+        "ATS-friendly, and professionally written."
+    )
+
+    lines.append(
+        "13. Follow the section plan, rewrite plan, "
+        "knowledge, evidence, and budget."
     )
 
     lines.append(

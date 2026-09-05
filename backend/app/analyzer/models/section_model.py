@@ -28,7 +28,7 @@ class SectionModel:
     name: str
 
     paragraphs: list[str] = field(default_factory=list)
-
+    paragraph_indexes: list[int] = field(default_factory=list)
     @property
     def text(self) -> str:
         """

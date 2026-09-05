@@ -45,6 +45,15 @@ class PromptBuilder:
         Build the complete optimization prompt.
         """
 
+        authorized_paragraph_ids: set[str] = set()
+
+        for paragraph_ids in (
+            request.blueprint.section_plan.paragraph_ids.values()
+        ):
+            authorized_paragraph_ids.update(
+                paragraph_ids
+            )
+
         sections = [
 
             SYSTEM_PROMPT,
@@ -52,7 +61,8 @@ class PromptBuilder:
             build_resume_prompt(
                 request.document,
                 request.resume,
-            ),  
+                authorized_paragraph_ids,
+            ),
 
             build_job_prompt(
                 request.job

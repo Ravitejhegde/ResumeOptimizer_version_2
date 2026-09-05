@@ -51,7 +51,7 @@ from app.job_understanding.services.job_understanding_builder import (
 from app.optimizer.services.optimizer import (
     Optimizer,
 )
-from backend.app.planner.services.planner import (
+from app.planner.services.planner import (
     Planner,
 )
 from app.understanding.services.understanding_builder import (

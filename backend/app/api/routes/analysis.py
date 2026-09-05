@@ -15,16 +15,36 @@ from app.schemas.analysis import (
     ResumeAnalysisRequest,
 )
 
-from app.application.models.optimization_request import (
-    OptimizationRequest,
-)
-
-from app.application.services.resume_optimization_service import (
-    ResumeOptimizationService,
+from app.schemas.match import (
+    MatchResponse,
 )
 
 from app.services.resume.resume_service import (
     ResumeService,
+)
+
+from app.analyzer.document.document_analyzer import (
+    DocumentAnalyzer,
+)
+
+from app.analyzer.document.section_analyzer import (
+    SectionAnalyzer,
+)
+
+from app.job_description.services.job_description_parser import (
+    JobDescriptionParser,
+)
+
+from app.understanding.services.resume_understanding_service import (
+    ResumeUnderstandingService,
+)
+
+from app.job_understanding.services.job_understanding_service import (
+    JobUnderstandingService,
+)
+
+from app.gap_analysis.services.gap_analysis_service import (
+    GapAnalysisService,
 )
 
 logger = logging.getLogger(__name__)
@@ -35,22 +55,22 @@ router = APIRouter(
 )
 
 
-@router.post("/match")
+@router.post(
+    "/match",
+    response_model=MatchResponse,
+)
 def match_resume(
     request: ResumeAnalysisRequest,
     db: Session = Depends(get_db),
 ):
     """
     Analyze an uploaded resume against a job description.
-
-    The client provides only the resume ID.
-    The stored resume path is resolved internally.
     """
 
     try:
-        # -------------------------------------------------
-        # Resolve uploaded resume
-        # -------------------------------------------------
+        # ----------------------------------
+        # 1. Resolve uploaded resume
+        # ----------------------------------
 
         resume_service = ResumeService(db)
 
@@ -64,44 +84,88 @@ def match_resume(
                 detail="Resume not found.",
             )
 
-        # -------------------------------------------------
-        # Resolve physical resume path internally
-        # -------------------------------------------------
-
         resume_path = resume.file_path
 
-        # -------------------------------------------------
-        # Build optimization request
-        # -------------------------------------------------
+        # ----------------------------------
+        # 2. Analyze resume document
+        # ----------------------------------
 
-        optimization_request = OptimizationRequest(
-            resume_path=resume_path,
-            job_description=request.job_description,
-            output_path="",
+        document = DocumentAnalyzer().analyze(
+            resume_path
         )
 
-        # -------------------------------------------------
-        # Execute optimization workflow
-        # -------------------------------------------------
+        document = SectionAnalyzer().analyze(
+            document
+        )
 
-        service = ResumeOptimizationService()
+        # ----------------------------------
+        # 3. Understand resume
+        # ----------------------------------
 
-        return service.optimize(
-            optimization_request
+        resume_understanding = (
+            ResumeUnderstandingService().understand(
+                document
+            )
+        )
+
+        # ----------------------------------
+        # 4. Parse job description
+        # ----------------------------------
+
+        if not request.job_description:
+            raise HTTPException(
+                status_code=400,
+                detail="Job description is required for match analysis.",
+            )
+
+        job_description = (
+            JobDescriptionParser().parse(
+                request.job_description
+            )
+        )
+
+        # ----------------------------------
+        # 5. Understand job
+        # ----------------------------------
+
+        job_understanding = (
+            JobUnderstandingService().understand(
+                job_description
+            )
+        )
+
+        # ----------------------------------
+        # 6. Gap analysis
+        # ----------------------------------
+
+        gap = GapAnalysisService().analyze(
+            resume=resume_understanding,
+            job=job_understanding,
+        )
+
+        # ----------------------------------
+        # 7. Return match result
+        # ----------------------------------
+
+        return MatchResponse(
+            score=round(
+                gap.overall_match * 100
+            ),
+            matched_skills=gap.matched_skills,
+            missing_skills=gap.missing_skills,
+            extra_skills=[],
         )
 
     except HTTPException:
         raise
 
     except FileNotFoundError as exc:
-
         raise HTTPException(
             status_code=404,
             detail=str(exc),
         ) from exc
 
-    except Exception:
-
+    except Exception as exc:
         logger.exception(
             "Resume analysis failed."
         )
@@ -109,4 +173,4 @@ def match_resume(
         raise HTTPException(
             status_code=500,
             detail="Resume analysis failed.",
-        )
+        ) from exc
