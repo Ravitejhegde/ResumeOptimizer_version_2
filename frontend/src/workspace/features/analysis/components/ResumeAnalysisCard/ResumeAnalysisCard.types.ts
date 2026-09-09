@@ -6,13 +6,13 @@ export interface ResumeAnalysisCardProps {
 
     experience: number;
 
-    matchedSkills: string[];
+    matchedTechnologies: string[];
 
-    missingSkills: string[];
+    missingTechnologies: string[];
 
     selectedSkills: string[];
 
-    onSkillToggle: (skill: string) => void;
+    onSkillToggle: (technology: string) => void;
 
     onSelectAll: () => void;
 

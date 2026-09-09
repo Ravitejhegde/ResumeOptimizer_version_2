@@ -2847,6 +2847,18 @@
       }
     },
     "by_id": {
+      "angular": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "angular",
+        "importance": 5,
+        "keywords": [],
+        "name": "Angular",
+        "technology_ids": [
+          "angular"
+        ]
+      },
       "api_design": {
         "aliases": [],
         "deprecated": false,
@@ -2947,6 +2959,78 @@
           "express"
         ]
       },
+      "django": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "django",
+        "importance": 5,
+        "keywords": [],
+        "name": "Django",
+        "technology_ids": [
+          "django"
+        ]
+      },
+      "express": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "express",
+        "importance": 5,
+        "keywords": [],
+        "name": "Express",
+        "technology_ids": [
+          "express"
+        ]
+      },
+      "fastapi": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "fastapi",
+        "importance": 5,
+        "keywords": [],
+        "name": "FastAPI",
+        "technology_ids": [
+          "fastapi"
+        ]
+      },
+      "flask": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "flask",
+        "importance": 5,
+        "keywords": [],
+        "name": "Flask",
+        "technology_ids": [
+          "flask"
+        ]
+      },
+      "java": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "java",
+        "importance": 5,
+        "keywords": [],
+        "name": "Java",
+        "technology_ids": [
+          "java"
+        ]
+      },
+      "javascript": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "javascript",
+        "importance": 5,
+        "keywords": [],
+        "name": "JavaScript",
+        "technology_ids": [
+          "javascript"
+        ]
+      },
       "microservices": {
         "aliases": [],
         "deprecated": false,
@@ -2977,6 +3061,42 @@
           "fastapi",
           "express",
           "django"
+        ]
+      },
+      "nodejs": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "keywords": [],
+        "name": "Node.js",
+        "technology_ids": [
+          "nodejs"
+        ]
+      },
+      "python": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "keywords": [],
+        "name": "Python",
+        "technology_ids": [
+          "python"
+        ]
+      },
+      "react": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "react",
+        "importance": 5,
+        "keywords": [],
+        "name": "React",
+        "technology_ids": [
+          "react"
         ]
       },
       "rest_api_development": {
@@ -3018,6 +3138,42 @@
           "python",
           "java",
           "nodejs"
+        ]
+      },
+      "spring_boot": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "spring_boot",
+        "importance": 5,
+        "keywords": [],
+        "name": "Spring Boot",
+        "technology_ids": [
+          "spring_boot"
+        ]
+      },
+      "typescript": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "typescript",
+        "importance": 5,
+        "keywords": [],
+        "name": "TypeScript",
+        "technology_ids": [
+          "typescript"
+        ]
+      },
+      "vue": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "vue",
+        "importance": 5,
+        "keywords": [],
+        "name": "Vue",
+        "technology_ids": [
+          "vue"
         ]
       },
       "web_services": {
@@ -3439,6 +3595,18 @@
       ]
     },
     "by_name": {
+      "angular": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "angular",
+        "importance": 5,
+        "keywords": [],
+        "name": "Angular",
+        "technology_ids": [
+          "angular"
+        ]
+      },
       "api design": {
         "aliases": [],
         "deprecated": false,
@@ -3539,6 +3707,78 @@
           "express"
         ]
       },
+      "django": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "django",
+        "importance": 5,
+        "keywords": [],
+        "name": "Django",
+        "technology_ids": [
+          "django"
+        ]
+      },
+      "express": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "express",
+        "importance": 5,
+        "keywords": [],
+        "name": "Express",
+        "technology_ids": [
+          "express"
+        ]
+      },
+      "fastapi": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "fastapi",
+        "importance": 5,
+        "keywords": [],
+        "name": "FastAPI",
+        "technology_ids": [
+          "fastapi"
+        ]
+      },
+      "flask": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "flask",
+        "importance": 5,
+        "keywords": [],
+        "name": "Flask",
+        "technology_ids": [
+          "flask"
+        ]
+      },
+      "java": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "java",
+        "importance": 5,
+        "keywords": [],
+        "name": "Java",
+        "technology_ids": [
+          "java"
+        ]
+      },
+      "javascript": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "javascript",
+        "importance": 5,
+        "keywords": [],
+        "name": "JavaScript",
+        "technology_ids": [
+          "javascript"
+        ]
+      },
       "microservices": {
         "aliases": [],
         "deprecated": false,
@@ -3569,6 +3809,42 @@
           "fastapi",
           "express",
           "django"
+        ]
+      },
+      "node.js": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "nodejs",
+        "importance": 5,
+        "keywords": [],
+        "name": "Node.js",
+        "technology_ids": [
+          "nodejs"
+        ]
+      },
+      "python": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "python",
+        "importance": 5,
+        "keywords": [],
+        "name": "Python",
+        "technology_ids": [
+          "python"
+        ]
+      },
+      "react": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "react",
+        "importance": 5,
+        "keywords": [],
+        "name": "React",
+        "technology_ids": [
+          "react"
         ]
       },
       "rest api development": {
@@ -3612,6 +3888,42 @@
           "nodejs"
         ]
       },
+      "spring boot": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "spring_boot",
+        "importance": 5,
+        "keywords": [],
+        "name": "Spring Boot",
+        "technology_ids": [
+          "spring_boot"
+        ]
+      },
+      "typescript": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "typescript",
+        "importance": 5,
+        "keywords": [],
+        "name": "TypeScript",
+        "technology_ids": [
+          "typescript"
+        ]
+      },
+      "vue": {
+        "aliases": [],
+        "deprecated": false,
+        "description": "",
+        "id": "vue",
+        "importance": 5,
+        "keywords": [],
+        "name": "Vue",
+        "technology_ids": [
+          "vue"
+        ]
+      },
       "web services": {
         "aliases": [],
         "deprecated": false,
@@ -3632,6 +3944,20 @@
       }
     },
     "by_technology": {
+      "angular": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "angular",
+          "importance": 5,
+          "keywords": [],
+          "name": "Angular",
+          "technology_ids": [
+            "angular"
+          ]
+        }
+      ],
       "django": [
         {
           "aliases": [],
@@ -3713,6 +4039,18 @@
             "flask",
             "spring_boot",
             "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "django",
+          "importance": 5,
+          "keywords": [],
+          "name": "Django",
+          "technology_ids": [
+            "django"
           ]
         },
         {
@@ -3853,6 +4191,18 @@
             "django",
             "flask",
             "spring_boot",
+            "express"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "express",
+          "importance": 5,
+          "keywords": [],
+          "name": "Express",
+          "technology_ids": [
             "express"
           ]
         },
@@ -4018,6 +4368,18 @@
         {
           "aliases": [],
           "deprecated": false,
+          "description": "",
+          "id": "fastapi",
+          "importance": 5,
+          "keywords": [],
+          "name": "FastAPI",
+          "technology_ids": [
+            "fastapi"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
           "description": "Develop distributed backend services.",
           "id": "microservices",
           "importance": 8,
@@ -4135,6 +4497,18 @@
           ]
         },
         {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "flask",
+          "importance": 5,
+          "keywords": [],
+          "name": "Flask",
+          "technology_ids": [
+            "flask"
+          ]
+        },
+        {
           "aliases": [
             "rest api",
             "restful api"
@@ -4222,6 +4596,18 @@
           ]
         },
         {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "java",
+          "importance": 5,
+          "keywords": [],
+          "name": "Java",
+          "technology_ids": [
+            "java"
+          ]
+        },
+        {
           "aliases": [
             "server side"
           ],
@@ -4237,6 +4623,20 @@
             "python",
             "java",
             "nodejs"
+          ]
+        }
+      ],
+      "javascript": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "javascript",
+          "importance": 5,
+          "keywords": [],
+          "name": "JavaScript",
+          "technology_ids": [
+            "javascript"
           ]
         }
       ],
@@ -4298,6 +4698,18 @@
           "technology_ids": [
             "spring_boot",
             "fastapi",
+            "nodejs"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "nodejs",
+          "importance": 5,
+          "keywords": [],
+          "name": "Node.js",
+          "technology_ids": [
             "nodejs"
           ]
         },
@@ -4366,6 +4778,18 @@
           ]
         },
         {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "python",
+          "importance": 5,
+          "keywords": [],
+          "name": "Python",
+          "technology_ids": [
+            "python"
+          ]
+        },
+        {
           "aliases": [
             "server side"
           ],
@@ -4381,6 +4805,20 @@
             "python",
             "java",
             "nodejs"
+          ]
+        }
+      ],
+      "react": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "react",
+          "importance": 5,
+          "keywords": [],
+          "name": "React",
+          "technology_ids": [
+            "react"
           ]
         }
       ],
@@ -4527,6 +4965,18 @@
         {
           "aliases": [],
           "deprecated": false,
+          "description": "",
+          "id": "spring_boot",
+          "importance": 5,
+          "keywords": [],
+          "name": "Spring Boot",
+          "technology_ids": [
+            "spring_boot"
+          ]
+        },
+        {
+          "aliases": [],
+          "deprecated": false,
           "description": "Develop HTTP-based services.",
           "id": "web_services",
           "importance": 8,
@@ -4540,6 +4990,34 @@
             "flask",
             "spring_boot",
             "express"
+          ]
+        }
+      ],
+      "typescript": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "typescript",
+          "importance": 5,
+          "keywords": [],
+          "name": "TypeScript",
+          "technology_ids": [
+            "typescript"
+          ]
+        }
+      ],
+      "vue": [
+        {
+          "aliases": [],
+          "deprecated": false,
+          "description": "",
+          "id": "vue",
+          "importance": 5,
+          "keywords": [],
+          "name": "Vue",
+          "technology_ids": [
+            "vue"
           ]
         }
       ]
@@ -4976,8 +5454,15 @@
         "javascript",
         "typescript"
       ],
+      "aws": [],
+      "azure": [],
+      "ci_cd": [],
+      "css": [],
       "django": [
         "python"
+      ],
+      "docker": [
+        "kubernetes"
       ],
       "express": [
         "nodejs"
@@ -4988,6 +5473,14 @@
       "flask": [
         "python"
       ],
+      "gcp": [],
+      "git": [
+        "github"
+      ],
+      "github": [
+        "git"
+      ],
+      "html": [],
       "java": [
         "spring_boot"
       ],
@@ -4997,10 +5490,18 @@
         "react",
         "vue"
       ],
+      "jwt": [],
+      "kubernetes": [
+        "docker"
+      ],
+      "mongodb": [],
       "nodejs": [
         "express",
         "javascript",
         "typescript"
+      ],
+      "postgresql": [
+        "sql"
       ],
       "python": [
         "django",
@@ -5011,9 +5512,15 @@
         "javascript",
         "typescript"
       ],
+      "redis": [],
+      "rest_api": [],
       "spring_boot": [
         "java"
       ],
+      "sql": [
+        "postgresql"
+      ],
+      "terraform": [],
       "typescript": [
         "angular",
         "nodejs",
@@ -5040,6 +5547,78 @@
           "frontend"
         ]
       },
+      "aws": {
+        "aliases": [
+          "Amazon Web Services"
+        ],
+        "category_id": "cloud_platforms",
+        "deprecated": false,
+        "description": "Cloud computing platform providing infrastructure, application, storage, database, and other cloud services.",
+        "id": "aws",
+        "keywords": [],
+        "name": "AWS",
+        "official_url": "https://aws.amazon.com/",
+        "related": [],
+        "tags": [
+          "cloud",
+          "infrastructure",
+          "backend"
+        ]
+      },
+      "azure": {
+        "aliases": [
+          "Microsoft Azure"
+        ],
+        "category_id": "cloud_platforms",
+        "deprecated": false,
+        "description": "Cloud computing platform from Microsoft.",
+        "id": "azure",
+        "keywords": [],
+        "name": "Azure",
+        "official_url": "https://azure.microsoft.com/",
+        "related": [],
+        "tags": [
+          "cloud",
+          "infrastructure"
+        ]
+      },
+      "ci_cd": {
+        "aliases": [
+          "CI CD",
+          "Continuous Integration",
+          "Continuous Delivery",
+          "Continuous Deployment"
+        ],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Practices for continuously integrating, testing, and delivering software.",
+        "id": "ci_cd",
+        "keywords": [],
+        "name": "CI/CD",
+        "official_url": null,
+        "related": [],
+        "tags": [
+          "devops",
+          "automation"
+        ]
+      },
+      "css": {
+        "aliases": [
+          "CSS3"
+        ],
+        "category_id": "web",
+        "deprecated": false,
+        "description": "Style sheet language used to design and format web pages.",
+        "id": "css",
+        "keywords": [],
+        "name": "CSS",
+        "official_url": "https://www.w3.org/Style/CSS/",
+        "related": [],
+        "tags": [
+          "frontend",
+          "web"
+        ]
+      },
       "django": {
         "aliases": [],
         "category_id": "frameworks",
@@ -5054,6 +5633,21 @@
         ],
         "tags": [
           "backend"
+        ]
+      },
+      "docker": {
+        "aliases": [],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Containerization platform for packaging and running applications.",
+        "id": "docker",
+        "keywords": [],
+        "name": "Docker",
+        "official_url": "https://www.docker.com/",
+        "related": [],
+        "tags": [
+          "devops",
+          "containers"
         ]
       },
       "express": {
@@ -5107,6 +5701,73 @@
           "backend"
         ]
       },
+      "gcp": {
+        "aliases": [
+          "Google Cloud",
+          "Google Cloud Platform"
+        ],
+        "category_id": "cloud_platforms",
+        "deprecated": false,
+        "description": "Cloud computing platform from Google.",
+        "id": "gcp",
+        "keywords": [],
+        "name": "GCP",
+        "official_url": "https://cloud.google.com/",
+        "related": [],
+        "tags": [
+          "cloud",
+          "infrastructure"
+        ]
+      },
+      "git": {
+        "aliases": [],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Distributed version control system.",
+        "id": "git",
+        "keywords": [],
+        "name": "Git",
+        "official_url": "https://git-scm.com/",
+        "related": [],
+        "tags": [
+          "version-control",
+          "development"
+        ]
+      },
+      "github": {
+        "aliases": [],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Platform for hosting and collaborating on Git repositories.",
+        "id": "github",
+        "keywords": [],
+        "name": "GitHub",
+        "official_url": "https://github.com/",
+        "related": [
+          "git"
+        ],
+        "tags": [
+          "version-control",
+          "development"
+        ]
+      },
+      "html": {
+        "aliases": [
+          "HTML5"
+        ],
+        "category_id": "web",
+        "deprecated": false,
+        "description": "Markup language used to structure web pages.",
+        "id": "html",
+        "keywords": [],
+        "name": "HTML",
+        "official_url": "https://html.spec.whatwg.org/",
+        "related": [],
+        "tags": [
+          "frontend",
+          "web"
+        ]
+      },
       "java": {
         "aliases": [],
         "category_id": "programming_languages",
@@ -5145,6 +5806,62 @@
           "backend"
         ]
       },
+      "jwt": {
+        "aliases": [
+          "JSON Web Token",
+          "JSON Web Tokens"
+        ],
+        "category_id": "security",
+        "deprecated": false,
+        "description": "Token-based authentication standard commonly used for securing web APIs.",
+        "id": "jwt",
+        "keywords": [],
+        "name": "JWT",
+        "official_url": null,
+        "related": [],
+        "tags": [
+          "security",
+          "authentication",
+          "backend"
+        ]
+      },
+      "kubernetes": {
+        "aliases": [
+          "K8s"
+        ],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Container orchestration platform.",
+        "id": "kubernetes",
+        "keywords": [],
+        "name": "Kubernetes",
+        "official_url": "https://kubernetes.io/",
+        "related": [
+          "docker"
+        ],
+        "tags": [
+          "devops",
+          "containers",
+          "cloud"
+        ]
+      },
+      "mongodb": {
+        "aliases": [
+          "Mongo"
+        ],
+        "category_id": "databases",
+        "deprecated": false,
+        "description": "Document-oriented NoSQL database.",
+        "id": "mongodb",
+        "keywords": [],
+        "name": "MongoDB",
+        "official_url": "https://www.mongodb.com/",
+        "related": [],
+        "tags": [
+          "database",
+          "backend"
+        ]
+      },
       "nodejs": {
         "aliases": [
           "node"
@@ -5161,6 +5878,25 @@
           "express"
         ],
         "tags": [
+          "backend"
+        ]
+      },
+      "postgresql": {
+        "aliases": [
+          "Postgres"
+        ],
+        "category_id": "databases",
+        "deprecated": false,
+        "description": "Open-source relational database system.",
+        "id": "postgresql",
+        "keywords": [],
+        "name": "PostgreSQL",
+        "official_url": "https://www.postgresql.org/",
+        "related": [
+          "sql"
+        ],
+        "tags": [
+          "database",
           "backend"
         ]
       },
@@ -5206,6 +5942,42 @@
           "frontend"
         ]
       },
+      "redis": {
+        "aliases": [],
+        "category_id": "databases",
+        "deprecated": false,
+        "description": "In-memory data store commonly used for caching, session management, and data processing.",
+        "id": "redis",
+        "keywords": [],
+        "name": "Redis",
+        "official_url": "https://redis.io/",
+        "related": [],
+        "tags": [
+          "database",
+          "cache",
+          "backend"
+        ]
+      },
+      "rest_api": {
+        "aliases": [
+          "REST",
+          "RESTful API",
+          "RESTful APIs"
+        ],
+        "category_id": "web",
+        "deprecated": false,
+        "description": "HTTP-based architectural style for building web APIs.",
+        "id": "rest_api",
+        "keywords": [],
+        "name": "REST API",
+        "official_url": null,
+        "related": [],
+        "tags": [
+          "api",
+          "backend",
+          "web"
+        ]
+      },
       "spring_boot": {
         "aliases": [
           "springboot"
@@ -5222,6 +5994,37 @@
         ],
         "tags": [
           "backend"
+        ]
+      },
+      "sql": {
+        "aliases": [],
+        "category_id": "databases",
+        "deprecated": false,
+        "description": "Structured query language used to manage and query relational databases.",
+        "id": "sql",
+        "keywords": [],
+        "name": "SQL",
+        "official_url": null,
+        "related": [],
+        "tags": [
+          "database",
+          "backend"
+        ]
+      },
+      "terraform": {
+        "aliases": [],
+        "category_id": "devops",
+        "deprecated": false,
+        "description": "Infrastructure as code tool for provisioning infrastructure.",
+        "id": "terraform",
+        "keywords": [],
+        "name": "Terraform",
+        "official_url": "https://www.terraform.io/",
+        "related": [],
+        "tags": [
+          "devops",
+          "infrastructure",
+          "cloud"
         ]
       },
       "typescript": {

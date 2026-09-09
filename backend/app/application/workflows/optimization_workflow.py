@@ -25,9 +25,7 @@ from app.job_understanding.services.job_understanding_service import (
 from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
-from app.analyzer.document.document_analyzer import (
-    DocumentAnalyzer,
-)
+
 from app.analyzer.document.section_analyzer import (
     SectionAnalyzer,
 )
@@ -220,6 +218,13 @@ class OptimizationWorkflow:
                 optimizer_request
             )
         )
+
+        if not optimization.success:
+            return OptimizationResponse(
+        success=False,
+        message=optimization.message,
+        output_path="",
+    )
 
         # ----------------------------------
         # 9. Writer

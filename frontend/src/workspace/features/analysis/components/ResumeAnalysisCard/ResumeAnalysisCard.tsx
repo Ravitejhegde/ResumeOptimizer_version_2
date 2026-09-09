@@ -14,8 +14,8 @@ const ResumeAnalysisCard = ({
     score,
     role,
     experience,
-    matchedSkills,
-    missingSkills,
+    matchedTechnologies,
+    missingTechnologies,
     selectedSkills,
     onSkillToggle,
     onSelectAll,
@@ -23,15 +23,11 @@ const ResumeAnalysisCard = ({
     onOptimize,
     optimizing = false
 }: ResumeAnalysisCardProps) => {
-
     return (
-
         <Card className={styles.container}>
 
             <h2 className={styles.title}>
-
                 Resume Analysis
-
             </h2>
 
             <ATSScoreCard
@@ -47,14 +43,14 @@ const ResumeAnalysisCard = ({
             />
 
             <SkillGroup
-                title="Matched Skills"
-                skills={matchedSkills}
+                title="Matched Technologies"
+                skills={matchedTechnologies}
                 variant="success"
             />
 
             <SkillGroup
-                title="Missing Skills"
-                skills={missingSkills}
+                title="Missing Technologies"
+                skills={missingTechnologies}
                 variant="danger"
                 selectable
                 selected={selectedSkills}
@@ -89,9 +85,7 @@ const ResumeAnalysisCard = ({
             </Button>
 
         </Card>
-
     );
-
 };
 
 export default ResumeAnalysisCard;

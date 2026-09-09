@@ -34,9 +34,11 @@ def build_planner_prompt(
     if blueprint.goal:
         lines.append("")
         lines.append("GOAL")
+
         lines.append(
             f"Objective: {blueprint.goal.objective}"
         )
+
         lines.append(
             f"Target Role: {blueprint.goal.target_role}"
         )
@@ -48,9 +50,11 @@ def build_planner_prompt(
     if blueprint.decision:
         lines.append("")
         lines.append("DECISION")
+
         lines.append(
             f"Strategy: {blueprint.decision.strategy}"
         )
+
         lines.append(
             f"Optimization Level: "
             f"{blueprint.decision.optimization_level}"
@@ -73,6 +77,7 @@ def build_planner_prompt(
 
         if knowledge.matched_skills:
             lines.append("Matched Skills:")
+
             for skill in knowledge.matched_skills:
                 lines.append(
                     f"- {skill}"
@@ -83,9 +88,7 @@ def build_planner_prompt(
                 "User-Selected Missing Skills:"
             )
 
-            for skill in (
-                knowledge.selected_missing_skills
-            ):
+            for skill in knowledge.selected_missing_skills:
                 lines.append(
                     f"- {skill}"
                 )
@@ -96,18 +99,14 @@ def build_planner_prompt(
                 "Optimization Skills:"
             )
 
-            for skill in (
-                knowledge.optimization_skills
-            ):
+            for skill in knowledge.optimization_skills:
                 status: list[str] = []
 
                 if skill.matched:
                     status.append("matched")
 
                 if skill.user_selected:
-                    status.append(
-                        "user-selected"
-                    )
+                    status.append("user-selected")
 
                 status_text = (
                     ", ".join(status)
@@ -134,33 +133,29 @@ def build_planner_prompt(
 
         for item in blueprint.priorities.items:
             lines.append(
-    f"- {item.id}"
-)
+                f"- {item.id}"
+            )
 
             lines.append(
                 f"  Type: {item.type}"
             )
 
             lines.append(
-                f"  Priority: "
-                f"{item.priority_level}"
+                f"  Priority: {item.priority_level}"
             )
 
             lines.append(
-                f"  Score: "
-                f"{item.priority_score}"
+                f"  Score: {item.priority_score}"
             )
 
             if item.description:
                 lines.append(
-                    f"  Description: "
-                    f"{item.description}"
+                    f"  Description: {item.description}"
                 )
 
             if item.reason:
                 lines.append(
-                    f"  Reason: "
-                    f"{item.reason}"
+                    f"  Reason: {item.reason}"
                 )
 
             if item.affected_sections:
@@ -185,23 +180,20 @@ def build_planner_prompt(
             )
 
             lines.append(
-                f"  Supported: "
-                f"{item.supported}"
+                f"  Supported: {item.supported}"
             )
 
-            
             if item.reasoning:
                 lines.append(
-        "  Reasoning: "
-        + " | ".join(item.reasoning)
-    )
+                    "  Reasoning: "
+                    + " | ".join(item.reasoning)
+                )
 
             if item.recommended_action:
                 lines.append(
-        f"  Recommended Action: "
-        f"{item.recommended_action}"
-    )
-            
+                    f"  Recommended Action: "
+                    f"{item.recommended_action}"
+                )
 
     # ----------------------------------
     # Section Plan
@@ -291,8 +283,7 @@ def build_planner_prompt(
         lines.append("CONTENT BUDGET")
 
         lines.append(
-            f"Total Tokens: "
-            f"{budget.total_tokens}"
+            f"Total Tokens: {budget.total_tokens}"
         )
 
         lines.append(
@@ -310,12 +301,9 @@ def build_planner_prompt(
                 "Section Budgets:"
             )
 
-            for section_budget in (
-                budget.section_budgets
-            ):
+            for section_budget in budget.section_budgets:
                 lines.append(
-                    f"- "
-                    f"{section_budget.section}: "
+                    f"- {section_budget.section}: "
                     f"{section_budget.estimated_tokens} "
                     f"tokens "
                     f"({section_budget.percentage}%)"
@@ -331,7 +319,7 @@ def build_planner_prompt(
                     f"- {constraint}"
                 )
 
-        # ----------------------------------
+    # ----------------------------------
     # Execution Rules
     # ----------------------------------
 
@@ -396,70 +384,6 @@ def build_planner_prompt(
     lines.append(
         "12. Keep optimized text concise, truthful, "
         "ATS-friendly, and professionally written."
-    )
-    lines.append("")
-    lines.append("EXECUTION RULES")
-
-    lines.append(
-        "1. Rewrite only existing resume paragraphs."
-    )
-
-    lines.append(
-        "11. Return only paragraphs that actually "
-        "require optimization."
-    )
-
-    lines.append(
-        "12. Keep optimized text truthful, concise, "
-        "ATS-friendly, and professionally written."
-    )
-
-    lines.append(
-        "13. Follow the section plan, rewrite plan, "
-        "knowledge, evidence, and budget."
-    )
-
-    lines.append(
-        "2. Preserve every paragraph ID exactly."
-    )
-
-    lines.append(
-        "3. Strengthen matched skills when relevant."
-    )
-
-    lines.append(
-        "4. Incorporate user-selected missing skills "
-        "when the plan targets them."
-    )
-
-    lines.append(
-        "5. Do not add unselected missing skills."
-    )
-
-    lines.append(
-        "6. Never invent experience, projects, "
-        "achievements, responsibilities, "
-        "certifications, employment history, "
-        "or measurable results."
-    )
-
-    lines.append(
-        "7. Do not modify protected sections."
-    )
-
-    lines.append(
-        "8. Return only paragraphs that require "
-        "optimization."
-    )
-
-    lines.append(
-        "9. Keep optimized text truthful and "
-        "professionally written."
-    )
-
-    lines.append(
-        "10. Follow the section plan, rewrite plan, "
-        "and budget."
     )
 
     return "\n".join(lines)

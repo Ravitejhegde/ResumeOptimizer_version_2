@@ -34,15 +34,21 @@ const initialState: WorkspaceState = {
 
   /* Analysis */
 
-  atsScore: 0,
+    atsScore: 0,
 
   role: "",
+
+  roleId: "",
 
   experience: 0,
 
   matchedSkills: [],
 
   missingSkills: [],
+
+  matchedTechnologies: [],
+
+  missingTechnologies: [],
 
   selectedSkills: [],
 

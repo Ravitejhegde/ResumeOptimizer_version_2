@@ -68,17 +68,23 @@ export interface WorkspaceState {
      Analysis
   ----------------------------------------- */
 
-  atsScore: number;
+    atsScore: number;
 
   role: string;
 
+  roleId: string;
+
   experience: number;
 
-  matchedSkills: string[];
+matchedSkills: string[];
 
-  missingSkills: string[];
+missingSkills: string[];
 
-  selectedSkills: string[];
+matchedTechnologies: string[];
+
+missingTechnologies: string[];
+
+selectedSkills: string[];
 
   /* -----------------------------------------
      Optimization

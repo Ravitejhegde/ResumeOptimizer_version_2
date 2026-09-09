@@ -74,15 +74,17 @@ const FreeOptimization = () => {
                 analysis.missing_skills ?? [];
 
             const optimization =
-                await optimizeResume(
+    await optimizeResume(
 
-                    state.resume.id,
+        state.resume.id,
 
-                    state.jobDescription,
+        state.jobDescription,
 
-                    selectedSkills
+        analysis.role_id,
 
-                );
+        selectedSkills
+
+    );
 
             setState(previous => ({
 

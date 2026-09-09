@@ -46,6 +46,11 @@ from app.job_understanding.services.job_understanding_service import (
 from app.gap_analysis.services.gap_analysis_service import (
     GapAnalysisService,
 )
+from app.analyzer.services.resume_analysis_service import (
+    ResumeAnalysisService,
+)
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -90,12 +95,18 @@ def match_resume(
         # 2. Analyze resume document
         # ----------------------------------
 
-        document = DocumentAnalyzer().analyze(
-            resume_path
-        )
+        document = ResumeAnalysisService().analyze(
+    resume_path
+)
+        if not document.roles:
+            raise HTTPException(
+                status_code=422,
+                detail="Unable to determine a suitable resume role.",
+            )
 
-        document = SectionAnalyzer().analyze(
-            document
+        detected_role = max(
+            document.roles.values(),
+            key=lambda role: role.confidence,
         )
 
         # ----------------------------------
@@ -148,13 +159,16 @@ def match_resume(
         # ----------------------------------
 
         return MatchResponse(
-            score=round(
-                gap.overall_match * 100
-            ),
-            matched_skills=gap.matched_skills,
-            missing_skills=gap.missing_skills,
-            extra_skills=[],
-        )
+    score=round(
+        gap.overall_match * 100
+    ),
+    role_id=detected_role.id,
+    matched_skills=gap.matched_skills,
+    missing_skills=gap.missing_skills,
+    matched_technologies=gap.matched_technologies,
+    missing_technologies=gap.missing_technologies,
+    extra_skills=[],
+)
 
     except HTTPException:
         raise

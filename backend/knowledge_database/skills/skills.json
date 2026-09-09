@@ -1,133 +1,339 @@
 [
   {
-    "id": "python",
-    "name": "Python",
-    "technology_id": "python",
-    "category_id": "programming_languages",
-    "roles": [
-      "backend_developer",
-      "python_developer",
-      "data_scientist",
-      "machine_learning_engineer",
-      "ai_engineer"
-    ]
-  },
-  {
-    "id": "java",
-    "name": "Java",
-    "technology_id": "java",
-    "category_id": "programming_languages",
-    "roles": [
-      "java_developer",
-      "backend_developer"
-    ]
-  },
-  {
-    "id": "javascript",
-    "name": "JavaScript",
-    "technology_id": "javascript",
-    "category_id": "programming_languages",
-    "roles": [
-      "frontend_developer",
-      "full_stack_developer"
-    ]
-  },
-  {
-    "id": "typescript",
-    "name": "TypeScript",
-    "technology_id": "typescript",
-    "category_id": "programming_languages",
-    "roles": [
-      "frontend_developer",
-      "full_stack_developer"
-    ]
-  },
-  {
-    "id": "react",
-    "name": "React",
-    "technology_id": "react",
-    "category_id": "frameworks",
-    "roles": [
-      "frontend_developer",
-      "full_stack_developer"
-    ]
-  },
-  {
     "id": "angular",
     "name": "Angular",
-    "technology_id": "angular",
-    "category_id": "frameworks",
-    "roles": [
-      "frontend_developer"
-    ]
+    "description": "",
+    "technology_ids": [
+      "angular"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
   },
   {
-    "id": "vue",
-    "name": "Vue",
-    "technology_id": "vue",
-    "category_id": "frameworks",
-    "roles": [
-      "frontend_developer"
-    ]
+    "id": "api_design",
+    "name": "API Design",
+    "description": "Design scalable and maintainable APIs.",
+    "technology_ids": [
+      "fastapi",
+      "spring_boot",
+      "express",
+      "django",
+      "flask"
+    ],
+    "aliases": [],
+    "keywords": [
+      "api design"
+    ],
+    "importance": 9
   },
   {
-    "id": "nodejs",
-    "name": "Node.js",
-    "technology_id": "nodejs",
-    "category_id": "frameworks",
-    "roles": [
-      "backend_developer",
-      "full_stack_developer"
-    ]
+    "id": "authentication",
+    "name": "Authentication",
+    "description": "Implement user authentication systems.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "login",
+      "jwt",
+      "oauth"
+    ],
+    "importance": 9
   },
   {
-    "id": "express",
-    "name": "Express",
-    "technology_id": "express",
-    "category_id": "frameworks",
-    "roles": [
-      "backend_developer",
-      "full_stack_developer"
-    ]
+    "id": "authorization",
+    "name": "Authorization",
+    "description": "Implement access control and permissions.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "roles",
+      "permissions",
+      "access control"
+    ],
+    "importance": 9
   },
   {
-    "id": "fastapi",
-    "name": "FastAPI",
-    "technology_id": "fastapi",
-    "category_id": "frameworks",
-    "roles": [
-      "backend_developer",
-      "python_developer"
-    ]
+    "id": "backend_architecture",
+    "name": "Backend Architecture",
+    "description": "Design scalable backend systems.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs",
+      "spring_boot",
+      "fastapi"
+    ],
+    "aliases": [],
+    "keywords": [
+      "architecture"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "backend_development",
+    "name": "Backend Development",
+    "description": "Develop server-side applications and business logic.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs",
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [
+      "backend engineering",
+      "server side development"
+    ],
+    "keywords": [
+      "backend",
+      "server-side",
+      "api"
+    ],
+    "importance": 10
   },
   {
     "id": "django",
     "name": "Django",
-    "technology_id": "django",
-    "category_id": "frameworks",
-    "roles": [
-      "backend_developer",
-      "python_developer"
-    ]
+    "description": "",
+    "technology_ids": [
+      "django"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "express",
+    "name": "Express",
+    "description": "",
+    "technology_ids": [
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "description": "",
+    "technology_ids": [
+      "fastapi"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
   },
   {
     "id": "flask",
     "name": "Flask",
-    "technology_id": "flask",
-    "category_id": "frameworks",
-    "roles": [
-      "backend_developer",
-      "python_developer"
-    ]
+    "description": "",
+    "technology_ids": [
+      "flask"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "description": "",
+    "technology_ids": [
+      "java"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "description": "",
+    "technology_ids": [
+      "javascript"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "microservices",
+    "name": "Microservices",
+    "description": "Develop distributed backend services.",
+    "technology_ids": [
+      "spring_boot",
+      "fastapi",
+      "nodejs"
+    ],
+    "aliases": [],
+    "keywords": [
+      "microservice"
+    ],
+    "importance": 8
+  },
+  {
+    "id": "middleware_development",
+    "name": "Middleware Development",
+    "description": "Implement middleware components.",
+    "technology_ids": [
+      "fastapi",
+      "express",
+      "django"
+    ],
+    "aliases": [],
+    "keywords": [
+      "middleware"
+    ],
+    "importance": 7
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "description": "",
+    "technology_ids": [
+      "nodejs"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "description": "",
+    "technology_ids": [
+      "python"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "description": "",
+    "technology_ids": [
+      "react"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "rest_api_development",
+    "name": "REST API Development",
+    "description": "Design and build RESTful APIs.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [
+      "rest api",
+      "restful api"
+    ],
+    "keywords": [
+      "rest",
+      "api",
+      "http"
+    ],
+    "importance": 10
+  },
+  {
+    "id": "server_side_programming",
+    "name": "Server-side Programming",
+    "description": "Develop business logic executed on servers.",
+    "technology_ids": [
+      "python",
+      "java",
+      "nodejs"
+    ],
+    "aliases": [
+      "server side"
+    ],
+    "keywords": [
+      "backend"
+    ],
+    "importance": 8
   },
   {
     "id": "spring_boot",
     "name": "Spring Boot",
-    "technology_id": "spring_boot",
-    "category_id": "frameworks",
-    "roles": [
-      "java_developer",
-      "backend_developer"
-    ]
+    "description": "",
+    "technology_ids": [
+      "spring_boot"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "description": "",
+    "technology_ids": [
+      "typescript"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "vue",
+    "name": "Vue",
+    "description": "",
+    "technology_ids": [
+      "vue"
+    ],
+    "aliases": [],
+    "keywords": [],
+    "importance": 5,
+    "deprecated": false
+  },
+  {
+    "id": "web_services",
+    "name": "Web Services",
+    "description": "Develop HTTP-based services.",
+    "technology_ids": [
+      "fastapi",
+      "django",
+      "flask",
+      "spring_boot",
+      "express"
+    ],
+    "aliases": [],
+    "keywords": [
+      "web service"
+    ],
+    "importance": 8
   }
 ]

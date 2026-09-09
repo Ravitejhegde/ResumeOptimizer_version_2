@@ -19,6 +19,7 @@ from app.analyzer.models.technology_model import (
 from app.analyzer.technology.technology_detector import (
     TechnologyDetector,
 )
+from app.knowledge.provider import get_knowledge
 
 
 class TechnologyAnalyzer(
@@ -30,6 +31,7 @@ class TechnologyAnalyzer(
 
     def __init__(self) -> None:
         self._detector = TechnologyDetector()
+        self._knowledge = get_knowledge()
 
     def analyze(
         self,
@@ -46,17 +48,24 @@ class TechnologyAnalyzer(
 
             for technology_id in detected:
 
-                if technology_id not in document.technologies:
+                if technology_id in document.technologies:
+                    continue
 
-                    document.technologies[
+                technology = (
+                    self._knowledge.technologies.find_by_id(
                         technology_id
-                    ] = TechnologyModel(
-                        id=technology_id,
-                        name=technology_id.replace(
-                            "_",
-                            " ",
-                        ).title(),
-                        section=section_name,
                     )
+                )
+
+                if technology is None:
+                    continue
+
+                document.technologies[
+                    technology_id
+                ] = TechnologyModel(
+                    id=technology_id,
+                    name=technology["name"],
+                    section=section_name,
+                )
 
         return document

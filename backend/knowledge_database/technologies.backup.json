@@ -1,0 +1,235 @@
+[
+  {
+    "id": "python",
+    "name": "Python",
+    "aliases": ["python3", "py"],
+    "category_id": "programming_languages",
+    "description": "General-purpose programming language.",
+    "official_url": "https://python.org",
+    "tags": ["backend", "ai", "automation"],
+    "related": [
+      "fastapi",
+      "django",
+      "flask"
+    ]
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "aliases": [],
+    "category_id": "programming_languages",
+    "description": "Object-oriented programming language.",
+    "official_url": "https://www.oracle.com/java/",
+    "tags": ["backend"],
+    "related": [
+      "spring_boot"
+    ]
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "aliases": ["js"],
+    "category_id": "programming_languages",
+    "description": "Programming language for web development.",
+    "official_url": "https://developer.mozilla.org/docs/Web/JavaScript",
+    "tags": ["frontend", "backend"],
+    "related": [
+      "nodejs",
+      "react",
+      "vue",
+      "angular"
+    ]
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "aliases": ["ts"],
+    "category_id": "programming_languages",
+    "description": "Typed superset of JavaScript.",
+    "official_url": "https://www.typescriptlang.org/",
+    "tags": ["frontend", "backend"],
+    "related": [
+      "angular",
+      "react",
+      "nodejs"
+    ]
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "aliases": ["reactjs"],
+    "category_id": "frameworks",
+    "description": "Frontend JavaScript library.",
+    "official_url": "https://react.dev",
+    "tags": ["frontend"],
+    "related": [
+      "typescript",
+      "javascript"
+    ]
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Frontend framework.",
+    "official_url": "https://angular.dev",
+    "tags": ["frontend"],
+    "related": [
+      "typescript"
+    ]
+  },
+  {
+    "id": "vue",
+    "name": "Vue",
+    "aliases": ["vuejs"],
+    "category_id": "frameworks",
+    "description": "Frontend framework.",
+    "official_url": "https://vuejs.org",
+    "tags": ["frontend"],
+    "related": [
+      "javascript"
+    ]
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "aliases": ["node"],
+    "category_id": "frameworks",
+    "description": "JavaScript runtime.",
+    "official_url": "https://nodejs.org",
+    "tags": ["backend"],
+    "related": [
+      "javascript",
+      "express"
+    ]
+  },
+  {
+    "id": "express",
+    "name": "Express",
+    "aliases": ["expressjs"],
+    "category_id": "frameworks",
+    "description": "Node.js web framework.",
+    "official_url": "https://expressjs.com",
+    "tags": ["backend"],
+    "related": [
+      "nodejs"
+    ]
+  },
+  {
+    "id": "fastapi",
+    "name": "FastAPI",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Modern Python API framework.",
+    "official_url": "https://fastapi.tiangolo.com",
+    "tags": ["backend", "api"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "django",
+    "name": "Django",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Python web framework.",
+    "official_url": "https://djangoproject.com",
+    "tags": ["backend"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "flask",
+    "name": "Flask",
+    "aliases": [],
+    "category_id": "frameworks",
+    "description": "Lightweight Python web framework.",
+    "official_url": "https://flask.palletsprojects.com",
+    "tags": ["backend"],
+    "related": [
+      "python"
+    ]
+  },
+  {
+    "id": "spring_boot",
+    "name": "Spring Boot",
+    "aliases": ["springboot"],
+    "category_id": "frameworks",
+    "description": "Java backend framework.",
+    "official_url": "https://spring.io/projects/spring-boot",
+    "tags": ["backend"],
+    "related": [
+      "java"
+    ]
+  },
+  
+  {
+    "id": "docker",
+    "name": "Docker",
+    "aliases": [],
+    "category_id": "devops",
+    "description": "Containerization platform for packaging and running applications.",
+    "official_url": "https://www.docker.com/",
+    "tags": ["devops", "containers"],
+    "related": []
+  },
+  {
+    "id": "redis",
+    "name": "Redis",
+    "aliases": [],
+    "category_id": "databases",
+    "description": "In-memory data store commonly used for caching, session management, and data processing.",
+    "official_url": "https://redis.io/",
+    "tags": ["database", "cache", "backend"],
+    "related": []
+  },
+  {
+  "id": "aws",
+  "name": "AWS",
+  "aliases": [
+    "Amazon Web Services"
+  ],
+  "category_id": "cloud_platforms",
+  "description": "Cloud computing platform providing infrastructure, application, storage, database, and other cloud services.",
+  "official_url": "https://aws.amazon.com/",
+  "tags": [
+    "cloud",
+    "infrastructure",
+    "backend"
+  ],
+  "related": []
+},
+{
+  "id": "sql",
+  "name": "SQL",
+  "aliases": [],
+  "category_id": "databases",
+  "description": "Structured query language used to manage and query relational databases.",
+  "official_url": null,
+  "tags": [
+    "database",
+    "backend"
+  ],
+  "related": []
+},
+{
+  "id": "jwt",
+  "name": "JWT",
+  "aliases": [
+    "JSON Web Token",
+    "JSON Web Tokens"
+  ],
+  "category_id": "security",
+  "description": "Token-based authentication standard commonly used for securing web APIs.",
+  "official_url": null,
+  "tags": [
+    "security",
+    "authentication",
+    "backend"
+  ],
+  "related": []
+}
+
+]

@@ -71,13 +71,21 @@ def test_optimizer_v3_end_to_end():
 }
 """
 
+    captured_prompt = {}
+
+    def capture_prompt(prompt):
+        captured_prompt["value"] = prompt
+        return fake_response
+
     with patch(
         "app.optimizer.engine.optimizer_engine.AIClient.optimize",
-        return_value=fake_response,
+        side_effect=capture_prompt,
     ):
         result = ResumeOptimizationService().optimize(
             request
         )
+
+    print(captured_prompt["value"])
 
     assert result.success is True
     assert result.output_path == OUTPUT

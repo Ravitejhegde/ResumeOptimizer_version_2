@@ -59,9 +59,9 @@ class ResumeAnalysisService:
 
         result = self._section.analyze(result)
 
-        result = self._role.analyze(result)
-        result = self._skill.analyze(result)
         result = self._technology.analyze(result)
+        result = self._skill.analyze(result)
+        result = self._role.analyze(result)
 
         result = self._experience.analyze(result)
         result = self._project.analyze(result)

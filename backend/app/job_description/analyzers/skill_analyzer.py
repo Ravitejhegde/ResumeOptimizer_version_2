@@ -2,7 +2,7 @@
 app.job_description.analyzers.skill_analyzer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Detects skills mentioned or implied in a Job Description.
+Detects skills mentioned or implied in a JobDescription.
 """
 
 from __future__ import annotations
@@ -34,23 +34,52 @@ class SkillAnalyzer:
         Populate job.skills.
         """
 
-        text = job.text.lower()
+        text = job.text.casefold()
 
         job.skills.clear()
 
         for skill in self._skills.all():
 
-            name = skill["name"].lower()
+            name = skill["name"].casefold()
 
             if name in text:
+                self._add_skill(job, skill)
+                continue
 
-                model = SkillModel(
-                    id=skill["id"],
-                    name=skill["name"],
-                )
+            aliases = [
+                alias.casefold()
+                for alias in skill.get("aliases", [])
+            ]
 
-                job.skills[
-                    model.id
-                ] = model
+            if any(alias in text for alias in aliases):
+                self._add_skill(job, skill)
+                continue
+
+            keywords = [
+                keyword.casefold()
+                for keyword in skill.get("keywords", [])
+                if keyword.strip()
+            ]
+
+            matched_keywords = {
+                keyword
+                for keyword in keywords
+                if keyword in text
+            }
+
+            if len(matched_keywords) >= 2:
+                self._add_skill(job, skill)
 
         return job
+
+    @staticmethod
+    def _add_skill(
+        job: JobDescriptionModel,
+        skill: dict,
+    ) -> None:
+        model = SkillModel(
+            id=skill["id"],
+            name=skill["name"],
+        )
+
+        job.skills[model.id] = model

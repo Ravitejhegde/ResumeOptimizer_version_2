@@ -18,6 +18,8 @@ export const optimizeResume = async (
 
     jobDescription: string,
 
+    roleId: string,
+
     selectedSkills: string[]
 
 ): Promise<OptimizeResponse> => {
@@ -31,6 +33,8 @@ export const optimizeResume = async (
             resume_id: resumeId,
 
             job_description: jobDescription,
+
+            role_id: roleId,
 
             selected_skills: selectedSkills
 
