@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from pathlib import Path
 from fastapi import (
     APIRouter,
     Depends,
@@ -33,13 +33,13 @@ def download_resume(
 
     try:
 
-        file_path = service.get_file(
-            resume_output_id
-        )
+        file_path = service.get_file_path(
+    resume_output_id
+)
 
         return FileResponse(
             path=file_path,
-            filename=file_path.name,
+            filename=Path(file_path).name,
             media_type=(
                 "application/vnd.openxmlformats-officedocument."
                 "wordprocessingml.document"

@@ -15,3 +15,5 @@ class OptimizationResponse:
     message: str
 
     output_path: str = ""
+
+    generated_resume_id: str = ""

@@ -92,6 +92,8 @@ selectedSkills: string[];
 
   optimizedFilename: string;
 
+optimizedResumeId: string;
+
   previewBlocks: any[];
 
   previewLayout: any;

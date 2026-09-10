@@ -75,9 +75,10 @@ const OptimizationWorkspace = () => {
                     </div>
 
                     <DocumentViewer
-                        blocks={state.previewBlocks}
-                        filename={state.optimizedFilename}
-                    />
+    blocks={state.previewBlocks}
+    filename={state.optimizedFilename}
+    resumeOutputId={state.optimizedResumeId}
+/>
 
                 </section>
 

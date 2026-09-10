@@ -1,19 +1,15 @@
 import api from "../api/client";
 
 export const downloadResume = async (
+    resumeOutputId: string,
     filename: string
 ): Promise<void> => {
 
     const response = await api.get(
-
-        `/download/${filename}`,
-
+        `/download/${resumeOutputId}`,
         {
-
             responseType: "blob",
-
         }
-
     );
 
     const blob = new Blob([response.data]);
@@ -23,7 +19,6 @@ export const downloadResume = async (
     const link = document.createElement("a");
 
     link.href = url;
-
     link.download = filename;
 
     document.body.appendChild(link);
@@ -33,5 +28,4 @@ export const downloadResume = async (
     document.body.removeChild(link);
 
     window.URL.revokeObjectURL(url);
-
 };

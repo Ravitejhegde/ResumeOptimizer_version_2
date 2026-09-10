@@ -141,19 +141,20 @@ const AnalysisWorkspace = () => {
 
 
             setState(previous => ({
-                ...previous,
+    ...previous,
 
-                optimizedFilename:
-                    result.optimized_filename,
+    optimizedFilename:
+    result.output_path,
 
-                previewBlocks:
-                    result.blocks,
+optimizedResumeId:
+    result.generated_resume_id,
 
-                previewLayout:
-                    result.layout,
+previewBlocks: [],
 
-                step: "optimization"
-            }));
+    previewLayout: null,
+
+    step: "optimization"
+}));
 
 
         } catch (error) {

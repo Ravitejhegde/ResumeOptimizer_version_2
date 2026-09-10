@@ -102,13 +102,16 @@ const FreeOptimization = () => {
                 selectedSkills,
 
                 optimizedFilename:
-                    optimization.optimized_filename,
+    optimization.output_path,
 
-                previewBlocks:
-                    optimization.blocks,
+optimizedResumeId:
+    optimization.generated_resume_id,
 
-                previewLayout:
-                    optimization.layout,
+previewBlocks:
+    [],
+
+previewLayout:
+    null,
 
                 step: "optimization"
 

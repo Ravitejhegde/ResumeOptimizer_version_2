@@ -18,4 +18,8 @@ class OptimizationRequest:
 
     role_id: str
 
-    selected_skills: list[str] = field(default_factory=list)
+    resume_id: str
+
+    selected_skills: list[str] = field(
+        default_factory=list
+    )

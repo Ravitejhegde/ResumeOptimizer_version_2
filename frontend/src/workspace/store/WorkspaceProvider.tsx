@@ -56,6 +56,8 @@ const initialState: WorkspaceState = {
 
   optimizedFilename: "",
 
+optimizedResumeId: "",
+
   previewBlocks: [],
 
   previewLayout: {},

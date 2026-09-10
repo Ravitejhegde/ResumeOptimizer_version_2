@@ -1,16 +1,12 @@
 import api from "../api/client";
 
 export interface OptimizeResponse {
-
     success: boolean;
-
-    optimized_filename: string;
-
-    blocks: any[];
-
-    layout: any;
-
+    message: string;
+    output_path: string;
+    generated_resume_id: string;
 }
+
 
 export const optimizeResume = async (
 

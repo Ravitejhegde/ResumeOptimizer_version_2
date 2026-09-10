@@ -12,6 +12,8 @@ interface Props {
 
     filename: string;
 
+    resumeOutputId: string;
+
 }
 
 const DocumentViewer = ({
@@ -19,6 +21,8 @@ const DocumentViewer = ({
     blocks,
 
     filename,
+
+    resumeOutputId,
 
 }: Props) => {
 
@@ -55,7 +59,12 @@ const DocumentViewer = ({
                 </button>
 
                 <button
-                    onClick={() => downloadResume(filename)}
+                    onClick={() =>
+                        downloadResume(
+                            resumeOutputId,
+                            filename
+                        )
+                    }
                 >
                     Download DOCX
                 </button>
@@ -65,21 +74,14 @@ const DocumentViewer = ({
             <div className={styles.canvas}>
 
                 <div
-
                     style={{
-
                         transform: `scale(${zoom / 100})`,
-
                         transformOrigin: "top center",
-
                     }}
-
                 >
 
                     <ResumePreview
-
                         blocks={blocks}
-
                     />
 
                 </div>

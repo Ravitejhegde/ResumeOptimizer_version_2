@@ -124,6 +124,7 @@ def optimize_resume(
     job_description=request.job_description,
     output_path=str(output_path),
     role_id=request.role_id,
+    resume_id=request.resume_id,
     selected_skills=request.selected_skills,
 )
 
@@ -133,7 +134,9 @@ def optimize_resume(
 
     try:
 
-        service = ResumeOptimizationService()
+        service = ResumeOptimizationService(
+            db
+        )
 
         response = service.optimize(
             optimization_request,
